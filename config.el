@@ -55,11 +55,16 @@
   (setq company-idle-delay 0.1
         company-minimum-prefix-length 2)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
-  (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort))
+  (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
+  (define-key company-active-map (kbd "C-SPC") 'company-complete-selection))
+
+;; Remove some conflicting keybindings with company-mode
 (define-key global-map (kbd "C-j") nil)
 (define-key global-map (kbd "C-k") nil)
+
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
+(define-key evil-motion-state-map (kbd "TAB") nil)
 
 ;; Centaur Tabs configuration
 (after! centaur-tabs
