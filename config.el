@@ -61,7 +61,6 @@
 ;; Remove some conflicting keybindings with company-mode
 (define-key global-map (kbd "C-j") nil)
 (define-key global-map (kbd "C-k") nil)
-
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
 (define-key evil-motion-state-map (kbd "TAB") nil)
@@ -81,6 +80,11 @@
 
 ;; Lookup to not open browser
 (setq +lookup-open-url-fn #'eww)
+
+;; Highlight whole expression, not just the matching paren
+(setq show-paren-style 'expression)
+(custom-set-faces
+ '(show-paren-match ((t (:foreground nil :background "#333")))))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
