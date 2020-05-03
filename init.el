@@ -102,7 +102,6 @@
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :lang
-       typescript        ; javascript, but better
        ;;agda              ; types of types of types of types...
        ;;assembly          ; assembly for fun or debugging
        ;;cc                ; C/C++/Obj-C madness
