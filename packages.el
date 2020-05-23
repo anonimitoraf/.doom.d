@@ -50,5 +50,13 @@
 (package! evil-lisp-state
   :recipe (:host github :repo "syl20bnr/evil-lisp-state"))
 
+;; live preview of markdown files
+(package! livedown
+  :recipe (:host github :repo "shime/emacs-livedown"))
+
+;; Blogging
+(package! org2blog
+  :recipe (:host github :repo "org2blog/org2blog"))
+
 (package! ripgrep)
 (package! ag)

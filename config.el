@@ -89,6 +89,29 @@
 (custom-set-faces
  '(show-paren-match ((t (:foreground nil :background "#333")))))
 
+;; Live markdown preview
+(custom-set-variables
+ '(livedown-autostart nil) ; automatically open preview when opening markdown files
+ '(livedown-open t)        ; automatically open the browser window
+ '(livedown-port 1337)     ; port for livedown server
+ '(livedown-browser "firefox"))  ; browser to use
+
+;; org2blog
+;; (require 'auth-source)
+;; (let* ((credentials (auth-source-user-and-password "blog"))
+;;        (username (nth 0 credentials))
+;;        (password (nth 1 credentials))
+;;        (config `("wordpress"
+;;                  :url "http:///anonimitocom.wordpress.com/xmlrpc.php"
+;;                  :username ,username
+;;                  :password ,password)))
+;;   (setq org2blog/wp-blog-alist config))
+;; ;; org2blog
+(setq org2blog/wp-blog-alist
+      '(("blog"
+          :url "http://anonimitocom.wordpress.com/xmlrpc.php"
+          :username "anonimitoraf")))
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
