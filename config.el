@@ -71,7 +71,7 @@
 ;; Centaur Tabs configuration
 (after! centaur-tabs
    (setq centaur-tabs-style "rounded"
-    centaur-tabs-height 25
+    centaur-tabs-height 10
     centaur-tabs-set-icons t
     centaur-tabs-set-modified-marker t
     centaur-tabs-show-navigation-buttons t
