@@ -65,6 +65,9 @@
 (define-key evil-insert-state-map (kbd "C-k") nil)
 (define-key evil-motion-state-map (kbd "TAB") nil)
 
+(define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
+(define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
+
 ;; Centaur Tabs configuration
 (after! centaur-tabs
    (setq centaur-tabs-style "rounded"
