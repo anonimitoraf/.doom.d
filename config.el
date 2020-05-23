@@ -112,6 +112,28 @@
           :url "http://anonimitocom.wordpress.com/xmlrpc.php"
           :username "anonimitoraf")))
 
+;; First install the package:
+(use-package flycheck-clj-kondo
+  :ensure t)
+
+;; then install the checker as soon as `clojure-mode' is loaded
+(use-package clojure-mode
+  :ensure t
+  :config
+  (require 'flycheck-clj-kondo))
+
+;; Use clj-kondo as a lsp backend
+(use-package lsp-mode
+  :ensure t
+  :hook ((clojure-mode . lsp))
+  :commands lsp
+  :custom
+  ((lsp-clojure-server-command '("java" "-jar" "/home/anonimito/.doom.d/misc/clj-kondo-lsp-server-standalone.jar")))
+  :config
+  (dolist (m '(clojure-mode
+               clojurescript-mode))
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
