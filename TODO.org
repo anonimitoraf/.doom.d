@@ -1,0 +1,7 @@
+#+TITLE: Todo
+
+* Renaming variables across the project
+* Update, create general shortcuts
+* Fix debug shortcut conflicts
+* Figure out why #break and #dbg don't work
+* Fix clojure docs
