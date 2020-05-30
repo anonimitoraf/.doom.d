@@ -27,7 +27,7 @@
 ;; `load-theme' function. This is the default:
 ;; (load-theme 'doom-dark+ t)
 (setq doom-theme 'doom-dark+)
-(setq doom-dark+-blue-modeline t)
+(setq doom-dark+-blue-modeline nil)
 (custom-set-faces
   '(default ((t (:background "#000000")))))
 
@@ -67,6 +67,17 @@
 
 (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
 (define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
+
+;; Modeline
+(after! doom-modeline
+  (setq
+   doom-modeline-height 20
+   doom-modeline-major-mode-icon t
+   doom-modeline-major-mode-color-icon t
+   doom-modeline-buffer-state-icon
+   doom-modeline-buffer-modification-icon
+   doom-modeline-lsp t))
+
 
 ;; Centaur Tabs configuration
 (after! centaur-tabs
