@@ -19,10 +19,10 @@
        ;;japanese
 
        :completion
-       (company +auto +childframe)           ; the ultimate code completion backend
+       (company +childframe)           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       (ivy +fuzzy +prescient +childframe +icons) ; a search engine for love and life
+       (ivy +fuzzy +prescient +childframe) ; a search engine for love and life
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -32,15 +32,15 @@
        ;; fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        hydra
-       indent-guides     ; highlighted indent columns
+       ;; indent-guides     ; highlighted indent columns
        modeline          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink the current line after jumping
        ;;neotree           ; a project drawer, like NERDTree for vim
-       ophints           ; highlight the region an operation acts on
+       ;; ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
        ;; (pretty-code +fira)       ; ligatures or substitute text with pretty symbols
        tabs              ; an tab bar for Emacs
-       treemacs          ; a project drawer, like neotree but cooler
+       ;; treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
@@ -60,12 +60,12 @@
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
-       word-wrap         ; soft wrapping with language-aware indent
+       ;; word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
        dired             ; making dired pretty [functional]
-       ;; electric          ; smarter, keyword-based electric-indent
-       ;;ibuffer         ; interactive buffer management
+       ;;electric          ; smarter, keyword-based electric-indent
+       ibuffer         ; interactive buffer management
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
@@ -76,7 +76,7 @@
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
-       ;;spell             ; tasing you for misspelling mispelling
+       spell             ; tasing you for misspelling mispelling
        grammar           ; tasing grammar mistake every you make
 
        :tools
@@ -164,7 +164,7 @@
        ;;(wanderlust +gmail)
 
        :app
-       calendar
+       ;; calendar
        ;;irc               ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought

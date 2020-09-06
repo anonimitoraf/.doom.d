@@ -3,7 +3,6 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Rafael Nicdao"
@@ -19,8 +18,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Hack" :size 14))
-
+(setq doom-font (font-spec :family "Fira Code" :size 14))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -52,11 +50,16 @@
 
 ;; Company configuration
 (after! company
-  (setq company-idle-delay 0.1
+  (setq company-idle-delay 0.5
         company-minimum-prefix-length 2)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
   (define-key company-active-map (kbd "C-SPC") 'company-complete-selection))
+
+;; --- Evil stuff ---------------------------------------------------
+
+;; Disable the annoying auto-comment on newline
+(setq +evil-want-o/O-to-continue-comments nil)
 
 ;; Remove some conflicting keybindings with company-mode
 (define-key global-map (kbd "C-j") nil)
@@ -67,6 +70,8 @@
 
 (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
 (define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
+
+;; -------------------------------------------------------------------
 
 ;; Modeline
 (after! doom-modeline
@@ -82,7 +87,7 @@
 ;; Centaur Tabs configuration
 (after! centaur-tabs
    (setq centaur-tabs-style "rounded"
-    centaur-tabs-height 10
+    centaur-tabs-height 5
     centaur-tabs-set-icons t
     centaur-tabs-set-modified-marker t
     centaur-tabs-show-navigation-buttons t
@@ -123,27 +128,47 @@
           :url "http://anonimitocom.wordpress.com/xmlrpc.php"
           :username "anonimitoraf")))
 
-;; First install the package:
-(use-package flycheck-clj-kondo
-  :ensure t)
+;; --- Org-mode stuff ---
+(require 'ob-clojure)
+(require 'cider)
+(setq org-babel-clojure-backend 'cider)
 
-;; then install the checker as soon as `clojure-mode' is loaded
-(use-package clojure-mode
-  :ensure t
-  :config
-  (require 'flycheck-clj-kondo))
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . nil)
+   (Clojure . t)
+   (Javascript . t)))
 
-;; Use clj-kondo as a lsp backend
-(use-package lsp-mode
-  :ensure t
-  :hook ((clojure-mode . lsp))
-  :commands lsp
-  :custom
-  ((lsp-clojure-server-command '("java" "-jar" "/home/anonimito/.doom.d/misc/clj-kondo-lsp-server-standalone.jar")))
-  :config
-  (dolist (m '(clojure-mode
-               clojurescript-mode))
-    (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
+;; ;; --- Clojure stuff --------------------------------------------
+;; ;; First install the package:
+;; (use-package flycheck-clj-kondo
+;;   :ensure t)
+
+;; ;; then install the checker as soon as `clojure-mode' is loaded
+;; (use-package clojure-mode
+;;   :ensure t
+;;   :config
+;;   (require 'flycheck-clj-kondo))
+
+;; ;; Use clj-kondo as a lsp backend
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :hook ((clojure-mode . lsp))
+;;   :commands lsp
+;;   :custom
+;;   ((lsp-clojure-server-command '("java" "-jar" "/home/anonimito/.doom.d/misc/clj-kondo-lsp-server-standalone.jar")))
+;;   :config
+;;   (dolist (m '(clojure-mode
+;;                clojurescript-mode))
+;;     (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
+
+;; Clojure-docs to be in clojure mode so forms
+;; can be evaluated conveniently
+;; (add-to-list 'auto-mode-alist '("\\clojuredocs*\\'" . clojure-mode))
+;; --------------------------------------------------------------
+
+;; --- E-shell stuff ---------------------------------------------------
+(add-hook 'eshell-mode-hook (lambda () (company-mode -1)))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
