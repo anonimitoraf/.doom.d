@@ -170,6 +170,13 @@
 ;; --- E-shell stuff ---------------------------------------------------
 (add-hook 'eshell-mode-hook (lambda () (company-mode -1)))
 
+;; --- Company stuff ---------------------------------------------------
+
+(set-company-backend! 'clojurescript-mode
+  'company-capf 'company-dabbrev-code 'company-dabbrev)
+
+;; --------------------------------------------------------------------
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
