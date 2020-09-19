@@ -8,6 +8,28 @@
 (setq user-full-name "Rafael Nicdao"
       user-mail-address "nicdaoraf@gmail.com")
 
+;; --- Appearance -----------------------------------------------------------------
+
+;; There are two ways to load a theme. Both assume the theme is installed and
+;; available. You can either set `doom-theme' or manually load a theme with the
+;; `load-theme' function. This is the default:
+;; (load-theme 'doom-dark+ t)
+(setq doom-theme 'doom-dark+)
+(setq doom-dark+-blue-modeline nil)
+(custom-set-faces
+ '(default ((t (:background "#000000"
+                :foreground "#ffffff"
+                :height 90
+                :foundry "CTDB"
+                :family "Fira Code")))))
+
+(custom-set-faces
+  ;; Org
+  '(org-code ((t (:foreground "gold")))))
+
+;; (set-face-background 'default "#000000")
+;; (set-face-foreground 'default "#ffffff")
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -18,17 +40,9 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Fira Code" :size 14))
+;; (setq doom-font (font-spec :family "Fira Code" :size 13))
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-;; (load-theme 'doom-dark+ t)
-(setq doom-theme 'doom-dark+)
-(setq doom-dark+-blue-modeline nil)
-(custom-set-faces
-  '(default ((t (:background "#000000")))))
-
+;; --------------------------------------------------------------------------------
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -39,9 +53,7 @@
 (setq display-line-numbers-type 'relative)
 
 ;; Disable highlighting of current line
-(add-hook 'hl-line-mode-hook
-  (lambda ()
-    (setq hl-line-mode nil)))
+(add-hook 'hl-line-mode-hook (lambda () (setq hl-line-mode nil)))
 
 ;; Structural editing
 (use-package! evil-lisp-state
@@ -93,7 +105,7 @@
     centaur-tabs-show-navigation-buttons t
     centaur-tabs-gray-out-icons 'buffer)
    (centaur-tabs-headline-match)
-   ;; (centaur-tabs-enable-buffer-reordering)
+   (centaur-tabs-enable-buffer-reordering)
    ;; (setq centaur-tabs-adjust-buffer-order t)
    (centaur-tabs-mode t))
 
@@ -103,7 +115,9 @@
 ;; Highlight whole expression, not just the matching paren
 (setq show-paren-style 'expression)
 (custom-set-faces
- '(show-paren-match ((t (:foreground nil :background "#333")))))
+ '(show-paren-match ((t (:foreground nil
+                         :background "#333"
+                         :weight normal)))))
 
 ;; Live markdown preview
 (custom-set-variables
@@ -129,6 +143,15 @@
           :username "anonimitoraf")))
 
 ;; --- Org-mode stuff ---
+
+(after! org
+  (setq org-todo-keywords '((sequence "TODO(t)" "START(s)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
+                            (sequence "[ ](T)" "[-](S)" "[?](H)" "|" "[X](D)"))
+        org-log-done 'time
+        org-hide-leading-stars t
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t))
+
 (require 'ob-clojure)
 (require 'cider)
 (setq org-babel-clojure-backend 'cider)
@@ -139,35 +162,26 @@
    (Clojure . t)
    (Javascript . t)))
 
-;; ;; --- Clojure stuff --------------------------------------------
-;; ;; First install the package:
-;; (use-package flycheck-clj-kondo
-;;   :ensure t)
+;; --- Clojure stuff --------------------------------------------
 
-;; ;; then install the checker as soon as `clojure-mode' is loaded
-;; (use-package clojure-mode
-;;   :ensure t
-;;   :config
-;;   (require 'flycheck-clj-kondo))
-
-;; ;; Use clj-kondo as a lsp backend
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :hook ((clojure-mode . lsp))
-;;   :commands lsp
-;;   :custom
-;;   ((lsp-clojure-server-command '("java" "-jar" "/home/anonimito/.doom.d/misc/clj-kondo-lsp-server-standalone.jar")))
-;;   :config
-;;   (dolist (m '(clojure-mode
-;;                clojurescript-mode))
-;;     (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
-
-;; Clojure-docs to be in clojure mode so forms
-;; can be evaluated conveniently
-;; (add-to-list 'auto-mode-alist '("\\clojuredocs*\\'" . clojure-mode))
-;; --------------------------------------------------------------
+(use-package lsp-mode
+  :ensure t
+  :hook ((clojure-mode . lsp)
+         (clojurec-mode . lsp)
+         (clojurescript-mode . lsp))
+  :config
+  (dolist (m '(clojure-mode
+               clojurec-mode
+               clojurescript-mode
+               clojurex-mode))
+     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+  ;; Optional: In case `clojure-lsp` is not in your PATH
+  (setq lsp-clojure-server-command '("bash" "-c" "/home/anonimito/.doom.d/misc/clojure-lsp")
+        lsp-enable-indentation nil
+        lsp-log-io t))
 
 ;; --- E-shell stuff ---------------------------------------------------
+;; Company mode in eshell makes it lag
 (add-hook 'eshell-mode-hook (lambda () (company-mode -1)))
 
 ;; --- Company stuff ---------------------------------------------------
@@ -175,7 +189,6 @@
 (set-company-backend! 'clojurescript-mode
   'company-capf 'company-dabbrev-code 'company-dabbrev)
 
-;; --------------------------------------------------------------------
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
