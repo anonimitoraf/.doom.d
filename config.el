@@ -13,22 +13,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;; (load-theme 'doom-dark+ t)
-(setq doom-theme 'doom-dark+)
-(setq doom-dark+-blue-modeline nil)
-(custom-set-faces
- '(default ((t (:background "#000000"
-                :foreground "#ffffff"
-                :height 90
-                :foundry "CTDB"
-                :family "Fira Code")))))
-
-(custom-set-faces
-  ;; Org
-  '(org-code ((t (:foreground "gold")))))
-
-;; (set-face-background 'default "#000000")
-;; (set-face-foreground 'default "#ffffff")
+(setq doom-theme 'doom-dark-custom)
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -40,7 +25,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "Fira Code" :size 13))
+(setq doom-font (font-spec :family "Ubuntu Mono" :size 15))
 
 ;; --------------------------------------------------------------------------------
 
@@ -150,7 +135,18 @@
         org-log-done 'time
         org-hide-leading-stars t
         org-agenda-skip-scheduled-if-done t
-        org-agenda-skip-deadline-if-done t))
+        org-agenda-skip-deadline-if-done t
+        org-superstar-headline-bullets-list '("▪")
+        org-superstar-cycle-headline-bullets 1
+        org-superstar-todo-bullet-alist '("▪")
+        ))
+
+;; (defun set-org-font ()
+;;   "Sets the font of an org-mode buffer"
+;;   (interactive)
+;;   (setq buffer-face-mode-face '(:family "Ubuntu Mono" :height 120))
+;;   (buffer-face-mode))
+;; (add-hook 'org-mode-hook 'set-org-font)
 
 (require 'ob-clojure)
 (require 'cider)
@@ -189,7 +185,6 @@
 (set-company-backend! 'clojurescript-mode
   'company-capf 'company-dabbrev-code 'company-dabbrev)
 
-
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -206,3 +201,40 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
+
+;; TODO Re-do the changes that were lost
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(livedown-autostart nil)
+;;  '(livedown-browser "firefox")
+;;  '(livedown-open t)
+;;  '(livedown-port 1337)
+;;  '(org-image-actual-width nil)
+;;  '(org-outline-path-complete-in-steps nil)
+;;  '(org-refile-use-outline-path 'file)
+;;  '(org-todo-keywords
+;;    '((sequence "TODO(t)" "START(s)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
+;;      (sequence "[ ](T)" "[-](S)" "[?](H)" "|" "[X](D)"))))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(org-block-begin-line ((t (:extend t :background "black" :foreground "#875F5F"))))
+;;  '(org-code ((t (:foreground "#870000"))))
+;;  '(org-document-title ((t (:foreground "#D75F00" :weight normal))))
+;;  '(org-list-dt ((t (:foreground "#870000"))))
+;;  '(org-special-keyword ((t (:foreground "#A8A8A8"))))
+;;  '(org-table ((t (:foreground "peach puff"))))
+;;  '(outline-1 ((t (:extend t :foreground "#ffd7af" :weight normal))))
+;;  '(outline-2 ((t (:extend t :foreground "#FFAF5F" :weight normal))))
+;;  '(outline-3 ((t (:extend t :foreground "#FFD75F" :weight normal))))
+;;  '(outline-4 ((t (:extend t :foreground "#D75F00" :weight normal))))
+;;  '(outline-5 ((t (:extend t :foreground "#5F87AF" :weight normal))))
+;;  '(outline-6 ((t (:extend t :foreground "#a8a8a8" :weight normal))))
+;;  '(outline-7 ((t (:extend t :foreground "#86c2a2" :weight normal))))
+;;  '(outline-8 ((t (:inherit outline-4 :extend t :foreground "#818b35" :weight normal))))
+;;  '(show-paren-match ((t (:foreground nil :background "#333" :weight normal)))))
