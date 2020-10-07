@@ -52,7 +52,8 @@
         company-minimum-prefix-length 2)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
-  (define-key company-active-map (kbd "C-SPC") 'company-complete-selection))
+  (define-key company-active-map (kbd "<tab>") 'company-complete-selection))
+
 
 ;; --- Evil stuff ---------------------------------------------------
 
@@ -62,13 +63,14 @@
 ;; Remove some conflicting keybindings with company-mode
 (define-key global-map (kbd "C-j") nil)
 (define-key global-map (kbd "C-k") nil)
+(define-key global-map (kbd "TAB") nil)
+
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
-(define-key evil-motion-state-map (kbd "TAB") nil)
+(define-key evil-motion-state-map (kbd "<tab>") nil)
 
 (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
 (define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
-
 ;; Perstent folding
 (use-package vimish-fold
   :ensure
@@ -173,6 +175,18 @@
    (Clojure . t)
    (Javascript . t)))
 
+;; --- LSP stuff --------------------------------------------
+
+;; Complements `find-defintions' (which is `g d')
+(define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
+
+(add-hook 'lsp-ui-peek-mode-hook
+          (lambda ()
+            (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
+            (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
+            (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
+            (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)))
+
 ;; --- Clojure stuff --------------------------------------------
 
 (use-package lsp-mode
@@ -187,7 +201,7 @@
                clojurex-mode))
      (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   ;; Optional: In case `clojure-lsp` is not in your PATH
-  (setq lsp-clojure-server-command '("bash" "-c" "/home/anonimito/.doom.d/misc/clojure-lsp")
+  (setq lsp-clojure-custom-server-command '("bash" "-c" "/home/anonimito/.doom.d/misc/clojure-lsp")
         lsp-enable-indentation nil
         lsp-log-io t))
 
@@ -199,6 +213,35 @@
 
 (set-company-backend! 'clojurescript-mode
   'company-capf 'company-dabbrev-code 'company-dabbrev)
+
+;; --- Treemacs stuff ---------------------------------------------------
+
+(add-hook 'treemacs-mode-hook
+          (lambda () (text-scale-decrease 1.5)))
+
+(use-package treemacs
+  :commands (treemacs
+             treemacs-follow-mode
+             treemacs-filewatch-mode
+             treemacs-fringe-indicator-mode)
+  :bind (("<f8>" . treemacs)
+         ("<f9>" . treemacs-select-window))
+  :init
+  (when window-system
+    (setq treemacs-width 30
+          treemacs-is-never-other-window t
+          treemacs--width-is-locked nil
+          treemacs-space-between-root-nodes nil)
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode nil)
+    (treemacs)
+    (other-window 1)))
+
+;; --- Misc ---------------------------------------------------
+
+;; Clock on modeline
+(display-time-mode 1)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
