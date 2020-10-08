@@ -294,6 +294,20 @@
 '(show-paren-mismatch ((((class color) (min-colors 257)) (:foreground "#171F24" :background "#D16969" :weight ultra-bold)) (((class color) (min-colors 256)) (:foreground "#111122" :background "#DD6666" :weight ultra-bold)) (((class color) (min-colors 16)) (:foreground "black" :background "red" :weight ultra-bold))))
 '(sp-show-pair-match-face ((((class color) (min-colors 257)) (:foreground "#D16969" :background "#171F24" :weight ultra-bold)) (((class color) (min-colors 256)) (:foreground "#DD6666" :background "#111122" :weight ultra-bold)) (((class color) (min-colors 16)) (:foreground "red" :background "black" :weight ultra-bold))))
 '(sp-show-pair-mismatch-face ((((class color) (min-colors 257)) (:foreground "#171F24" :background "#D16969" :weight ultra-bold)) (((class color) (min-colors 256)) (:foreground "#111122" :background "#DD6666" :weight ultra-bold)) (((class color) (min-colors 16)) (:foreground "black" :background "red" :weight ultra-bold))))
+
+;; LSP UI Peek
+'(lsp-ui-peek-header ((t (:height 0.85 :foreground "#fffacd" :background "#404040"))))
+'(lsp-ui-peek-list ((t (:height 0.85 :background "#1a1a1a"))))
+'(lsp-ui-peek-filename ((t (:foreground "#fffacd"))))
+'(lsp-ui-peek-highlight ((t (:foreground "white" :background "#8b4513"))))
+'(lsp-ui-peek-line-number ((t (:foreground "#4d4d4d"))))
+'(lsp-ui-peek-selection ((t (:foreground "white" :background "#2f4f4f"))))
+'(lsp-ui-peek-peek ((t (:background "#121212"))))
+
+;; LSP UI Sideline
+'(lsp-ui-sideline-code-action ((t (:foreground "#cd9b1d"))))
+
+
 '(default ((t (:background "black" :foreground "white")))))
 
 (provide-theme 'doom-dark-custom)

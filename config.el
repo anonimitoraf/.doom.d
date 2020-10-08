@@ -185,7 +185,27 @@
             (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
             (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
             (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
-            (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)))
+            (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
+
+            (setq lsp-ui-peek-fontify 'always)
+            (setq lsp-ui-peek-list-width 50)
+            (setq lsp-ui-peek-peek-height 40)))
+
+(add-hook 'lsp-ui-mode-hook
+          (lambda ()
+            (setq lsp-log-io t
+                  lsp-print-performance t
+
+                  lsp-ui-sideline-enable nil
+
+                  lsp-ui-doc-enable t
+                  ;; Prevents LSP peek to disappear when mouse touches it
+                  lsp-ui-doc-show-with-mouse nil
+                  lsp-ui-doc-include-signature t
+                  lsp-ui-doc-delay 0.5
+                  lsp-ui-doc-position 'at-point
+                  lsp-ui-doc-max-width 100
+                  lsp-ui-doc-max-height 40)))
 
 ;; --- Clojure stuff --------------------------------------------
 
@@ -202,8 +222,7 @@
      (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   ;; Optional: In case `clojure-lsp` is not in your PATH
   (setq lsp-clojure-custom-server-command '("bash" "-c" "/home/anonimito/.doom.d/misc/clojure-lsp")
-        lsp-enable-indentation nil
-        lsp-log-io t))
+        lsp-enable-indentation nil))
 
 ;; --- E-shell stuff ---------------------------------------------------
 ;; Company mode in eshell makes it lag
@@ -241,7 +260,23 @@
 ;; --- Misc ---------------------------------------------------
 
 ;; Clock on modeline
-(display-time-mode 1)
+(display-time-mode +1)
+
+(require 'focus-autosave-mode)
+(focus-autosave-mode +1)
+
+(defadvice switch-to-buffer (before save-buffer-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice other-window (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice evil-window-down (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice evil-window-up (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice evil-window-right (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice evil-window-left (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

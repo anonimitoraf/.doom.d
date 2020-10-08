@@ -65,5 +65,8 @@
 (package! evil-vimish-fold
   :recipe (:host github :repo "alexmurray/evil-vimish-fold"))
 
+(package! focus-autosave-mode
+  :recipe (:host github :repo "vifon/focus-autosave-mode.el"))
+
 (package! ripgrep)
 (package! ag)
