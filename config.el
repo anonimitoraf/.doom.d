@@ -3,6 +3,9 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+(defun kb (bytes) (* bytes 1024))
+(defun mb (bytes) (* (kb bytes) 1024))
+
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Rafael Nicdao"
@@ -26,13 +29,10 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Ubuntu Mono" :size 15))
+(setq doom-font (font-spec :family "Ubuntu Mono" :size 16))
+;; (setq doom-variable-pitch-font (font-spec :family "Roboto Mono Light" :size 14))
 
 ;; --------------------------------------------------------------------------------
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Dropbox/org")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -63,7 +63,7 @@
 ;; Remove some conflicting keybindings with company-mode
 (define-key global-map (kbd "C-j") nil)
 (define-key global-map (kbd "C-k") nil)
-(define-key global-map (kbd "TAB") nil)
+;; (define-key global-map (kbd "TAB") nil)
 
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
@@ -121,13 +121,6 @@
                          :background "#333"
                          :weight normal)))))
 
-;; Live markdown preview
-(custom-set-variables
- '(livedown-autostart nil) ; automatically open preview when opening markdown files
- '(livedown-open t)        ; automatically open the browser window
- '(livedown-port 1337)     ; port for livedown server
- '(livedown-browser "firefox"))  ; browser to use
-
 ;; org2blog
 ;; (require 'auth-source)
 ;; (let* ((credentials (auth-source-user-and-password "blog"))
@@ -146,6 +139,14 @@
 
 ;; --- Org-mode stuff ---
 
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(use-package org
+  :init
+  (setq org-directory "~/Dropbox/org"
+        org-agenda-files (directory-files-recursively org-directory "\\.org$")
+        org-default-notes-file "~/Dropbox/org/notes/default.org"))
+
 (after! org
   (setq org-todo-keywords '((sequence "TODO(t)" "START(s)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
                             (sequence "[ ](T)" "[-](S)" "[?](H)" "|" "[X](D)"))
@@ -155,15 +156,51 @@
         org-agenda-skip-deadline-if-done t
         org-superstar-headline-bullets-list '("▪")
         org-superstar-cycle-headline-bullets 1
-        org-superstar-todo-bullet-alist '("▪")
-        ))
+        org-superstar-todo-bullet-alist '("▪")))
 
-;; (defun set-org-font ()
-;;   "Sets the font of an org-mode buffer"
-;;   (interactive)
-;;   (setq buffer-face-mode-face '(:family "Ubuntu Mono" :height 120))
-;;   (buffer-face-mode))
-;; (add-hook 'org-mode-hook 'set-org-font)
+;; Line numbers are not needed and are just distracting
+(add-hook 'org-mode-hook (cmd! (setq display-line-numbers nil)))
+
+;; --- Recur
+
+;; See https://github.com/m-cat/org-recur
+(use-package org-recur
+  :hook ((org-mode . org-recur-mode)
+         (org-agenda-mode . org-recur-agenda-mode))
+  :demand t
+  :config
+  (define-key org-recur-mode-map (kbd "C-c d") 'org-recur-finish)
+
+  ;; Rebind the 'd' key in org-agenda (default: `org-agenda-day-view').
+  (define-key org-recur-agenda-mode-map (kbd "d") 'org-recur-finish)
+  (define-key org-recur-agenda-mode-map (kbd "C-c d") 'org-recur-finish)
+
+  (setq org-recur-finish-done t
+        org-recur-finish-archive t))
+
+;; Refresh org-agenda after rescheduling a task.
+(defun org-agenda-refresh ()
+  "Refresh all `org-agenda' buffers."
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (when (derived-mode-p 'org-agenda-mode)
+        (org-agenda-maybe-redo)))))
+
+(defadvice org-schedule (after refresh-agenda activate)
+  "Refresh org-agenda."
+  (org-agenda-refresh))
+
+;; Log time a task was set to Done.
+(setq org-log-done (quote time))
+
+;; Don't log the time a task was rescheduled or redeadlined.
+(setq org-log-redeadline nil)
+(setq org-log-reschedule nil)
+
+;; Prefer rescheduling to future dates and times
+(setq org-read-date-prefer-future 'time)
+
+;; --- Babel
 
 (require 'ob-clojure)
 (require 'cider)
@@ -175,54 +212,80 @@
    (Clojure . t)
    (Javascript . t)))
 
+;; --- Capture
+
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(after! org
+  (setq org-capture-templates
+        '(("t" "Task" entry (file "~/Dropbox/org/captures/tasks.org")
+           "* TODO %?\n%U"
+           :kill-buffer t)
+          ("e" "From emacs" entry (file "~/Dropbox/org/captures/from-emacs.org")
+           "* Captured region content: %i\n%?"
+           :kill-buffer t)
+          ("c" "From clipboard" entry (file "~/Dropbox/org/captures/from-clipboard.org")
+           " %x\n%?"
+           :kill-buffer t))))
+
+;; --- Clock
+
+(setq org-clock-mode-line-total 'current)
+
 ;; --- LSP stuff --------------------------------------------
 
 ;; Complements `find-defintions' (which is `g d')
 (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
 
-(add-hook 'lsp-ui-peek-mode-hook
-          (lambda ()
-            (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
-            (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
-            (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
-            (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
+(after! lsp-ui
+  (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
+  (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
+  (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
+  (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
 
-            (setq lsp-ui-peek-fontify 'always)
-            (setq lsp-ui-peek-list-width 50)
-            (setq lsp-ui-peek-peek-height 40)))
+  (setq lsp-ui-peek-fontify 'always
+        lsp-ui-peek-list-width 50
+        lsp-ui-peek-peek-height 40
 
-(add-hook 'lsp-ui-mode-hook
-          (lambda ()
-            (setq lsp-log-io t
-                  lsp-print-performance t
+        lsp-ui-doc-enable t
+        ;; Prevents LSP peek to disappear when mouse touches it
+        lsp-ui-doc-show-with-mouse nil
+        lsp-ui-doc-include-signature t
+        lsp-ui-doc-delay 0.5
+        lsp-ui-doc-position 'at-point
+        lsp-ui-doc-max-width 100
+        lsp-ui-doc-max-height 40
 
-                  lsp-ui-sideline-enable nil
+        ;; This is just annoying, really
+        lsp-ui-sideline-enable nil))
 
-                  lsp-ui-doc-enable t
-                  ;; Prevents LSP peek to disappear when mouse touches it
-                  lsp-ui-doc-show-with-mouse nil
-                  lsp-ui-doc-include-signature t
-                  lsp-ui-doc-delay 0.5
-                  lsp-ui-doc-position 'at-point
-                  lsp-ui-doc-max-width 100
-                  lsp-ui-doc-max-height 40)))
+(setq read-process-output-max (mb 1))
+
+(require 'elcord)
+(elcord-mode)
 
 ;; --- Clojure stuff --------------------------------------------
 
-(use-package lsp-mode
-  :ensure t
-  :hook ((clojure-mode . lsp)
-         (clojurec-mode . lsp)
-         (clojurescript-mode . lsp))
-  :config
-  (dolist (m '(clojure-mode
-               clojurec-mode
-               clojurescript-mode
-               clojurex-mode))
-     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-  ;; Optional: In case `clojure-lsp` is not in your PATH
-  (setq lsp-clojure-custom-server-command '("bash" "-c" "/home/anonimito/.doom.d/misc/clojure-lsp")
-        lsp-enable-indentation nil))
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :hook ((clojure-mode . lsp)
+;;          (clojurec-mode . lsp)
+;;          (clojurescript-mode . lsp))
+;;   :config
+;;   (dolist (m '(clojure-mode
+;;                clojurec-mode
+;;                clojurescript-mode
+;;                clojurex-mode))
+;;      (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+;;   ;; Optional: In case `clojure-lsp` is not in your PATH
+;;   (setq lsp-clojure-custom-server-command '("bash" "-c" "/home/anonimito/.doom.d/misc/clojure-lsp")
+;;         lsp-enable-indentation nil))
+
+;; --- (Type|Java)script stuff ---------------------------------------------------
+
+(setq typescript-indent-level 2)
+(add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
+(require 'gherkin-mode)
 
 ;; --- E-shell stuff ---------------------------------------------------
 ;; Company mode in eshell makes it lag
@@ -230,8 +293,8 @@
 
 ;; --- Company stuff ---------------------------------------------------
 
-(set-company-backend! 'clojurescript-mode
-  'company-capf 'company-dabbrev-code 'company-dabbrev)
+;; (set-company-backend! 'clojurescript-mode
+;;   'company-capf 'company-dabbrev-code 'company-dabbrev)
 
 ;; --- Treemacs stuff ---------------------------------------------------
 
@@ -239,23 +302,19 @@
           (lambda () (text-scale-decrease 1.5)))
 
 (use-package treemacs
-  :commands (treemacs
-             treemacs-follow-mode
-             treemacs-filewatch-mode
-             treemacs-fringe-indicator-mode)
+  :commands (treemacs)
   :bind (("<f8>" . treemacs)
          ("<f9>" . treemacs-select-window))
   :init
   (when window-system
     (setq treemacs-width 30
           treemacs-is-never-other-window t
+          treemacs-file-event-delay 1000
+          treemacs-show-cursor t
           treemacs--width-is-locked nil
-          treemacs-space-between-root-nodes nil)
-    (treemacs-follow-mode t)
-    (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode nil)
-    (treemacs)
-    (other-window 1)))
+          treemacs-space-between-root-nodes nil
+          treemacs-filewatch-mode t
+          treemacs-fringe-indicator-mode t)))
 
 ;; --- Misc ---------------------------------------------------
 
@@ -278,6 +337,24 @@
 (defadvice evil-window-left (before other-window-now activate)
   (when buffer-file-name (save-buffer)))
 
+;; TODO: Maybe each mode has to be different
+(global-set-key "\t" (lambda () (interactive) (insert-char 32 2))) ;; [tab] inserts two spaces
+
+(require 'explain-pause-mode)
+(explain-pause-mode +1)
+
+;; Auto-focus newly-created window
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
+
+;; Fix the ispell dict
+(setq ispell-dictionary "en")
+
+;; Emacs as a WM
+;; (require 'exwm)
+;; (require 'exwm-config)
+;; (exwm-config-default)
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -294,40 +371,3 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
-
-;; TODO Re-do the changes that were lost
-;; (custom-set-variables
-;;  ;; custom-set-variables was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(livedown-autostart nil)
-;;  '(livedown-browser "firefox")
-;;  '(livedown-open t)
-;;  '(livedown-port 1337)
-;;  '(org-image-actual-width nil)
-;;  '(org-outline-path-complete-in-steps nil)
-;;  '(org-refile-use-outline-path 'file)
-;;  '(org-todo-keywords
-;;    '((sequence "TODO(t)" "START(s)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
-;;      (sequence "[ ](T)" "[-](S)" "[?](H)" "|" "[X](D)"))))
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(org-block-begin-line ((t (:extend t :background "black" :foreground "#875F5F"))))
-;;  '(org-code ((t (:foreground "#870000"))))
-;;  '(org-document-title ((t (:foreground "#D75F00" :weight normal))))
-;;  '(org-list-dt ((t (:foreground "#870000"))))
-;;  '(org-special-keyword ((t (:foreground "#A8A8A8"))))
-;;  '(org-table ((t (:foreground "peach puff"))))
-;;  '(outline-1 ((t (:extend t :foreground "#ffd7af" :weight normal))))
-;;  '(outline-2 ((t (:extend t :foreground "#FFAF5F" :weight normal))))
-;;  '(outline-3 ((t (:extend t :foreground "#FFD75F" :weight normal))))
-;;  '(outline-4 ((t (:extend t :foreground "#D75F00" :weight normal))))
-;;  '(outline-5 ((t (:extend t :foreground "#5F87AF" :weight normal))))
-;;  '(outline-6 ((t (:extend t :foreground "#a8a8a8" :weight normal))))
-;;  '(outline-7 ((t (:extend t :foreground "#86c2a2" :weight normal))))
-;;  '(outline-8 ((t (:inherit outline-4 :extend t :foreground "#818b35" :weight normal))))
-;;  '(show-paren-match ((t (:foreground nil :background "#333" :weight normal)))))
