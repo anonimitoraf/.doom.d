@@ -70,3 +70,19 @@
 
 (package! ripgrep)
 (package! ag)
+
+(package! explain-pause-mode
+  :recipe (:host github :repo "lastquestion/explain-pause-mode"))
+
+(package! elcord
+  :recipe (:host github :repo "Mstrodl/elcord"))
+
+(package! gherkin-mode
+  :recipe (:host github :repo "candera/gherkin-mode"))
+
+(package! org-recur
+  :recipe (:host github :repo "m-cat/org-recur"))
+
+(package! exwm)
+;; (package! exwm-config)
+(package! xelb)
