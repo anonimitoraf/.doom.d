@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Register subscription (reactive)
+# key: reg-sub-2
+# --
+(rf/reg-sub
+ ${1:key}
+ (fn [${11:event} ${21:variadic-args}]
+   ${31:fn-body})
+ (fn [${41:result-from-first-fn} [${51:event} ${61:variadic-args}]]
+   ${71:fn-body}))

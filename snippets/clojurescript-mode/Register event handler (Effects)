@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Register event handler (effects)
+# key: reg-event-db
+# --
+(rf/reg-event-fx
+ ${1:key}
+ (fn [fx [${2:event} ${3:variadic-args}]]
+   ${4:fn-body}))

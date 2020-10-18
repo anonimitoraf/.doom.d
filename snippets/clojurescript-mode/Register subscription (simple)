@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Register subscription (simple)
+# key: reg-sub-1
+# --
+(rf/reg-sub
+ ${1:key}
+ (fn [db [${2:event} ${3:variadic-args}]]
+   ${4:fn-body}))
