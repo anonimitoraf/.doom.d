@@ -294,29 +294,20 @@
         lsp-ui-doc-max-height 40
 
         ;; This is just annoying, really
-        lsp-ui-sideline-enable nil))
+        lsp-ui-sideline-enable nil)
+
+  ;; Clojure/script stuff to ignore
+  (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.clj-kondo$")
+  (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.shadow-cljs$")
+  (add-to-list 'lsp-file-watch-ignored "[/\\\\]resources$"))
 
 (setq read-process-output-max (mb 1))
 
-(require 'elcord)
-(elcord-mode)
-
 ;; --- Clojure stuff --------------------------------------------
 
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :hook ((clojure-mode . lsp)
-;;          (clojurec-mode . lsp)
-;;          (clojurescript-mode . lsp))
-;;   :config
-;;   (dolist (m '(clojure-mode
-;;                clojurec-mode
-;;                clojurescript-mode
-;;                clojurex-mode))
-;;      (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-;;   ;; Optional: In case `clojure-lsp` is not in your PATH
-;;   (setq lsp-clojure-custom-server-command '("bash" "-c" "/home/anonimito/.doom.d/misc/clojure-lsp")
-;;         lsp-enable-indentation nil))
+;; See issue with sayid and nativecomp: https://github.com/clojure-emacs/sayid/pull/59
+;; (eval-after-load 'clojure-mode
+;;   '(sayid-setup-package))
 
 ;; --- (Type|Java)script stuff ---------------------------------------------------
 
