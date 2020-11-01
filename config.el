@@ -395,17 +395,29 @@
 (require 'explain-pause-mode)
 (explain-pause-mode +1)
 
-;; Auto-focus newly-created window
+;; (Seemingly) Auto-focus newly-created window
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
 
 ;; Fix the ispell dict
 (setq ispell-dictionary "en")
 
+;; Smooth scrolling through org-images, etc
+(require 'iscroll)
+(iscroll-mode +1)
+
 ;; Emacs as a WM
 ;; (require 'exwm)
 ;; (require 'exwm-config)
 ;; (exwm-config-default)
+
+;; Flex on Discord that we're using Emacs
+(require 'elcord)
+(elcord-mode)
+
+;; See https://github.com/hlissner/doom-emacs/issues/3038
+(after! counsel
+  (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
