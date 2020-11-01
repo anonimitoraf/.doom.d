@@ -86,3 +86,12 @@
 (package! exwm)
 ;; (package! exwm-config)
 (package! xelb)
+
+(package! iscroll
+  :recipe (:host github :repo "casouri/lunarymacs" :files ("site-lisp/iscroll.el")))
+
+;; (package! sayid
+;;   :recipe (:host github :repo "clojure-emacs/sayid"))
+
+(package! emacs-anywhere
+  :recipe (:host github :repo "zachcurry/emacs-anywhere"))
