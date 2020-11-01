@@ -158,8 +158,16 @@
         org-superstar-cycle-headline-bullets 1
         org-superstar-todo-bullet-alist '("▪")))
 
-;; Line numbers are not needed and are just distracting
-(add-hook 'org-mode-hook (cmd! (setq display-line-numbers nil)))
+;; Org by default uses the `default' face directly
+;; Well, I don't want it to, hence this remapping
+(custom-set-faces! '(org-default :font "Roboto Mono Light"))
+(add-hook 'org-mode-hook (cmd! (setq display-line-numbers nil) ;; Line numbers are not needed and are just distracting
+                               (face-remap-add-relative 'default '(org-default))))
+;; Hacky, but seems to work. Basically, I use zen-mode/writeroom-mode for org.
+;; It irks me that for some reason, the font remapping doesn't work, so I
+;; explicitly re-apply the font remappint
+(add-hook 'writeroom-mode-hook (cmd! (when (= major-mode "org-mode")
+                                       (face-remap-add-relative 'default '(org-default)))))
 
 ;; --- Recur
 
@@ -200,17 +208,36 @@
 ;; Prefer rescheduling to future dates and times
 (setq org-read-date-prefer-future 'time)
 
+;; --- Habit
+
+(require 'org-habit)
+(setq org-habit-show-habits-only-for-today nil)
+
+;; --- Agenda
+
+(setq org-agenda-window-setup 'other-window)
+
 ;; --- Babel
 
+;; NodeJS setup
+(setenv "NODE_PATH"
+        (concat
+         (getenv "HOME") "/org/node_modules"  ":"
+         (getenv "NODE_PATH")))
+
+;; Clojure setup
 (require 'ob-clojure)
 (require 'cider)
 (setq org-babel-clojure-backend 'cider)
+
+(require 'ob-sql)
 
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . nil)
    (Clojure . t)
-   (Javascript . t)))
+   (Javascript . t)
+   (sql . t)))
 
 ;; --- Capture
 
@@ -218,14 +245,24 @@
 ;; change `org-directory'. It must be set before org loads!
 (after! org
   (setq org-capture-templates
-        '(("t" "Task" entry (file "~/Dropbox/org/captures/tasks.org")
+        '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")
+           "* TODO %?\n%U"
+           :kill-buffer t)
+          ("t" "Task" entry (file "~/Dropbox/org/captures/tasks.org")
            "* TODO %?\n%U"
            :kill-buffer t)
           ("e" "From emacs" entry (file "~/Dropbox/org/captures/from-emacs.org")
-           "* Captured region content: %i\n%?"
+           "* %i\n%?"
+           :empty-lines 1
            :kill-buffer t)
           ("c" "From clipboard" entry (file "~/Dropbox/org/captures/from-clipboard.org")
-           " %x\n%?"
+           "* %x\n%?"
+           :empty-lines 1
+           :kill-buffer t)
+          ("s" "Shopping list" entry (file "~/Dropbox/org/captures/shopping-list.org")
+           "* [ ] %?"
+           :jump-to-captured t
+           :empty-lines 1
            :kill-buffer t))))
 
 ;; --- Clock
