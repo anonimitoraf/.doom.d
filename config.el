@@ -344,6 +344,30 @@
           treemacs-filewatch-mode t
           treemacs-fringe-indicator-mode t)))
 
+;; --- Ivy ---------------------------------------------------
+
+(after! ivy-posframe
+  (setf (alist-get t ivy-posframe-display-functions-alist)
+        #'ivy-posframe-display-at-frame-top-center)
+  (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
+        #'ivy-posframe-display-at-frame-top-center)
+  (setq ivy-posframe-border-width 1
+        ivy-posframe-width 120
+        ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
+                                                                  (right-fringe . 3)))))
+(setq posframe-arghandler
+      (lambda (_buffer-or-name key value)
+        (or (eq key :lines-truncate)
+            value)))
+
+;; --- Emacs-Anywhere ----------------------------------------
+
+(defun popup-handler (app-name window-title x y w h)
+  (set-frame-position (selected-frame) x (+ y (- h 400)))
+  (unless (zerop w)
+    (set-frame-size (selected-frame) w 400 t)))
+(add-hook 'ea-popup-hook 'popup-handler)
+
 ;; --- Misc ---------------------------------------------------
 
 ;; Clock on modeline
