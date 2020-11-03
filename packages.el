@@ -58,13 +58,6 @@
 (package! org2blog
   :recipe (:host github :repo "org2blog/org2blog"))
 
-;; Folding, primarily so they get persistent across sessions
-(package! vimish-fold
-  :recipe (:host github :repo "matsievskiysv/vimish-fold"))
-
-(package! evil-vimish-fold
-  :recipe (:host github :repo "alexmurray/evil-vimish-fold"))
-
 (package! focus-autosave-mode
   :recipe (:host github :repo "vifon/focus-autosave-mode.el"))
 
