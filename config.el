@@ -18,6 +18,10 @@
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-dark-custom)
 (setq doom-theme 'doom-dark-custom)
+(use-package doom-themes
+  :config
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  (doom-themes-treemacs-config))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -71,19 +75,6 @@
 
 (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
 (define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
-;; Perstent folding
-(use-package vimish-fold
-  :ensure
-  :after evil)
-
-(use-package evil-vimish-fold
-  :ensure t
-  :after vimish-fold
-  :init
-  (setq evil-vimish-fold-mode-lighter " ⮒")
-  (setq evil-vimish-fold-target-modes '(prog-mode conf-mode text-mode))
-  :config
-  (global-evil-vimish-fold-mode))
 
 ;; -------------------------------------------------------------------
 
