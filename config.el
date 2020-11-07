@@ -319,10 +319,15 @@
 (require 'gherkin-mode)
 (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode))
 
+;; --- eshell stuff ---------------------------------------------------
 
-;; --- E-shell stuff ---------------------------------------------------
 ;; Company mode in eshell makes it lag
 (add-hook 'eshell-mode-hook (lambda () (company-mode -1)))
+
+;; --- shell stuff ---------------------------------------------------
+
+;; Company mode in shell is just annoying
+(add-hook 'shell-mode-hook (lambda () (company-mode -1)))
 
 ;; --- Company stuff ---------------------------------------------------
 
