@@ -33,7 +33,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "UbuntuMono Nerd Font Mono" :size 17))
+(setq doom-font (font-spec :family "Ubuntu Mono" :size 17))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto Mono Light" :size 14))
 
 ;; --------------------------------------------------------------------------------
