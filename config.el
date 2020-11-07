@@ -160,6 +160,17 @@
 (add-hook 'writeroom-mode-hook (cmd! (when (= major-mode "org-mode")
                                        (face-remap-add-relative 'default '(org-default)))))
 
+(setq org-tags-column -120)
+
+;; --- org-download (Allows pasting stuff into org-mode)
+(require 'org-download)
+
+;; Drag-and-drop to `dired`
+(add-hook 'dired-mode-hook 'org-download-enable)
+
+(setq org-download-method 'attach)
+(setq org-image-actual-width nil)
+
 ;; --- Recur
 
 ;; See https://github.com/m-cat/org-recur
