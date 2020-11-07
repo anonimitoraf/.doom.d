@@ -433,9 +433,11 @@
 
 (defun external-gnome-terminal ()
   (interactive "@")
-  (shell-command (concat "gnome-terminal --working-directory="
-                         (file-name-directory (or load-file-name buffer-file-name))
+  (setenv "INSIDE_EMACS" nil) ;; We don't want gnome thinking that it's inside emacs
+  (shell-command (concat "gnome-terminal"
+                         " --working-directory " (file-name-directory (or load-file-name buffer-file-name))
                          " > /dev/null 2>&1 & disown") nil nil))
+(map! :n "SPC +" #'external-gnome-terminal)
 
 ;; ---------------------------------
 ;; Here are some additional functions/macros that could help you configure Doom:
