@@ -88,3 +88,7 @@
 
 (package! emacs-anywhere
   :recipe (:host github :repo "zachcurry/emacs-anywhere"))
+
+;; Allow pasting stuff into org-mode
+(package! org-download
+  :recipe (:host github :repo "abo-abo/org-download"))
