@@ -429,6 +429,15 @@
 (after! counsel
   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
 
+;; --- Custom scripts/commands ---
+
+(defun external-gnome-terminal ()
+  (interactive "@")
+  (shell-command (concat "gnome-terminal --working-directory="
+                         (file-name-directory (or load-file-name buffer-file-name))
+                         " > /dev/null 2>&1 & disown") nil nil))
+
+;; ---------------------------------
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
