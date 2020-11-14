@@ -54,7 +54,7 @@
 (setq display-line-numbers-type 'relative)
 
 ;; Disable highlighting of current line
-(add-hook 'hl-line-mode-hook (lambda () (setq hl-line-mode nil)))
+;; (add-hook 'hl-line-mode-hook (lambda () (setq hl-line-mode nil)))
 
 ;; Structural editing
 (use-package! evil-lisp-state
