@@ -322,6 +322,9 @@
 ;; (eval-after-load 'clojure-mode
 ;;   '(sayid-setup-package))
 
+;; Dash docsets
+(add-to-list 'dash-docs-docsets "Clojure")
+
 ;; --- (Type|Java)script stuff ---------------------------------------------------
 
 (setq typescript-indent-level 2)
