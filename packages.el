@@ -92,3 +92,7 @@
 ;; Allow pasting stuff into org-mode
 (package! org-download
   :recipe (:host github :repo "abo-abo/org-download"))
+
+(package! gdscript-mode
+          :recipe (:host github
+                   :repo "GDQuest/emacs-gdscript-mode"))

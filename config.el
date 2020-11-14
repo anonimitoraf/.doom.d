@@ -449,6 +449,10 @@
 (after! counsel
   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
 
+;; --- Godot ---
+
+(require 'gdscript-mode)
+
 ;; --- Custom scripts/commands ---
 
 (defun external-gnome-terminal ()
