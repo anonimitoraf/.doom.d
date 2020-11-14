@@ -392,6 +392,12 @@
     (set-frame-size (selected-frame) w 400 t)))
 (add-hook 'ea-popup-hook 'popup-handler)
 
+;; --- Tramp ---------------------------------------------------
+
+;; (require 'tramp)
+;; (setq tramp-default-method "ssh")
+;; (setq tramp-syntax 'simplified)
+
 ;; --- Misc ---------------------------------------------------
 
 ;; Clock on modeline
