@@ -303,8 +303,8 @@
         lsp-ui-doc-include-signature t
         lsp-ui-doc-delay 0.2
         lsp-ui-doc-position 'at-point
-        lsp-ui-doc-max-width 100
-        lsp-ui-doc-max-height 40
+        lsp-ui-doc-max-width 120
+        lsp-ui-doc-max-height 120
 
         ;; This is just annoying, really
         lsp-ui-sideline-enable nil)
