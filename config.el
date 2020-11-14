@@ -16,12 +16,23 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;; (setq doom-theme 'doom-dark-custom)
-(setq doom-theme 'doom-dark-custom)
+(setq doom-theme 'doom-one)
+
+;; I want everything to have jet black bg
+(solaire-mode -1)
+
 (use-package doom-themes
   :config
-  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
-  (doom-themes-treemacs-config))
+  ;; Use the colorful treemacs theme
+  (setq doom-themes-treemacs-theme "doom-colors")
+  (doom-themes-treemacs-config)
+  ;; Custom style tweaks
+  ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
+  ;; for the doom-colors
+  (custom-set-faces!
+    `(default :background "black")
+    `(fill-column-indicator :foreground ,(doom-color 'base1))
+    `(window-divider :foreground ,(doom-color 'magenta))))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
