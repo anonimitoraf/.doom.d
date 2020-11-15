@@ -47,6 +47,13 @@
 (setq doom-font (font-spec :family "Ubuntu Mono" :size 17))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto Mono Light" :size 14))
 
+;; Enable rainbow-mode to visualize hex strings
+(rainbow-mode +1)
+
+;; Prevent hl-line-mode from overriding rainbow-mode
+(add-hook! 'rainbow-mode-hook
+  (hl-line-mode (if rainbow-mode -1 +1)))
+
 ;; --------------------------------------------------------------------------------
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -54,7 +61,7 @@
 (setq display-line-numbers-type 'relative)
 
 ;; Disable highlighting of current line
-;; (add-hook 'hl-line-mode-hook (lambda () (setq hl-line-mode nil)))
+(add-hook 'hl-line-mode-hook (lambda () (setq hl-line-mode nil)))
 
 ;; Structural editing
 (use-package! evil-lisp-state
@@ -422,8 +429,8 @@
 ;; TODO: Maybe each mode has to be different
 (global-set-key "\t" (lambda () (interactive) (insert-char 32 2))) ;; [tab] inserts two spaces
 
-(require 'explain-pause-mode)
-(explain-pause-mode +1)
+;; (require 'explain-pause-mode)
+;; (explain-pause-mode +1)
 
 ;; (Seemingly) Auto-focus newly-created window
 (setq evil-split-window-below t
@@ -461,7 +468,18 @@
   (shell-command (concat "gnome-terminal"
                          " --working-directory " (file-name-directory (or load-file-name buffer-file-name))
                          " > /dev/null 2>&1 & disown") nil nil))
-(map! :n "SPC +" #'external-gnome-terminal)
+
+(defun external-xfce4-terminal ()
+  (interactive "@")
+  (setenv "INSIDE_EMACS" nil)
+  (shell-command (concat "xfce4-terminal"
+                         " --working-directory " (file-name-directory (or load-file-name buffer-file-name))
+                         " > /dev/null 2>&1 & disown") nil nil))
+
+(setq external-terminal-to-open 'xfce4)
+(map! :n "SPC +" (cond ((eq external-terminal-to-open 'gnome) #'external-gnome-terminal)
+                       ((eq external-terminal-to-open 'xfce4) #'external-xfce4-terminal)
+                       (t (message (concat "Invalid value for variable `external-terminal-to-open:' " external-terminal-to-open)))))
 
 ;; ---------------------------------
 ;; Here are some additional functions/macros that could help you configure Doom:
