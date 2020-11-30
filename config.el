@@ -35,7 +35,11 @@
   (custom-set-faces!
     `(default :background "black")
     `(fill-column-indicator :foreground ,(doom-color 'base1))
-    `(window-divider :foreground ,(doom-color 'magenta))))
+    `(window-divider :foreground ,(doom-color 'magenta))
+    `(flycheck-posframe-error-face :background "firebrick"
+                                   :foreground "white")
+    `(flycheck-posframe-warning-face :background "dark goldenrod"
+                                     :foreground "white")))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
