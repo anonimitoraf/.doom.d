@@ -6,8 +6,8 @@
 (defun kb (bytes) (* bytes 1024))
 (defun mb (bytes) (* (kb bytes) 1024))
 
-  (defun with-face (str &rest face-plist)
-    (propertize str 'face face-plist))
+(defun with-face (str &rest face-plist)
+  (propertize str 'face face-plist))
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
@@ -20,9 +20,6 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
-
-;; I want everything to have jet black bg
-(solaire-mode -1)
 
 (use-package doom-themes
   :config

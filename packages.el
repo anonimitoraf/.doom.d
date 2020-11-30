@@ -96,3 +96,6 @@
 (package! gdscript-mode
           :recipe (:host github
                    :repo "GDQuest/emacs-gdscript-mode"))
+
+;; I want everything to have jet black bg
+(package! solaire-mode :disable t)
