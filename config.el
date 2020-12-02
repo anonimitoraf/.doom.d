@@ -441,6 +441,7 @@
 
 ;; TODO: Maybe each mode has to be different
 (global-set-key "\t" (lambda () (interactive) (insert-char 32 2))) ;; [tab] inserts two spaces
+(add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
 
 (require 'explain-pause-mode)
 (explain-pause-mode +1)
