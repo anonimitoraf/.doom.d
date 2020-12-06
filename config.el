@@ -89,7 +89,7 @@
 ;; Company configuration
 (after! company
   (setq company-idle-delay 0.01
-        company-tooltip-idle-delay 0.01
+        company-tooltip-idle-delay 0.2
         company-minimum-prefix-length 2)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
