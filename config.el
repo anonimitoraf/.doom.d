@@ -61,6 +61,10 @@
 (add-hook! 'rainbow-mode-hook
   (hl-line-mode (if rainbow-mode -1 +1)))
 
+;; Doom modeline
+(setq display-time-default-load-average nil
+      display-time-24hr-format t)
+
 ;; Header line
 (defun set-header-line-format ()
   (after! doom-modeline
