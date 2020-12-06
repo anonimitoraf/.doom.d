@@ -320,6 +320,9 @@
   (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
   (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
 
+  (map! :map lsp-mode-map
+        :nv "SPC c m" #'lsp-ui-imenu)
+
   (setq lsp-ui-peek-fontify 'always
         lsp-ui-peek-list-width 50
         lsp-ui-peek-peek-height 40
@@ -333,6 +336,8 @@
         lsp-ui-doc-max-width 120
         lsp-ui-doc-max-height 120
 
+        lsp-ui-imenu-enable t
+
         ;; This is just annoying, really
         lsp-ui-sideline-enable nil)
 
@@ -340,6 +345,14 @@
   (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.clj-kondo$")
   (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.shadow-cljs$")
   (add-to-list 'lsp-file-watch-ignored "[/\\\\]resources$"))
+
+;; Automatically refresh LSP imenu when changing windows
+;; (add-hook 'window-state-change-hook (cmd! (when (bound-and-true-p lsp-ui-mode)
+;;                                             (let ((curr-window (selected-window)))
+;;                                               (lsp-ui-imenu)
+;;                                               ;; Otherwise we're stuck in an endless
+;;                                               ;; loop of being in the imenu
+;;                                               (select-window curr-window)))))
 
 (setq read-process-output-max (mb 1))
 
