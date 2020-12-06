@@ -68,7 +68,10 @@
 ;; Header line
 (defun set-header-line-format ()
   (after! doom-modeline
-    (setq header-line-format (doom-modeline-buffer-file-name))))
+    (setq header-line-format (with-face (doom-modeline-buffer-file-name)
+                                        :box '(:line-width 5
+                                               ;; HACK I got this colour via using a colour-picker
+                                               :color "#282c34")))))
 (add-hook 'text-mode-hook #'set-header-line-format)
 (add-hook 'prog-mode-hook #'set-header-line-format)
 
