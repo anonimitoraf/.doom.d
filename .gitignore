@@ -5,3 +5,4 @@ tmp/
 
 
 custom.el
+flycheck_config.el
