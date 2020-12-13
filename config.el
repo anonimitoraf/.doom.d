@@ -65,10 +65,17 @@
 (add-hook! 'rainbow-mode-hook
   (hl-line-mode (if rainbow-mode -1 +1)))
 
+;; Doom modeline
+(setq display-time-default-load-average nil
+      display-time-24hr-format t)
+
 ;; Header line
 (defun set-header-line-format ()
   (after! doom-modeline
-    (setq header-line-format (doom-modeline-buffer-file-name))))
+    (setq header-line-format (with-face (doom-modeline-buffer-file-name)
+                                        :box '(:line-width 5
+                                               ;; HACK I got this colour via using a colour-picker
+                                               :color "#282c34")))))
 (add-hook 'text-mode-hook #'set-header-line-format)
 (add-hook 'prog-mode-hook #'set-header-line-format)
 
@@ -89,7 +96,7 @@
 ;; Company configuration
 (after! company
   (setq company-idle-delay 0.01
-        company-tooltip-idle-delay 0.01
+        company-tooltip-idle-delay 0.2
         company-minimum-prefix-length 2)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
@@ -317,6 +324,9 @@
   (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
   (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
 
+  (map! :map lsp-mode-map
+        :nv "SPC c m" #'lsp-ui-imenu)
+
   (setq lsp-ui-peek-fontify 'always
         lsp-ui-peek-list-width 50
         lsp-ui-peek-peek-height 40
@@ -325,10 +335,12 @@
         ;; Prevents LSP peek to disappear when mouse touches it
         lsp-ui-doc-show-with-mouse nil
         lsp-ui-doc-include-signature t
-        lsp-ui-doc-delay 0.2
+        lsp-ui-doc-delay 0.1
         lsp-ui-doc-position 'at-point
         lsp-ui-doc-max-width 120
         lsp-ui-doc-max-height 120
+
+        lsp-ui-imenu-enable t
 
         ;; This is just annoying, really
         lsp-ui-sideline-enable nil)
@@ -337,6 +349,14 @@
   (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.clj-kondo$")
   (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.shadow-cljs$")
   (add-to-list 'lsp-file-watch-ignored "[/\\\\]resources$"))
+
+;; Automatically refresh LSP imenu when changing windows
+;; (add-hook 'window-state-change-hook (cmd! (when (bound-and-true-p lsp-ui-mode)
+;;                                             (let ((curr-window (selected-window)))
+;;                                               (lsp-ui-imenu)
+;;                                               ;; Otherwise we're stuck in an endless
+;;                                               ;; loop of being in the imenu
+;;                                               (select-window curr-window)))))
 
 (setq read-process-output-max (mb 1))
 
