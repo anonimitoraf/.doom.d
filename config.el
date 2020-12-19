@@ -444,6 +444,9 @@
 
 ;; --- Misc ---------------------------------------------------
 
+;; Disable *Messages* from popping up when minibuffer is clicked
+(define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
+
 ;; Clock on modeline
 (display-time-mode +1)
 
