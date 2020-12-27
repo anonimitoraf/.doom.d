@@ -452,6 +452,27 @@
 
 ;; --- Misc ---------------------------------------------------
 
+(defun bespoke/load-and-continuously-save (file)
+  (interactive
+   (let ((session-file (doom-session-file)))
+     (list (or (read-file-name "Regularly saving session to: "
+                               (file-name-directory session-file)
+                               (file-name-nondirectory session-file))
+               (user-error "No session selected. Aborting")))))
+  (unless file
+    (error "No session file selected"))
+  ;; Load the session
+  (doom/load-session file)
+  ;; Clear any previous calls to this fn
+  (when (boundp 'bespoke-continuous-saving-timer)
+    (cancel-timer bespoke-continuous-saving-timer))
+  ;; Save the session every 10 seconds
+  (setq bespoke-continuous-saving-timer
+        (run-with-timer 1 10 (cmd!
+                              (message "Saving '%s' session" file)
+                              (doom-save-session file)))))
+(map! :map doom-leader-map "q N" 'bespoke/load-and-continuously-save)
+
 ;; Disable *Messages* from popping up when minibuffer is clicked
 (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 
