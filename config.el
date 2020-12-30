@@ -436,6 +436,9 @@
         (or (eq key :lines-truncate)
             value)))
 
+;; Enable search preview by default, for ivy-based commands
+(setq-default ivy-calling t)
+
 ;; --- Emacs-Anywhere ----------------------------------------
 
 (defun popup-handler (app-name window-title x y w h)
