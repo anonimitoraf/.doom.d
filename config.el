@@ -437,7 +437,7 @@
             value)))
 
 ;; Enable search preview by default, for ivy-based commands
-(setq-default ivy-calling t)
+(setq-default ivy-calling nil)
 
 ;; --- Emacs-Anywhere ----------------------------------------
 
