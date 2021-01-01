@@ -377,6 +377,24 @@
 ;; Dash docsets
 (add-to-list 'dash-docs-docsets "Clojure")
 
+;; Highlight particular macros similar to built-in stuff
+;; For example, highlight ghostwheel's `>defn' similar
+;; the same way as built-in `defn'
+(add-hook 'clojure-mode-hook
+  '(lambda ()
+    ;; Set some new syntax-highlighting rules.
+    (font-lock-add-keywords nil
+      ;; So many escape codes! But we're really just saying:
+      ;; Match the '(' character.
+      ;; Match and group the string '>defn'.
+      ;; Match some whitespace. \\s-+
+      ;; Match and group some word characters. \\w+
+      '(("(\\(>defn\\)\\s-+\\(\\w+\\)"
+            ;; The first regexp group is a keyword.
+            (1 font-lock-keyword-face)
+            ;; The second regexp group is a name.
+            (2 font-lock-function-name-face))))))
+
 ;; --- (Type|Java)script stuff ---------------------------------------------------
 
 (setq typescript-indent-level 2)
