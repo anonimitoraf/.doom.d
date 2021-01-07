@@ -78,14 +78,14 @@
       display-time-24hr-format t)
 
 ;; Header line
-(defun set-header-line-format ()
-  (after! doom-modeline
-    (setq header-line-format (with-face (doom-modeline-buffer-file-name)
-                                        :box '(:line-width 5
-                                               ;; HACK I got this colour via using a colour-picker
-                                               :color "#282c34")))))
-(add-hook 'text-mode-hook #'set-header-line-format)
-(add-hook 'prog-mode-hook #'set-header-line-format)
+;; (defun set-header-line-format ()
+;;   (after! doom-modeline
+;;     (setq header-line-format (with-face (doom-modeline-buffer-file-name)
+;;                                         :box '(:line-width 5
+;;                                                ;; HACK I got this colour via using a colour-picker
+;;                                                :color "#282c34")))))
+;; (add-hook 'text-mode-hook #'set-header-line-format)
+;; (add-hook 'prog-mode-hook #'set-header-line-format)
 
 ;; --------------------------------------------------------------------------------
 
@@ -103,12 +103,13 @@
 
 ;; Company configuration
 (after! company
-  (setq company-idle-delay 0.01
+  (setq company-idle-delay 0.0
         company-tooltip-idle-delay 0.2
-        company-minimum-prefix-length 2)
+        company-minimum-prefix-length 1)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
-  (define-key company-active-map (kbd "<tab>") 'company-complete-selection))
+  (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
+  (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
 
 ;; --- Evil stuff ---------------------------------------------------
 
@@ -131,8 +132,13 @@
 
 ;; Modeline
 (after! doom-modeline
+  (custom-set-faces!
+    '(mode-line :height 0.9 :width condensed)
+    '(mode-line-inactive :height 0.9 :width condensed)
+    '(mode-line-emphasis :inherit mode-line))
   (setq
-   doom-modeline-height 20
+   doom-modeline-buffer-file-name-style nil
+   doom-modeline-height 0
    doom-modeline-major-mode-icon t
    doom-modeline-major-mode-color-icon t
    doom-modeline-buffer-modification-icon t
@@ -325,6 +331,11 @@
 
 ;; Complements `find-defintions' (which is `g d')
 (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
+
+(after! lsp-mode
+  (setq lsp-lens-enable t
+        lsp-log-io nil
+        lsp-headerline-breadcrumb-enable t))
 
 (after! lsp-ui
   (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
