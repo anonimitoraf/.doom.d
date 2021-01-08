@@ -332,7 +332,12 @@
 ;; Complements `find-defintions' (which is `g d')
 (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
 
+(use-package! all-the-icons
+    :config (setq all-the-icons-scale-factor 0.90))
+
 (after! lsp-mode
+  (custom-set-faces!
+    '(header-line :height 0.90))
   (setq lsp-lens-enable t
         lsp-log-io nil
         lsp-headerline-breadcrumb-enable t))
