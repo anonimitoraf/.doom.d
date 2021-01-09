@@ -439,6 +439,8 @@
 (add-hook 'treemacs-mode-hook
           (lambda () (text-scale-decrease 1.5)))
 
+(with-eval-after-load 'treemacs-icons (treemacs-resize-icons 10))
+
 (use-package treemacs
   :commands (treemacs)
   :bind (("<f8>" . treemacs)
