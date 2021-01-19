@@ -197,7 +197,15 @@
   :init
   (setq org-directory "~/Dropbox/org"
         org-agenda-files (directory-files-recursively org-directory "\\.org$")
-        org-default-notes-file "~/Dropbox/org/notes/default.org"))
+        org-default-notes-file "~/Dropbox/org/notes/default.org")
+  :config
+  (setq org-ellipsis " ▾"
+        org-hide-emphasis-markers t
+        org-src-tab-acts-natively t
+        org-edit-src-content-indentation 2
+        org-src-preserve-indentation nil
+        org-startup-folded 'content
+        org-cycle-separator-lines 2))
 
 (after! org
   (setq org-todo-keywords '((sequence "TODO(t)" "START(s)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
