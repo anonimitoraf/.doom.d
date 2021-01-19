@@ -99,3 +99,6 @@
 
 ;; I want everything to have jet black bg
 (package! solaire-mode :disable t)
+
+(package! kubernetes-el
+  :recipe (:host github :repo "chrisbarrett/kubernetes-el"))
