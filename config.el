@@ -347,9 +347,10 @@
 (after! lsp-mode
   (custom-set-faces!
     '(header-line :height 0.90))
-  (setq lsp-lens-enable t
+  (setq lsp-lens-enable nil
         lsp-log-io nil
-        lsp-headerline-breadcrumb-enable t))
+        lsp-headerline-breadcrumb-enable t
+        lsp-headerline-breadcrumb-enable-diagnostics nil))
 
 (after! lsp-ui
   (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
