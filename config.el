@@ -515,6 +515,8 @@
 
 ;; --- Misc ---------------------------------------------------
 
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
 (defun bespoke/load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))
