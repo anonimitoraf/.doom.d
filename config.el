@@ -135,7 +135,8 @@
   (custom-set-faces!
     '(mode-line :height 0.9 :width condensed)
     '(mode-line-inactive :height 0.9 :width condensed)
-    '(mode-line-emphasis :inherit mode-line))
+    '(mode-line-emphasis :inherit mode-line)
+    '(doom-modeline-buffer-file :weight normal))
   (setq
    doom-modeline-buffer-file-name-style nil
    doom-modeline-height 0
