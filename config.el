@@ -509,6 +509,10 @@
   :ensure t
   :after kubernetes)
 
+;; --- Files ---------------------------------------------------
+
+(map! :nv "SPC f g" #'projectile-find-file-other-window)
+
 ;; --- Misc ---------------------------------------------------
 
 (defun bespoke/load-and-continuously-save (file)
