@@ -499,6 +499,16 @@
 ;; (setq tramp-default-method "ssh")
 ;; (setq tramp-syntax 'simplified)
 
+;; --- Kubernetes ---------------------------------------------------
+
+(use-package kubernetes
+  :ensure t
+  :commands (kubernetes-overview))
+
+(use-package kubernetes-evil
+  :ensure t
+  :after kubernetes)
+
 ;; --- Misc ---------------------------------------------------
 
 (defun bespoke/load-and-continuously-save (file)
