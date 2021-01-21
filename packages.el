@@ -102,3 +102,5 @@
 
 (package! kubernetes-el
   :recipe (:host github :repo "chrisbarrett/kubernetes-el"))
+
+(unpin! org-mode)
