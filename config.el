@@ -24,7 +24,9 @@
 (use-package doom-themes
   :config
   ;; Use the colorful treemacs theme
-  (setq doom-themes-treemacs-theme "doom-colors")
+  (setq doom-themes-treemacs-theme "doom-colors"
+        doom-themes-enable-bold nil    ; if nil, bold is universally disabled
+        doom-themes-enable-italic nil)
   (doom-themes-treemacs-config)
   ;; Custom style tweaks
   ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
@@ -481,9 +483,6 @@
       (lambda (_buffer-or-name key value)
         (or (eq key :lines-truncate)
             value)))
-
-;; Enable search preview by default, for ivy-based commands
-(setq-default ivy-calling nil)
 
 ;; --- Emacs-Anywhere ----------------------------------------
 
