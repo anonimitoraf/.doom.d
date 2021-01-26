@@ -533,8 +533,10 @@
   ;; Save the session every 10 seconds
   (setq bespoke-continuous-saving-timer
         (run-with-timer 1 10 (cmd!
-                              (message "Saving '%s' session" file)
-                              (doom-save-session file)))))
+                              ;; (message "Saving '%s' session" file)
+                              (let ((message-log-max nil)
+                                    (inhibit-message t))
+                                (doom-save-session file))))))
 (map! :map doom-leader-map "q N" 'bespoke/load-and-continuously-save)
 
 ;; Disable *Messages* from popping up when minibuffer is clicked
