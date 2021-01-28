@@ -617,26 +617,26 @@
 ;; --- Temporary stuff ---
 
 ;; Uncomment these for testing out Clojure LSP changes
-(use-package lsp-mode
-  :ensure t
-  :hook ((clojure-mode . lsp)
-         (clojurec-mode . lsp)
-         (clojurescript-mode . lsp))
-  :config
-  ;; add paths to your local installation of project mgmt tools, like lein
-  (setenv "PATH" (concat
-                   "/usr/local/bin" path-separator
-                   (getenv "PATH")))
-  (dolist (m '(clojure-mode
-               clojurec-mode
-               clojurescript-mode
-               clojurex-mode))
-     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
- ;; Optional: In case `clojure-lsp` is not in your PATH
-  (setq lsp-clojure-server-command '("bash"
-                                     "-c"
-                                     "java -Xmx4g -server -Dclojure-lsp.version=2021.01.22-13.04.28 -jar /home/anonimito/.emacs.d/.local/etc/lsp/clojure/clojure-lsp")
-        lsp-enable-indentation nil))
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :hook ((clojure-mode . lsp)
+;;          (clojurec-mode . lsp)
+;;          (clojurescript-mode . lsp))
+;;   :config
+;;   ;; add paths to your local installation of project mgmt tools, like lein
+;;   (setenv "PATH" (concat
+;;                    "/usr/local/bin" path-separator
+;;                    (getenv "PATH")))
+;;   (dolist (m '(clojure-mode
+;;                clojurec-mode
+;;                clojurescript-mode
+;;                clojurex-mode))
+;;      (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+;;  ;; Optional: In case `clojure-lsp` is not in your PATH
+;;   (setq lsp-clojure-server-command '("bash"
+;;                                      "-c"
+;;                                      "java -Xmx2g -server -Dclojure-lsp.version=2021.01.25-22.56.05 -jar /home/anonimito/work/open-source/clojure/clojure-lsp/target/clojure-lsp")
+;;         lsp-enable-indentation nil))
 
 ;; ---------------------------------
 ;; Here are some additional functions/macros that could help you configure Doom:
