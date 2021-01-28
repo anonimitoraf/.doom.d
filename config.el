@@ -520,10 +520,11 @@
   ;; Ubuntu
   :load-path "/usr/share/emacs/site-lisp/mu4e"
   :config
-
   (setq mu4e-update-interval 30
         mu4e-get-mail-command "mbsync -a"
         mu4e-maildir "~/.mail"
+        mu4e-compose-context-policy 'ask-if-none
+        mu4e-compose-format-flowed t
         message-send-mail-function 'smtpmail-send-it)
   (setq mu4e-contexts (list
                        (make-mu4e-context
