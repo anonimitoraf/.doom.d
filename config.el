@@ -617,6 +617,10 @@
 
 ;; Flex on Discord that we're using Emacs
 (require 'elcord)
+(use-package! elcord
+  :config
+  (setq elcord-refresh-rate 5
+        elcord-use-major-mode-as-main-icon t))
 (elcord-mode)
 
 ;; See https://github.com/hlissner/doom-emacs/issues/3038
