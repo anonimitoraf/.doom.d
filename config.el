@@ -561,6 +561,11 @@
 (use-package webkit-ace) ;; If you want link hinting
 (use-package webkit-dark) ;; If you want to use the simple dark mode
 
+;; --- IELM -----------------------------------------------------
+
+(setq ielm-noisy nil
+      ielm-prompt "λ> ")
+
 ;; --- Misc ---------------------------------------------------
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
