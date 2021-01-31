@@ -520,31 +520,40 @@
   ;; Ubuntu
   :load-path "/usr/share/emacs/site-lisp/mu4e"
   :config
-  (setq mu4e-update-interval 30
-        mu4e-get-mail-command "mbsync -a"
-        mu4e-maildir "~/.mail"
-        mu4e-compose-context-policy 'ask-if-none
-        mu4e-compose-format-flowed t
-        message-send-mail-function 'smtpmail-send-it)
-  (setq mu4e-contexts (list
-                       (make-mu4e-context
-                        :name "cooltrax"
-                        :match-func (lambda (msg)
-                                      (when msg (string-prefix-p "/cooltrax" (mu4e-message-field msg :maildir))))
-                        :vars '((smtpmail-smtp-server   . "smtp.office365.com")
-                                (smtpmail-smtp-service  . 587)
-                                (smtpmail-stream-type   . starttls)
-                                (smtpmail-smtp-user     . "rafael.nicdao@cooltrax.com")
-                                (user-full-name         . "Rafael Nicdao")
-                                (user-mail-address      . "rafael.nicdao@cooltrax.com")
-                                (mu4e-drafts-folder     . "/cooltrax/Drafts")
-                                (mu4e-sent-folder       . "/cooltrax/Sent")
-                                (mu4e-refile-folder     . "/cooltrax/All")
-                                (mu4e-trash-folder      . "/cooltrax/Trash")
-                                (mu4e-compose-signature . "\nThanks,\nRaf")))))
+  ((lambda ()
+     (setq mu4e-update-interval 30
+           mu4e-get-mail-command "mbsync -a"
+           mu4e-maildir "~/.mail"
+           mu4e-compose-context-policy 'ask-if-none
+           mu4e-compose-format-flowed t
+           message-send-mail-function 'smtpmail-send-it
+           message-kill-buffer-on-exit t)
+     (add-to-list 'mu4e-view-actions
+                  '("browser-view" . mu4e-action-view-in-browser) t)
+     (setq mu4e-contexts (list
+                          (make-mu4e-context
+                           :name "cooltrax"
+                           :match-func (lambda (msg)
+                                         (when msg (string-prefix-p "/cooltrax" (mu4e-message-field msg :maildir))))
+                           :vars '((smtpmail-smtp-server   . "smtp.office365.com")
+                                   (smtpmail-smtp-service  . 587)
+                                   (smtpmail-stream-type   . starttls)
+                                   (smtpmail-smtp-user     . "rafael.nicdao@cooltrax.com")
+                                   (user-full-name         . "Rafael Nicdao")
+                                   (user-mail-address      . "rafael.nicdao@cooltrax.com")
+                                   (mu4e-compose-signature . "\nThanks,\nRaf")
 
-  ;; Run mu4e in the background
-  (mu4e t))
+                                   (mu4e-drafts-folder     . "/cooltrax/Drafts")
+                                   (mu4e-sent-folder       . "/cooltrax/Sent Items")
+                                   (mu4e-refile-folder     . "/cooltrax/All")
+                                   (mu4e-trash-folder      . "/cooltrax/Trash")
+
+                                   (mu4e-maildir-shortcuts . (("/cooltrax/Inbox" . ?i)
+                                                              ("/cooltrax/Sent Items" . ?s)))))))
+     ;; Run mu4e in the background
+     (mu4e t))))
+
+(require 'org-mime)
 
 ;; --- Misc ---------------------------------------------------
 

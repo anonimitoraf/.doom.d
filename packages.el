@@ -104,3 +104,6 @@
   :recipe (:host github :repo "chrisbarrett/kubernetes-el"))
 
 (unpin! org-mode)
+
+(package! org-mime
+  :recipe (:host github :repo "org-mime/org-mime"))
