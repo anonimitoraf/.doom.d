@@ -555,6 +555,12 @@
 
 (require 'org-mime)
 
+;; --- Webkit ---------------------------------------------------
+
+(use-package webkit)
+(use-package webkit-ace) ;; If you want link hinting
+(use-package webkit-dark) ;; If you want to use the simple dark mode
+
 ;; --- Misc ---------------------------------------------------
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -626,11 +632,16 @@
 
 ;; Flex on Discord that we're using Emacs
 (require 'elcord)
+(setq elcord-refresh-rate 5
+      elcord-use-major-mode-as-main-icon t)
 (elcord-mode)
 
 ;; See https://github.com/hlissner/doom-emacs/issues/3038
 (after! counsel
   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
+
+;; Line numbers are already displayed in the modeline
+(setq display-line-numbers-type nil)
 
 ;; --- Godot ---
 

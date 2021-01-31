@@ -107,3 +107,9 @@
 
 (package! org-mime
   :recipe (:host github :repo "org-mime/org-mime"))
+
+(package! webkit
+  :recipe (:type git :host github :repo "akirakyle/emacs-webkit"
+           :branch "main"
+           :files (:defaults "*.js" "*.css" "*.so")
+           :pre-build ("make")))
