@@ -104,3 +104,9 @@
   :recipe (:host github :repo "chrisbarrett/kubernetes-el"))
 
 (unpin! org-mode)
+
+(package! webkit
+  :recipe (:type git :host github :repo "akirakyle/emacs-webkit"
+           :branch "main"
+           :files (:defaults "*.js" "*.css" "*.so")
+           :pre-build ("make")))

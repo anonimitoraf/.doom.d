@@ -546,6 +546,12 @@
   ;; Run mu4e in the background
   (mu4e t))
 
+;; --- Webkit ---------------------------------------------------
+
+(use-package webkit)
+(use-package webkit-ace) ;; If you want link hinting
+(use-package webkit-dark) ;; If you want to use the simple dark mode
+
 ;; --- Misc ---------------------------------------------------
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
