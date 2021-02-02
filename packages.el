@@ -113,3 +113,6 @@
            :branch "main"
            :files (:defaults "*.js" "*.css" "*.so")
            :pre-build ("make")))
+
+(package! evil-terminal-cursor-changer
+  :recipe (:host github :repo "7696122/evil-terminal-cursor-changer"))

@@ -130,6 +130,8 @@
 (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
 (define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
 
+(require 'evil-terminal-cursor-changer)
+
 ;; -------------------------------------------------------------------
 
 ;; Modeline
