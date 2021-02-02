@@ -81,7 +81,7 @@
 (package! xelb)
 
 (package! iscroll
-  :recipe (:host github :repo "casouri/lunarymacs" :files ("site-lisp/iscroll.el")))
+  :recipe (:host github :repo "casouri/iscroll"))
 
 ;; (package! sayid
 ;;   :recipe (:host github :repo "clojure-emacs/sayid"))
