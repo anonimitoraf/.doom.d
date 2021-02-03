@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: REPL def_* debug
+# key: dbg_def
+# --
+
+(def dbg_$1 $1)
