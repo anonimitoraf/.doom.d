@@ -130,7 +130,11 @@
 (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
 (define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
 
-(require 'evil-terminal-cursor-changer)
+;; Active terminal cursor changer if applicable
+
+(unless (display-graphic-p)
+  (require 'evil-terminal-cursor-changer)
+  (evil-terminal-cursor-changer-activate))
 
 ;; -------------------------------------------------------------------
 
