@@ -574,7 +574,12 @@
 
 ;; --- Misc ---------------------------------------------------
 
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(setq +format-on-save-enabled-modes
+  '(not sql-mode         ; sqlformat is currently broken
+        tex-mode         ; latexindent is broken
+        org-mode
+        latex-mode
+        text-mode))
 
 (defun bespoke/load-and-continuously-save (file)
   (interactive
