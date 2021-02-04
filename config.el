@@ -58,11 +58,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Ubuntu Mono" :size (let ((screen-size (getenv "EMACS_SCREEN_SIZE")))
-                                                         (cond ((equal screen-size "small") 15)
-                                                               ((equal screen-size "medium") 16)
-                                                               ((equal screen-size "large") 17)
-                                                               (t 17)))))
+(setq doom-font (font-spec :family "Ubuntu Mono" :size (or (string-to-number (getenv "EMACS_FONT_SIZE"))
+                                                           16)))
 ;; (setq doom-variable-pitch-font (font-spec :family "Roboto Mono Light" :size 14))
 
 ;; Enable rainbow-mode to visualize hex strings
