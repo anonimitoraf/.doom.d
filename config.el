@@ -34,19 +34,19 @@
   (let ((vscode-search-occ-bg "#4d1e00")
         (vscode-search-occ-fg "#cccccc"))
     (custom-set-faces!
-     `(default :background "black")
-     `(fill-column-indicator :foreground ,(doom-color 'base1))
-     `(window-divider :foreground ,(doom-color 'magenta))
-     `(flycheck-posframe-error-face :background "firebrick"
-                                    :foreground "white")
-     `(flycheck-posframe-warning-face :background "dark goldenrod"
-                                      :foreground "white")
-     `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
-                                      :foreground ,vscode-search-occ-fg)
-     `(swiper-match-face-2 :background ,vscode-search-occ-bg
-                           :foreground ,vscode-search-occ-fg)
-     `(swiper-line-face :background "DodgerBlue4"
-                        :foreground ,vscode-search-occ-fg))))
+      `(default :background "black")
+      `(fill-column-indicator :foreground ,(doom-color 'base1))
+      `(window-divider :foreground ,(doom-color 'magenta))
+      `(flycheck-posframe-error-face :background "firebrick"
+                                     :foreground "white")
+      `(flycheck-posframe-warning-face :background "dark goldenrod"
+                                       :foreground "white")
+      `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
+                                       :foreground ,vscode-search-occ-fg)
+      `(swiper-match-face-2 :background ,vscode-search-occ-bg
+                            :foreground ,vscode-search-occ-fg)
+      `(swiper-line-face :background "DodgerBlue4"
+                         :foreground ,vscode-search-occ-fg))))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -158,16 +158,16 @@
 
 ;; Centaur Tabs configuration
 (after! centaur-tabs
-   (setq centaur-tabs-style "rounded"
-    centaur-tabs-height 5
-    centaur-tabs-set-icons t
-    centaur-tabs-set-modified-marker t
-    centaur-tabs-show-navigation-buttons t
-    centaur-tabs-gray-out-icons 'buffer)
-   (centaur-tabs-headline-match)
-   (centaur-tabs-enable-buffer-reordering)
-   ;; (setq centaur-tabs-adjust-buffer-order t)
-   (centaur-tabs-mode t))
+  (setq centaur-tabs-style "rounded"
+        centaur-tabs-height 5
+        centaur-tabs-set-icons t
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-show-navigation-buttons t
+        centaur-tabs-gray-out-icons 'buffer)
+  (centaur-tabs-headline-match)
+  (centaur-tabs-enable-buffer-reordering)
+  ;; (setq centaur-tabs-adjust-buffer-order t)
+  (centaur-tabs-mode t))
 
 ;; Lookup to not open browser
 (setq +lookup-open-url-fn #'eww)
@@ -192,8 +192,8 @@
 ;; ;; org2blog
 (setq org2blog/wp-blog-alist
       '(("blog"
-          :url "http://anonimitocom.wordpress.com/xmlrpc.php"
-          :username "anonimitoraf")))
+         :url "http://anonimitocom.wordpress.com/xmlrpc.php"
+         :username "anonimitoraf")))
 
 ;; --- Org-mode stuff ---
 
@@ -350,7 +350,7 @@
 (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
 
 (use-package! all-the-icons
-    :config (setq all-the-icons-scale-factor 0.90))
+  :config (setq all-the-icons-scale-factor 0.90))
 
 (after! lsp-mode
   (custom-set-faces!
@@ -415,19 +415,19 @@
 ;; For example, highlight ghostwheel's `>defn' similar
 ;; the same way as built-in `defn'
 (add-hook 'clojure-mode-hook
-  '(lambda ()
-    ;; Set some new syntax-highlighting rules.
-    (font-lock-add-keywords nil
-      ;; So many escape codes! But we're really just saying:
-      ;; Match the '(' character.
-      ;; Match and group the string '>defn'.
-      ;; Match some whitespace. \\s-+
-      ;; Match and group some word characters. \\w+
-      '(("(\\(>defn\\)\\s-+\\(\\w+\\)"
-            ;; The first regexp group is a keyword.
-            (1 font-lock-keyword-face)
-            ;; The second regexp group is a name.
-            (2 font-lock-function-name-face))))))
+          '(lambda ()
+             ;; Set some new syntax-highlighting rules.
+             (font-lock-add-keywords nil
+                                     ;; So many escape codes! But we're really just saying:
+                                     ;; Match the '(' character.
+                                     ;; Match and group the string '>defn'.
+                                     ;; Match some whitespace. \\s-+
+                                     ;; Match and group some word characters. \\w+
+                                     '(("(\\(>defn\\)\\s-+\\(\\w+\\)"
+                                        ;; The first regexp group is a keyword.
+                                        (1 font-lock-keyword-face)
+                                        ;; The second regexp group is a name.
+                                        (2 font-lock-function-name-face))))))
 
 ;; --- (Type|Java)script stuff ---------------------------------------------------
 
@@ -575,11 +575,14 @@
 ;; --- Misc ---------------------------------------------------
 
 (setq +format-on-save-enabled-modes
-  '(not sql-mode         ; sqlformat is currently broken
-        tex-mode         ; latexindent is broken
-        org-mode
-        latex-mode
-        text-mode))
+      '(not sql-mode         ; sqlformat is currently broken
+            tex-mode         ; latexindent is broken
+            org-mode
+            latex-mode
+            snippet-mode
+            text-mode
+            typescript-mode
+            gherkin-mode))
 
 (defun bespoke/load-and-continuously-save (file)
   (interactive
