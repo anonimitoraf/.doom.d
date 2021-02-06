@@ -566,6 +566,13 @@
 (setq ielm-noisy nil
       ielm-prompt "λ> ")
 
+;; --- Documentation -----------------------------------------------------
+
+(unbind-key "K" evil-normal-state-map)
+(unbind-key "K" evil-visual-state-map)
+(unbind-key "K" evil-motion-state-map)
+(map! :leader :desc "Lookup doc" :n "d" #'+lookup/documentation)
+
 ;; --- Misc ---------------------------------------------------
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
