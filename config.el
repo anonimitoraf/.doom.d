@@ -600,6 +600,10 @@
 
 ;; --- Misc ---------------------------------------------------
 
+;; Terminal emacs tends to throw a bunch of extra errors
+(if (not (display-graphic-p))
+    (setq debug-on-error nil))
+
 (setq +format-on-save-enabled-modes
       '(not sql-mode         ; sqlformat is currently broken
             tex-mode         ; latexindent is broken
