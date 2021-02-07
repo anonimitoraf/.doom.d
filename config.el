@@ -571,9 +571,12 @@
                                   (mu4e-trash-folder      . "/gmail/bboynimito/Trash")
 
                                   (mu4e-maildir-shortcuts . (("/gmail/bboynimito/Inbox" . ?i)
-                                                             ("/gmail/bboynimito/Sent Items" . ?s)))))))
-    ;; Run mu4e in the background
-    (mu4e t)))
+                                                             ("/gmail/bboynimito/Sent Items" . ?s)))))))))
+
+(defun start-mu4e-background ()
+  "Start mu4e in the background."
+  (interactive)
+  (mu4e t))
 
 (require 'org-mime)
 
