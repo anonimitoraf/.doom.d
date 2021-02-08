@@ -452,24 +452,31 @@
 ;; --- Treemacs stuff ---------------------------------------------------
 
 (add-hook 'treemacs-mode-hook
-          (lambda () (text-scale-decrease 1.5)))
+          (lambda ()
+            (when (display-graphic-p)
+              (text-scale-decrease 1.5))))
 
-(with-eval-after-load 'treemacs-icons (treemacs-resize-icons 10))
+(with-eval-after-load 'treemacs-icons
+  (when (display-graphic-p)
+    (treemacs-resize-icons 10)))
 
 (use-package treemacs
   :commands (treemacs)
   :bind (("<f8>" . treemacs)
          ("<f9>" . treemacs-select-window))
   :init
-  (when window-system
-    (setq treemacs-width 30
-          treemacs-is-never-other-window t
-          treemacs-file-event-delay 1000
-          treemacs-show-cursor t
-          treemacs--width-is-locked nil
-          treemacs-space-between-root-nodes nil
-          treemacs-filewatch-mode t
-          treemacs-fringe-indicator-mode t)))
+  (progn
+    (when window-system
+      (setq treemacs-width 30
+            treemacs-is-never-other-window t
+            treemacs-file-event-delay 1000
+            treemacs-show-cursor t
+            treemacs--width-is-locked nil
+            treemacs-space-between-root-nodes nil
+            treemacs-filewatch-mode t
+            treemacs-fringe-indicator-mode t))
+    (when (not (display-graphic-p))
+      (setq treemacs-no-png-images t))))
 
 ;; --- Ivy ---------------------------------------------------
 
