@@ -31,22 +31,23 @@
   ;; Custom style tweaks
   ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
   ;; for the doom-colors
-  (let ((vscode-search-occ-bg "#4d1e00")
-        (vscode-search-occ-fg "#cccccc"))
-    (custom-set-faces!
-      `(default :background "black")
-      `(fill-column-indicator :foreground ,(doom-color 'base1))
-      `(window-divider :foreground ,(doom-color 'magenta))
-      `(flycheck-posframe-error-face :background "firebrick"
-                                     :foreground "white")
-      `(flycheck-posframe-warning-face :background "dark goldenrod"
+  (when (display-graphic-p)
+    (let ((vscode-search-occ-bg "#4d1e00")
+          (vscode-search-occ-fg "#cccccc"))
+      (custom-set-faces!
+        `(default :background ,(doom-color 'magenta))
+        `(fill-column-indicator :foreground ,(doom-color 'base1))
+        `(window-divider :foreground ,(doom-color 'magenta))
+        `(flycheck-posframe-error-face :background "firebrick"
                                        :foreground "white")
-      `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
-                                       :foreground ,vscode-search-occ-fg)
-      `(swiper-match-face-2 :background ,vscode-search-occ-bg
-                            :foreground ,vscode-search-occ-fg)
-      `(swiper-line-face :background "DodgerBlue4"
-                         :foreground ,vscode-search-occ-fg))))
+        `(flycheck-posframe-warning-face :background "dark goldenrod"
+                                         :foreground "white")
+        `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
+                                         :foreground ,vscode-search-occ-fg)
+        `(swiper-match-face-2 :background ,vscode-search-occ-bg
+                              :foreground ,vscode-search-occ-fg)
+        `(swiper-line-face :background "DodgerBlue4"
+                           :foreground ,vscode-search-occ-fg)))))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -142,6 +143,10 @@
     '(mode-line-inactive :height 0.9 :width condensed)
     '(mode-line-emphasis :inherit mode-line)
     '(doom-modeline-buffer-file :weight normal))
+  (when (not (display-graphic-p))
+    (custom-set-faces!
+      '(mode-line :background "color-17")
+      '(mode-line-inactive :background "color-233")))
   (setq
    doom-modeline-buffer-file-name-style nil
    doom-modeline-height 0
