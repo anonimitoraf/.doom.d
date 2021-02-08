@@ -58,9 +58,6 @@
 (package! org2blog
   :recipe (:host github :repo "org2blog/org2blog"))
 
-(package! focus-autosave-mode
-  :recipe (:host github :repo "vifon/focus-autosave-mode.el"))
-
 (package! ripgrep)
 (package! ag)
 

@@ -643,22 +643,6 @@
 ;; Clock on modeline
 (display-time-mode +1)
 
-(require 'focus-autosave-mode)
-(focus-autosave-mode +1)
-
-(defadvice switch-to-buffer (before save-buffer-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice other-window (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice evil-window-down (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice evil-window-up (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice evil-window-right (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice evil-window-left (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-
 ;; TODO: Maybe each mode has to be different
 (global-set-key "\t" (lambda () (interactive) (insert-char 32 2))) ;; [tab] inserts two spaces
 (add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
