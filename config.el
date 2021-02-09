@@ -490,8 +490,9 @@
 (after! ivy-posframe
   (setf (alist-get t ivy-posframe-display-functions-alist)
         #'ivy-posframe-display-at-frame-top-center)
-  (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
-        #'ivy-posframe-display-at-frame-top-center)
+  (dolist (fn '(swiper counsel-rg))
+    (setf (alist-get fn ivy-posframe-display-functions-alist)
+          #'ivy-posframe-display-at-frame-top-center))
   (setq ivy-posframe-border-width 10
         ivy-posframe-width 120
         ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
