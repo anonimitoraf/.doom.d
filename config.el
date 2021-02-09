@@ -616,6 +616,11 @@
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
+;; --- Local packages ---------------------------------------------------
+
+(add-to-list 'load-path "~/work/open-source/emacs-lisp/gripe")
+(require 'gripe)
+
 ;; --- Misc ---------------------------------------------------
 
 ;; Terminal emacs tends to throw a bunch of extra errors
