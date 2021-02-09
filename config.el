@@ -612,6 +612,10 @@
 (unbind-key "K" evil-motion-state-map)
 (map! :leader :desc "Lookup doc" :n "d" #'+lookup/documentation)
 
+;; --- Windows ---------------------------------------------------
+
+(map! :map doom-leader-map "w SPC" #'ace-select-window)
+
 ;; --- Misc ---------------------------------------------------
 
 ;; Terminal emacs tends to throw a bunch of extra errors
