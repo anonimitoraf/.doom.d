@@ -35,7 +35,7 @@
       (let ((vscode-search-occ-bg "#4d1e00")
             (vscode-search-occ-fg "#cccccc"))
         (custom-set-faces!
-          `(default :background ,(doom-color 'magenta))
+          `(default :background "black")
           `(fill-column-indicator :foreground ,(doom-color 'base1))
           `(window-divider :foreground ,(doom-color 'magenta))
           `(flycheck-posframe-error-face :background "firebrick"
