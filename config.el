@@ -392,9 +392,10 @@
         lsp-ui-sideline-enable nil)
 
   ;; Clojure/script stuff to ignore
-  (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.clj-kondo$")
-  (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.shadow-cljs$")
-  (add-to-list 'lsp-file-watch-ignored "[/\\\\]resources$"))
+  (dolist (to-ignore '("[/\\\\]\\.clj-kondo$"
+                       "[/\\\\]\\.shadow-cljs$"
+                       "[/\\\\]resources$"))
+    (add-to-list 'lsp-file-watch-ignored to-ignore)))
 
 ;; Automatically refresh LSP imenu when changing windows
 ;; (add-hook 'window-state-change-hook (cmd! (when (bound-and-true-p lsp-ui-mode)
