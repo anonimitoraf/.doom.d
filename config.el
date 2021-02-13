@@ -422,6 +422,8 @@
 (add-hook 'clojure-mode-hook
           '(lambda ()
              ;; Set some new syntax-highlighting rules.
+             ;; Guardrail's >defn
+             (put '>defn 'clojure-doc-string-elt 2)
              (font-lock-add-keywords nil
                                      ;; So many escape codes! But we're really just saying:
                                      ;; Match the '(' character.
