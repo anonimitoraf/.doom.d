@@ -670,8 +670,8 @@
 (display-time-mode +1)
 
 ;; TODO: Maybe each mode has to be different
-(global-set-key "\t" (lambda () (interactive) (insert-char 32 2))) ;; [tab] inserts two spaces
-(add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
+(add-hook 'prog-mode-hook (cmd! (setq indent-tabs-mode nil)
+                                (doom/set-indent-width 2)))
 
 ;; (Seemingly) Auto-focus newly-created window
 (setq evil-split-window-below t
