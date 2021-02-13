@@ -622,7 +622,8 @@
 ;; --- Local packages ---------------------------------------------------
 
 (add-to-list 'load-path "~/work/open-source/emacs-lisp/gripe")
-(require 'gripe)
+(use-package gripe
+  :config (setq gripe-completion 'ivy))
 
 ;; --- Misc ---------------------------------------------------
 
