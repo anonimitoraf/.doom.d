@@ -201,6 +201,9 @@
 
 ;; --- Org-mode stuff ---
 
+;; Export configuration
+(setq org-export-with-section-numbers nil)
+
 (setq org-clock-mode-line-total 'current)
 
 ;; If you use `org' and don't want your org files in the default location below,
