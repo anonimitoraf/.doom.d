@@ -204,6 +204,16 @@
 ;; Export configuration
 (setq org-export-with-section-numbers nil)
 
+;; Auto-export org files to html when saved
+(defun org-mode-export-hook()
+  "Auto export html"
+  (when (and (equal major-mode 'org-mode)
+             (boundp 'org-mode-auto-export-html?)
+             (equal org-mode-auto-export-html? t))
+    (org-html-export-to-html t)))
+(add-hook 'after-save-hook 'org-mode-export-hook)
+
+;; Show clock on modeline
 (setq org-clock-mode-line-total 'current)
 
 ;; If you use `org' and don't want your org files in the default location below,
