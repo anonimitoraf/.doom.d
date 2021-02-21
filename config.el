@@ -429,14 +429,13 @@
 ;; Dash docsets
 (add-to-list 'dash-docs-docsets "Clojure")
 
-;; Highlight particular macros similar to built-in stuff
-;; For example, highlight ghostwheel's `>defn' similar
-;; the same way as built-in `defn'
 (add-hook 'clojure-mode-hook
           '(lambda ()
              ;; Set some new syntax-highlighting rules.
              ;; Guardrail's >defn
-             (put '>defn 'clojure-doc-string-elt 2)
+             ;; Highlight particular macros similar to built-in stuff
+             ;; For example, highlight ghostwheel's `>defn' similar
+             ;; the same way as built-in `defn'
              (font-lock-add-keywords nil
                                      ;; So many escape codes! But we're really just saying:
                                      ;; Match the '(' character.
@@ -447,7 +446,8 @@
                                         ;; The first regexp group is a keyword.
                                         (1 font-lock-keyword-face)
                                         ;; The second regexp group is a name.
-                                        (2 font-lock-function-name-face))))))
+                                        (2 font-lock-function-name-face))))
+             (put '>defn 'clojure-doc-string-elt 2)))
 
 ;; --- (Type|Java)script stuff ---------------------------------------------------
 
