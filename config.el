@@ -687,10 +687,6 @@
 (add-hook 'prog-mode-hook (cmd! (setq indent-tabs-mode nil)
                                 (doom/set-indent-width 2)))
 
-;; (Seemingly) Auto-focus newly-created window
-(setq evil-split-window-below t
-      evil-vsplit-window-right t)
-
 ;; Fix the ispell dict
 (setq ispell-dictionary "en")
 
