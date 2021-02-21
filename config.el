@@ -107,7 +107,7 @@
 (after! company
   (setq company-idle-delay 0.0
         company-tooltip-idle-delay 0.2
-        company-minimum-prefix-length 1)
+        company-minimum-prefix-length 0)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
   (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
@@ -374,6 +374,7 @@
     '(header-line :height 0.90))
   (setq lsp-lens-enable t
         lsp-log-io nil
+        lsp-completion-no-cache nil
         lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-enable-diagnostics nil))
 
