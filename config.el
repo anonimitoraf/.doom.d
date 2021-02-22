@@ -641,6 +641,9 @@
 
 ;; --- Misc ---------------------------------------------------
 
+;; Line-wrapping, seems badly named
+(global-visual-line-mode t)
+
 ;; Terminal emacs tends to throw a bunch of extra errors
 (when (not (display-graphic-p))
   (setq debug-on-error nil))
