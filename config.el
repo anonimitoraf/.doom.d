@@ -639,6 +639,14 @@
 (use-package gripe
   :config (setq gripe-completion 'ivy))
 
+;; --- Bookmarks ---------------------------------------------------
+
+;; I want to sync bookmarks within my devices
+(setq bookmark-default-file "~/Dropbox/emacs/bookmarks")
+
+;; Save bookmarks immediately (rather than just when Emacs is killed)
+(setq bookmark-save-flag 1)
+
 ;; --- Misc ---------------------------------------------------
 
 ;; Line-wrapping, seems badly named
