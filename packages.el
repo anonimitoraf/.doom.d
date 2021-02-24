@@ -113,3 +113,6 @@
 
 (package! evil-terminal-cursor-changer
   :recipe (:host github :repo "7696122/evil-terminal-cursor-changer"))
+
+(package! edbi
+  :recipe (:host github :repo "kiwanami/emacs-edbi"))

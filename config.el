@@ -647,6 +647,10 @@
 ;; Save bookmarks immediately (rather than just when Emacs is killed)
 (setq bookmark-save-flag 1)
 
+;; --- Databases ---------------------------------------------------
+
+(require 'edbi)
+
 ;; --- Misc ---------------------------------------------------
 
 ;; Line-wrapping, seems badly named
