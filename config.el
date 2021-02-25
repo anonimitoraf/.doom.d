@@ -643,7 +643,7 @@
 
 ;; --- Bookmarks ---------------------------------------------------
 
-;; I want to sync bookmarks within my devices
+;; I want to sync bookmarks across my devices
 (setq bookmark-default-file "~/Dropbox/emacs/bookmarks")
 
 ;; Save bookmarks immediately (rather than just when Emacs is killed)
@@ -652,6 +652,11 @@
 ;; --- Databases ---------------------------------------------------
 
 (require 'edbi)
+
+;; --- Sessions ---------------------------------------------------
+
+;; I want to sync sessions across my devices
+(setq persp-save-dir "~/Dropbox/emacs/sessions")
 
 ;; --- Misc ---------------------------------------------------
 
