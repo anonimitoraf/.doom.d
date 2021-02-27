@@ -116,3 +116,6 @@
 
 (package! edbi
   :recipe (:host github :repo "kiwanami/emacs-edbi"))
+
+(package! helm
+  :recipe (:host github :repo "emacs-helm/helm"))
