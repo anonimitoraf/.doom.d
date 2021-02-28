@@ -119,3 +119,6 @@
 
 (package! helm
   :recipe (:host github :repo "emacs-helm/helm"))
+
+(package! selectrum
+  :recipe (:host github :repo "raxod502/selectrum"))
