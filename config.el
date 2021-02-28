@@ -452,6 +452,13 @@
                                         (2 font-lock-function-name-face))))
              (put '>defn 'clojure-doc-string-elt 2)))
 
+;; --- Emacs Lisp stuff ---------------------------------------------------
+
+(setq byte-compile-warnings '(not obsolete))
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))
+
 ;; --- (Type|Java)script stuff ---------------------------------------------------
 
 (setq typescript-indent-level 2)

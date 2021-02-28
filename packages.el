@@ -122,3 +122,6 @@
 
 (package! selectrum
   :recipe (:host github :repo "raxod502/selectrum"))
+
+(package! erefactor
+  :recipe (:host github :repo "mhayashi1120/Emacs-erefactor"))
