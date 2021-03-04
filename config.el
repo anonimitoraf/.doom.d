@@ -372,7 +372,7 @@
 (after! lsp-mode
   (custom-set-faces!
     '(header-line :height 0.90))
-  (setq lsp-lens-enable t
+  (setq lsp-lens-enable nil
         lsp-log-io nil
         lsp-completion-no-cache nil
         lsp-headerline-breadcrumb-enable t
