@@ -667,6 +667,12 @@
 ;; I want to sync sessions across my devices
 (setq persp-save-dir "~/Dropbox/emacs/sessions")
 
+;; --- Keybindings ---------------------------------------------------
+;; TODO Maybe move these to a different file
+
+(map! :leader
+      :desc "Query and replace within region" "r" #'query-replace)
+
 ;; --- Misc ---------------------------------------------------
 
 ;; Line-wrapping, seems badly named
