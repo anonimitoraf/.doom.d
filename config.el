@@ -673,6 +673,10 @@
 (map! :leader
       :desc "Query and replace within region" "r" #'query-replace)
 
+;; --- Dictionary/Thesaurus ---------------------------------------------------
+
+(require 'synosaurus)
+
 ;; --- Misc ---------------------------------------------------
 
 ;; Line-wrapping, seems badly named
