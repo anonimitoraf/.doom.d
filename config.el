@@ -682,15 +682,17 @@
 (when (not (display-graphic-p))
   (setq debug-on-error nil))
 
-(setq +format-on-save-enabled-modes
-      '(not sql-mode         ; sqlformat is currently broken
-            tex-mode         ; latexindent is broken
-            org-mode
-            latex-mode
-            snippet-mode
-            text-mode
-            typescript-mode
-            gherkin-mode))
+(unless (display-graphic-p)
+  (setq +format-on-save-enabled-modes
+        '(not sql-mode         ; sqlformat is currently broken
+              tex-mode         ; latexindent is broken
+              org-mode
+              latex-mode
+              snippet-mode
+              text-mode
+              typescript-mode
+              js-mode
+              gherkin-mode)))
 
 (defun bespoke/load-and-continuously-save (file)
   (interactive
