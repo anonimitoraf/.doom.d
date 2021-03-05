@@ -110,7 +110,7 @@
         company-minimum-prefix-length 2)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
-  (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
+  (define-key company-active-map (kbd "TAB") 'company-complete-selection)
   (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
 
 ;; --- Evil stuff ---------------------------------------------------
