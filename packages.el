@@ -125,3 +125,6 @@
 
 (package! erefactor
   :recipe (:host github :repo "mhayashi1120/Emacs-erefactor"))
+
+(package! synosaurus
+  :recipe (:host github :repo "hpdeifel/synosaurus"))
