@@ -472,6 +472,10 @@
 ;; Company mode in eshell makes it lag
 (add-hook 'eshell-mode-hook (lambda () (company-mode -1)))
 
+;; Clear the eshell buffer.
+(defun eshell/clear ()
+  (let ((eshell-buffer-maximum-lines 0)) (eshell-truncate-buffer)))
+
 ;; --- shell stuff ---------------------------------------------------
 
 ;; Company mode in shell is just annoying
