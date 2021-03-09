@@ -128,3 +128,5 @@
 
 (package! synosaurus
   :recipe (:host github :repo "hpdeifel/synosaurus"))
+
+(package! smooth-scrolling)

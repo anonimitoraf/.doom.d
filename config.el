@@ -684,6 +684,9 @@
 
 ;; --- Misc ---------------------------------------------------
 
+;; Smooth scrolling
+(require 'smooth-scrolling)
+
 ;; Line-wrapping, seems badly named
 (global-visual-line-mode t)
 
