@@ -118,6 +118,9 @@
 
 ;; --- Evil stuff ---------------------------------------------------
 
+;; Searching should be done using 2 chars almost all the time
+(setq avy-timeout-seconds 1)
+
 ;; Disable the annoying auto-comment on newline
 (setq +evil-want-o/O-to-continue-comments nil)
 
