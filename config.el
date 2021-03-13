@@ -537,6 +537,9 @@
         (or (eq key :lines-truncate)
             value)))
 
+;; Get rid of ./ and ../
+(setq ivy-extra-directories ())
+
 ;; --- Emacs-Anywhere ----------------------------------------
 
 (defun popup-handler (app-name window-title x y w h)
