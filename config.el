@@ -386,6 +386,10 @@
         lsp-completion-sort-initial-results nil
         lsp-completion-use-last-result nil))
 
+(use-package! lsp-treemacs
+  :config
+  (lsp-treemacs-sync-mode 1))
+
 (after! lsp-ui
   (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
   (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)

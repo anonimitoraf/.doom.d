@@ -130,3 +130,5 @@
   :recipe (:host github :repo "hpdeifel/synosaurus"))
 
 (package! smooth-scrolling)
+
+(package! lsp-treemacs)
