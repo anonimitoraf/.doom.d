@@ -778,10 +778,19 @@
 ;; (exwm-config-default)
 
 ;; Flex on Discord that we're using Emacs
-(require 'elcord)
-(setq elcord-refresh-rate 5
-      elcord-use-major-mode-as-main-icon t)
-(elcord-mode)
+(defun start-elcord ()
+  (interactive)
+  (use-package! elcord
+    :config
+    (setq elcord-refresh-rate 5
+          elcord-use-major-mode-as-main-icon t)
+    (elcord-mode +1)
+    (message "Started elcord")))
+
+(defun stop-elcord ()
+  (interactive)
+  (elcord-mode -1)
+  (message "Stopped elcord"))
 
 ;; See https://github.com/hlissner/doom-emacs/issues/3038
 (after! counsel
