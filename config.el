@@ -18,7 +18,7 @@
 
 ;; --- Global configuration -----------------------------------------------------------------
 
-(defvar sync-folder-path "~/Dropbox/")
+(defvar sync-folder-path "~/Dropbox")
 
 ;; --- Appearance -----------------------------------------------------------------
 
@@ -213,17 +213,6 @@
 
 ;; --- Org-mode stuff ---
 
-(let* ((agenda-folder-names '("org/life"
-                              "org/work"
-                              "org/captures"))
-       (agenda-folders (cl-map 'list (lambda (f)
-                                       (concat sync-folder-path f))
-                               agenda-folder-names)))
-  (setq org-agenda-files agenda-folders))
-
-;; Export configuration
-(setq org-export-with-section-numbers nil)
-
 ;; Auto-export org files to html when saved
 (defun org-mode-export-hook()
   "Auto export html"
@@ -238,43 +227,37 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(use-package org
+(use-package! org
   :init
-  (setq org-directory "~/Dropbox/org"
-        org-agenda-files (directory-files-recursively org-directory "\\.org$")
-        org-default-notes-file "~/Dropbox/org/notes/default.org")
+  (setq org-directory (concat sync-folder-path "/org")
+        org-default-notes-file (concat org-directory "/notes/default.org")
+        org-agenda-files (cl-map 'list (lambda (f) (concat org-directory "/" f))
+                                 '("life"
+                                   "work"
+                                   "captures"
+                                   "notes")))
   :config
-  (setq org-ellipsis " ▾"
+  (setq org-agenda-span 60
+        org-agenda-start-on-weekday nil
+        org-agenda-start-day "-3d"
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-ellipsis " ▾"
+        org-export-with-section-numbers nil
         org-hide-emphasis-markers t
         org-src-tab-acts-natively t
         org-edit-src-content-indentation 2
         org-src-preserve-indentation nil
         org-startup-folded 'content
-        org-cycle-separator-lines 2))
-
-(after! org
-  (setq org-todo-keywords '((sequence "TODO(t)" "START(s)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
-                            (sequence "[ ](T)" "[-](S)" "[?](H)" "|" "[X](D)"))
+        org-cycle-separator-lines 2
+        org-todo-keywords '((sequence "TODO(t)" "ONGOING(o)" "ON HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
+                                 (sequence "[ ](T)" "[-](O)" "[?](H)" "|" "[X](D)"))
         org-log-done 'time
         org-hide-leading-stars t
-        org-agenda-skip-scheduled-if-done t
-        org-agenda-skip-deadline-if-done t
         org-superstar-headline-bullets-list '("▪")
         org-superstar-cycle-headline-bullets 1
-        org-superstar-todo-bullet-alist '("▪")))
-
-;; Org by default uses the `default' face directly
-;; Well, I don't want it to, hence this remapping
-(custom-set-faces! '(org-default :font "Roboto Mono Light"))
-(add-hook 'org-mode-hook (cmd! (setq display-line-numbers nil) ;; Line numbers are not needed and are just distracting
-                               (face-remap-add-relative 'default '(org-default))))
-;; Hacky, but seems to work. Basically, I use zen-mode/writeroom-mode for org.
-;; It irks me that for some reason, the font remapping doesn't work, so I
-;; explicitly re-apply the font remappint
-(add-hook 'writeroom-mode-hook (cmd! (when (= major-mode "org-mode")
-                                       (face-remap-add-relative 'default '(org-default)))))
-
-(setq org-tags-column -120)
+        org-superstar-todo-bullet-alist '("▪")
+        org-tags-column -120))
 
 ;; --- org-download (Allows pasting stuff into org-mode)
 (require 'org-download)
