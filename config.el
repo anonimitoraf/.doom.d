@@ -3,6 +3,8 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+(require 'cl-lib)
+
 (defun kb (bytes) (* bytes 1024))
 (defun mb (bytes) (* (kb bytes) 1024))
 
@@ -13,6 +15,10 @@
 ;; clients, file templates and snippets.
 (setq user-full-name "Rafael Nicdao"
       user-mail-address "nicdaoraf@gmail.com")
+
+;; --- Global configuration -----------------------------------------------------------------
+
+(defvar sync-folder-path "~/Dropbox/")
 
 ;; --- Appearance -----------------------------------------------------------------
 
@@ -206,6 +212,14 @@
          :username "anonimitoraf")))
 
 ;; --- Org-mode stuff ---
+
+(let* ((agenda-folder-names '("org/life"
+                              "org/work"
+                              "org/captures"))
+       (agenda-folders (cl-map 'list (lambda (f)
+                                       (concat sync-folder-path f))
+                               agenda-folder-names)))
+  (setq org-agenda-files agenda-folders))
 
 ;; Export configuration
 (setq org-export-with-section-numbers nil)
