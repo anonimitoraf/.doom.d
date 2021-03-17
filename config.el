@@ -569,6 +569,10 @@
 
 (map! :nv "SPC f g" #'projectile-find-file-other-window)
 
+(use-package! projectile
+  :config
+  (setq projectile-files-cache-expire 10))
+
 ;; --- Email ---------------------------------------------------
 
 (use-package mu4e
