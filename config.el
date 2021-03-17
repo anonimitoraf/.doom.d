@@ -34,6 +34,7 @@
         doom-themes-enable-bold nil    ; if nil, bold is universally disabled
         doom-themes-enable-italic nil)
   (doom-themes-treemacs-config)
+  (doom-themes-org-config)
   ;; Custom style tweaks
   ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
   ;; for the doom-colors
@@ -568,6 +569,10 @@
 ;; --- Files ---------------------------------------------------
 
 (map! :nv "SPC f g" #'projectile-find-file-other-window)
+
+(use-package! projectile
+  :config
+  (setq projectile-files-cache-expire 10))
 
 ;; --- Email ---------------------------------------------------
 
