@@ -132,3 +132,5 @@
 (package! smooth-scrolling)
 
 (package! lsp-treemacs)
+
+(unpin! flycheck-posframe)
