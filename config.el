@@ -666,7 +666,7 @@
 ;; --- Bookmarks ---------------------------------------------------
 
 ;; I want to sync bookmarks across my devices
-(setq bookmark-default-file "~/Dropbox/emacs/bookmarks")
+(setq bookmark-default-file (concat sync-folder-path "/emacs/bookmarks"))
 
 ;; Save bookmarks immediately (rather than just when Emacs is killed)
 (setq bookmark-save-flag 1)
@@ -678,7 +678,7 @@
 ;; --- Sessions ---------------------------------------------------
 
 ;; I want to sync sessions across my devices
-(setq persp-save-dir "~/Dropbox/emacs/sessions")
+(setq persp-save-dir (concat sync-folder-path "/emacs/sessions/"))
 
 ;; --- Keybindings ---------------------------------------------------
 ;; TODO Maybe move these to a different file
