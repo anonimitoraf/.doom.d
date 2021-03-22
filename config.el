@@ -4,7 +4,6 @@
 ;; sync' after modifying this file!
 
 (require 'cl-lib)
-(require 'dash)
 
 (defun kb (bytes) (* bytes 1024))
 (defun mb (bytes) (* (kb bytes) 1024))
@@ -227,10 +226,11 @@
   :init
   (setq org-directory (concat sync-folder-path "/org")
         org-default-notes-file (concat org-directory "/notes/default.org")
-        org-agenda-files (let* ((dirs (-map (lambda (f) (concat org-directory "/" f))
-                                            '("life" "work" "captures"))))
-                           (-mapcat (lambda (d) (directory-files-recursively d "\.org$"))
-                                    dirs)))
+        org-agenda-files (cl-map 'list (lambda (f) (concat org-directory "/" f))
+                                 '("life"
+                                   "work"
+                                   "captures"
+                                   "notes")))
   :config
   (setq org-agenda-span 60
         org-agenda-start-on-weekday nil

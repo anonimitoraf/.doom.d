@@ -131,5 +131,3 @@
 (package! lsp-treemacs)
 
 (unpin! flycheck-posframe)
-
-(package! dash)
