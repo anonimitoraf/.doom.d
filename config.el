@@ -395,7 +395,7 @@
         lsp-ui-peek-list-width 50
         lsp-ui-peek-peek-height 40
 
-        lsp-ui-doc-enable t
+        lsp-ui-doc-enable nil
         ;; Prevents LSP peek to disappear when mouse touches it
         lsp-ui-doc-show-with-mouse nil
         lsp-ui-doc-include-signature t
