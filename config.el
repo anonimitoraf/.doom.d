@@ -246,7 +246,7 @@
         org-startup-folded 'content
         org-cycle-separator-lines 2
         org-todo-keywords '((sequence "TODO(t)" "ONGOING(o)" "ON HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
-                                 (sequence "[ ](T)" "[-](O)" "[?](H)" "|" "[X](D)"))
+                            (sequence "[ ](T)" "[-](O)" "[?](H)" "|" "[X](D)"))
         org-log-done 'time
         org-hide-leading-stars t
         org-superstar-headline-bullets-list '("▪")
@@ -400,9 +400,10 @@
         lsp-ui-doc-show-with-mouse nil
         lsp-ui-doc-include-signature t
         lsp-ui-doc-delay 0.1
-        lsp-ui-doc-position 'at-point
+        lsp-ui-doc-position 'top
         lsp-ui-doc-max-width 120
         lsp-ui-doc-max-height 120
+        lsp-ui-doc-header t
 
         lsp-ui-imenu-enable t
 
