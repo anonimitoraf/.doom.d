@@ -399,8 +399,8 @@
         ;; Prevents LSP peek to disappear when mouse touches it
         lsp-ui-doc-show-with-mouse nil
         lsp-ui-doc-include-signature t
-        lsp-ui-doc-delay 0.1
-        lsp-ui-doc-position 'top
+        lsp-ui-doc-delay 1
+        lsp-ui-doc-position 'at-point
         lsp-ui-doc-max-width 120
         lsp-ui-doc-max-height 120
         lsp-ui-doc-header t
