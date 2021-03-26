@@ -455,6 +455,16 @@
                                         (2 font-lock-function-name-face))))
              (put '>defn 'clojure-doc-string-elt 2)))
 
+(set-popup-rules!
+  '(("^\\*cider-repl"
+     :quit nil
+     :size 0.5
+     :select t)
+    ("^\\*\\(?:cider-doc\\|lsp-help\\)"
+     :side right
+     :size 0.5
+     :select t)))
+
 ;; --- Emacs Lisp stuff ---------------------------------------------------
 
 (setq byte-compile-warnings '(not obsolete))
