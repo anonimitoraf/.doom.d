@@ -35,6 +35,21 @@
         doom-themes-enable-italic nil)
   (doom-themes-treemacs-config)
   (doom-themes-org-config)
+
+  ;; Modeline style tweaks
+  (after! doom-modeline
+    (custom-set-faces!
+      '(mode-line :height 0.9 :width condensed)
+      '(mode-line-inactive :height 0.9 :width condensed)
+      '(mode-line-emphasis :inherit mode-line)
+      '(doom-modeline-buffer-file :weight normal)
+      )
+    ;; TERM (Alacritty)
+    (unless (display-graphic-p)
+      (custom-set-faces!
+        `(mode-line :background "darkred")
+        `(mode-line-inactive :background "black"))))
+
   ;; Custom style tweaks
   ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
   ;; for the doom-colors
@@ -61,9 +76,7 @@
       ;; Weirdly, "black" is more like "dark grey"
       (custom-set-faces!
         `(default :background "color-52")
-        `(header-line :background "black")
-        `(mode-line :background "darkred")
-        `(mode-line-inactive :background "black")))))
+        `(header-line :background "black")))))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -154,25 +167,15 @@
 
 ;; Modeline
 (after! doom-modeline
-  (custom-set-faces!
-    '(mode-line :height 0.9 :width condensed)
-    '(mode-line-inactive :height 0.9 :width condensed)
-    '(mode-line-emphasis :inherit mode-line)
-    '(doom-modeline-buffer-file :weight normal))
-  (when (not (display-graphic-p))
-    (custom-set-faces!
-      '(mode-line :background "color-52")
-      '(mode-line-inactive :background "color-233")))
-  (setq
-   doom-modeline-buffer-file-name-style nil
-   doom-modeline-height 0
-   doom-modeline-major-mode-icon t
-   doom-modeline-major-mode-color-icon t
-   doom-modeline-buffer-modification-icon t
-   doom-modeline-modal-icon nil
-   doom-modeline-buffer-state-icon nil
-   doom-modeline-enable-word-count nil
-   doom-modeline-lsp nil))
+  (setq doom-modeline-buffer-file-name-style nil
+        doom-modeline-height 0
+        doom-modeline-major-mode-icon t
+        doom-modeline-major-mode-color-icon t
+        doom-modeline-buffer-modification-icon t
+        doom-modeline-modal-icon nil
+        doom-modeline-buffer-state-icon nil
+        doom-modeline-enable-word-count nil
+        doom-modeline-lsp nil))
 
 ;; Centaur Tabs configuration
 (after! centaur-tabs
