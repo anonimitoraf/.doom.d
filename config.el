@@ -124,12 +124,35 @@
         doom-themes-enable-italic nil)
   (doom-themes-treemacs-config)
   (doom-themes-org-config)
+
+  ;; Modeline style tweaks
+  (after! doom-modeline
+    (custom-set-faces!
+      '(mode-line :height 0.9 :width condensed)
+      '(mode-line-inactive :height 0.9 :width condensed)
+      '(mode-line-emphasis :inherit mode-line)
+      '(doom-modeline-buffer-file :weight normal)
+      )
+    ;; TERM (Alacritty)
+    (unless (display-graphic-p)
+      (custom-set-faces!
+        `(mode-line :background "darkred")
+        `(mode-line-inactive :background "black"))))
+
   ;; Custom style tweaks
   ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
   ;; for the doom-colors
-  (if (display-graphic-p)
-      (let ((vscode-search-occ-bg "#4d1e00")
-            (vscode-search-occ-fg "#cccccc"))
+  (let ((vscode-search-occ-bg "#4d1e00")
+        (vscode-search-occ-fg "#cccccc"))
+    (custom-set-faces!
+      `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
+                                       :foreground ,vscode-search-occ-fg)
+      `(swiper-match-face-2 :background ,vscode-search-occ-bg
+                            :foreground ,vscode-search-occ-fg)
+      `(swiper-line-face :background "DodgerBlue4"
+                         :foreground ,vscode-search-occ-fg))
+    ;; GUI
+    (if (display-graphic-p)
         (custom-set-faces!
           `(default :background "black")
           `(fill-column-indicator :foreground ,(doom-color 'base1))
@@ -137,15 +160,12 @@
           `(flycheck-posframe-error-face :background "firebrick"
                                          :foreground "white")
           `(flycheck-posframe-warning-face :background "dark goldenrod"
-                                           :foreground "white")
-          `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
-                                           :foreground ,vscode-search-occ-fg)
-          `(swiper-match-face-2 :background ,vscode-search-occ-bg
-                                :foreground ,vscode-search-occ-fg)
-          `(swiper-line-face :background "DodgerBlue4"
-                             :foreground ,vscode-search-occ-fg)))
-    (custom-set-faces!
-      `(header-line :background "color-17"))))
+                                           :foreground "white"))
+      ;; TERM (Alacritty)
+      ;; Weirdly, "black" is more like "dark grey"
+      (custom-set-faces!
+        `(default :background "color-52")
+        `(header-line :background "black")))))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -236,25 +256,15 @@
 
 ;; Modeline
 (after! doom-modeline
-  (custom-set-faces!
-    '(mode-line :height 0.9 :width condensed)
-    '(mode-line-inactive :height 0.9 :width condensed)
-    '(mode-line-emphasis :inherit mode-line)
-    '(doom-modeline-buffer-file :weight normal))
-  (when (not (display-graphic-p))
-    (custom-set-faces!
-      '(mode-line :background "color-52")
-      '(mode-line-inactive :background "color-233")))
-  (setq
-   doom-modeline-buffer-file-name-style nil
-   doom-modeline-height 0
-   doom-modeline-major-mode-icon t
-   doom-modeline-major-mode-color-icon t
-   doom-modeline-buffer-modification-icon t
-   doom-modeline-modal-icon nil
-   doom-modeline-buffer-state-icon nil
-   doom-modeline-enable-word-count nil
-   doom-modeline-lsp nil))
+  (setq doom-modeline-buffer-file-name-style nil
+        doom-modeline-height 0
+        doom-modeline-major-mode-icon t
+        doom-modeline-major-mode-color-icon t
+        doom-modeline-buffer-modification-icon t
+        doom-modeline-modal-icon nil
+        doom-modeline-buffer-state-icon nil
+        doom-modeline-enable-word-count nil
+        doom-modeline-lsp nil))
 
 ;; Centaur Tabs configuration
 (after! centaur-tabs
@@ -484,12 +494,12 @@
         lsp-ui-peek-list-width 50
         lsp-ui-peek-peek-height 40
 
-        lsp-ui-doc-enable t
+        lsp-ui-doc-enable nil
         ;; Prevents LSP peek to disappear when mouse touches it
         lsp-ui-doc-show-with-mouse nil
         lsp-ui-doc-include-signature t
-        lsp-ui-doc-delay 0.1
-        lsp-ui-doc-position 'top
+        lsp-ui-doc-delay 1
+        lsp-ui-doc-position 'at-point
         lsp-ui-doc-max-width 120
         lsp-ui-doc-max-height 120
         lsp-ui-doc-header t
@@ -543,6 +553,17 @@
                                         ;; The second regexp group is a name.
                                         (2 font-lock-function-name-face))))
              (put '>defn 'clojure-doc-string-elt 2)))
+
+(set-popup-rules!
+  '(("^\\*cider-repl"
+     :quit nil
+     :size bottom
+     :size 0.2
+     :select t)
+    ("^\\*\\(?:cider-doc\\|lsp-help\\)"
+     :side right
+     :size 0.5
+     :select t)))
 
 ;; --- Emacs Lisp stuff ---------------------------------------------------
 
