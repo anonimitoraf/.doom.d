@@ -27,8 +27,11 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
 
+;; I like the impactful emacs logo
 (setq fancy-splash-image (concat doom-private-dir "misc" "/emacs-logo.png"))
-(setq fancy-startup-text nil)
+
+;; Hide dashboard menu (I know the shortcuts by now :P)
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
 ;; Stolen from https://tecosaur.github.io/emacs-config/config.html#splash-screen
 ;; Maybe move this stuff into a separate file
