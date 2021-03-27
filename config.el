@@ -38,9 +38,17 @@
   ;; Custom style tweaks
   ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
   ;; for the doom-colors
-  (if (display-graphic-p)
-      (let ((vscode-search-occ-bg "#4d1e00")
-            (vscode-search-occ-fg "#cccccc"))
+  (let ((vscode-search-occ-bg "#4d1e00")
+        (vscode-search-occ-fg "#cccccc"))
+    (custom-set-faces!
+      `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
+                                       :foreground ,vscode-search-occ-fg)
+      `(swiper-match-face-2 :background ,vscode-search-occ-bg
+                            :foreground ,vscode-search-occ-fg)
+      `(swiper-line-face :background "DodgerBlue4"
+                         :foreground ,vscode-search-occ-fg))
+    ;; GUI
+    (if (display-graphic-p)
         (custom-set-faces!
           `(default :background "black")
           `(fill-column-indicator :foreground ,(doom-color 'base1))
@@ -48,15 +56,14 @@
           `(flycheck-posframe-error-face :background "firebrick"
                                          :foreground "white")
           `(flycheck-posframe-warning-face :background "dark goldenrod"
-                                           :foreground "white")
-          `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
-                                           :foreground ,vscode-search-occ-fg)
-          `(swiper-match-face-2 :background ,vscode-search-occ-bg
-                                :foreground ,vscode-search-occ-fg)
-          `(swiper-line-face :background "DodgerBlue4"
-                             :foreground ,vscode-search-occ-fg)))
-    (custom-set-faces!
-      `(header-line :background "color-17"))))
+                                           :foreground "white"))
+      ;; TERM (Alacritty)
+      ;; Weirdly, "black" is more like "dark grey"
+      (custom-set-faces!
+        `(default :background "color-52")
+        `(header-line :background "black")
+        `(mode-line :background "darkred")
+        `(mode-line-inactive :background "black")))))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
