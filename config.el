@@ -560,7 +560,7 @@
 (set-popup-rules!
   '(("^\\*cider-repl"
      :quit nil
-     :size bottom
+     :side bottom
      :size 0.2
      :select t)
     ("^\\*\\(?:cider-doc\\|lsp-help\\)"
