@@ -312,6 +312,7 @@
 
 ;; Auto-open org files in zen mode
 (add-hook 'org-mode-hook (lambda () (writeroom-mode +1)))
+(add-hook 'org-agenda-mode-hook (lambda () (writeroom-mode +1)))
 
 ;; Auto-export org files to html when saved
 (defun org-mode-export-hook()
