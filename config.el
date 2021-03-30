@@ -804,6 +804,11 @@
 
 (require 'synosaurus)
 
+;; --- Focus ---------------------------------------------------
+
+(require 'focus)
+(add-hook 'prog-mode-hook (lambda () (focus-mode +1)))
+
 ;; --- Misc ---------------------------------------------------
 
 ;; Smooth scrolling
