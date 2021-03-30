@@ -134,8 +134,7 @@
       '(mode-line :height 0.9 :width condensed)
       '(mode-line-inactive :height 0.9 :width condensed)
       '(mode-line-emphasis :inherit mode-line)
-      '(doom-modeline-buffer-file :weight normal)
-      )
+      '(doom-modeline-buffer-file :weight normal))
     ;; TERM (Alacritty)
     (unless (display-graphic-p)
       (custom-set-faces!
@@ -560,8 +559,8 @@
 (set-popup-rules!
   '(("^\\*cider-repl"
      :quit nil
-     :size bottom
-     :size 0.1
+     :side bottom
+     :size 0.2
      :select t)
     ("^\\*\\(?:cider-doc\\|lsp-help\\)"
      :side right
