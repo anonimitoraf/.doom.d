@@ -561,7 +561,7 @@
   '(("^\\*cider-repl"
      :quit nil
      :size bottom
-     :size 0.2
+     :size 0.1
      :select t)
     ("^\\*\\(?:cider-doc\\|lsp-help\\)"
      :side right
@@ -803,6 +803,11 @@
 ;; --- Dictionary/Thesaurus ---------------------------------------------------
 
 (require 'synosaurus)
+
+;; --- Focus ---------------------------------------------------
+
+(require 'focus)
+(add-hook 'prog-mode-hook (lambda () (focus-mode +1)))
 
 ;; --- Misc ---------------------------------------------------
 
