@@ -142,6 +142,10 @@
    (doom-dashboard-phrase)
    "\n"))
 
+;; Some universal colors
+(defvar vscode-search-occ-bg "#48240a")
+(defvar vscode-search-occ-fg "#cccccc")
+
 (use-package doom-themes
   :config
   ;; Use the colorful treemacs theme
@@ -167,30 +171,50 @@
   ;; Custom style tweaks
   ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
   ;; for the doom-colors
-  (let ((vscode-search-occ-bg "#4d1e00")
-        (vscode-search-occ-fg "#cccccc"))
-    (custom-set-faces!
-      `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
-                                       :foreground ,vscode-search-occ-fg)
-      `(swiper-match-face-2 :background ,vscode-search-occ-bg
+  (custom-set-faces!
+    `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
+                                     :foreground ,vscode-search-occ-fg)
+    `(swiper-match-face-2 :background ,vscode-search-occ-bg
+                          :foreground ,vscode-search-occ-fg)
+    `(swiper-line-face :background "DodgerBlue4"
+                       :foreground ,vscode-search-occ-fg)
+    ;; TODO Move the LSP faces out of here?
+    `(lsp-ui-peek-peek :background "#000029")
+    `(lsp-ui-peek-selection :background ,vscode-search-occ-bg
                             :foreground ,vscode-search-occ-fg)
-      `(swiper-line-face :background "DodgerBlue4"
-                         :foreground ,vscode-search-occ-fg))
-    ;; GUI
-    (if (display-graphic-p)
-        (custom-set-faces!
-          `(default :background "black")
-          `(fill-column-indicator :foreground ,(doom-color 'base1))
-          `(window-divider :foreground ,(doom-color 'magenta))
-          `(flycheck-posframe-error-face :background "firebrick"
-                                         :foreground "white")
-          `(flycheck-posframe-warning-face :background "dark goldenrod"
-                                           :foreground "white"))
-      ;; TERM (Alacritty)
-      ;; Weirdly, "black" is more like "dark grey"
+    `(lsp-ui-peek-list :background "grey7"
+                       :height 1.0
+                       :width condensed)
+    `(lsp-ui-peek-header :background "#000050"
+                         :foreground "white"
+                         :height 0.8
+                         :width condensed)
+    `(lsp-ui-peek-filename :foreground "#98be65"
+                           :height 1.0
+                           :width condensed
+                           :box (:line-width (1 . 10)
+                                 :color "grey7"))
+    `(lsp-ui-peek-line-number :foreground "grey7")
+    `(lsp-ui-peek-highlight :background ,vscode-search-occ-bg
+                            :foreground ,vscode-search-occ-fg
+                            :heght 1.0
+                            :box nil
+                            :inherit nil))
+  ;; GUI
+  (if (display-graphic-p)
       (custom-set-faces!
-        `(default :background "color-52")
-        `(header-line :background "black")))))
+        `(default :background "black")
+        `(fill-column-indicator :foreground ,(doom-color 'base1))
+        `(window-divider :foreground ,(doom-color 'magenta))
+        `(flycheck-posframe-error-face :background "firebrick"
+                                       :foreground "white")
+        `(flycheck-posframe-warning-face :background "dark goldenrod"
+                                         :foreground "white"))
+    ;; TERM (Alacritty)
+    ;; Weirdly, "black" is more like "dark grey"
+    (custom-set-faces!
+      `(default :background "color-52")
+      `(header-line :background "black"))))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -517,7 +541,7 @@
         :nv "SPC d" #'lsp-ui-doc-glance)
 
   (setq lsp-ui-peek-fontify 'always
-        lsp-ui-peek-list-width 50
+        lsp-ui-peek-list-width 100
         lsp-ui-peek-peek-height 40
 
         lsp-ui-doc-enable nil
