@@ -1,0 +1,11 @@
+#+TITLE: Preamble
+#+STARTUP: showeverything
+
+* Who am I?
+#+begin_src elisp
+(setq user-full-name "Rafael Nicdao"
+      user-mail-address "nicdaoraf@gmail.com")
+#+end_src
+
+* Conventions within these configurations
+- Functions/variables are prefixed with "++" to disambiguate them from built-in emacs or 3rd party functions

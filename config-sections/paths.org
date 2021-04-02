@@ -1,0 +1,6 @@
+#+TITLE: Paths
+
+* Important file/folder paths
+#+begin_src elisp
+(defvar ++sync-folder-path "~/Dropbox")
+#+end_src

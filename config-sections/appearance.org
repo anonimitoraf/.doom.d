@@ -1,0 +1,233 @@
+#+TITLE: Appearance
+
+* Colors
+I'm rather fond of vscode's theme for highlighting search results
+#+begin_src elisp
+  (defvar ++vscode-search-occ-bg "#48240a")
+  (defvar ++vscode-search-occ-fg "#cccccc")
+#+end_src
+* Theme
+There are two ways to load a theme. Both assume the theme is installed and available. You can either set `doom-theme' or manually load a theme with the `load-theme' function.
+#+begin_src elisp
+  (setq doom-theme 'doom-one)
+
+  (use-package doom-themes
+    :config
+    ;; Use the colorful treemacs theme
+    (setq doom-themes-treemacs-theme "doom-colors"
+          doom-themes-enable-bold nil    ; if nil, bold is universally disabled
+          doom-themes-enable-italic nil)
+    (doom-themes-treemacs-config)
+    (doom-themes-org-config)
+
+    ;; Custom style tweaks
+    ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
+    ;; for the doom-colors
+    (custom-set-faces!
+      `(swiper-background-match-face-2 :background ,vscode-search-occ-bg
+                                       :foreground ,vscode-search-occ-fg)
+      `(swiper-match-face-2 :background ,vscode-search-occ-bg
+                            :foreground ,vscode-search-occ-fg)
+      `(swiper-line-face :background "DodgerBlue4"
+                         :foreground ,vscode-search-occ-fg)
+      ;; TODO Move the LSP faces out of here?
+      `(lsp-ui-peek-peek :background "#000029")
+      `(lsp-ui-peek-selection :background ,vscode-search-occ-bg
+                              :foreground ,vscode-search-occ-fg)
+      `(lsp-ui-peek-list :background "grey7"
+                         :height 1.0
+                         :width condensed)
+      `(lsp-ui-peek-header :background "#000050"
+                           :foreground "white"
+                           :height 0.8
+                           :width condensed)
+      `(lsp-ui-peek-filename :foreground "#98be65"
+                             :height 1.0
+                             :width condensed
+                             :box (:line-width (1 . 10)
+                                   :color "grey7"))
+      `(lsp-ui-peek-line-number :foreground "grey7")
+      `(lsp-ui-peek-highlight :background ,vscode-search-occ-bg
+                              :foreground ,vscode-search-occ-fg
+                              :heght 1.0
+                              :box nil
+                              :inherit nil)
+      '(show-paren-match (:foreground nil
+                          :background "#333"
+                          :weight normal)))
+    ;; GUI
+    (if (display-graphic-p)
+        (custom-set-faces!
+          `(default :background "black")
+          `(fill-column-indicator :foreground ,(doom-color 'base1))
+          `(window-divider :foreground ,(doom-color 'magenta))
+          `(flycheck-posframe-error-face :background "firebrick"
+                                         :foreground "white")
+          `(flycheck-posframe-warning-face :background "dark goldenrod"
+                                           :foreground "white"))
+      ;; TERM (Alacritty)
+      ;; Weirdly, "black" is more like "dark grey"
+      (custom-set-faces!
+        `(default :background "color-52")
+        `(header-line :background "black"))))
+#+end_src
+* Font
+Doom exposes five (optional) variables for controlling fonts in Doom. Here
+are the three important ones:
+- =doom-font=
+- =doom-variable-pitch-font=
+- =doom-big-font= -- used for =doom-big-font-mode=; use this for presentations or streaming.
+
+They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
+font string. You generally only need these two:
+#+begin_src elisp
+  (setq doom-font (font-spec :family "Ubuntu Mono"
+                             :size (or (string-to-number (getenv "EMACS_FONT_SIZE"))
+                                       16)))
+#+end_src
+* Dashboard
+** Banner
+#+begin_src elisp
+  (defun ++ascii-banner-ansi-shadow ()
+    (mapc (lambda (line)
+            (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+                                'face 'doom-dashboard-banner) " ")
+            (insert "\n"))
+          '("=================     ===============     ===============   ========  ========"
+            "\\\\ . . . . . . .\\\\   //. . . . . . .\\\\   //. . . . . . .\\\\  \\\\. . .\\\\// . . //"
+            "||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\\/ . . .||"
+            "|| . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||"
+            "||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||"
+            "|| . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\\ . . . . ||"
+            "||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\\_ . .|. .||"
+            "|| . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\\ `-_/| . ||"
+            "||_-' ||  .|/    || ||    \\|.  || `-_|| ||_-' ||  .|/    || ||   | \\  / |-_.||"
+            "||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \\  / |  `||"
+            "||    `'         || ||         `'    || ||    `'         || ||   | \\  / |   ||"
+            "||            .===' `===.         .==='.`===.         .===' /==. |  \\/  |   ||"
+            "||         .=='   ███████╗███╗   ███╗ █████╗  ██████╗███████╗  `==  \\/  |   ||"
+            "||      .=='    _-██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝_  /|  \\/  |   ||"
+            "||   .=='    _-'  █████╗  ██╔████╔██║███████║██║     ███████╗ `' |. /|  |   ||"
+            "||.=='    _-'     ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║     `' |  /==.||"
+            "=='    _-'        ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║         \\/   `=="
+            "\\   _-'           ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝          `-_   /"
+            "`''                                                                      ``'")))
+  (setq +doom-dashboard-ascii-banner-fn #'++ascii-banner-ansi-shadow)
+#+end_src
+** Remove the menu
+I know most of the keyboard shortcuts by now :P
+#+begin_src elisp
+  (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+#+end_src
+** Show some random (possibly) interesting phrase
+Stolen from https://tecosaur.github.io/emacs-config/config.html#splash-screen
+#+begin_src elisp
+  (defvar phrase-last nil)
+  (defvar phrase-timeout 5)
+
+  (defmacro phrase-generate-callback (token &optional format-fn ignore-read-only callback buffer-name)
+    `(lambda (status)
+       (unless (plist-get status :error)
+         (goto-char url-http-end-of-headers)
+         (let ((phrase (plist-get (json-parse-buffer :object-type 'plist) (cadr phrase-api-url)))
+               (inhibit-read-only ,(when (eval ignore-read-only) t)))
+           (setq phrase-last (cons phrase (float-time)))
+           (with-current-buffer ,(or (eval buffer-name) (buffer-name (current-buffer)))
+             (save-excursion
+               (goto-char (point-min))
+               (when (search-forward ,token nil t)
+                 (with-silent-modifications
+                   (replace-match "")
+                   (insert ,(if format-fn format-fn 'phrase)))))
+             ,callback)))))
+
+  (defmacro phrase-insert-async (&optional format-fn token ignore-read-only callback buffer-name)
+    `(let ((inhibit-message t))
+       (if (and phrase-last
+                (> phrase-timeout (- (float-time) (cdr phrase-last))))
+           (let ((phrase (car phrase-last)))
+             ,(if format-fn format-fn 'phrase))
+         (url-retrieve (car phrase-api-url)
+                       (phrase-generate-callback ,(or token "\ufeff") ,format-fn ,ignore-read-only ,callback ,buffer-name))
+         ;; For reference, \ufeff = Zero-width no-break space / BOM
+         ,(or token "\ufeff"))))
+
+  (defun doom-dashboard-phrase ()
+    (phrase-insert-async
+     (progn
+       (setq-local phrase-position (point))
+       (mapconcat
+        (lambda (line)
+          (+doom-dashboard--center
+           +doom-dashboard--width
+           (with-temp-buffer
+             (insert-text-button
+              line
+              'action
+              (lambda (_)
+                (setq phrase-last nil)
+                (+doom-dashboard-reload t))
+              'face 'doom-dashboard-menu-title
+              'mouse-face 'doom-dashboard-menu-title
+              'help-echo "Random phrase"
+              'follow-link t)
+             (buffer-string))))
+        (split-string
+         (with-temp-buffer
+           (insert phrase)
+           (setq fill-column (min 70 (/ (* 2 (window-width)) 3)))
+           (fill-region (point-min) (point-max))
+           (buffer-string))
+         "\n")
+        "\n"))
+     nil t
+     (progn
+       (goto-char phrase-position)
+       (forward-whitespace 1))
+     +doom-dashboard-name))
+
+  (defadvice! doom-dashboard-widget-loaded-with-phrase ()
+    :override #'doom-dashboard-widget-loaded
+    (setq line-spacing 0.2)
+    (insert
+     "\n\n"
+     (propertize
+      (+doom-dashboard--center
+       +doom-dashboard--width
+       (doom-display-benchmark-h 'return))
+      'face 'doom-dashboard-loaded)
+     "\n"
+     (doom-dashboard-phrase)
+     "\n"))
+#+end_src
+
+* Modeline
+#+begin_src elisp
+  (after! doom-modeline
+    (custom-set-faces!
+      '(mode-line :height 0.9 :width condensed)
+      '(mode-line-inactive :height 0.9 :width condensed)
+      '(mode-line-emphasis :inherit mode-line)
+      '(doom-modeline-buffer-file :weight normal))
+    ;; TERM (Alacritty)
+    (unless (display-graphic-p)
+      (custom-set-faces!
+        `(mode-line :background "darkred")
+        `(mode-line-inactive :background "black"))))
+#+end_src
+* Misc
+#+begin_src elisp
+  (setq display-time-default-load-average nil
+        display-time-24hr-format t
+        display-line-numbers-type 'relative)
+#+end_src
+
+It's a bit distracting to highlight the current line. It's easy enough to press `S-v` when needed.
+#+begin_src elisp
+  (add-hook 'hl-line-mode-hook (lambda () (setq hl-line-mode nil)))
+#+end_src
+
+Highlight the whole s-expr, not just the enclosing parens.
+#+begin_src elisp
+  (setq show-paren-style 'expression)
+#+end_src

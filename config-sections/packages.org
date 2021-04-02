@@ -1,0 +1,82 @@
+#+TITLE: Packages
+* =avy=
+This package is used for jumping around efficiently within a file. I really ought to use it more.
+
+Searching should be done using 2 chars almost all the time.
+#+begin_src elisp
+  (setq avy-timeout-seconds 1)
+#+end_src
+* =centaur-tabs=
+I currently don't use tabs but if I did, well, the config's here
+#+begin_src elisp
+  (after! centaur-tabs
+    (setq centaur-tabs-style "rounded"
+          centaur-tabs-height 5
+          centaur-tabs-set-icons t
+          centaur-tabs-set-modified-marker t
+          centaur-tabs-show-navigation-buttons t
+          centaur-tabs-gray-out-icons 'buffer)
+    (centaur-tabs-headline-match)
+    (centaur-tabs-enable-buffer-reordering)
+    ;; (setq centaur-tabs-adjust-buffer-order t)
+    (centaur-tabs-mode t))
+#+end_src
+* =company=
+#+begin_src elisp
+  (after! company
+    (setq company-idle-delay 0.0
+          company-tooltip-idle-delay 0.2
+          company-minimum-prefix-length 2)
+    (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
+    (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
+    (if (display-graphic-p)
+        (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
+      ;; Terminal seems to work with just "TAB"
+      (define-key company-active-map (kbd "TAB") 'company-complete-selection))
+    (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
+#+end_src
+Remove some conflicting keybindings with company-mode.
+#+begin_src elisp
+  (define-key global-map (kbd "C-j") nil)
+  (define-key global-map (kbd "C-k") nil)
+#+end_src
+* =evil=
+#+begin_src elisp
+  (define-key evil-insert-state-map (kbd "C-j") nil)
+  (define-key evil-insert-state-map (kbd "C-k") nil)
+  (define-key evil-motion-state-map (kbd "<tab>") nil)
+
+  (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
+  (define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
+#+end_src
+
+ Disable the annoying auto-comment on newline.
+#+begin_src elisp
+  (setq +evil-want-o/O-to-continue-comments nil)
+#+end_src
+
+Additionally, I like to have structural typing for s-exprs.
+#+begin_src elisp
+  (use-package! evil-lisp-state
+    :init (setq evil-lisp-state-global t)
+    :config (evil-lisp-state-leader "SPC k"))
+#+end_src
+
+* =modeline=
+#+begin_src elisp
+  (after! doom-modeline
+    (setq doom-modeline-buffer-file-name-style nil
+          doom-modeline-height 0
+          doom-modeline-major-mode-icon t
+          doom-modeline-major-mode-color-icon t
+          doom-modeline-buffer-modification-icon t
+          doom-modeline-modal-icon nil
+          doom-modeline-buffer-state-icon nil
+          doom-modeline-enable-word-count nil
+          doom-modeline-lsp nil))
+  (setq org-clock-mode-line-total 'current)
+#+end_src
+* =rainbow=
+#+begin_src elisp
+  (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
+#+end_src

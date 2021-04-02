@@ -1,0 +1,5 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Rafael Nicdao
+#+EMAIL: nicdaoraf@gmail.com
+#+OPTIONS: toc:nil num:nil
+#+INCLUDE: "config-sections/preamble.org"

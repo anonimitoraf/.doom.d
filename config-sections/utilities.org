@@ -1,0 +1,14 @@
+#+TITLE: Utilities
+
+* Converting Stuff
+#+begin_src elisp
+(defun ++kb (bytes) (* bytes 1024))
+(defun ++mb (bytes) (* (++kb bytes) 1024))
+#+end_src
+
+* Making it easy to configure faces
+#+begin_src elisp
+(defun ++with-face (str &rest face-plist)
+  (propertize str 'face face-plist))
+#+end_src
+** TODO Add examples
