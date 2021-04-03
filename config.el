@@ -853,6 +853,8 @@
 
 ;; --- Misc ---------------------------------------------------
 
+(which-key-mode +1)
+
 ;; Smooth scrolling
 (require 'smooth-scrolling)
 
