@@ -183,7 +183,7 @@
     `(lsp-ui-peek-selection :background ,vscode-search-occ-bg
                             :foreground ,vscode-search-occ-fg)
     `(lsp-ui-peek-list :background "grey7"
-                       :height 1.0
+                       :height 0.8
                        :width condensed)
     `(lsp-ui-peek-header :background "#000050"
                          :foreground "white"
@@ -192,7 +192,7 @@
     `(lsp-ui-peek-filename :foreground "#98be65"
                            :height 1.0
                            :width condensed
-                           :box (:line-width (1 . 10)
+                           :box (:line-width (1 . 5)
                                  :color "grey7"))
     `(lsp-ui-peek-line-number :foreground "grey7")
     `(lsp-ui-peek-highlight :background ,vscode-search-occ-bg
@@ -541,7 +541,7 @@
         :nv "SPC d" #'lsp-ui-doc-glance)
 
   (setq lsp-ui-peek-fontify 'always
-        lsp-ui-peek-list-width 100
+        lsp-ui-peek-list-width 50
         lsp-ui-peek-peek-height 40
 
         lsp-ui-doc-enable nil
