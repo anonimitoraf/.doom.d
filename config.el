@@ -541,7 +541,7 @@
         :nv "SPC d" #'lsp-ui-doc-glance)
 
   (setq lsp-ui-peek-fontify 'always
-        lsp-ui-peek-list-width 50
+        lsp-ui-peek-list-width 80
         lsp-ui-peek-peek-height 40
 
         lsp-ui-doc-enable nil
