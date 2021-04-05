@@ -639,8 +639,7 @@
      :select t)
     ("^\\*\\(?:cider-doc\\|lsp-help\\)"
      :side right
-     :size 0.5
-     :select t)))
+     :size 0.5)))
 
 ;; --- Emacs Lisp stuff ---------------------------------------------------
 
