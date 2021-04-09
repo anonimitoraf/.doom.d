@@ -882,6 +882,10 @@
 
 ;; --- Misc ---------------------------------------------------
 
+;; Fix for some keys not working in alacritty (e.g. C-S-up)
+;; Source https://github.com/alacritty/alacritty/issues/3569#issuecomment-610558110
+(add-to-list 'term-file-aliases '("alacritty" . "xterm"))
+
 (which-key-mode +1)
 
 ;; Smooth scrolling
