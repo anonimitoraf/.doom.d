@@ -1,5 +1,5 @@
 #+TITLE: Packages
-* all-the-icons
+* =all-the-icons=
 They're too big (by default) for my taste
 #+begin_src elisp
   (use-package! all-the-icons
@@ -66,14 +66,14 @@ Additionally, I like to have structural typing for s-exprs.
     :init (setq evil-lisp-state-global t)
     :config (evil-lisp-state-leader "SPC k"))
 #+end_src
-* evil-lisp-state
+* =evil-lisp-state=
 Currently supplies my structural editing needs
 #+begin_src elisp
   (use-package! evil-lisp-state
     :init (setq evil-lisp-state-global t)
     :config (evil-lisp-state-leader "SPC k"))
 #+end_src
-* lsp
+* =lsp=
 #+begin_src elisp
   (after! lsp-mode
     (custom-set-faces!
@@ -96,7 +96,7 @@ Directories to ignore for specific languages
                          "[/\\\\]resources$"))
       (add-to-list 'lsp-file-watch-ignored to-ignore)))
 #+end_src
-** lsp-ui
+** =lsp-ui=
 TODO Convert the `define-key` statements to use `map!`
 #+begin_src elisp
   (after! lsp-ui
@@ -171,7 +171,7 @@ Copied from https://github.com/emacs-lsp/lsp-ui/issues/441.
   (setq display-time-default-load-average nil
         display-time-24hr-format t)
 #+end_src
-* org
+* =org=
 #+begin_src elisp
   (use-package! org
     :init
@@ -234,7 +234,7 @@ Allow drag-and-drop-ing to `dired`
 #+begin_src elisp
   (add-hook 'dired-mode-hook 'org-download-enable)
 #+end_src
-** org-capture
+** =org-capture=
 #+begin_src elisp
   (after! org
     (setq org-capture-templates
@@ -258,7 +258,7 @@ Allow drag-and-drop-ing to `dired`
              :empty-lines 1
              :kill-buffer t))))
 #+end_src
-** org-babel
+** =org-babel=
 NodeJS - Make sure org-babel finds `node_modules`
 #+begin_src elisp
   (setenv "NODE_PATH"
