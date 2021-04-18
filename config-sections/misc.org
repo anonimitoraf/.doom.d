@@ -1,0 +1,7 @@
+#+TITLE: Misc
+
+* General emacs configurations
+Line numbers are already displayed in the modeline
+#+begin_src emacs-lisp
+  (setq display-line-numbers-type nil)
+#+end_src
