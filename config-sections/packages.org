@@ -128,7 +128,9 @@ TODO Convert the `define-key` statements to use `map!`
           lsp-ui-sideline-enable nil))
 #+end_src
 Display lsp-ui-peek in a childframe so that the whole screen is used despite multiple windows.
+
 Only on GUI though since TTY doesn't support posframes :^(.
+
 Copied from https://github.com/emacs-lsp/lsp-ui/issues/441.
 #+begin_src elisp
   (when (display-graphic-p)
@@ -273,6 +275,7 @@ Clojure
     :config (setq org-babel-clojure-backend 'cider))
 #+end_src
 General
+
 TODO Find out why emacs-lisp is set to nil
 #+begin_src elisp
   (org-babel-do-load-languages
