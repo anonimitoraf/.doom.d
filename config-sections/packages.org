@@ -1,4 +1,8 @@
 #+TITLE: Packages
+* =ace-window=
+#+begin_src elisp
+  (map! :map doom-leader-map "w SPC" #'ace-select-window)
+#+end_src
 * =all-the-icons=
 They're too big (by default) for my taste
 #+begin_src elisp
@@ -56,15 +60,24 @@ TODO Check if this is actually a good thing to do.
   (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
   (define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
 #+end_src
+
 Disable the annoying auto-comment on newline.
 #+begin_src elisp
   (setq +evil-want-o/O-to-continue-comments nil)
 #+end_src
+
 Additionally, I like to have structural typing for s-exprs.
 #+begin_src elisp
   (use-package! evil-lisp-state
     :init (setq evil-lisp-state-global t)
     :config (evil-lisp-state-leader "SPC k"))
+#+end_src
+
+Unbind annoying key that I press a lot accidentally.
+#+begin_src elisp
+  (unbind-key "K" evil-normal-state-map)
+  (unbind-key "K" evil-visual-state-map)
+  (unbind-key "K" evil-motion-state-map)
 #+end_src
 * =evil-lisp-state=
 Currently supplies my structural editing needs
@@ -72,6 +85,48 @@ Currently supplies my structural editing needs
   (use-package! evil-lisp-state
     :init (setq evil-lisp-state-global t)
     :config (evil-lisp-state-leader "SPC k"))
+#+end_src
+* =ielm=
+Set a cool prompt and make it non-noisy (What does this even mean?)
+#+begin_src elisp
+  (setq ielm-noisy nil
+        ielm-prompt "λ> ")
+#+end_src
+* =ivy=
+Make ivy show up in the top center of the screen (apart from when used with counsel)
+#+begin_src elisp
+  (after! ivy-posframe
+    (setf (alist-get t ivy-posframe-display-functions-alist)
+          #'ivy-posframe-display-at-frame-top-center)
+    (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
+          #'ivy-posframe-display-at-frame-top-center)
+    (setq ivy-posframe-border-width 10
+          ivy-posframe-width 120
+          ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
+#+end_src
+
+
+TODO What is this for?
+#+begin_src elisp
+  (setq posframe-arghandler
+        (lambda (_buffer-or-name key value)
+          (or (eq key :lines-truncate)
+              value)))
+#+end_src
+
+Get rid of ./ and ../ in ivy file prompts
+#+begin_src elisp
+  (setq ivy-extra-directories ())
+#+end_src
+* =kubernetes=
+#+begin_src elisp
+  (use-package kubernetes
+    :ensure t
+    :commands (kubernetes-overview))
+
+  (use-package kubernetes-evil
+    :ensure t
+    :after kubernetes)
 #+end_src
 * =lsp=
 #+begin_src elisp
@@ -284,7 +339,55 @@ TODO Find out why emacs-lisp is set to nil
      (Clojure . t)
      (Javascript . t)))
 #+end_src
+* =projectile=
+It's convenient to open a file in a different window sometimes.
+#+begin_src elisp
+  (map! :nv "SPC f g" #'projectile-find-file-other-window)
+#+end_src
+
+Get rid of annoying projectile staleness without it being too expensive/noticeable.
+#+begin_src elisp
+  (use-package! projectile
+    :config
+    (setq projectile-files-cache-expire 10))
+#+end_src
 * =rainbow=
 #+begin_src elisp
   (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
+#+end_src
+
+* =treemacs=
+#+begin_src elisp
+  (add-hook 'treemacs-mode-hook
+            (lambda ()
+              (when (display-graphic-p)
+                (text-scale-decrease 1.5))))
+
+  (with-eval-after-load 'treemacs-icons
+    (when (display-graphic-p)
+      (treemacs-resize-icons 10)))
+
+  (use-package treemacs
+    :commands (treemacs)
+    :bind (("<f8>" . treemacs)
+           ("<f9>" . treemacs-select-window))
+    :init
+    (progn
+      (when window-system
+        (setq treemacs-width 30
+              treemacs-is-never-other-window t
+              treemacs-file-event-delay 1000
+              treemacs-show-cursor t
+              treemacs--width-is-locked nil
+              treemacs-space-between-root-nodes nil
+              treemacs-filewatch-mode t
+              treemacs-fringe-indicator-mode t))
+      (when (not (display-graphic-p))
+        (setq treemacs-no-png-images t))))
+#+end_src
+
+* =+lookup=
+=SPC e= for eldoc
+#+begin_src elisp
+  (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 #+end_src
