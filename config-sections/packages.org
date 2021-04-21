@@ -151,6 +151,7 @@ Make ivy show up in the top center of the screen (apart from when used with coun
     (setq ivy-posframe-border-width 10
           ivy-posframe-width 120
           ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
+                                                                    (right-fringe . 3)))))
 #+end_src
 
 
