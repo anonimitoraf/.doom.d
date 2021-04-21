@@ -327,7 +327,7 @@ Display clock on modeline
           org-log-redeadline nil
           org-log-reschedule nil
           ;; Prefer rescheduling to future dates and times
-          org-read-date-prefer-future 'time'))
+          org-read-date-prefer-future 'time))
 #+end_src
 Refresh org-agenda after rescheduling a task
 #+begin_src elisp
