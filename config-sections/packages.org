@@ -21,7 +21,7 @@ Searching should be done using 2 chars almost all the time hence we use a very s
 ** bookmarks
 I want to sync bookmarks across my devices.
 #+begin_src elisp
-  (setq bookmark-default-file (concat sync-folder-path "/emacs/bookmarks"))
+  (setq bookmark-default-file (concat ++sync-folder-path "/emacs/bookmarks"))
 #+end_src
 
 Save bookmarks immediately (rather than just when Emacs is killed).
@@ -291,7 +291,7 @@ Display clock on modeline
 #+begin_src elisp
   (use-package! org
     :init
-    (setq org-directory (concat sync-folder-path "/org")
+    (setq org-directory (concat ++sync-folder-path "/org")
           org-default-notes-file (concat org-directory "/notes/default.org")
           org-agenda-files (cl-map 'list (lambda (f) (concat org-directory "/" f))
                                    '("life"
@@ -400,7 +400,7 @@ TODO Find out why emacs-lisp is set to nil
 #+end_src
 * =persp=
 #+begin_src elisp
-  (setq persp-save-dir (concat sync-folder-path "/emacs/sessions/"))
+  (setq persp-save-dir (concat ++sync-folder-path "/emacs/sessions/"))
 #+end_src
 * =projectile=
 It's convenient to open a file in a different window sometimes.
