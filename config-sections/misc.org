@@ -10,3 +10,95 @@ I don't really care about byte-compile warnings. Should I?
 #+begin_src elisp
   (setq byte-compile-warnings '(not obsolete))
 #+end_src
+
+Fix for some keys not working in alacritty (e.g. C-S-up). Source https://github.com/alacritty/alacritty/issues/3569#issuecomment-610558110.
+#+begin_src elisp
+  (add-to-list 'term-file-aliases '("alacritty" . "xterm"))
+#+end_src
+
+Enable line-wrapping, seems badly named.
+#+begin_src elisp
+  (global-visual-line-mode t)
+#+end_src
+
+Disable *Messages* from popping up when minibuffer is clicked
+#+begin_src elisp
+  (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
+#+end_src
+
+Tabs = 2 spaces. TODO Maybe each mode has to be different
+#+begin_src elisp
+  (add-hook 'prog-mode-hook (cmd! (setq indent-tabs-mode nil)
+                                  (doom/set-indent-width 2)))
+#+end_src
+* Terminal considerations
+A lot of formatting errors encountered in the terminal
+TODO Fix as many of them as possible
+#+begin_src elisp
+(unless (display-graphic-p)
+  (setq +format-on-save-enabled-modes
+        '(not sql-mode         ; sqlformat is currently broken
+              tex-mode         ; latexindent is broken
+              org-mode
+              latex-mode
+              snippet-mode
+              text-mode
+              typescript-mode
+              js-mode
+              js2-mode
+              gherkin-mode)))
+#+end_src
+
+Terminal emacs tends to throw a bunch of extra errors.
+#+begin_src elisp
+  (when (not (display-graphic-p))
+    (setq debug-on-error nil))
+#+end_src
+* Custom functionality
+Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
+#+begin_src elisp
+  (defun ++load-and-continuously-save (file)
+    (interactive
+     (let ((session-file (doom-session-file)))
+       (list (or (read-file-name "Regularly saving session to: "
+                                 (file-name-directory session-file)
+                                 (file-name-nondirectory session-file))
+                 (user-error "No session selected. Aborting")))))
+    (unless file
+      (error "No session file selected"))
+    ;; Load the session
+    (doom/load-session file)
+    ;; Clear any previous calls to this fn
+    (when (boundp '++continuous-saving-timer)
+      (cancel-timer ++continuous-saving-timer))
+    ;; Save the session every 10 seconds
+    (setq ++continuous-saving-timer
+          (run-with-timer 1 10 (cmd!
+                                ;; (message "Saving '%s' session" file)
+                                (let ((message-log-max nil)
+                                      (inhibit-message t))
+                                  (doom-save-session file))))))
+  (map! :map doom-leader-map "q N" '++load-and-continuously-save)
+#+end_src
+
+Open external terminal. TODO Support alacritty
+#+begin_src elisp
+  (defun external-gnome-terminal ()
+    (interactive "@")
+    (setenv "INSIDE_EMACS" nil) ;; We don't want gnome thinking that it's inside emacs
+    (shell-command (concat "gnome-terminal"
+                           " --working-directory " (file-name-directory (or load-file-name buffer-file-name))
+                           " > /dev/null 2>&1 & disown") nil nil))
+
+  (defun external-xfce4-terminal ()
+    (interactive "@")
+    (setenv "INSIDE_EMACS" nil)
+    (shell-command (concat "xfce4-terminal"
+                           " --working-directory " (file-name-directory (or load-file-name buffer-file-name))
+                           " > /dev/null 2>&1 & disown") nil nil))
+
+  (setq external-terminal-to-open 'xfce4)
+  (map! :n "SPC +" (cond ((eq external-terminal-to-open 'gnome) #'external-gnome-terminal)
+                         ((eq external-terminal-to-open 'xfce4) #'external-xfce4-terminal)
+                         (t (message (concat "Invalid value for variable `external-terminal-to-open:' " external-terminal-to-open)))))
+#+end_src

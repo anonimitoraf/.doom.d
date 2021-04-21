@@ -1,4 +1,5 @@
 #+TITLE: Packages
+#+STARTUP: overview
 * =ace-window=
 #+begin_src elisp
   (map! :map doom-leader-map "w SPC" #'ace-select-window)
@@ -15,6 +16,22 @@ This package is used for jumping around efficiently within a file. I really ough
 Searching should be done using 2 chars almost all the time hence we use a very short timeout.
 #+begin_src elisp
   (setq avy-timeout-seconds 0.1)
+#+end_src
+* =built-ins=
+** bookmarks
+I want to sync bookmarks across my devices.
+#+begin_src elisp
+  (setq bookmark-default-file (concat sync-folder-path "/emacs/bookmarks"))
+#+end_src
+
+Save bookmarks immediately (rather than just when Emacs is killed).
+#+begin_src elisp
+  (setq bookmark-save-flag 1)
+#+end_src
+** replace
+#+begin_src elisp
+  (map! :leader
+        :desc "Query and replace within region" "r" #'query-replace)
 #+end_src
 * =centaur-tabs=
 I currently don't use tabs but if I did, well, the config's here
@@ -50,6 +67,27 @@ TODO Check if this is actually a good thing to do.
 #+begin_src elisp
   (define-key global-map (kbd "C-j") nil)
   (define-key global-map (kbd "C-k") nil)
+#+end_src
+* =edbi=
+#+begin_src elisp
+  (require 'edbi)
+#+end_src
+* =elcord=
+Flex on Discord that we're using Emacs.
+#+begin_src elisp
+  (defun start-elcord ()
+    (interactive)
+    (use-package! elcord
+      :config
+      (setq elcord-refresh-rate 5
+            elcord-use-major-mode-as-main-icon t)
+      (elcord-mode +1)
+      (message "Started elcord")))
+
+  (defun stop-elcord ()
+    (interactive)
+    (elcord-mode -1)
+    (message "Stopped elcord"))
 #+end_src
 * =evil=
 #+begin_src elisp
@@ -92,6 +130,16 @@ Set a cool prompt and make it non-noisy (What does this even mean?)
   (setq ielm-noisy nil
         ielm-prompt "λ> ")
 #+end_src
+* =iscroll=
+#+begin_src elisp
+  (use-package! iscroll
+    :config (iscroll-mode +1))
+#+end_src
+* =ispell=
+Fix the ispell dictinoary.
+#+begin_src elisp
+  (setq ispell-dictionary "en")
+#+end_src
 * =ivy=
 Make ivy show up in the top center of the screen (apart from when used with counsel)
 #+begin_src elisp
@@ -117,6 +165,12 @@ TODO What is this for?
 Get rid of ./ and ../ in ivy file prompts
 #+begin_src elisp
   (setq ivy-extra-directories ())
+#+end_src
+
+Fix for https://github.com/hlissner/doom-emacs/issues/3038.
+#+begin_src elisp
+  (after! counsel
+    (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
 #+end_src
 * =kubernetes=
 #+begin_src elisp
@@ -227,6 +281,11 @@ Copied from https://github.com/emacs-lsp/lsp-ui/issues/441.
   (setq org-clock-mode-line-total 'current)
   (setq display-time-default-load-average nil
         display-time-24hr-format t)
+#+end_src
+
+Display clock on modeline
+#+begin_src elisp
+  (display-time-mode +1)
 #+end_src
 * =org=
 #+begin_src elisp
@@ -339,6 +398,10 @@ TODO Find out why emacs-lisp is set to nil
      (Clojure . t)
      (Javascript . t)))
 #+end_src
+* =persp=
+#+begin_src elisp
+  (setq persp-save-dir (concat sync-folder-path "/emacs/sessions/"))
+#+end_src
 * =projectile=
 It's convenient to open a file in a different window sometimes.
 #+begin_src elisp
@@ -355,7 +418,19 @@ Get rid of annoying projectile staleness without it being too expensive/noticeab
 #+begin_src elisp
   (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
 #+end_src
-
+* =shell=
+Company mode in shell is just annoying.
+#+begin_src elisp
+  (add-hook 'shell-mode-hook (lambda () (company-mode -1)))
+#+end_src
+* =smooth-scrolling=
+#+begin_src elisp
+  (require 'smooth-scrolling)
+#+end_src
+* =synosaurus=
+#+begin_src elisp
+  (require 'synosaurus)
+#+end_src
 * =treemacs=
 #+begin_src elisp
   (add-hook 'treemacs-mode-hook
@@ -385,7 +460,10 @@ Get rid of annoying projectile staleness without it being too expensive/noticeab
       (when (not (display-graphic-p))
         (setq treemacs-no-png-images t))))
 #+end_src
-
+* =which-key=
+#+begin_src elisp
+  (which-key-mode +1)
+#+end_src
 * =+lookup=
 =SPC e= for eldoc
 #+begin_src elisp
