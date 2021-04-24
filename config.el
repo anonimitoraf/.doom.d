@@ -74,7 +74,7 @@
       `(default :background "color-52")
       `(header-line :background "black"))))
 
-(setq doom-font (font-spec :family "Ubuntu Mono"
+(setq doom-font (font-spec :family "FiraCode"
                            :size (or (string-to-number (getenv "EMACS_FONT_SIZE"))
                                      16)))
 
