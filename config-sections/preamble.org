@@ -1,6 +1,11 @@
 #+TITLE: Preamble
 #+STARTUP: showeverything
 
+* Setup that has to be done before anything else
+#+begin_src elisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+end_src
+
 * Who am I?
 #+begin_src elisp
 (setq user-full-name "Rafael Nicdao"
