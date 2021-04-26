@@ -691,8 +691,8 @@
                          :string (buffer-substring-no-properties
                                   (line-beginning-position line)
                                   (line-end-position line))
-                         :background-color "white"
-                         :foreground-color "black"
+                         :background-color "grey5"
+                         :foreground-color "white"
                          :internal-border-width 5
                          :poshandler #'posframe-poshandler-frame-bottom-center)
         (kill-buffer)))))
