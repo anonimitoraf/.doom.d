@@ -666,3 +666,18 @@
                        (t (message (concat "Invalid value for variable `external-terminal-to-open:' " external-terminal-to-open)))))
 
 (setq display-line-numbers-type nil)
+
+(defun ++random-melpa-pkg ()
+  (interactive)
+  (package-list-packages-no-fetch)
+  (with-current-buffer (get-buffer "*Packages*")
+    (let* ((lines-num (count-lines (point-min) (point-max)))
+           (line (random (1- lines-num))))
+      (prog1
+          (message
+           (buffer-substring-no-properties
+            (line-beginning-position line)
+            (line-end-position line)))
+        (kill-buffer)))))
+
+(run-at-time 20 60 #'++random-melpa-pkg)
