@@ -667,17 +667,32 @@
 
 (setq display-line-numbers-type nil)
 
-(defun ++random-melpa-pkg ()
+(defvar ++random-melpa-pkg-timer)
+(defvar ++random-melpa-pkg-buffer "*++random-melpa-pkg-posframe-buffer*")
+
+(defun ++random-melpa-pkg-start ()
+  (interactive)
+  (setq ++random-melpa-pkg-timer
+        (run-at-time 0 20 #'++show-random-melpa-pkg)))
+
+(defun ++random-melpa-pkg-stop ()
+  (interactive)
+  (cancel-timer ++random-melpa-pkg-timer)
+  (posframe-hide ++random-melpa-pkg-buffer))
+
+(defun ++show-random-melpa-pkg ()
   (interactive)
   (package-list-packages-no-fetch)
   (with-current-buffer (get-buffer "*Packages*")
     (let* ((lines-num (count-lines (point-min) (point-max)))
            (line (random (1- lines-num))))
       (prog1
-          (message
-           (buffer-substring-no-properties
-            (line-beginning-position line)
-            (line-end-position line)))
+          (posframe-show ++random-melpa-pkg-buffer
+                         :string (buffer-substring-no-properties
+                                  (line-beginning-position line)
+                                  (line-end-position line))
+                         :background-color "white"
+                         :foreground-color "black"
+                         :internal-border-width 5
+                         :poshandler #'posframe-poshandler-frame-bottom-center)
         (kill-buffer)))))
-
-(run-at-time 20 60 #'++random-melpa-pkg)
