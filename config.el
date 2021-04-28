@@ -667,18 +667,8 @@
 
 (setq display-line-numbers-type nil)
 
-(defvar ++random-melpa-pkg-timer)
+(defvar ++random-melpa-pkg-timer nil)
 (defvar ++random-melpa-pkg-buffer "*++random-melpa-pkg-posframe-buffer*")
-
-(defun ++random-melpa-pkg-start ()
-  (interactive)
-  (setq ++random-melpa-pkg-timer
-        (run-at-time 0 20 #'++show-random-melpa-pkg)))
-
-(defun ++random-melpa-pkg-stop ()
-  (interactive)
-  (cancel-timer ++random-melpa-pkg-timer)
-  (posframe-hide ++random-melpa-pkg-buffer))
 
 (defun ++show-random-melpa-pkg ()
   (interactive)
@@ -696,3 +686,17 @@
                          :internal-border-width 5
                          :poshandler #'posframe-poshandler-frame-bottom-center)
         (kill-buffer)))))
+
+(defun ++random-melpa-pkg-start ()
+  (interactive)
+  ;; Make sure starting is idempotent
+  (unless ++random-melpa-pkg-timer
+    (setq ++random-melpa-pkg-timer
+          (run-at-time 0 20 #'++show-random-melpa-pkg))))
+
+(defun ++random-melpa-pkg-stop ()
+  (interactive)
+  (when ++random-melpa-pkg-timer
+    (cancel-timer ++random-melpa-pkg-timer)
+    (setq ++random-melpa-pkg-timer nil))
+  (posframe-hide ++random-melpa-pkg-buffer))
