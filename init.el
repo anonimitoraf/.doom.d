@@ -184,3 +184,14 @@
        :config
        literate
        (default +bindings +smartparens))
+
+;; Hack bestowed by Henrik which fixes `doom sync' in Ubuntu + Emacs 28
+;; In Emacs 28, there's an old way of using define-minor-mode that is now deprecated. When you use define-minor-mode in that way, it calls macroexp-warn-and-return to make that announcement.
+;; That announcement looks like this
+;;    rainbow-delimiters: Warning: Use keywords rather than deprecated positional arguments to `define-minor-mode'
+;; Which gets swept up into the autoloads file while it is being generated
+;; And you're getting an error because rainbow-delimiters: is not a valid variable.
+;; So my advice redefines macroexp-warn-and-return to do nothing but return the form it would normally be emitting that warning about.
+(defadvice! shut-up-emacs28 (_msg form &optional _compile-only)
+  :override #'macroexp-warn-and-return
+  form)
