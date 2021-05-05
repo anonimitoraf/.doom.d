@@ -331,7 +331,7 @@
   (setq lsp-lens-enable nil
         lsp-log-io nil
         lsp-completion-no-cache nil
-        lsp-completion-enable nil
+        lsp-completion-enable t
         lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-completion-sort-initial-results nil
