@@ -31,14 +31,15 @@ Tabs = 2 spaces. TODO Maybe each mode has to be different
   (add-hook 'prog-mode-hook (cmd! (setq indent-tabs-mode nil)
                                   (doom/set-indent-width 2)))
 #+end_src
-* Terminal considerations
-A lot of formatting errors encountered in the terminal
+* Disable particular formatters
+JS/TS formatting seems to be very fiddly when it comes to multiple editors so it becomes
+a pain when I work with other people on JS/TS projects.
+
 TODO Fix as many of them as possible
 #+begin_src elisp
-(unless (display-graphic-p)
   (setq +format-on-save-enabled-modes
-        '(not sql-mode         ; sqlformat is currently broken
-              tex-mode         ; latexindent is broken
+        '(not sql-mode
+              tex-mode
               org-mode
               latex-mode
               snippet-mode
@@ -46,7 +47,7 @@ TODO Fix as many of them as possible
               typescript-mode
               js-mode
               js2-mode
-              gherkin-mode)))
+              gherkin-mode))
 #+end_src
 
 Terminal emacs tends to throw a bunch of extra errors.

@@ -607,18 +607,17 @@
 (add-hook 'prog-mode-hook (cmd! (setq indent-tabs-mode nil)
                                 (doom/set-indent-width 2)))
 
-(unless (display-graphic-p)
-  (setq +format-on-save-enabled-modes
-        '(not sql-mode         ; sqlformat is currently broken
-              tex-mode         ; latexindent is broken
-              org-mode
-              latex-mode
-              snippet-mode
-              text-mode
-              typescript-mode
-              js-mode
-              js2-mode
-              gherkin-mode)))
+(setq +format-on-save-enabled-modes
+      '(not sql-mode
+            tex-mode
+            org-mode
+            latex-mode
+            snippet-mode
+            text-mode
+            typescript-mode
+            js-mode
+            js2-mode
+            gherkin-mode))
 
 (when (not (display-graphic-p))
   (setq debug-on-error nil))
