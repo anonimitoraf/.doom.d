@@ -617,7 +617,8 @@
             typescript-mode
             js-mode
             js2-mode
-            gherkin-mode))
+            gherkin-mode
+            makefile-gmake-mode))
 
 (when (not (display-graphic-p))
   (setq debug-on-error nil))

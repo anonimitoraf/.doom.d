@@ -47,7 +47,8 @@ TODO Fix as many of them as possible
               typescript-mode
               js-mode
               js2-mode
-              gherkin-mode))
+              gherkin-mode
+              makefile-gmake-mode))
 #+end_src
 
 Terminal emacs tends to throw a bunch of extra errors.
