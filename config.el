@@ -618,7 +618,8 @@
             js-mode
             js2-mode
             gherkin-mode
-            makefile-gmake-mode))
+            makefile-gmake-mode
+            groovy-mode))
 
 (when (not (display-graphic-p))
   (setq debug-on-error nil))

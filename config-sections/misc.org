@@ -48,7 +48,8 @@ TODO Fix as many of them as possible
               js-mode
               js2-mode
               gherkin-mode
-              makefile-gmake-mode))
+              makefile-gmake-mode
+              groovy-mode))
 #+end_src
 
 Terminal emacs tends to throw a bunch of extra errors.
