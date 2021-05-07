@@ -608,18 +608,10 @@
                                 (doom/set-indent-width 2)))
 
 (setq +format-on-save-enabled-modes
-      '(not sql-mode
-            tex-mode
-            org-mode
-            latex-mode
-            snippet-mode
-            text-mode
-            typescript-mode
-            js-mode
-            js2-mode
-            gherkin-mode
-            makefile-gmake-mode
-            groovy-mode))
+      '(clojurec-mode
+        clojure-mode
+        clojurescript-mode
+        emacs-lisp-mode))
 
 (when (not (display-graphic-p))
   (setq debug-on-error nil))
