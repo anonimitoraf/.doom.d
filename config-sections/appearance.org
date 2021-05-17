@@ -81,7 +81,7 @@ are the three important ones:
 They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 font string. You generally only need these two:
 #+begin_src elisp
-  (setq doom-font (font-spec :family "FiraCode"
+  (setq doom-font (font-spec :family "Ubuntu Mono"
                              :size (or (string-to-number (getenv "EMACS_FONT_SIZE"))
                                        16)))
 #+end_src
