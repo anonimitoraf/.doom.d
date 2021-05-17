@@ -1,5 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+(require 'dash)
+
 (setq user-full-name "Rafael Nicdao"
       user-mail-address "nicdaoraf@gmail.com")
 
@@ -582,6 +584,13 @@
     ("^\\*\\(?:cider-doc\\|lsp-help\\)"
      :side right
      :size 0.5)))
+
+(plist-put! +ligatures-extra-symbols
+            :lambda-prime "ƛ")
+
+(set-ligatures! 'clojurescript-mode
+  ;; Account for re-frame debux forms
+  :lambda-prime "fn-traced")
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()

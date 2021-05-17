@@ -1,6 +1,6 @@
 #+TITLE: Languages
 
-* Clojure
+* Clojure/script
 Nice offline docs
 #+begin_src elisp
   (add-to-list 'dash-docs-docsets "Clojure")
@@ -41,6 +41,17 @@ Popup rules
        :side right
        :size 0.5)))
 #+end_src
+
+Ligatures
+#+begin_src elisp
+  (plist-put! +ligatures-extra-symbols
+              :lambda-prime "ƛ")
+
+  (set-ligatures! 'clojurescript-mode
+    ;; Account for re-frame debux forms
+    :lambda-prime "fn-traced")
+#+end_src
+
 * Emacs Lisp
 #+begin_src elisp
 
@@ -48,7 +59,7 @@ Popup rules
           (lambda ()
             (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))
 #+end_src
-* Typescript/Javascript
+* Type/Javascript
 #+begin_src elisp
   ;; TODO Should this be part of a use-package! call?
   (setq typescript-indent-level 2)

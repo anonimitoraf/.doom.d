@@ -3,7 +3,9 @@
 
 * Setup that has to be done before anything else
 #+begin_src elisp
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+  ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+  (require 'dash)
 #+end_src
 
 * Who am I?
