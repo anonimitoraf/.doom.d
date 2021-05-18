@@ -40,6 +40,16 @@ Tabs = 2 spaces. TODO Maybe each mode has to be different
           emacs-lisp-mode))
 #+end_src
 
+* Enabling (extra) ligatures just for some modes
+Add to this list on a per-needed basis
+#+begin_src elisp
+  (setq +ligatures-extras-in-modes
+        '(clojure-mode
+          clojurescript-mode
+          clojurec-mode
+          emacs-lisp-mode
+          org-mode))
+#+end_src
 * Terminal considerations
 Terminal emacs tends to throw a bunch of extra errors.
 #+begin_src elisp

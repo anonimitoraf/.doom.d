@@ -622,6 +622,13 @@
         clojurescript-mode
         emacs-lisp-mode))
 
+(setq +ligatures-extras-in-modes
+      '(clojure-mode
+        clojurescript-mode
+        clojurec-mode
+        emacs-lisp-mode
+        org-mode))
+
 (when (not (display-graphic-p))
   (setq debug-on-error nil))
 
