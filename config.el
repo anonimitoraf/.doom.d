@@ -75,7 +75,7 @@
     ;; TERM (Alacritty)
     ;; Weirdly, "black" is more like "dark grey"
     (custom-set-faces!
-      `(default :background "color-52")
+      `(default :background "color-16")
       `(header-line :background "black"))))
 
 (setq doom-font (font-spec :family "Ubuntu Mono"
