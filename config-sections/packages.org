@@ -195,7 +195,8 @@ Fix for https://github.com/hlissner/doom-emacs/issues/3038.
           lsp-headerline-breadcrumb-enable t
           lsp-headerline-breadcrumb-enable-diagnostics nil
           lsp-completion-sort-initial-results nil
-          lsp-completion-use-last-result nil))
+          lsp-completion-use-last-result nil
+          lsp-eldoc-enable-hover nil))
 #+end_src
 Directories to ignore for specific languages
 #+begin_src elisp

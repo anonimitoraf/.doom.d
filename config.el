@@ -337,7 +337,8 @@
         lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-completion-sort-initial-results nil
-        lsp-completion-use-last-result nil))
+        lsp-completion-use-last-result nil
+        lsp-eldoc-enable-hover nil))
 
 (after! lsp-mode
   ;; Clojure(Script)
