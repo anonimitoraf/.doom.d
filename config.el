@@ -319,7 +319,7 @@
 (flycheck-define-error-level 'warning
   :severity 20
   :compilation-level 2
-  :overlay-category 'flycheck-error-overlay
+  :overlay-category 'flycheck-warning-overlay
   :fringe-bitmap 'flycheck-fringe-bitmap-beam
   :fringe-face 'flycheck-fringe-warning
   :error-list-face 'flycheck-error-list-warning)
