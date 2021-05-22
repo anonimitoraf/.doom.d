@@ -205,7 +205,10 @@ Stolen from https://tecosaur.github.io/emacs-config/config.html#splash-screen
      (doom-dashboard-phrase)
      "\n"))
 #+end_src
-
+** Show a random Clojure core symbol (for learning purposes)
+#+begin_src elisp
+  (require 'clojure-rand-ref)
+#+end_src
 * Modeline
 #+begin_src elisp
   (after! doom-modeline

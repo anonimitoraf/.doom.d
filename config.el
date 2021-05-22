@@ -193,6 +193,8 @@
    (doom-dashboard-phrase)
    "\n"))
 
+(require 'clojure-rand-ref)
+
 (after! doom-modeline
   (custom-set-faces!
     '(mode-line :height 0.9 :width condensed)
