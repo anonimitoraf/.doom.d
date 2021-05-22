@@ -124,6 +124,43 @@ Currently supplies my structural editing needs
     :init (setq evil-lisp-state-global t)
     :config (evil-lisp-state-leader "SPC k"))
 #+end_src
+* =flycheck=
+Emphasize the error/warning fringe indicators. When I go through a file, I typically rely on the fridge to tell guide me to code that I have to fix.
+#+begin_src elisp
+(define-fringe-bitmap 'flycheck-fringe-bitmap-beam
+  (vector #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111
+          #b11111111))
+
+(flycheck-define-error-level 'error
+  :severity 30
+  :compilation-level 2
+  :overlay-category 'flycheck-error-overlay
+  :fringe-bitmap 'flycheck-fringe-bitmap-beam
+  :fringe-face 'flycheck-fringe-error
+  :error-list-face 'flycheck-error-list-error)
+
+(flycheck-define-error-level 'warning
+  :severity 20
+  :compilation-level 2
+  :overlay-category 'flycheck-error-overlay
+  :fringe-bitmap 'flycheck-fringe-bitmap-beam
+  :fringe-face 'flycheck-fringe-warning
+  :error-list-face 'flycheck-error-list-warning)
+#+end_src
+
 * =ielm=
 Set a cool prompt and make it non-noisy (What does this even mean?)
 #+begin_src elisp
