@@ -503,6 +503,11 @@ Company mode in shell is just annoying.
 #+begin_src elisp
   (which-key-mode +1)
 #+end_src
+* =vterm=
+Decrease the font size a bit
+#+begin_src elisp
+  (add-hook 'vterm-mode-hook (lambda () (text-scale-decrease 1.1)))
+#+end_src
 * =+lookup=
 =SPC e= for eldoc
 #+begin_src elisp

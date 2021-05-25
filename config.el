@@ -525,6 +525,8 @@
 
 (which-key-mode +1)
 
+(add-hook 'vterm-mode-hook (lambda () (text-scale-decrease 1.1)))
+
 (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 
 (add-to-list 'dash-docs-docsets "Clojure")
