@@ -194,6 +194,9 @@
 (define-key global-map (kbd "C-j") nil)
 (define-key global-map (kbd "C-k") nil)
 
+(use-package! dotenv-mode
+  :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
+
 (require 'edbi)
 
 (defun start-elcord ()

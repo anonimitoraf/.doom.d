@@ -68,6 +68,11 @@ TODO Check if this is actually a good thing to do.
   (define-key global-map (kbd "C-j") nil)
   (define-key global-map (kbd "C-k") nil)
 #+end_src
+* =dotenv-mode=
+#+begin_src elisp
+  (use-package! dotenv-mode
+    :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
+#+end_src
 * =edbi=
 #+begin_src elisp
   (require 'edbi)

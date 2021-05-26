@@ -132,3 +132,6 @@
 
 (package! clojure-rand-ref
   :recipe (:host github :repo "anonimitoraf/clojure-rand-ref.el"))
+
+(package! dotenv-mode
+  :recipe (:host github :repo "preetpalS/emacs-dotenv-mode"))
