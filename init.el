@@ -197,3 +197,11 @@
 (defadvice! shut-up-emacs28 (_msg form &optional _compile-only)
   :override #'macroexp-warn-and-return
   form)
+
+(defun ++org-tangle-with-include-files ()
+  (interactive)
+  (save-window-excursion
+    (switch-to-buffer (find-file-noselect (concat doom-private-dir "config.el")))
+    (org-org-export-as-org nil nil nil t)
+    (with-current-buffer "*Org ORG Export*"
+      (org-babel-tangle nil (concat doom-private-dir "config.el")))))
