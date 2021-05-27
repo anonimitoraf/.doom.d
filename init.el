@@ -201,7 +201,9 @@
 (defun ++org-tangle-with-include-files ()
   (interactive)
   (save-window-excursion
-    (switch-to-buffer (find-file-noselect (concat doom-private-dir "config.el")))
-    (org-org-export-as-org nil nil nil t)
-    (with-current-buffer "*Org ORG Export*"
-      (org-babel-tangle nil (concat doom-private-dir "config.el")))))
+    (with-current-buffer (find-file-noselect (concat doom-private-dir "config.org"))
+      (org-org-export-as-org)
+      (let ((tmp (make-temp-file "literate-config-bundle-" nil ".org")))
+        (with-temp-file tmp
+          (insert (with-current-buffer "*Org ORG Export*" (buffer-string))))
+        (org-babel-tangle-file tmp)))))

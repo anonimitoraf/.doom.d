@@ -2,132 +2,132 @@
 #+STARTUP: overview
 * =ace-window=
 #+begin_src elisp
-  (map! :map doom-leader-map "w SPC" #'ace-select-window)
+(map! :map doom-leader-map "w SPC" #'ace-select-window)
 #+end_src
 * =all-the-icons=
 They're too big (by default) for my taste
 #+begin_src elisp
-  (use-package! all-the-icons
-    :config (setq all-the-icons-scale-factor 0.90))
+(use-package! all-the-icons
+  :config (setq all-the-icons-scale-factor 0.90))
 #+end_src
 * =avy=
 This package is used for jumping around efficiently within a file. I really ought to use it more.
 
 Searching should be done using 2 chars almost all the time hence we use a very short timeout.
 #+begin_src elisp
-  (setq avy-timeout-seconds 0.1)
+(setq avy-timeout-seconds 0.1)
 #+end_src
 * =built-ins=
 ** bookmarks
 I want to sync bookmarks across my devices.
 #+begin_src elisp
-  (setq bookmark-default-file (concat ++sync-folder-path "/emacs/bookmarks"))
+(setq bookmark-default-file (concat ++sync-folder-path "/emacs/bookmarks"))
 #+end_src
 
 Save bookmarks immediately (rather than just when Emacs is killed).
 #+begin_src elisp
-  (setq bookmark-save-flag 1)
+(setq bookmark-save-flag 1)
 #+end_src
 ** replace
 #+begin_src elisp
-  (map! :leader
-        :desc "Query and replace within region" "r" #'query-replace)
+(map! :leader
+      :desc "Query and replace within region" "r" #'query-replace)
 #+end_src
 * =centaur-tabs=
 I currently don't use tabs but if I did, well, the config's here
 #+begin_src elisp
-  (after! centaur-tabs
-    (setq centaur-tabs-style "rounded"
-          centaur-tabs-height 5
-          centaur-tabs-set-icons t
-          centaur-tabs-set-modified-marker t
-          centaur-tabs-show-navigation-buttons t
-          centaur-tabs-gray-out-icons 'buffer)
-    (centaur-tabs-headline-match)
-    (centaur-tabs-enable-buffer-reordering)
-    ;; (setq centaur-tabs-adjust-buffer-order t)
-    (centaur-tabs-mode t))
+(after! centaur-tabs
+  (setq centaur-tabs-style "rounded"
+        centaur-tabs-height 5
+        centaur-tabs-set-icons t
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-show-navigation-buttons t
+        centaur-tabs-gray-out-icons 'buffer)
+  (centaur-tabs-headline-match)
+  (centaur-tabs-enable-buffer-reordering)
+  ;; (setq centaur-tabs-adjust-buffer-order t)
+  (centaur-tabs-mode t))
 #+end_src
 * =company=
 #+begin_src elisp
-  (after! company
-    (setq company-idle-delay 0.0
-          company-tooltip-idle-delay 0.2
-          company-minimum-prefix-length 2)
-    (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
-    (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
-    (if (display-graphic-p)
-        (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
-      ;; Terminal seems to work with just "TAB"
-      (define-key company-active-map (kbd "TAB") 'company-complete-selection))
-    (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
+(after! company
+  (setq company-idle-delay 0.0
+        company-tooltip-idle-delay 0.2
+        company-minimum-prefix-length 2)
+  (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
+  (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
+  (if (display-graphic-p)
+      (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
+    ;; Terminal seems to work with just "TAB"
+    (define-key company-active-map (kbd "TAB") 'company-complete-selection))
+  (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
 #+end_src
 Remove some conflicting keybindings with company-mode.
 TODO Check if this is actually a good thing to do.
 #+begin_src elisp
-  (define-key global-map (kbd "C-j") nil)
-  (define-key global-map (kbd "C-k") nil)
+(define-key global-map (kbd "C-j") nil)
+(define-key global-map (kbd "C-k") nil)
 #+end_src
 * =dotenv-mode=
 #+begin_src elisp
-  (use-package! dotenv-mode
-    :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
+(use-package! dotenv-mode
+  :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
 #+end_src
 * =edbi=
 #+begin_src elisp
-  (require 'edbi)
+(require 'edbi)
 #+end_src
 * =elcord=
 Flex on Discord that we're using Emacs.
 #+begin_src elisp
-  (defun start-elcord ()
-    (interactive)
-    (use-package! elcord
-      :config
-      (setq elcord-refresh-rate 5
-            elcord-use-major-mode-as-main-icon t)
-      (elcord-mode +1)
-      (message "Started elcord")))
+(defun start-elcord ()
+  (interactive)
+  (use-package! elcord
+    :config
+    (setq elcord-refresh-rate 5
+          elcord-use-major-mode-as-main-icon t)
+    (elcord-mode +1)
+    (message "Started elcord")))
 
-  (defun stop-elcord ()
-    (interactive)
-    (elcord-mode -1)
-    (message "Stopped elcord"))
+(defun stop-elcord ()
+  (interactive)
+  (elcord-mode -1)
+  (message "Stopped elcord"))
 #+end_src
 * =evil=
 #+begin_src elisp
-  (define-key evil-insert-state-map (kbd "C-j") nil)
-  (define-key evil-insert-state-map (kbd "C-k") nil)
-  (define-key evil-motion-state-map (kbd "<tab>") nil)
+(define-key evil-insert-state-map (kbd "C-j") nil)
+(define-key evil-insert-state-map (kbd "C-k") nil)
+(define-key evil-motion-state-map (kbd "<tab>") nil)
 
-  (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
-  (define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
+(define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
+(define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
 #+end_src
 
 Disable the annoying auto-comment on newline.
 #+begin_src elisp
-  (setq +evil-want-o/O-to-continue-comments nil)
+(setq +evil-want-o/O-to-continue-comments nil)
 #+end_src
 
 Additionally, I like to have structural typing for s-exprs.
 #+begin_src elisp
-  (use-package! evil-lisp-state
-    :init (setq evil-lisp-state-global t)
-    :config (evil-lisp-state-leader "SPC k"))
+(use-package! evil-lisp-state
+  :init (setq evil-lisp-state-global t)
+  :config (evil-lisp-state-leader "SPC k"))
 #+end_src
 
 Unbind annoying key that I press a lot accidentally.
 #+begin_src elisp
-  (unbind-key "K" evil-normal-state-map)
-  (unbind-key "K" evil-visual-state-map)
-  (unbind-key "K" evil-motion-state-map)
+(unbind-key "K" evil-normal-state-map)
+(unbind-key "K" evil-visual-state-map)
+(unbind-key "K" evil-motion-state-map)
 #+end_src
 * =evil-lisp-state=
 Currently supplies my structural editing needs
 #+begin_src elisp
-  (use-package! evil-lisp-state
-    :init (setq evil-lisp-state-global t)
-    :config (evil-lisp-state-leader "SPC k"))
+(use-package! evil-lisp-state
+  :init (setq evil-lisp-state-global t)
+  :config (evil-lisp-state-leader "SPC k"))
 #+end_src
 * =flycheck=
 Emphasize the error/warning fringe indicators. When I go through a file, I typically rely on the fridge to tell guide me to code that I have to fix.
@@ -169,116 +169,116 @@ Emphasize the error/warning fringe indicators. When I go through a file, I typic
 * =ielm=
 Set a cool prompt and make it non-noisy (What does this even mean?)
 #+begin_src elisp
-  (setq ielm-noisy nil
-        ielm-prompt "λ> ")
+(setq ielm-noisy nil
+      ielm-prompt "λ> ")
 #+end_src
 * =iscroll=
 #+begin_src elisp
-  (use-package! iscroll
-    :config (iscroll-mode +1))
+(use-package! iscroll
+  :config (iscroll-mode +1))
 #+end_src
 * =ispell=
 Fix the ispell dictinoary.
 #+begin_src elisp
-  (setq ispell-dictionary "en")
+(setq ispell-dictionary "en")
 #+end_src
 * =ivy=
 Make ivy show up in the top center of the screen (apart from when used with counsel)
 #+begin_src elisp
-  (after! ivy-posframe
-    (setf (alist-get t ivy-posframe-display-functions-alist)
-          #'ivy-posframe-display-at-frame-top-center)
-    (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
-          #'ivy-posframe-display-at-frame-top-center)
-    (setq ivy-posframe-border-width 10
-          ivy-posframe-width 120
-          ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
-                                                                    (right-fringe . 3)))))
+(after! ivy-posframe
+  (setf (alist-get t ivy-posframe-display-functions-alist)
+        #'ivy-posframe-display-at-frame-top-center)
+  (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
+        #'ivy-posframe-display-at-frame-top-center)
+  (setq ivy-posframe-border-width 10
+        ivy-posframe-width 120
+        ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
+                                                                  (right-fringe . 3)))))
 #+end_src
 
 
 TODO What is this for?
 #+begin_src elisp
-  (setq posframe-arghandler
-        (lambda (_buffer-or-name key value)
-          (or (eq key :lines-truncate)
-              value)))
+(setq posframe-arghandler
+      (lambda (_buffer-or-name key value)
+        (or (eq key :lines-truncate)
+            value)))
 #+end_src
 
 Get rid of ./ and ../ in ivy file prompts
 #+begin_src elisp
-  (setq ivy-extra-directories ())
+(setq ivy-extra-directories ())
 #+end_src
 
 Fix for https://github.com/hlissner/doom-emacs/issues/3038.
 #+begin_src elisp
-  (after! counsel
-    (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
+(after! counsel
+  (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
 #+end_src
 * =kubernetes=
 #+begin_src elisp
-  (use-package kubernetes
-    :ensure t
-    :commands (kubernetes-overview))
+(use-package kubernetes
+  :ensure t
+  :commands (kubernetes-overview))
 
-  (use-package kubernetes-evil
-    :ensure t
-    :after kubernetes)
+(use-package kubernetes-evil
+  :ensure t
+  :after kubernetes)
 #+end_src
 * =lsp=
 #+begin_src elisp
-  (after! lsp-mode
-    (custom-set-faces!
-      '(header-line :height 0.90))
-    (setq lsp-lens-enable nil
-          lsp-log-io nil
-          lsp-completion-no-cache nil
-          lsp-completion-enable t
-          lsp-headerline-breadcrumb-enable t
-          lsp-headerline-breadcrumb-enable-diagnostics nil
-          lsp-completion-sort-initial-results nil
-          lsp-completion-use-last-result nil
-          lsp-eldoc-enable-hover nil))
+(after! lsp-mode
+  (custom-set-faces!
+    '(header-line :height 0.90))
+  (setq lsp-lens-enable nil
+        lsp-log-io nil
+        lsp-completion-no-cache nil
+        lsp-completion-enable t
+        lsp-headerline-breadcrumb-enable t
+        lsp-headerline-breadcrumb-enable-diagnostics nil
+        lsp-completion-sort-initial-results nil
+        lsp-completion-use-last-result nil
+        lsp-eldoc-enable-hover nil))
 #+end_src
 Directories to ignore for specific languages
 #+begin_src elisp
-  (after! lsp-mode
-    ;; Clojure(Script)
-    (dolist (to-ignore '("[/\\\\]\\.clj-kondo$"
-                         "[/\\\\]\\.shadow-cljs$"
-                         "[/\\\\]resources$"))
-      (add-to-list 'lsp-file-watch-ignored to-ignore)))
+(after! lsp-mode
+  ;; Clojure(Script)
+  (dolist (to-ignore '("[/\\\\]\\.clj-kondo$"
+                       "[/\\\\]\\.shadow-cljs$"
+                       "[/\\\\]resources$"))
+    (add-to-list 'lsp-file-watch-ignored to-ignore)))
 #+end_src
 ** =lsp-ui=
 TODO Convert the `define-key` statements to use `map!`
 #+begin_src elisp
-  (after! lsp-ui
-    (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
-    (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
-    (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
-    (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
-    (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
-    (map! :map lsp-mode-map
-          :nv "SPC c m" #'lsp-ui-imenu
-          :nv "SPC d" #'lsp-ui-doc-glance)
-    (setq lsp-ui-peek-fontify 'always
-          lsp-ui-peek-list-width 100
-          lsp-ui-peek-peek-height 40
+(after! lsp-ui
+  (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
+  (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
+  (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
+  (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
+  (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
+  (map! :map lsp-mode-map
+        :nv "SPC c m" #'lsp-ui-imenu
+        :nv "SPC d" #'lsp-ui-doc-glance)
+  (setq lsp-ui-peek-fontify 'always
+        lsp-ui-peek-list-width 100
+        lsp-ui-peek-peek-height 40
 
-          lsp-ui-doc-enable nil
-          ;; Prevents LSP peek to disappear when mouse touches it
-          lsp-ui-doc-show-with-mouse nil
-          lsp-ui-doc-include-signature t
-          lsp-ui-doc-delay 0
-          lsp-ui-doc-position 'at-point
-          lsp-ui-doc-max-width 120
-          lsp-ui-doc-max-height 120
-          lsp-ui-doc-header t
+        lsp-ui-doc-enable nil
+        ;; Prevents LSP peek to disappear when mouse touches it
+        lsp-ui-doc-show-with-mouse nil
+        lsp-ui-doc-include-signature t
+        lsp-ui-doc-delay 0
+        lsp-ui-doc-position 'at-point
+        lsp-ui-doc-max-width 120
+        lsp-ui-doc-max-height 120
+        lsp-ui-doc-header t
 
-          lsp-ui-imenu-enable t
+        lsp-ui-imenu-enable t
 
-          ;; This is just annoying, really
-          lsp-ui-sideline-enable nil))
+        ;; This is just annoying, really
+        lsp-ui-sideline-enable nil))
 #+end_src
 Display lsp-ui-peek in a childframe so that the whole screen is used despite multiple windows.
 
@@ -286,235 +286,235 @@ Only on GUI though since TTY doesn't support posframes :^(.
 
 Copied from https://github.com/emacs-lsp/lsp-ui/issues/441.
 #+begin_src elisp
-  (when (display-graphic-p)
-    (defun lsp-ui-peek--peek-display (src1 src2)
-      (-let* ((win-width (frame-width))
-              (lsp-ui-peek-list-width (/ (frame-width) 2))
-              (string (-some--> (-zip-fill "" src1 src2)
-                        (--map (lsp-ui-peek--adjust win-width it) it)
-                        (-map-indexed 'lsp-ui-peek--make-line it)
-                        (-concat it (lsp-ui-peek--make-footer)))))
-        (setq lsp-ui-peek--buffer (get-buffer-create " *lsp-peek--buffer*"))
-        (posframe-show lsp-ui-peek--buffer
-                       :string (mapconcat 'identity string "")
-                       :min-width (frame-width)
-                       :poshandler #'posframe-poshandler-frame-center)))
+(when (display-graphic-p)
+  (defun lsp-ui-peek--peek-display (src1 src2)
+    (-let* ((win-width (frame-width))
+            (lsp-ui-peek-list-width (/ (frame-width) 2))
+            (string (-some--> (-zip-fill "" src1 src2)
+                      (--map (lsp-ui-peek--adjust win-width it) it)
+                      (-map-indexed 'lsp-ui-peek--make-line it)
+                      (-concat it (lsp-ui-peek--make-footer)))))
+      (setq lsp-ui-peek--buffer (get-buffer-create " *lsp-peek--buffer*"))
+      (posframe-show lsp-ui-peek--buffer
+                     :string (mapconcat 'identity string "")
+                     :min-width (frame-width)
+                     :poshandler #'posframe-poshandler-frame-center)))
 
-    (defun lsp-ui-peek--peek-destroy ()
-      (when (bufferp lsp-ui-peek--buffer)
-        (posframe-delete lsp-ui-peek--buffer))
-      (setq lsp-ui-peek--buffer nil
-            lsp-ui-peek--last-xref nil)
-      (set-window-start (get-buffer-window) lsp-ui-peek--win-start))
+  (defun lsp-ui-peek--peek-destroy ()
+    (when (bufferp lsp-ui-peek--buffer)
+      (posframe-delete lsp-ui-peek--buffer))
+    (setq lsp-ui-peek--buffer nil
+          lsp-ui-peek--last-xref nil)
+    (set-window-start (get-buffer-window) lsp-ui-peek--win-start))
 
-    (advice-add #'lsp-ui-peek--peek-new :override #'lsp-ui-peek--peek-display)
-    (advice-add #'lsp-ui-peek--peek-hide :override #'lsp-ui-peek--peek-destroy))
+  (advice-add #'lsp-ui-peek--peek-new :override #'lsp-ui-peek--peek-display)
+  (advice-add #'lsp-ui-peek--peek-hide :override #'lsp-ui-peek--peek-destroy))
 #+end_src
 * =modeline=
 #+begin_src elisp
-  (after! doom-modeline
-    (setq doom-modeline-buffer-file-name-style nil
-          doom-modeline-height 0
-          doom-modeline-major-mode-icon t
-          doom-modeline-major-mode-color-icon t
-          doom-modeline-buffer-modification-icon t
-          doom-modeline-modal-icon nil
-          doom-modeline-buffer-state-icon nil
-          doom-modeline-enable-word-count nil
-          doom-modeline-lsp nil))
-  (setq org-clock-mode-line-total 'current)
-  (setq display-time-default-load-average nil
-        display-time-24hr-format t)
+(after! doom-modeline
+  (setq doom-modeline-buffer-file-name-style nil
+        doom-modeline-height 0
+        doom-modeline-major-mode-icon t
+        doom-modeline-major-mode-color-icon t
+        doom-modeline-buffer-modification-icon t
+        doom-modeline-modal-icon nil
+        doom-modeline-buffer-state-icon nil
+        doom-modeline-enable-word-count nil
+        doom-modeline-lsp nil))
+(setq org-clock-mode-line-total 'current)
+(setq display-time-default-load-average nil
+      display-time-24hr-format t)
 #+end_src
 
 Display clock on modeline
 #+begin_src elisp
-  (display-time-mode +1)
+(display-time-mode +1)
 #+end_src
 * =org=
 #+begin_src elisp
-  (use-package! org
-    :init
-    (setq org-directory (concat ++sync-folder-path "/org")
-          org-default-notes-file (concat org-directory "/notes/default.org")
-          org-agenda-files (cl-map 'list (lambda (f) (concat org-directory "/" f))
-                                   '("life"
-                                     "work"
-                                     "captures"
-                                     "notes")))
-    :config
-    (setq org-agenda-span 60
-          org-agenda-start-on-weekday nil
-          org-agenda-start-day "-3d"
-          org-agenda-skip-scheduled-if-done t
-          org-agenda-skip-deadline-if-done t
-          org-agenda-window-setup 'other-window
-          org-ellipsis " ▾"
-          org-export-with-section-numbers nil
-          org-hide-emphasis-markers t
-          org-src-tab-acts-natively t
-          org-edit-src-content-indentation 2
-          org-src-preserve-indentation nil
-          org-startup-folded 'content
-          org-cycle-separator-lines 2
-          org-todo-keywords '((sequence "TODO(t)" "ONGOING(o)" "ON HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
-                              (sequence "[ ](T)" "[-](O)" "[?](H)" "|" "[X](D)"))
-          org-log-done 'time
-          org-hide-leading-stars t
-          org-superstar-headline-bullets-list '("▪")
-          org-superstar-cycle-headline-bullets 1
-          org-superstar-todo-bullet-alist '("▪")
-          org-tags-column -120
-          org-image-actual-width nil
-          ;; Don't log the time a task was rescheduled or redeadlined.
-          org-log-redeadline nil
-          org-log-reschedule nil
-          ;; Prefer rescheduling to future dates and times
-          org-read-date-prefer-future 'time))
+(use-package! org
+  :init
+  (setq org-directory (concat ++sync-folder-path "/org")
+        org-default-notes-file (concat org-directory "/notes/default.org")
+        org-agenda-files (cl-map 'list (lambda (f) (concat org-directory "/" f))
+                                 '("life"
+                                   "work"
+                                   "captures"
+                                   "notes")))
+  :config
+  (setq org-agenda-span 60
+        org-agenda-start-on-weekday nil
+        org-agenda-start-day "-3d"
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-window-setup 'other-window
+        org-ellipsis " ▾"
+        org-export-with-section-numbers nil
+        org-hide-emphasis-markers t
+        org-src-tab-acts-natively t
+        org-edit-src-content-indentation 2
+        org-src-preserve-indentation nil
+        org-startup-folded 'content
+        org-cycle-separator-lines 2
+        org-todo-keywords '((sequence "TODO(t)" "ONGOING(o)" "ON HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
+                            (sequence "[ ](T)" "[-](O)" "[?](H)" "|" "[X](D)"))
+        org-log-done 'time
+        org-hide-leading-stars t
+        org-superstar-headline-bullets-list '("▪")
+        org-superstar-cycle-headline-bullets 1
+        org-superstar-todo-bullet-alist '("▪")
+        org-tags-column -120
+        org-image-actual-width nil
+        ;; Don't log the time a task was rescheduled or redeadlined.
+        org-log-redeadline nil
+        org-log-reschedule nil
+        ;; Prefer rescheduling to future dates and times
+        org-read-date-prefer-future 'time))
 #+end_src
 Refresh org-agenda after rescheduling a task
 #+begin_src elisp
-  (defun org-agenda-refresh ()
-    "Refresh all `org-agenda' buffers."
-    (dolist (buffer (buffer-list))
-      (with-current-buffer buffer
-        (when (derived-mode-p 'org-agenda-mode)
-          (org-agenda-maybe-redo)))))
+(defun org-agenda-refresh ()
+  "Refresh all `org-agenda' buffers."
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (when (derived-mode-p 'org-agenda-mode)
+        (org-agenda-maybe-redo)))))
 
-  (defadvice org-schedule (after refresh-agenda activate)
-    "Refresh org-agenda."
-    (org-agenda-refresh))
+(defadvice org-schedule (after refresh-agenda activate)
+  "Refresh org-agenda."
+  (org-agenda-refresh))
 #+end_src
 Allow pasting images into org-mode
 #+begin_src elisp
-  (use-package! org-download
-    :config (setq org-download-method 'attach))
+(use-package! org-download
+  :config (setq org-download-method 'attach))
 #+end_src
 Allow drag-and-drop-ing to `dired`
 #+begin_src elisp
-  (add-hook 'dired-mode-hook 'org-download-enable)
+(add-hook 'dired-mode-hook 'org-download-enable)
 #+end_src
 ** =org-capture=
 #+begin_src elisp
-  (after! org
-    (setq org-capture-templates
-          '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")
-             "* TODO %?\n%U"
-             :kill-buffer t)
-            ("t" "Task" entry (file "~/Dropbox/org/captures/tasks.org")
-             "* TODO %?\n%U"
-             :kill-buffer t)
-            ("e" "From emacs" entry (file "~/Dropbox/org/captures/from-emacs.org")
-             "* %i\n%?"
-             :empty-lines 1
-             :kill-buffer t)
-            ("c" "From clipboard" entry (file "~/Dropbox/org/captures/from-clipboard.org")
-             "* %x\n%?"
-             :empty-lines 1
-             :kill-buffer t)
-            ("s" "Shopping list" entry (file "~/Dropbox/org/captures/shopping-list.org")
-             "* [ ] %?"
-             :jump-to-captured t
-             :empty-lines 1
-             :kill-buffer t))))
+(after! org
+  (setq org-capture-templates
+        '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")
+           "* TODO %?\n%U"
+           :kill-buffer t)
+          ("t" "Task" entry (file "~/Dropbox/org/captures/tasks.org")
+           "* TODO %?\n%U"
+           :kill-buffer t)
+          ("e" "From emacs" entry (file "~/Dropbox/org/captures/from-emacs.org")
+           "* %i\n%?"
+           :empty-lines 1
+           :kill-buffer t)
+          ("c" "From clipboard" entry (file "~/Dropbox/org/captures/from-clipboard.org")
+           "* %x\n%?"
+           :empty-lines 1
+           :kill-buffer t)
+          ("s" "Shopping list" entry (file "~/Dropbox/org/captures/shopping-list.org")
+           "* [ ] %?"
+           :jump-to-captured t
+           :empty-lines 1
+           :kill-buffer t))))
 #+end_src
 ** =org-babel=
 NodeJS - Make sure org-babel finds `node_modules`
 #+begin_src elisp
-  (setenv "NODE_PATH"
-          (concat
-           (getenv "HOME") "/org/node_modules"  ":"
-           (getenv "NODE_PATH")))
+(setenv "NODE_PATH"
+        (concat
+         (getenv "HOME") "/org/node_modules"  ":"
+         (getenv "NODE_PATH")))
 #+end_src
 Clojure
 #+begin_src elisp
-  (use-package! ob-clojure
-    :init (require 'cider)
-    :config (setq org-babel-clojure-backend 'cider))
+(use-package! ob-clojure
+  :init (require 'cider)
+  :config (setq org-babel-clojure-backend 'cider))
 #+end_src
 General
 
 TODO Find out why emacs-lisp is set to nil
 #+begin_src elisp
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . nil)
-     (Clojure . t)
-     (Javascript . t)))
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . nil)
+   (Clojure . t)
+   (Javascript . t)))
 #+end_src
 * =persp=
 #+begin_src elisp
-  (setq persp-save-dir (concat ++sync-folder-path "/emacs/sessions/"))
+(setq persp-save-dir (concat ++sync-folder-path "/emacs/sessions/"))
 #+end_src
 * =projectile=
 It's convenient to open a file in a different window sometimes.
 #+begin_src elisp
-  (map! :nv "SPC f g" #'projectile-find-file-other-window)
+(map! :nv "SPC f g" #'projectile-find-file-other-window)
 #+end_src
 
 Get rid of annoying projectile staleness without it being too expensive/noticeable.
 #+begin_src elisp
-  (use-package! projectile
-    :config
-    (setq projectile-files-cache-expire 10))
+(use-package! projectile
+  :config
+  (setq projectile-files-cache-expire 10))
 #+end_src
 * =rainbow=
 #+begin_src elisp
-  (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
+(add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
 #+end_src
 * =shell=
 Company mode in shell is just annoying.
 #+begin_src elisp
-  (add-hook 'shell-mode-hook (lambda () (company-mode -1)))
+(add-hook 'shell-mode-hook (lambda () (company-mode -1)))
 #+end_src
 * =smooth-scrolling=
 #+begin_src elisp
-  (require 'smooth-scrolling)
+(require 'smooth-scrolling)
 #+end_src
 * =synosaurus=
 #+begin_src elisp
-  (require 'synosaurus)
+(require 'synosaurus)
 #+end_src
 * =treemacs=
 #+begin_src elisp
-  (add-hook 'treemacs-mode-hook
-            (lambda ()
-              (when (display-graphic-p)
-                (text-scale-decrease 1.5))))
+(add-hook 'treemacs-mode-hook
+          (lambda ()
+            (when (display-graphic-p)
+              (text-scale-decrease 1.5))))
 
-  (with-eval-after-load 'treemacs-icons
-    (when (display-graphic-p)
-      (treemacs-resize-icons 10)))
+(with-eval-after-load 'treemacs-icons
+  (when (display-graphic-p)
+    (treemacs-resize-icons 10)))
 
-  (use-package treemacs
-    :commands (treemacs)
-    :bind (("<f8>" . treemacs)
-           ("<f9>" . treemacs-select-window))
-    :init
-    (progn
-      (when window-system
-        (setq treemacs-width 30
-              treemacs-is-never-other-window t
-              treemacs-file-event-delay 1000
-              treemacs-show-cursor t
-              treemacs--width-is-locked nil
-              treemacs-space-between-root-nodes nil
-              treemacs-filewatch-mode t
-              treemacs-fringe-indicator-mode t))
-      (when (not (display-graphic-p))
-        (setq treemacs-no-png-images t))))
+(use-package treemacs
+  :commands (treemacs)
+  :bind (("<f8>" . treemacs)
+         ("<f9>" . treemacs-select-window))
+  :init
+  (progn
+    (when window-system
+      (setq treemacs-width 30
+            treemacs-is-never-other-window t
+            treemacs-file-event-delay 1000
+            treemacs-show-cursor t
+            treemacs--width-is-locked nil
+            treemacs-space-between-root-nodes nil
+            treemacs-filewatch-mode t
+            treemacs-fringe-indicator-mode t))
+    (when (not (display-graphic-p))
+      (setq treemacs-no-png-images t))))
 #+end_src
 * =which-key=
 #+begin_src elisp
-  (which-key-mode +1)
+(which-key-mode +1)
 #+end_src
 * =vterm=
 Decrease the font size a bit
 #+begin_src elisp
-  (add-hook 'vterm-mode-hook (lambda () (text-scale-decrease 1.1)))
+(add-hook 'vterm-mode-hook (lambda () (text-scale-decrease 1.1)))
 #+end_src
 * =+lookup=
 =SPC e= for eldoc
 #+begin_src elisp
-  (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
+(map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 #+end_src

@@ -584,6 +584,8 @@
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
+(setq display-line-numbers-type nil)
+
 (setq byte-compile-warnings '(not obsolete))
 
 (add-to-list 'term-file-aliases '("alacritty" . "xterm"))
@@ -601,12 +603,13 @@
         clojurescript-mode
         emacs-lisp-mode))
 
-(setq +ligatures-extras-in-modes
-      '(clojure-mode
-        clojurescript-mode
-        clojurec-mode
-        emacs-lisp-mode
-        org-mode))
+(let ((modes '(clojure-mode
+               clojurescript-mode
+               clojurec-mode
+               emacs-lisp-mode
+               org-mode)))
+  (setq +ligatures-in-modes modes)
+  (setq +ligatures-extras-in-modes modes))
 
 (when (not (display-graphic-p))
   (setq debug-on-error nil))
@@ -652,8 +655,6 @@
 (map! :n "SPC +" (cond ((eq external-terminal-to-open 'gnome) #'external-gnome-terminal)
                        ((eq external-terminal-to-open 'xfce4) #'external-xfce4-terminal)
                        (t (message (concat "Invalid value for variable `external-terminal-to-open:' " external-terminal-to-open)))))
-
-(setq display-line-numbers-type nil)
 
 (defvar ++random-melpa-pkg-timer nil)
 (defvar ++random-melpa-pkg-buffer "*++random-melpa-pkg-posframe-buffer*")
