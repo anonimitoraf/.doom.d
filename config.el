@@ -497,8 +497,6 @@
 
 (require 'smooth-scrolling)
 
-(require 'synosaurus)
-
 (add-hook 'treemacs-mode-hook
           (lambda ()
             (when (display-graphic-p)

@@ -471,10 +471,6 @@ Company mode in shell is just annoying.
 #+begin_src elisp
 (require 'smooth-scrolling)
 #+end_src
-* =synosaurus=
-#+begin_src elisp
-(require 'synosaurus)
-#+end_src
 * =treemacs=
 #+begin_src elisp
 (add-hook 'treemacs-mode-hook
