@@ -2,7 +2,7 @@
 
 * General emacs configurations
 Line numbers are already displayed in the modeline
-#+begin_src emacs-lisp
+#+begin_src elisp
 (setq display-line-numbers-type nil)
 #+end_src
 
@@ -107,7 +107,7 @@ Open external terminal. TODO Support alacritty
 #+end_src
 
 Show a random MELPA package every so often
-#+begin_src emacs-lisp
+#+begin_src elisp
 (defvar ++random-melpa-pkg-timer nil)
 (defvar ++random-melpa-pkg-buffer "*++random-melpa-pkg-posframe-buffer*")
 
