@@ -122,6 +122,11 @@ Unbind annoying key that I press a lot accidentally.
 (unbind-key "K" evil-visual-state-map)
 (unbind-key "K" evil-motion-state-map)
 #+end_src
+
+I've always found evil's undo to undo more than I want it to
+#+begin_src elisp
+(setq evil-want-fine-undo t)
+#+end_src
 * =evil-lisp-state=
 Currently supplies my structural editing needs
 #+begin_src elisp
