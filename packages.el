@@ -132,3 +132,6 @@
 
 (package! dotenv-mode
   :recipe (:host github :repo "preetpalS/emacs-dotenv-mode"))
+
+(package! benchmark-init
+  :recipe (:host github :repo "kekeimiku/benchmark-init-el"))
