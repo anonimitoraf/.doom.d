@@ -1,11 +1,6 @@
 #+TITLE: Misc
 
 * General emacs configurations
-Line numbers are already displayed in the modeline
-#+begin_src elisp
-(setq display-line-numbers-type nil)
-#+end_src
-
 I don't really care about byte-compile warnings. Should I?
 #+begin_src elisp
 (setq byte-compile-warnings '(not obsolete))

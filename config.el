@@ -584,8 +584,6 @@
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
-(setq display-line-numbers-type nil)
-
 (setq byte-compile-warnings '(not obsolete))
 
 (add-to-list 'term-file-aliases '("alacritty" . "xterm"))
