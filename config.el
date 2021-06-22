@@ -155,6 +155,11 @@
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
+(custom-set-faces!
+  '(aw-leading-char-face
+    :foreground "white" :background "red"
+    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+
 (use-package! all-the-icons
   :config (setq all-the-icons-scale-factor 0.90))
 
