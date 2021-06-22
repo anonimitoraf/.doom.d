@@ -59,6 +59,18 @@ Ligatures
           (lambda ()
             (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))
 #+end_src
+* Erlang
+Function for generating TAGS
+#+begin_src elisp
+(defun ++erlang-etags ()
+  (interactive)
+  (async-shell-command
+   (format (concat
+            "find %s -type f -name \"*.[he]rl\" | etags.emacs"
+            " -o " (concat (projectile-project-root) "TAGS")
+            " -")
+           (projectile-project-root))))
+#+end_src
 * Type/Javascript
 #+begin_src elisp
 ;; TODO Should this be part of a use-package! call?

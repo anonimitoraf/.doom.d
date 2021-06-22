@@ -580,6 +580,15 @@
           (lambda ()
             (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))
 
+(defun ++erlang-etags ()
+  (interactive)
+  (async-shell-command
+   (format (concat
+            "find %s -type f -name \"*.[he]rl\" | etags.emacs"
+            " -o " (concat (projectile-project-root) "TAGS")
+            " -")
+           (projectile-project-root))))
+
 ;; TODO Should this be part of a use-package! call?
 (setq typescript-indent-level 2)
 
