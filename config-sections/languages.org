@@ -71,6 +71,12 @@ Function for generating TAGS
             " -")
            (projectile-project-root))))
 #+end_src
+Company is a bit useless inside the erlang-shell
+#+begin_src elisp
+(map! :map erlang-shell-mode-map "C-SPC" #'erlang-complete-tag)
+
+(add-hook 'erlang-shell-mode-hook (lambda () (company-mode -1)))
+#+end_src
 * Type/Javascript
 #+begin_src elisp
 ;; TODO Should this be part of a use-package! call?
