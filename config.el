@@ -237,6 +237,9 @@
 
 (setq evil-want-fine-undo t)
 
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+
 (use-package! evil-lisp-state
   :init (setq evil-lisp-state-global t)
   :config (evil-lisp-state-leader "SPC k"))

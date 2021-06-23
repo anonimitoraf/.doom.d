@@ -134,6 +134,11 @@ I've always found evil's undo to undo more than I want it to
 #+begin_src elisp
 (setq evil-want-fine-undo t)
 #+end_src
+
+#+begin_src elisp
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+#+end_src
 * =evil-lisp-state=
 Currently supplies my structural editing needs
 #+begin_src elisp
