@@ -589,6 +589,12 @@
             " -")
            (projectile-project-root))))
 
+(add-hook 'erlang-shell-mode-hook (lambda () (company-mode -1)))
+
+(map! :map erlang-shell-mode-map
+      "C-SPC" #'erlang-complete-tag
+      :nv "C-l" 'comint-clear-buffer)
+
 ;; TODO Should this be part of a use-package! call?
 (setq typescript-indent-level 2)
 
