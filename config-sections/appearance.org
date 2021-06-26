@@ -124,23 +124,24 @@ I know most of the keyboard shortcuts by now :P
 (require 'clojure-rand-ref)
 
 (defun ++dashboard-trivia ()
-  (clojure-rand-ref
-   (lambda (entry)
-     (with-current-buffer +doom-dashboard-name
-       (read-only-mode -1)
-       (goto-char (point-min))
-       (forward-line 5)
-       (insert "Clojure Trivia\n\n")
-       (insert-text-button (concat "  " (plist-get entry :symbol) "\n")
-                           'action (lambda (_)
-                                     (+doom-dashboard-reload t)
-                                     (++dashboard-trivia)
-                                     (browse-url (plist-get entry :link)))
-                           'face 'doom-dashboard-menu-title
-                           'mouse-face 'doom-dashboard-menu-title
-                           'follow-link t)
-       (insert "  " (plist-get entry :description) "\n")
-       (read-only-mode +1)))))
+ (clojure-rand-ref
+  (lambda (entry)
+    (with-current-buffer +doom-dashboard-name
+      (when entry
+        (read-only-mode -1)
+        (goto-char (point-min))
+        (forward-line 5)
+        (insert "Clojure Trivia\n\n")
+        (insert-text-button (concat "  " (plist-get entry :symbol) "\n")
+                            'action (lambda (_)
+                                      (+doom-dashboard-reload t)
+                                      (++dashboard-trivia)
+                                      (browse-url (plist-get entry :link)))
+                            'face 'doom-dashboard-menu-title
+                            'mouse-face 'doom-dashboard-menu-title
+                            'follow-link t)
+        (insert "  " (plist-get entry :description) "\n")
+        (read-only-mode +1))))))
 
 (advice-add #'+doom-dashboard-init-h :after #'++dashboard-trivia)
 #+end_src

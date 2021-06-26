@@ -113,23 +113,24 @@
 (require 'clojure-rand-ref)
 
 (defun ++dashboard-trivia ()
-  (clojure-rand-ref
-   (lambda (entry)
-     (with-current-buffer +doom-dashboard-name
-       (read-only-mode -1)
-       (goto-char (point-min))
-       (forward-line 5)
-       (insert "Clojure Trivia\n\n")
-       (insert-text-button (concat "  " (plist-get entry :symbol) "\n")
-                           'action (lambda (_)
-                                     (+doom-dashboard-reload t)
-                                     (++dashboard-trivia)
-                                     (browse-url (plist-get entry :link)))
-                           'face 'doom-dashboard-menu-title
-                           'mouse-face 'doom-dashboard-menu-title
-                           'follow-link t)
-       (insert "  " (plist-get entry :description) "\n")
-       (read-only-mode +1)))))
+ (clojure-rand-ref
+  (lambda (entry)
+    (with-current-buffer +doom-dashboard-name
+      (when entry
+        (read-only-mode -1)
+        (goto-char (point-min))
+        (forward-line 5)
+        (insert "Clojure Trivia\n\n")
+        (insert-text-button (concat "  " (plist-get entry :symbol) "\n")
+                            'action (lambda (_)
+                                      (+doom-dashboard-reload t)
+                                      (++dashboard-trivia)
+                                      (browse-url (plist-get entry :link)))
+                            'face 'doom-dashboard-menu-title
+                            'mouse-face 'doom-dashboard-menu-title
+                            'follow-link t)
+        (insert "  " (plist-get entry :description) "\n")
+        (read-only-mode +1))))))
 
 (advice-add #'+doom-dashboard-init-h :after #'++dashboard-trivia)
 
@@ -155,10 +156,10 @@
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
-(custom-set-faces!
-  '(aw-leading-char-face
-    :foreground "white" :background "red"
-    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+  (custom-set-faces!
+    '(aw-leading-char-face
+      :foreground "white" :background "red"
+      :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
 (use-package! all-the-icons
   :config (setq all-the-icons-scale-factor 0.90))
