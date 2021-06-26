@@ -324,7 +324,8 @@
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-completion-sort-initial-results nil
         lsp-completion-use-last-result nil
-        lsp-eldoc-enable-hover nil))
+        lsp-eldoc-enable-hover nil
+        lsp-lens-place-position 'end-of-line))
 
 (after! lsp-mode
   ;; Clojure(Script)
