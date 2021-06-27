@@ -247,7 +247,7 @@ Fix for https://github.com/hlissner/doom-emacs/issues/3038.
 (after! lsp-mode
   (custom-set-faces!
     '(header-line :height 0.90))
-  (setq lsp-lens-enable nil
+  (setq lsp-lens-enable t
         lsp-log-io nil
         lsp-completion-no-cache nil
         lsp-completion-enable t

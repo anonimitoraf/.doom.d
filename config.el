@@ -156,10 +156,10 @@
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
-  (custom-set-faces!
-    '(aw-leading-char-face
-      :foreground "white" :background "red"
-      :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+(custom-set-faces!
+  '(aw-leading-char-face
+    :foreground "white" :background "red"
+    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
 (use-package! all-the-icons
   :config (setq all-the-icons-scale-factor 0.90))
@@ -317,7 +317,7 @@
 (after! lsp-mode
   (custom-set-faces!
     '(header-line :height 0.90))
-  (setq lsp-lens-enable nil
+  (setq lsp-lens-enable t
         lsp-log-io nil
         lsp-completion-no-cache nil
         lsp-completion-enable t
