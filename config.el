@@ -637,6 +637,8 @@
 (when (not (display-graphic-p))
   (setq debug-on-error nil))
 
+(setq x-select-enable-clipboard-manager nil)
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))
