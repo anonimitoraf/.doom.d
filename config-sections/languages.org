@@ -60,16 +60,22 @@ Ligatures
             (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))
 #+end_src
 * Erlang
-Function for generating TAGS
+Function for compiling, generating then visiting TAGS
 #+begin_src elisp
-(defun ++erlang-etags ()
+(defun ++erlang-compile ()
   (interactive)
-  (async-shell-command
-   (format (concat
-            "find %s -type f -name \"*.[he]rl\" | etags.emacs"
-            " -o " (concat (projectile-project-root) "TAGS")
-            " -")
-           (projectile-project-root))))
+  (erlang-compile)
+  (set-buffer "*erlang*")
+  (let ((root (projectile-project-root)))
+    (++async-shell-command
+     (format (concat
+              "find %s -type f -name \"*.[he]rl\" | etags.emacs"
+              " -o " (concat root "TAGS")
+              " -")
+             root)
+     (lambda (_) (progn (message (concat "Generated tags for project " root))
+                        (visit-tags-table root))))))
+
 #+end_src
 Company is a bit useless inside the erlang-shell
 #+begin_src elisp
@@ -80,6 +86,9 @@ Company is a bit useless inside the erlang-shell
 (map! :map erlang-shell-mode-map
       "C-SPC" #'erlang-complete-tag
       :nv "C-l" 'comint-clear-buffer)
+
+(map! :map erlang-mode-map
+      "C-c C-k" #'++erlang-compile)
 #+end_src
 * Type/Javascript
 #+begin_src elisp

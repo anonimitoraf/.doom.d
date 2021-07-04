@@ -29,10 +29,11 @@ Tabs = 2 spaces. TODO Maybe each mode has to be different
 * Enabling only particular formatters
 #+begin_src elisp
 (setq +format-on-save-enabled-modes
-      '(clojurec-mode
+    '(clojurec-mode
         clojure-mode
         clojurescript-mode
-        emacs-lisp-mode))
+        emacs-lisp-mode
+        erlang-mode))
 #+end_src
 
 * Enabling (extra) ligatures just for some modes

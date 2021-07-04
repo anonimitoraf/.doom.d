@@ -11,6 +11,29 @@
 (defun ++with-face (str &rest face-plist)
   (propertize str 'face face-plist))
 
+(defun ++async-shell-command (command callback)
+  "Execute shell COMMAND asynchronously in the background.
+
+Return the temporary output buffer which command is writing to
+during execution.
+
+When the command is finished, call CALLBACK with the resulting
+output as a string."
+  (let* ((output-buffer (generate-new-buffer " *++async-shell-command*"))
+         (callback-fn callback))
+    (set-process-sentinel
+     (start-process "++async-shell-command" output-buffer shell-file-name shell-command-switch command)
+     (lambda (process _signal)
+       (when (memq (process-status process) '(exit signal))
+         (with-current-buffer output-buffer
+           (let ((output-string
+                  (buffer-substring-no-properties
+                   (point-min)
+                   (point-max))))
+             (funcall callback-fn output-string)))
+         (kill-buffer output-buffer))))
+    output-buffer))
+
 (defvar ++sync-folder-path "~/Dropbox")
 
 (defvar ++vscode-search-occ-bg "#48240a")
@@ -423,7 +446,7 @@
         org-export-with-section-numbers nil
         org-hide-emphasis-markers t
         org-src-tab-acts-natively t
-        org-edit-src-content-indentation 2
+        org-edit-src-content-indentation 0
         org-src-preserve-indentation nil
         org-startup-folded 'content
         org-cycle-separator-lines 2
@@ -585,20 +608,28 @@
           (lambda ()
             (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))
 
-(defun ++erlang-etags ()
+(defun ++erlang-compile ()
   (interactive)
-  (async-shell-command
-   (format (concat
-            "find %s -type f -name \"*.[he]rl\" | etags.emacs"
-            " -o " (concat (projectile-project-root) "TAGS")
-            " -")
-           (projectile-project-root))))
+  (erlang-compile)
+  (set-buffer "*erlang*")
+  (let ((root (projectile-project-root)))
+    (++async-shell-command
+     (format (concat
+              "find %s -type f -name \"*.[he]rl\" | etags.emacs"
+              " -o " (concat root "TAGS")
+              " -")
+             root)
+     (lambda (_) (progn (message (concat "Generated tags for project " root))
+                        (visit-tags-table root))))))
 
 (add-hook 'erlang-shell-mode-hook (lambda () (company-mode -1)))
 
 (map! :map erlang-shell-mode-map
       "C-SPC" #'erlang-complete-tag
       :nv "C-l" 'comint-clear-buffer)
+
+(map! :map erlang-mode-map
+      "C-c C-k" #'++erlang-compile)
 
 ;; TODO Should this be part of a use-package! call?
 (setq typescript-indent-level 2)
@@ -621,10 +652,11 @@
                                 (doom/set-indent-width 2)))
 
 (setq +format-on-save-enabled-modes
-      '(clojurec-mode
+    '(clojurec-mode
         clojure-mode
         clojurescript-mode
-        emacs-lisp-mode))
+        emacs-lisp-mode
+        erlang-mode))
 
 (let ((modes '(clojure-mode
                clojurescript-mode
