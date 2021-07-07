@@ -626,7 +626,7 @@ output as a string."
 
 (map! :map erlang-shell-mode-map
       "C-SPC" #'erlang-complete-tag
-      :nv "C-l" 'comint-clear-buffer)
+      "C-l" 'comint-clear-buffer)
 
 (map! :map erlang-mode-map
       "C-c C-k" #'++erlang-compile)
