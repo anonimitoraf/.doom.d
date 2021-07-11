@@ -155,7 +155,8 @@
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective came
        (org +pretty        ; organize your plain life in plain text
-            +dragndrop)
+            +dragndrop
+            +hugo)
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
