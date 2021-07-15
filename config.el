@@ -301,6 +301,8 @@ output as a string."
   :fringe-face 'flycheck-fringe-warning
   :error-list-face 'flycheck-error-list-warning)
 
+(add-hook! '(text-mode-hook prog-mode-hook) #'idle-highlight-mode)
+
 (setq ielm-noisy nil
       ielm-prompt "λ> ")
 

@@ -137,3 +137,6 @@
   :recipe (:host github :repo "kekeimiku/benchmark-init-el"))
 
 (unpin! lsp-mode)
+
+(package! idle-highlight-mode
+  :recipe (:host github :repo "nonsequitur/idle-highlight-mode"))

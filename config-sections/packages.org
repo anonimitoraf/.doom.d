@@ -183,6 +183,10 @@ Emphasize the error/warning fringe indicators. When I go through a file, I typic
   :error-list-face 'flycheck-error-list-warning)
 #+end_src
 
+* =idle-highlight-mode=
+#+begin_src elisp
+(add-hook! '(text-mode-hook prog-mode-hook) #'idle-highlight-mode)
+#+end_src
 * =ielm=
 Set a cool prompt and make it non-noisy (What does this even mean?)
 #+begin_src elisp
