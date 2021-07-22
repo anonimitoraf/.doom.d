@@ -340,8 +340,6 @@ output as a string."
   :after kubernetes)
 
 (after! lsp-mode
-  (custom-set-faces!
-    '(header-line :height 0.90))
   (setq lsp-lens-enable t
         lsp-log-io nil
         lsp-completion-no-cache nil
