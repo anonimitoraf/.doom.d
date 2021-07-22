@@ -673,6 +673,8 @@ output as a string."
 
 (setq x-select-enable-clipboard-manager nil)
 
+(setq-default line-spacing 0.25)
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))

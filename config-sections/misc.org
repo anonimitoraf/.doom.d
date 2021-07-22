@@ -57,6 +57,10 @@ Terminal emacs tends to throw a bunch of extra errors.
 #+begin_src elisp
 (setq x-select-enable-clipboard-manager nil)
 #+end_src
+* Line spacing similar to VSCode
+#+begin_src elisp
+(setq-default line-spacing 0.25)
+#+end_src
 * Custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp
