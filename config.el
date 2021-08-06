@@ -371,6 +371,7 @@ output as a string."
         lsp-ui-peek-list-width 100
         lsp-ui-peek-peek-height 40
 
+        ;; These can be brought up on-demand with SPC d
         lsp-ui-doc-enable nil
         ;; Prevents LSP peek to disappear when mouse touches it
         lsp-ui-doc-show-with-mouse nil
@@ -379,7 +380,7 @@ output as a string."
         lsp-ui-doc-position 'at-point
         lsp-ui-doc-max-width 120
         lsp-ui-doc-max-height 120
-        lsp-ui-doc-header t
+        lsp-ui-doc-header nil
 
         lsp-ui-imenu-enable t
 
