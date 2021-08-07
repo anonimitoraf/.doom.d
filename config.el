@@ -185,6 +185,10 @@ output as a string."
     :foreground "white" :background "red"
     :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
+(require 'alert)
+(setq alert-default-style 'notifications
+      alert-fade-time 30)
+
 (use-package! all-the-icons
   :config (setq all-the-icons-scale-factor 0.90))
 
@@ -757,23 +761,18 @@ output as a string."
                          " & disown") nil nil))
 
 (defvar ++random-melpa-pkg-timer nil)
-(defvar ++random-melpa-pkg-buffer "*++random-melpa-pkg-posframe-buffer*")
 
 (defun ++show-random-melpa-pkg ()
   (interactive)
   (package-list-packages-no-fetch)
   (with-current-buffer (get-buffer "*Packages*")
     (let* ((lines-num (count-lines (point-min) (point-max)))
-           (line (random (1- lines-num))))
+           (line (random (1- lines-num)))
+           (content (buffer-substring-no-properties
+                     (line-beginning-position line)
+                     (line-end-position line))))
       (prog1
-          (posframe-show ++random-melpa-pkg-buffer
-                         :string (buffer-substring-no-properties
-                                  (line-beginning-position line)
-                                  (line-end-position line))
-                         :background-color "white"
-                         :foreground-color "black"
-                         :internal-border-width 5
-                         :poshandler #'posframe-poshandler-frame-bottom-center)
+          (alert content :id 'random-melpa-pkg)
         (kill-buffer)))))
 
 (defun ++random-melpa-pkg-start ()
@@ -787,5 +786,4 @@ output as a string."
   (interactive)
   (when ++random-melpa-pkg-timer
     (cancel-timer ++random-melpa-pkg-timer)
-    (setq ++random-melpa-pkg-timer nil))
-  (posframe-hide ++random-melpa-pkg-buffer))
+    (setq ++random-melpa-pkg-timer nil)))

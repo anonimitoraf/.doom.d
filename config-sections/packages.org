@@ -11,6 +11,12 @@ Make window labels very obvious
       :foreground "white" :background "red"
       :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 #+end_src
+* =alert=
+#+begin_src elisp
+(require 'alert)
+(setq alert-default-style 'notifications
+      alert-fade-time 30)
+#+end_src
 * =all-the-icons=
 They're too big (by default) for my taste
 #+begin_src elisp

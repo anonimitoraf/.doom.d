@@ -140,3 +140,5 @@
 
 (package! idle-highlight-mode
   :recipe (:host github :repo "nonsequitur/idle-highlight-mode"))
+
+(package! alert)
