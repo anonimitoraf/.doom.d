@@ -1,6 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 (require 'dash)
+(require 'cl-lib)
 
 (setq user-full-name "Rafael Nicdao"
       user-mail-address "nicdaoraf@gmail.com")
@@ -11,7 +12,7 @@
 (defun ++with-face (str &rest face-plist)
   (propertize str 'face face-plist))
 
-(defun ++async-shell-command (command callback)
+(defun ++async-shell-command (command &optional callback)
   "Execute shell COMMAND asynchronously in the background.
 
 Return the temporary output buffer which command is writing to
@@ -20,7 +21,7 @@ during execution.
 When the command is finished, call CALLBACK with the resulting
 output as a string."
   (let* ((output-buffer (generate-new-buffer " *++async-shell-command*"))
-         (callback-fn callback))
+         (callback-fn (or callback (lambda (_)))))
     (set-process-sentinel
      (start-process "++async-shell-command" output-buffer shell-file-name shell-command-switch command)
      (lambda (process _signal)
@@ -382,6 +383,7 @@ output as a string."
         lsp-ui-doc-max-height 120
         lsp-ui-doc-header nil
 
+
         lsp-ui-imenu-enable t
 
         ;; This is just annoying, really
@@ -674,6 +676,54 @@ output as a string."
 
 (setq-default line-spacing 0.25)
 
+(defun ++tmux--new-session (session-name)
+  (++async-shell-command (concat "alacritty --command"
+                                 " \"tmux\""
+                                 " \"new\""
+                                 " \"-s\""
+                                 " \"" session-name "\"")
+                         (lambda (_) (message (concat "Created new tmux session: " session-name)))))
+
+(defun ++tmux--new-session-quiet (session-name)
+  (++async-shell-command (concat "tmux new -d -s " "\"" session-name "\"")
+                         (lambda (_) (message (concat "Created new tmux session (quiet): " session-name)))))
+
+(defun ++tmux--switch-session (session-name)
+  (++async-shell-command (concat "alacritty --command"
+                                 " \"tmux\""
+                                 " \"attach-session\""
+                                 " \"-t\""
+                                 " \"" session-name "\"")
+                         (lambda (_) (message (concat "Selected existing tmux session: " session-name)))))
+
+(defun ++tmux--switch-session-quiet (session-name)
+  (++async-shell-command (concat "tmux switch -t " "\"" session-name "\"")
+                         (lambda (_) (message (concat "Selected existing tmux session (quiet): " session-name)))))
+
+(defun ++tmux-go (&optional quiet?)
+  (interactive)
+  (++async-shell-command "tmux list-sessions | awk '$0=$1' | sed s/://"
+                         (lambda (sessions-str)
+                           (let ((sessions (split-string sessions-str)))
+                             (ivy-read "Select tmux session: " sessions
+                                       :action (lambda (selected-session)
+                                                 (if (not (member selected-session sessions))
+                                                     ;; Create a new session
+                                                     (progn
+                                                       (message (concat "Creating new tmux session: " selected-session))
+                                                       (if quiet?
+                                                           (++tmux--new-session-quiet selected-session)
+                                                         (++tmux--new-session selected-session)))
+                                                   ;; Switch to an existing session
+                                                   (progn
+                                                     (message (concat "Selecting existing session " selected-session))
+                                                     (if quiet?
+                                                         (++tmux--switch-session-quiet selected-session)
+                                                       (++tmux--switch-session selected-session))))))))))
+
+(map! :n "SPC _" (cmd! (++tmux-go))
+      :n "SPC -" (cmd! (++tmux-go t)))
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))
@@ -697,24 +747,13 @@ output as a string."
                                 (doom-save-session file))))))
 (map! :map doom-leader-map "q N" '++load-and-continuously-save)
 
-(defun external-gnome-terminal ()
-  (interactive "@")
-  (setenv "INSIDE_EMACS" nil) ;; We don't want gnome thinking that it's inside emacs
-  (shell-command (concat "gnome-terminal"
-                         " --working-directory " (file-name-directory (or load-file-name buffer-file-name))
-                         " > /dev/null 2>&1 & disown") nil nil))
-
-(defun external-xfce4-terminal ()
+(defun external-terminal ()
   (interactive "@")
   (setenv "INSIDE_EMACS" nil)
-  (shell-command (concat "xfce4-terminal"
+  (shell-command (concat "alacritty"
+                         " -qq"
                          " --working-directory " (file-name-directory (or load-file-name buffer-file-name))
-                         " > /dev/null 2>&1 & disown") nil nil))
-
-(setq external-terminal-to-open 'xfce4)
-(map! :n "SPC +" (cond ((eq external-terminal-to-open 'gnome) #'external-gnome-terminal)
-                       ((eq external-terminal-to-open 'xfce4) #'external-xfce4-terminal)
-                       (t (message (concat "Invalid value for variable `external-terminal-to-open:' " external-terminal-to-open)))))
+                         " & disown") nil nil))
 
 (defvar ++random-melpa-pkg-timer nil)
 (defvar ++random-melpa-pkg-buffer "*++random-melpa-pkg-posframe-buffer*")

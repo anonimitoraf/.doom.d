@@ -15,7 +15,7 @@
 * Asynchronously executing a shell command
 (Borrowed from https://stackoverflow.com/a/23078813)
 #+begin_src elisp
-(defun ++async-shell-command (command callback)
+(defun ++async-shell-command (command &optional callback)
   "Execute shell COMMAND asynchronously in the background.
 
 Return the temporary output buffer which command is writing to
@@ -24,7 +24,7 @@ during execution.
 When the command is finished, call CALLBACK with the resulting
 output as a string."
   (let* ((output-buffer (generate-new-buffer " *++async-shell-command*"))
-         (callback-fn callback))
+         (callback-fn (or callback (lambda (_)))))
     (set-process-sentinel
      (start-process "++async-shell-command" output-buffer shell-file-name shell-command-switch command)
      (lambda (process _signal)

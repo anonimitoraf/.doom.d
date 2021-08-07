@@ -6,6 +6,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 (require 'dash)
+(require 'cl-lib)
 #+end_src
 
 * Who am I?

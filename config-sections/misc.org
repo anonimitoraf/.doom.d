@@ -61,7 +61,60 @@ Terminal emacs tends to throw a bunch of extra errors.
 #+begin_src elisp
 (setq-default line-spacing 0.25)
 #+end_src
-* Custom functionality
+* Opening tmux, creating/switching sessions, etc.
+#+begin_src elisp
+(defun ++tmux--new-session (session-name)
+  (++async-shell-command (concat "alacritty --command"
+                                 " \"tmux\""
+                                 " \"new\""
+                                 " \"-s\""
+                                 " \"" session-name "\"")
+                         (lambda (_) (message (concat "Created new tmux session: " session-name)))))
+
+(defun ++tmux--new-session-quiet (session-name)
+  (++async-shell-command (concat "tmux new -d -s " "\"" session-name "\"")
+                         (lambda (_) (message (concat "Created new tmux session (quiet): " session-name)))))
+
+(defun ++tmux--switch-session (session-name)
+  (++async-shell-command (concat "alacritty --command"
+                                 " \"tmux\""
+                                 " \"attach-session\""
+                                 " \"-t\""
+                                 " \"" session-name "\"")
+                         (lambda (_) (message (concat "Selected existing tmux session: " session-name)))))
+
+(defun ++tmux--switch-session-quiet (session-name)
+  (++async-shell-command (concat "tmux switch -t " "\"" session-name "\"")
+                         (lambda (_) (message (concat "Selected existing tmux session (quiet): " session-name)))))
+
+(defun ++tmux-go (&optional quiet?)
+  (interactive)
+  (++async-shell-command "tmux list-sessions | awk '$0=$1' | sed s/://"
+                         (lambda (sessions-str)
+                           (let ((sessions (split-string sessions-str)))
+                             (ivy-read "Select tmux session: " sessions
+                                       :action (lambda (selected-session)
+                                                 (if (not (member selected-session sessions))
+                                                     ;; Create a new session
+                                                     (progn
+                                                       (message (concat "Creating new tmux session: " selected-session))
+                                                       (if quiet?
+                                                           (++tmux--new-session-quiet selected-session)
+                                                         (++tmux--new-session selected-session)))
+                                                   ;; Switch to an existing session
+                                                   (progn
+                                                     (message (concat "Selecting existing session " selected-session))
+                                                     (if quiet?
+                                                         (++tmux--switch-session-quiet selected-session)
+                                                       (++tmux--switch-session selected-session))))))))))
+
+(map! :n "SPC _" (cmd! (++tmux-go))
+      :n "SPC -" (cmd! (++tmux-go t)))
+#+end_src
+
+#+RESULTS:
+
+* Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp
 (defun ++load-and-continuously-save (file)
@@ -88,26 +141,15 @@ Regularly save to a session file. I use this a lot because I can't be bothered c
 (map! :map doom-leader-map "q N" '++load-and-continuously-save)
 #+end_src
 
-Open external terminal. TODO Support alacritty
+Open external terminal
 #+begin_src elisp
-(defun external-gnome-terminal ()
-  (interactive "@")
-  (setenv "INSIDE_EMACS" nil) ;; We don't want gnome thinking that it's inside emacs
-  (shell-command (concat "gnome-terminal"
-                         " --working-directory " (file-name-directory (or load-file-name buffer-file-name))
-                         " > /dev/null 2>&1 & disown") nil nil))
-
-(defun external-xfce4-terminal ()
+(defun external-terminal ()
   (interactive "@")
   (setenv "INSIDE_EMACS" nil)
-  (shell-command (concat "xfce4-terminal"
+  (shell-command (concat "alacritty"
+                         " -qq"
                          " --working-directory " (file-name-directory (or load-file-name buffer-file-name))
-                         " > /dev/null 2>&1 & disown") nil nil))
-
-(setq external-terminal-to-open 'xfce4)
-(map! :n "SPC +" (cond ((eq external-terminal-to-open 'gnome) #'external-gnome-terminal)
-                       ((eq external-terminal-to-open 'xfce4) #'external-xfce4-terminal)
-                       (t (message (concat "Invalid value for variable `external-terminal-to-open:' " external-terminal-to-open)))))
+                         " & disown") nil nil))
 #+end_src
 
 Show a random MELPA package every so often
