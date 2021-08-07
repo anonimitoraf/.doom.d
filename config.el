@@ -704,7 +704,8 @@ output as a string."
   (interactive)
   (++async-shell-command "tmux list-sessions | awk '$0=$1' | sed s/://"
                          (lambda (sessions-str)
-                           (let ((sessions (split-string sessions-str)))
+                           (let* ((no-sessions (string-match-p "^no server running on.*$" sessions-str))
+                                  (sessions (if no-sessions '() (split-string sessions-str))))
                              (ivy-read "Select tmux session: " sessions
                                        :action (lambda (selected-session)
                                                  (if (not (member selected-session sessions))
