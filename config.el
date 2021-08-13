@@ -233,6 +233,26 @@ output as a string."
 
 (require 'edbi)
 
+(require 'ejc-sql)
+(require 'ejc-company)
+(require 'ejc-direx)
+(use-package! ejc-sql
+  :config
+  (setq ejc-ring-length 1000
+        ejc-result-table-impl 'ejc-result-mode
+        ejc-complete-on-dot t)
+  (push 'ejc-company-backend company-backends)
+  (add-hook 'sql-mode-hook (lambda () (ejc-sql-mode t)))
+  (add-hook 'ejc-result-mode-hook (lambda () (visual-line-mode -1)))
+  (add-hook 'ejc-sql-minor-mode-hook (lambda ()
+                                       (ejc-eldoc-setup)))
+  (add-hook 'ejc-sql-connected-hook (lambda ()
+                                      (ejc-set-fetch-size 100)
+                                      (ejc-set-max-rows 100)
+                                      (ejc-set-show-too-many-rows-message t)
+                                      (ejc-set-column-width-limit 40)
+                                      (ejc-set-use-unicode t))))
+
 (defun start-elcord ()
   (interactive)
   (use-package! elcord
@@ -772,7 +792,9 @@ output as a string."
                      (line-beginning-position line)
                      (line-end-position line))))
       (prog1
-          (alert content :id 'random-melpa-pkg)
+          (alert content
+                 :title "Random MELPA package trivia"
+                 :id 'random-melpa-pkg)
         (kill-buffer)))))
 
 (defun ++random-melpa-pkg-start ()
@@ -787,3 +809,9 @@ output as a string."
   (when ++random-melpa-pkg-timer
     (cancel-timer ++random-melpa-pkg-timer)
     (setq ++random-melpa-pkg-timer nil)))
+
+(add-to-list 'safe-local-variable-values
+             '(+format-on-save-enabled-modes . '()))
+
+(require 'keychain-environment)
+(keychain-refresh-environment)

@@ -142,3 +142,8 @@
   :recipe (:host github :repo "nonsequitur/idle-highlight-mode"))
 
 (package! alert)
+
+(package! ejc-sql)
+
+(package! keychain-environment
+  :recipe (:host github :repo "tarsius/keychain-environment"))

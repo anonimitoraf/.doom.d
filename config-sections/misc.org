@@ -26,6 +26,12 @@ Tabs = 2 spaces. TODO Maybe each mode has to be different
 (add-hook 'prog-mode-hook (cmd! (setq indent-tabs-mode nil)
                                 (doom/set-indent-width 2)))
 #+end_src
+
+Mark particular local variables as safe
+#+begin_src elisp
+(add-to-list 'safe-local-variable-values
+             '(+format-on-save-enabled-modes . '()))
+#+end_src
 * Enabling only particular formatters
 #+begin_src elisp
 (setq +format-on-save-enabled-modes
@@ -167,7 +173,9 @@ Show a random MELPA package every so often
                      (line-beginning-position line)
                      (line-end-position line))))
       (prog1
-          (alert content :id 'random-melpa-pkg)
+          (alert content
+                 :title "Random MELPA package trivia"
+                 :id 'random-melpa-pkg)
         (kill-buffer)))))
 
 (defun ++random-melpa-pkg-start ()

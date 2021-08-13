@@ -90,6 +90,28 @@ TODO Check if this is actually a good thing to do.
 #+begin_src elisp
 (require 'edbi)
 #+end_src
+* =ejc=
+#+begin_src elisp
+(require 'ejc-sql)
+(require 'ejc-company)
+(require 'ejc-direx)
+(use-package! ejc-sql
+  :config
+  (setq ejc-ring-length 1000
+        ejc-result-table-impl 'ejc-result-mode
+        ejc-complete-on-dot t)
+  (push 'ejc-company-backend company-backends)
+  (add-hook 'sql-mode-hook (lambda () (ejc-sql-mode t)))
+  (add-hook 'ejc-result-mode-hook (lambda () (visual-line-mode -1)))
+  (add-hook 'ejc-sql-minor-mode-hook (lambda ()
+                                       (ejc-eldoc-setup)))
+  (add-hook 'ejc-sql-connected-hook (lambda ()
+                                      (ejc-set-fetch-size 100)
+                                      (ejc-set-max-rows 100)
+                                      (ejc-set-show-too-many-rows-message t)
+                                      (ejc-set-column-width-limit 40)
+                                      (ejc-set-use-unicode t))))
+#+end_src
 * =elcord=
 Flex on Discord that we're using Emacs.
 #+begin_src elisp
@@ -189,6 +211,11 @@ Emphasize the error/warning fringe indicators. When I go through a file, I typic
   :error-list-face 'flycheck-error-list-warning)
 #+end_src
 
+* =keychain-environment=
+#+begin_src elisp
+(require 'keychain-environment)
+(keychain-refresh-environment)
+#+end_src
 * =idle-highlight-mode=
 #+begin_src elisp
 (add-hook! '(text-mode-hook prog-mode-hook) #'idle-highlight-mode)
