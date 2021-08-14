@@ -245,6 +245,12 @@ output as a string."
         ejc-result-table-impl 'ejc-result-mode
         ejc-complete-on-dot t
         ejc-sql-separator "---")
+  (set-popup-rules!
+    '(("^\\| .* \\|"
+       :quit nil
+       :side left
+       :size 100
+       :select t)))
   (add-hook 'sql-mode-hook (lambda ()
                              (ejc-sql-mode t)
                              (map! :nv "SPC a" #'ejc-eval-user-sql-at-point)))
@@ -271,6 +277,22 @@ output as a string."
                                       (ejc-set-show-too-many-rows-message t)
                                       (ejc-set-column-width-limit 50)
                                       (ejc-set-use-unicode t))))
+
+(defun ejx-direx:make-buffer-prefixed ()
+  (let ((current-ejc-db ejc-db)
+        (buf (direx:ensure-buffer-for-root
+              (make-instance 'ejc-direx:database
+                             :name (format "| %s |" (ejc-get-db-name ejc-db))
+                             :buffer (current-buffer)
+                             :file-name (buffer-file-name)
+                             :cache (cons nil (ejc-direx:get-structure))))))
+    (with-current-buffer buf
+      (setq-local ejc-db current-ejc-db))
+    buf))
+
+(defun ejx-direx:show ()
+  (interactive)
+  (pop-to-buffer (ejx-direx:make-buffer-prefixed)))
 
 (defun start-elcord ()
   (interactive)
