@@ -85,7 +85,10 @@ output as a string."
                             :inherit nil)
     '(show-paren-match :foreground nil
                        :background "#333"
-                       :weight normal))
+                       :weight normal)
+    `(ac-completion-face :foreground ,(doom-color 'yellow))
+    `(ac-selection-face :foreground "black"
+                        :background ,(doom-color 'magenta)))
   ;; GUI
   (if (display-graphic-p)
       (custom-set-faces!
@@ -234,23 +237,38 @@ output as a string."
 (require 'edbi)
 
 (require 'ejc-sql)
-(require 'ejc-company)
+(require 'ejc-autocomplete)
 (require 'ejc-direx)
 (use-package! ejc-sql
   :config
-  (setq ejc-ring-length 1000
+  (setq ejc-ring-length 10000
         ejc-result-table-impl 'ejc-result-mode
-        ejc-complete-on-dot t)
-  (push 'ejc-company-backend company-backends)
-  (add-hook 'sql-mode-hook (lambda () (ejc-sql-mode t)))
+        ejc-complete-on-dot t
+        ejc-sql-separator "---")
+  (add-hook 'sql-mode-hook (lambda ()
+                             (ejc-sql-mode t)
+                             (map! :nv "SPC a" #'ejc-eval-user-sql-at-point)))
   (add-hook 'ejc-result-mode-hook (lambda () (visual-line-mode -1)))
-  (add-hook 'ejc-sql-minor-mode-hook (lambda ()
-                                       (ejc-eldoc-setup)))
+  (add-hook 'ejc-sql-minor-mode-hook
+            (lambda ()
+              (company-mode -1)
+              (auto-complete-mode +1)
+              (ejc-ac-setup)
+              ;; Fuzzy doesn't seem to work though. TODO Find out why
+              (setq ac-use-fuzzy t
+                    ac-fuzzy-enable t
+                    ac-menu-height 10
+                    ac-candidate-max 10
+                    ac-show-menu -0.1)
+              (map! :map ac-completing-map
+                    "C-k" #'ac-previous
+                    "C-j" #'ac-next
+                    "<tab>" #'ac-complete)))
   (add-hook 'ejc-sql-connected-hook (lambda ()
                                       (ejc-set-fetch-size 100)
                                       (ejc-set-max-rows 100)
                                       (ejc-set-show-too-many-rows-message t)
-                                      (ejc-set-column-width-limit 40)
+                                      (ejc-set-column-width-limit 50)
                                       (ejc-set-use-unicode t))))
 
 (defun start-elcord ()
@@ -325,6 +343,9 @@ output as a string."
   :fringe-bitmap 'flycheck-fringe-bitmap-beam
   :fringe-face 'flycheck-fringe-warning
   :error-list-face 'flycheck-error-list-warning)
+
+(require 'keychain-environment)
+(keychain-refresh-environment)
 
 (add-hook! '(text-mode-hook prog-mode-hook) #'idle-highlight-mode)
 
@@ -678,6 +699,9 @@ output as a string."
 (add-hook 'prog-mode-hook (cmd! (setq indent-tabs-mode nil)
                                 (doom/set-indent-width 2)))
 
+(add-to-list 'safe-local-variable-values
+             '(+format-on-save-enabled-modes . '()))
+
 (setq +format-on-save-enabled-modes
     '(clojurec-mode
         clojure-mode
@@ -809,9 +833,3 @@ output as a string."
   (when ++random-melpa-pkg-timer
     (cancel-timer ++random-melpa-pkg-timer)
     (setq ++random-melpa-pkg-timer nil)))
-
-(add-to-list 'safe-local-variable-values
-             '(+format-on-save-enabled-modes . '()))
-
-(require 'keychain-environment)
-(keychain-refresh-environment)

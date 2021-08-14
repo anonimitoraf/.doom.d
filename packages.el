@@ -147,3 +147,7 @@
 
 (package! keychain-environment
   :recipe (:host github :repo "tarsius/keychain-environment"))
+
+(package! fuzzy
+  :recipe (:host github :repo "auto-complete/fuzzy-el"))
+(package! auto-complete)

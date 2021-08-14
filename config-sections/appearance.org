@@ -54,7 +54,10 @@ There are two ways to load a theme. Both assume the theme is installed and avail
                             :inherit nil)
     '(show-paren-match :foreground nil
                        :background "#333"
-                       :weight normal))
+                       :weight normal)
+    `(ac-completion-face :foreground ,(doom-color 'yellow))
+    `(ac-selection-face :foreground "black"
+                        :background ,(doom-color 'magenta)))
   ;; GUI
   (if (display-graphic-p)
       (custom-set-faces!
