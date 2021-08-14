@@ -246,10 +246,10 @@ output as a string."
         ejc-complete-on-dot t
         ejc-sql-separator "---")
   (set-popup-rules!
-    '(("^\\| .* \\|"
+    '(("^database: "
        :quit nil
        :side left
-       :size 100
+       :size 75
        :select t)))
   (add-hook 'sql-mode-hook (lambda ()
                              (ejc-sql-mode t)
@@ -282,7 +282,7 @@ output as a string."
   (let ((current-ejc-db ejc-db)
         (buf (direx:ensure-buffer-for-root
               (make-instance 'ejc-direx:database
-                             :name (format "| %s |" (ejc-get-db-name ejc-db))
+                             :name (format "database: %s" (ejc-get-db-name ejc-db))
                              :buffer (current-buffer)
                              :file-name (buffer-file-name)
                              :cache (cons nil (ejc-direx:get-structure))))))
