@@ -151,3 +151,5 @@
 (package! fuzzy
   :recipe (:host github :repo "auto-complete/fuzzy-el"))
 (package! auto-complete)
+
+(package! logview)

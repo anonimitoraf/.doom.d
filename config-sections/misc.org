@@ -123,6 +123,17 @@ Terminal emacs tends to throw a bunch of extra errors.
 
 #+RESULTS:
 
+* Log files
+Interpret ANSI color codes
+#+begin_src elisp
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+
+(add-to-list 'auto-mode-alist '("\\.log\\'" . display-ansi-colors))
+  #+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp

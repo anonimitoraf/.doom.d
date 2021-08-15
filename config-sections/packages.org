@@ -405,6 +405,10 @@ Copied from https://github.com/emacs-lsp/lsp-ui/issues/441.
   (advice-add #'lsp-ui-peek--peek-new :override #'lsp-ui-peek--peek-display)
   (advice-add #'lsp-ui-peek--peek-hide :override #'lsp-ui-peek--peek-destroy))
 #+end_src
+* =logview=
+#+begin_src elisp
+(require 'logview)
+#+end_src
 * =modeline=
 #+begin_src elisp
 (after! doom-modeline

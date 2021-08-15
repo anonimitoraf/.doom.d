@@ -481,6 +481,8 @@ output as a string."
   (advice-add #'lsp-ui-peek--peek-new :override #'lsp-ui-peek--peek-display)
   (advice-add #'lsp-ui-peek--peek-hide :override #'lsp-ui-peek--peek-destroy))
 
+(require 'logview)
+
 (after! doom-modeline
   (setq doom-modeline-buffer-file-name-style nil
         doom-modeline-height 0
@@ -797,6 +799,14 @@ output as a string."
 
 (map! :n "SPC _" (cmd! (++tmux-go))
       :n "SPC -" (cmd! (++tmux-go t)))
+
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+
+(add-to-list 'auto-mode-alist '("\\.log\\'" . display-ansi-colors))
 
 (defun ++load-and-continuously-save (file)
   (interactive
