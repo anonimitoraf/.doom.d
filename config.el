@@ -722,8 +722,10 @@ output as a string."
 (add-hook 'prog-mode-hook (cmd! (setq indent-tabs-mode nil)
                                 (doom/set-indent-width 2)))
 
-(add-to-list 'safe-local-variable-values
-             '(+format-on-save-enabled-modes . '()))
+(setq ++safe-vars '((+format-on-save-enabled-modes . '())
+                    (cider-required-middleware-version . "0.25.5")))
+(-each ++safe-vars (lambda (pair)
+                     (add-to-list 'safe-local-variable-values pair)))
 
 (setq +format-on-save-enabled-modes
     '(clojurec-mode

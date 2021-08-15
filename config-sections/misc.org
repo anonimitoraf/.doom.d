@@ -29,8 +29,10 @@ Tabs = 2 spaces. TODO Maybe each mode has to be different
 
 Mark particular local variables as safe
 #+begin_src elisp
-(add-to-list 'safe-local-variable-values
-             '(+format-on-save-enabled-modes . '()))
+(setq ++safe-vars '((+format-on-save-enabled-modes . '())
+                    (cider-required-middleware-version . "0.25.5")))
+(-each ++safe-vars (lambda (pair)
+                     (add-to-list 'safe-local-variable-values pair)))
 #+end_src
 * Enabling only particular formatters
 #+begin_src elisp
