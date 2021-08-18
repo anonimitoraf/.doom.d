@@ -34,12 +34,13 @@ Popup rules
 (set-popup-rules!
   '(("^\\*cider-repl"
      :quit nil
-     :side bottom
-     :size 0.2
-     :select t)
-    ("^\\*\\(?:cider-doc\\|lsp-help\\)"
      :side right
-     :size 0.5)))
+     :size 0.33
+     :select t
+     :modeline t)
+    ("^\\*\\(?:cider-doc\\|lsp-help\\)"
+     :side bottom
+     :size 0.2)))
 #+end_src
 
 Ligatures

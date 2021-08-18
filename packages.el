@@ -153,3 +153,4 @@
 (package! auto-complete)
 
 (package! logview)
+(package! itail)

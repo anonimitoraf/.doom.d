@@ -265,8 +265,8 @@ output as a string."
                     ac-fuzzy-enable t
                     ac-menu-height 10
                     ac-candidate-max 10
-                    ac-delay 0.01
-                    ac-auto-show-menu 0.01)
+                    ac-delay 0.2
+                    ac-auto-show-menu 0.2)
               (map! :map ac-completing-map
                     "C-k" #'ac-previous
                     "C-j" #'ac-next
@@ -374,6 +374,8 @@ output as a string."
 
 (setq ielm-noisy nil
       ielm-prompt "λ> ")
+
+(require 'itail)
 
 (use-package! iscroll
   :config (iscroll-mode +1))
@@ -663,12 +665,13 @@ output as a string."
 (set-popup-rules!
   '(("^\\*cider-repl"
      :quit nil
-     :side bottom
-     :size 0.2
-     :select t)
-    ("^\\*\\(?:cider-doc\\|lsp-help\\)"
      :side right
-     :size 0.5)))
+     :size 0.33
+     :select t
+     :modeline t)
+    ("^\\*\\(?:cider-doc\\|lsp-help\\)"
+     :side bottom
+     :size 0.2)))
 
 (plist-put! +ligatures-extra-symbols
             :lambda-prime "ƛ")

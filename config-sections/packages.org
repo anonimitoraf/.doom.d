@@ -123,8 +123,8 @@ Make emacs into a decent SQL "IDE"
                     ac-fuzzy-enable t
                     ac-menu-height 10
                     ac-candidate-max 10
-                    ac-delay 0.01
-                    ac-auto-show-menu 0.01)
+                    ac-delay 0.2
+                    ac-auto-show-menu 0.2)
               (map! :map ac-completing-map
                     "C-k" #'ac-previous
                     "C-j" #'ac-next
@@ -265,6 +265,10 @@ Set a cool prompt and make it non-noisy (What does this even mean?)
 #+begin_src elisp
 (setq ielm-noisy nil
       ielm-prompt "λ> ")
+#+end_src
+* =itail=
+#+begin_src elisp
+(require 'itail)
 #+end_src
 * =iscroll=
 #+begin_src elisp
