@@ -327,8 +327,8 @@ output as a string."
 
 (setq evil-want-fine-undo t)
 
-(setq evil-vsplit-window-right t
-      evil-split-window-below t)
+(setq evil-vsplit-window-right nil
+      evil-split-window-below nil)
 
 (use-package! evil-lisp-state
   :init (setq evil-lisp-state-global t)

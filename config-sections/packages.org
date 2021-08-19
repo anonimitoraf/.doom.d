@@ -203,9 +203,10 @@ I've always found evil's undo to undo more than I want it to
 (setq evil-want-fine-undo t)
 #+end_src
 
+I keep changing my mind about this, but for now, I think splitting and selecting the left and top windows feel better.
 #+begin_src elisp
-(setq evil-vsplit-window-right t
-      evil-split-window-below t)
+(setq evil-vsplit-window-right nil
+      evil-split-window-below nil)
 #+end_src
 * =evil-lisp-state=
 Currently supplies my structural editing needs
