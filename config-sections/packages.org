@@ -63,6 +63,11 @@ I currently don't use tabs but if I did, well, the config's here
   ;; (setq centaur-tabs-adjust-buffer-order t)
   (centaur-tabs-mode t))
 #+end_src
+* =cider=
+#+begin_src elisp
+(use-package! cider
+  :config (setq cider-repl-pop-to-buffer-on-connect nil))
+#+end_src
 * =company=
 #+begin_src elisp
 (after! company

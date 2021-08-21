@@ -218,6 +218,9 @@ output as a string."
   ;; (setq centaur-tabs-adjust-buffer-order t)
   (centaur-tabs-mode t))
 
+(use-package! cider
+  :config (setq cider-repl-pop-to-buffer-on-connect nil))
+
 (after! company
   (setq company-idle-delay 0.0
         company-tooltip-idle-delay 0.2
