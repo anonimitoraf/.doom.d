@@ -250,7 +250,12 @@ output as a string."
        :quit nil
        :side left
        :size 75
-       :select t)))
+       :select t)
+      ("*ejc-sql-output*"
+       :quit nil
+       :side bottom
+       :size 30
+       :select nil)))
   (add-hook 'sql-mode-hook (lambda ()
                              (ejc-sql-mode t)
                              (map! :nv "SPC a" #'ejc-eval-user-sql-at-point)))
@@ -414,7 +419,7 @@ output as a string."
   (setq lsp-lens-enable t
         lsp-log-io nil
         lsp-completion-no-cache nil
-        lsp-completion-enable t
+        lsp-completion-enable nil
         lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-completion-sort-initial-results nil
