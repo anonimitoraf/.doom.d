@@ -202,7 +202,9 @@ output as a string."
 (setq bookmark-save-flag 1)
 
 (map! :leader
-      :desc "Query and replace within region" "r" #'query-replace)
+      :desc "Find-replace" "r" #'anzu-query-replace)
+(map! :leader
+      :desc "Find-replace (regexp)" "R" #'anzu-query-replace-regexp)
 
 (after! centaur-tabs
   (setq centaur-tabs-style "rounded"

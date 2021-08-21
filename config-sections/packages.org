@@ -44,7 +44,9 @@ Save bookmarks immediately (rather than just when Emacs is killed).
 ** replace
 #+begin_src elisp
 (map! :leader
-      :desc "Query and replace within region" "r" #'query-replace)
+      :desc "Find-replace" "r" #'anzu-query-replace)
+(map! :leader
+      :desc "Find-replace (regexp)" "R" #'anzu-query-replace-regexp)
 #+end_src
 * =centaur-tabs=
 I currently don't use tabs but if I did, well, the config's here
