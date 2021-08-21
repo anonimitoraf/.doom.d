@@ -154,3 +154,6 @@
 
 (package! logview)
 (package! itail)
+
+(package! i3wm-config-mode
+  :recipe (:host github :repo "Alexander-Miller/i3wm-Config-Mode"))

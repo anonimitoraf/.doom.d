@@ -379,6 +379,8 @@ output as a string."
 
 (add-hook! '(text-mode-hook prog-mode-hook) #'idle-highlight-mode)
 
+(require 'i3wm-config-mode)
+
 (setq ielm-noisy nil
       ielm-prompt "λ> ")
 
