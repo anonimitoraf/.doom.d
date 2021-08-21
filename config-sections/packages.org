@@ -564,6 +564,41 @@ TODO Find out why emacs-lisp is set to nil
    (Clojure . t)
    (Javascript . t)))
 #+end_src
+* =chrome=
+Keybindings
+#+begin_src elisp
+(use-package! chrome
+  :config (setq chrome-auto-retrieve t
+                ++chrome-host "127.0.0.1"
+                ++chrome-port 9222))
+
+(defun ++chrome-new-tab ()
+  (interactive)
+  (chrome--devtools-do
+   (chrome-tab-create :host ++chrome-host
+                      :port ++chrome-port
+                      :session '(++chrome-port . ++chrome-host))
+   "new"))
+
+(map! :map chrome-mode-map
+      :nv "l" #'chrome-visit-tab
+      :nv "x" #'chrome-delete-tab
+      :nv "n" #'++chrome-new-tab)
+#+end_src
+Auto-fetch Chrome tabs every second
+#+begin_src elisp
+(setq ++chrome-tabs-retriever-timer nil)
+(add-hook 'window-configuration-change-hook
+          (lambda ()
+            (if (eq major-mode 'chrome-mode)
+                ;; Start
+                (when (not ++chrome-tabs-retriever-timer)
+                  (setq ++chrome-tabs-retriever-timer (run-at-time nil 1 #'chrome-retrieve-tabs)))
+              ;; Stop
+              (when ++chrome-tabs-retriever-timer
+                (cancel-timer ++chrome-tabs-retriever-timer)
+                (setq ++chrome-tabs-retriever-timer nil)))))
+#+end_src
 * =persp=
 #+begin_src elisp
 (setq persp-save-dir (concat ++sync-folder-path "/emacs/sessions/"))

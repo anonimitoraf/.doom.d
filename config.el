@@ -605,6 +605,36 @@ output as a string."
    (Clojure . t)
    (Javascript . t)))
 
+(use-package! chrome
+  :config (setq chrome-auto-retrieve t
+                ++chrome-host "127.0.0.1"
+                ++chrome-port 9222))
+
+(defun ++chrome-new-tab ()
+  (interactive)
+  (chrome--devtools-do
+   (chrome-tab-create :host ++chrome-host
+                      :port ++chrome-port
+                      :session '(++chrome-port . ++chrome-host))
+   "new"))
+
+(map! :map chrome-mode-map
+      :nv "l" #'chrome-visit-tab
+      :nv "x" #'chrome-delete-tab
+      :nv "n" #'++chrome-new-tab)
+
+(setq ++chrome-tabs-retriever-timer nil)
+(add-hook 'window-configuration-change-hook
+          (lambda ()
+            (if (eq major-mode 'chrome-mode)
+                ;; Start
+                (when (not ++chrome-tabs-retriever-timer)
+                  (setq ++chrome-tabs-retriever-timer (run-at-time nil 1 #'chrome-retrieve-tabs)))
+              ;; Stop
+              (when ++chrome-tabs-retriever-timer
+                (cancel-timer ++chrome-tabs-retriever-timer)
+                (setq ++chrome-tabs-retriever-timer nil)))))
+
 (setq persp-save-dir (concat ++sync-folder-path "/emacs/sessions/"))
 
 (map! :nv "SPC f g" #'projectile-find-file-other-window)
