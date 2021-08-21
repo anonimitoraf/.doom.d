@@ -94,7 +94,7 @@ output as a string."
       (custom-set-faces!
         `(default :background "black")
         `(fill-column-indicator :foreground ,(doom-color 'base1))
-        `(window-divider :foreground ,(doom-color 'magenta))
+        `(window-divider :foreground "grey5")
         `(flycheck-posframe-error-face :background "firebrick"
                                        :foreground "white")
         `(flycheck-posframe-warning-face :background "dark goldenrod"
@@ -104,6 +104,8 @@ output as a string."
     (custom-set-faces!
       `(default :background "color-16")
       `(header-line :background "black"))))
+
+(setq window-divider-default-right-width 10)
 
 (setq doom-font (font-spec :family "Ubuntu Mono"
                            :size (or (string-to-number (getenv "EMACS_FONT_SIZE"))
