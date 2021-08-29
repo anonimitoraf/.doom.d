@@ -277,8 +277,8 @@ output as a string."
                     ac-fuzzy-enable t
                     ac-menu-height 10
                     ac-candidate-max 10
-                    ac-delay 0.2
-                    ac-auto-show-menu 0.2)
+                    ac-delay 0.5
+                    ac-auto-show-menu 0.5)
               (map! :map ac-completing-map
                     "C-k" #'ac-previous
                     "C-j" #'ac-next
