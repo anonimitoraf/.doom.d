@@ -521,6 +521,11 @@ output as a string."
 
 (display-time-mode +1)
 
+(use-package! nyan-mode
+  :config
+  (setq nyan-minimum-window-width 100)
+  (nyan-mode +1))
+
 (use-package! org
   :init
   (setq org-directory (concat ++sync-folder-path "/org")

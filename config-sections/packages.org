@@ -459,6 +459,13 @@ Display clock on modeline
 #+begin_src elisp
 (display-time-mode +1)
 #+end_src
+* =nyan-mode=
+#+begin_src elisp
+(use-package! nyan-mode
+  :config
+  (setq nyan-minimum-window-width 100)
+  (nyan-mode +1))
+#+end_src
 * =org=
 #+begin_src elisp
 (use-package! org
