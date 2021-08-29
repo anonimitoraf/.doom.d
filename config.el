@@ -434,7 +434,13 @@ output as a string."
         lsp-completion-sort-initial-results nil
         lsp-completion-use-last-result nil
         lsp-eldoc-enable-hover nil
-        lsp-lens-place-position 'end-of-line))
+        lsp-lens-place-position 'end-of-line)
+  (set-popup-rules!
+  '(("*Flycheck errors*"
+     :quit nil
+     :side bottom
+     :size 20
+     :select nil))))
 
 (after! lsp-mode
   ;; Clojure(Script)

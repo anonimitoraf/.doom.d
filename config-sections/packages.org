@@ -354,7 +354,13 @@ TODO: Find a way to disable/enable LSP completion based on the lang (I don't wan
         lsp-completion-sort-initial-results nil
         lsp-completion-use-last-result nil
         lsp-eldoc-enable-hover nil
-        lsp-lens-place-position 'end-of-line))
+        lsp-lens-place-position 'end-of-line)
+  (set-popup-rules!
+  '(("*Flycheck errors*"
+     :quit nil
+     :side bottom
+     :size 20
+     :select nil))))
 #+end_src
 Directories to ignore for specific languages
 #+begin_src elisp
