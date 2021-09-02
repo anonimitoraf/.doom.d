@@ -658,6 +658,8 @@ output as a string."
 
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
 
+(use-package! screenshot)
+
 (add-hook 'shell-mode-hook (lambda () (company-mode -1)))
 
 (require 'smooth-scrolling)

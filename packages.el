@@ -163,3 +163,6 @@
 
 (package! nyan-mode
   :recipe (:host github :repo "TeMPOraL/nyan-mode"))
+(package! screenshot
+  :recipe (:host github :repo "tecosaur/screenshot"))
+
