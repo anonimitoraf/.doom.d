@@ -771,6 +771,9 @@ output as a string."
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
+(require 'lsp-mode) ;; No harm in requiring it even if it's already loaded
+(add-hook 'vue-mode-hook #'lsp)
+
 (setq byte-compile-warnings '(not obsolete))
 
 (add-to-list 'term-file-aliases '("alacritty" . "xterm"))
