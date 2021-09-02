@@ -163,6 +163,12 @@
 
 (package! nyan-mode
   :recipe (:host github :repo "TeMPOraL/nyan-mode"))
+
+(package! clomacs)
+
+(package! vue-mode)
+
 (package! screenshot
   :recipe (:host github :repo "tecosaur/screenshot"))
 
+(package! aggressive-indent-mode)
