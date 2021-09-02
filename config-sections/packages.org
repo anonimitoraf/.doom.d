@@ -639,6 +639,10 @@ Get rid of annoying projectile staleness without it being too expensive/noticeab
 #+begin_src elisp
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
 #+end_src
+* =screenshot=
+#+begin_src elisp
+(use-package! screenshot)
+#+end_src
 * =shell=
 Company mode in shell is just annoying.
 #+begin_src elisp
