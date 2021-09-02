@@ -190,6 +190,11 @@ output as a string."
     :foreground "white" :background "red"
     :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
+(use-package! aggressive-indent
+  :config
+  (global-aggressive-indent-mode +1)
+  (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
+
 (require 'alert)
 (setq alert-default-style 'notifications
       alert-fade-time 30)
@@ -692,6 +697,8 @@ output as a string."
       (setq treemacs-no-png-images t))))
 
 (which-key-mode +1)
+
+(map! :map doom-leader-map "z" #'writeroom-mode)
 
 (add-hook 'vterm-mode-hook (lambda () (text-scale-decrease 1.1)))
 

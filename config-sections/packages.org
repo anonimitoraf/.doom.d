@@ -685,6 +685,10 @@ Company mode in shell is just annoying.
 #+begin_src elisp
 (which-key-mode +1)
 #+end_src
+* =writeroom-mode=
+#+begin_src elisp
+(map! :map doom-leader-map "z" #'writeroom-mode)
+#+end_src
 * =vterm=
 Decrease the font size a bit
 #+begin_src elisp
