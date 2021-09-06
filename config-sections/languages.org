@@ -1,6 +1,12 @@
 #+TITLE: Languages
 
 * Clojure/script
+#+begin_src elisp
+(use-package! clojure-mode
+  :config
+  (setq clojure-align-forms-automatically t))
+#+end_src
+
 Nice offline docs
 #+begin_src elisp
 (add-to-list 'dash-docs-docsets "Clojure")

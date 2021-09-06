@@ -226,7 +226,14 @@ output as a string."
   (centaur-tabs-mode t))
 
 (use-package! cider
-  :config (setq cider-repl-pop-to-buffer-on-connect nil))
+  :config
+  (setq cider-repl-pop-to-buffer-on-connect nil)
+  (map! :map cider-inspector-mode-map
+      :nv "C-k" #'cider-inspector-previous-inspectable-object
+      :nv "C-j" #'cider-inspector-next-inspectable-object
+      :nv "C-h" #'cider-inspector-pop
+      :nv [mouse-3] #'cider-inspector-pop
+      :nv "C-l" #'cider-inspector-operate-on-point))
 
 (after! company
   (setq company-idle-delay 0.0
@@ -344,8 +351,8 @@ output as a string."
 
 (setq evil-want-fine-undo t)
 
-(setq evil-vsplit-window-right nil
-      evil-split-window-below nil)
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
 
 (use-package! evil-lisp-state
   :init (setq evil-lisp-state-global t)
@@ -439,7 +446,8 @@ output as a string."
         lsp-completion-sort-initial-results nil
         lsp-completion-use-last-result nil
         lsp-eldoc-enable-hover nil
-        lsp-lens-place-position 'end-of-line)
+        lsp-lens-place-position 'end-of-line
+        lsp-enable-indentation nil)
   (set-popup-rules!
   '(("*Flycheck errors*"
      :quit nil
@@ -703,6 +711,10 @@ output as a string."
 (add-hook 'vterm-mode-hook (lambda () (text-scale-decrease 1.1)))
 
 (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
+
+(use-package! clojure-mode
+  :config
+  (setq clojure-align-forms-automatically t))
 
 (add-to-list 'dash-docs-docsets "Clojure")
 
