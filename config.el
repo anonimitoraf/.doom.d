@@ -708,8 +708,6 @@ output as a string."
 
 (map! :map doom-leader-map "z" #'writeroom-mode)
 
-(add-hook 'vterm-mode-hook (lambda () (text-scale-decrease 1.1)))
-
 (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 
 (use-package! clojure-mode
