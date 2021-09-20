@@ -11,13 +11,6 @@ Make window labels very obvious
       :foreground "white" :background "red"
       :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 #+end_src
-* =aggressive-indent=
-#+begin_src elisp
-(use-package! aggressive-indent
-  :config
-  (global-aggressive-indent-mode +1)
-  (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
-#+end_src
 * =alert=
 #+begin_src elisp
 (require 'alert)
@@ -234,6 +227,11 @@ I keep changing my mind about this, but for now, I think splitting and selecting
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
 #+end_src
+
+evil-collection with workaround for =slime= specifically (and evaluation of the last sexp)
+#+begin_src elisp
+(evil-collection-init)
+#+end_src
 * =evil-lisp-state=
 Currently supplies my structural editing needs
 #+begin_src elisp
@@ -276,6 +274,8 @@ Emphasize the error/warning fringe indicators. When I go through a file, I typic
   :fringe-bitmap 'flycheck-fringe-bitmap-beam
   :fringe-face 'flycheck-fringe-warning
   :error-list-face 'flycheck-error-list-warning)
+
+(setq flycheck-display-errors-delay 0.01)
 #+end_src
 
 * =keychain-environment=
@@ -643,6 +643,13 @@ Get rid of annoying projectile staleness without it being too expensive/noticeab
   :config
   (setq projectile-files-cache-expire 10))
 #+end_src
+* =projectile-git-autofetch=
+#+begin_src elisp
+(use-package! projectile-git-autofetch
+  :config
+  (setq projectile-git-autofetch-notify nil)
+  (projectile-git-autofetch-mode +1))
+#+end_src
 * =rainbow=
 #+begin_src elisp
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
@@ -655,6 +662,14 @@ Get rid of annoying projectile staleness without it being too expensive/noticeab
 Company mode in shell is just annoying.
 #+begin_src elisp
 (add-hook 'shell-mode-hook (lambda () (company-mode -1)))
+#+end_src
+* =slime=
+#+begin_src elisp
+(use-package! slime
+  :config
+  (map! :nv "SPC d" #'slime-describe-symbol
+        :nv "SPC m e e" #'slime-eval-last-expression
+        :nv "SPC m '" #'slime-connect))
 #+end_src
 * =smooth-scrolling=
 #+begin_src elisp
@@ -675,7 +690,7 @@ Company mode in shell is just annoying.
   :commands (treemacs)
   :bind (("<f8>" . treemacs)
          ("<f9>" . treemacs-select-window))
-  :init
+  :config
   (progn
     (when window-system
       (setq treemacs-width 30
@@ -685,7 +700,8 @@ Company mode in shell is just annoying.
             treemacs--width-is-locked nil
             treemacs-space-between-root-nodes nil
             treemacs-filewatch-mode t
-            treemacs-fringe-indicator-mode t))
+            treemacs-fringe-indicator-mode t
+            treemacs-read-string-input 'from-minibuffer))
     (when (not (display-graphic-p))
       (setq treemacs-no-png-images t))))
 #+end_src

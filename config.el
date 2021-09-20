@@ -190,11 +190,6 @@ output as a string."
     :foreground "white" :background "red"
     :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
-(use-package! aggressive-indent
-  :config
-  (global-aggressive-indent-mode +1)
-  (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
-
 (require 'alert)
 (setq alert-default-style 'notifications
       alert-fade-time 30)
@@ -354,6 +349,8 @@ output as a string."
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
 
+(evil-collection-init)
+
 (use-package! evil-lisp-state
   :init (setq evil-lisp-state-global t)
   :config (evil-lisp-state-leader "SPC k"))
@@ -390,6 +387,8 @@ output as a string."
   :fringe-bitmap 'flycheck-fringe-bitmap-beam
   :fringe-face 'flycheck-fringe-warning
   :error-list-face 'flycheck-error-list-warning)
+
+(setq flycheck-display-errors-delay 0.01)
 
 (require 'keychain-environment)
 (keychain-refresh-environment)
@@ -669,11 +668,22 @@ output as a string."
   :config
   (setq projectile-files-cache-expire 10))
 
+(use-package! projectile-git-autofetch
+  :config
+  (setq projectile-git-autofetch-notify nil)
+  (projectile-git-autofetch-mode +1))
+
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
 
 (use-package! screenshot)
 
 (add-hook 'shell-mode-hook (lambda () (company-mode -1)))
+
+(use-package! slime
+  :config
+  (map! :nv "SPC d" #'slime-describe-symbol
+        :nv "SPC m e e" #'slime-eval-last-expression
+        :nv "SPC m '" #'slime-connect))
 
 (require 'smooth-scrolling)
 
@@ -690,7 +700,7 @@ output as a string."
   :commands (treemacs)
   :bind (("<f8>" . treemacs)
          ("<f9>" . treemacs-select-window))
-  :init
+  :config
   (progn
     (when window-system
       (setq treemacs-width 30
@@ -700,7 +710,8 @@ output as a string."
             treemacs--width-is-locked nil
             treemacs-space-between-root-nodes nil
             treemacs-filewatch-mode t
-            treemacs-fringe-indicator-mode t))
+            treemacs-fringe-indicator-mode t
+            treemacs-read-string-input 'from-minibuffer))
     (when (not (display-graphic-p))
       (setq treemacs-no-png-images t))))
 
@@ -712,7 +723,17 @@ output as a string."
 
 (use-package! clojure-mode
   :config
-  (setq clojure-align-forms-automatically t))
+  (setq clojure-align-forms-automatically t)
+  (defun ++format-clojure-buffer ()
+    (interactive)
+    (clojure-indent-region (point-min) (point-max)))
+  (add-hook 'before-save-hook (lambda ()
+                                (when (and (or (not (boundp '++format-on-save-clojure))
+                                               (bound-and-true-p ++format-on-save-clojure))
+                                           (member major-mode '(clojure-mode
+                                                                clojurescript-mode
+                                                                clojurec-mode)))
+                                  (++format-clojure-buffer)))))
 
 (add-to-list 'dash-docs-docsets "Clojure")
 
@@ -805,15 +826,13 @@ output as a string."
                                 (doom/set-indent-width 2)))
 
 (setq ++safe-vars '((+format-on-save-enabled-modes . '())
+                    (++format-on-save-clojure . nil)
                     (cider-required-middleware-version . "0.25.5")))
 (-each ++safe-vars (lambda (pair)
                      (add-to-list 'safe-local-variable-values pair)))
 
 (setq +format-on-save-enabled-modes
-    '(clojurec-mode
-        clojure-mode
-        clojurescript-mode
-        emacs-lisp-mode
+      '(emacs-lisp-mode
         erlang-mode))
 
 (let ((modes '(clojure-mode

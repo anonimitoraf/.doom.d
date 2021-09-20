@@ -171,4 +171,8 @@
 (package! screenshot
   :recipe (:host github :repo "tecosaur/screenshot"))
 
-(package! aggressive-indent-mode)
+;; (package! aggressive-indent-mode)
+
+(package! slime)
+
+(package! projectile-git-autofetch)

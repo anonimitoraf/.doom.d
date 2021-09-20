@@ -4,7 +4,17 @@
 #+begin_src elisp
 (use-package! clojure-mode
   :config
-  (setq clojure-align-forms-automatically t))
+  (setq clojure-align-forms-automatically t)
+  (defun ++format-clojure-buffer ()
+    (interactive)
+    (clojure-indent-region (point-min) (point-max)))
+  (add-hook 'before-save-hook (lambda ()
+                                (when (and (or (not (boundp '++format-on-save-clojure))
+                                               (bound-and-true-p ++format-on-save-clojure))
+                                           (member major-mode '(clojure-mode
+                                                                clojurescript-mode
+                                                                clojurec-mode)))
+                                  (++format-clojure-buffer)))))
 #+end_src
 
 Nice offline docs
