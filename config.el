@@ -190,6 +190,11 @@ output as a string."
     :foreground "white" :background "red"
     :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
+(use-package! aggressive-indent
+  :config
+  (global-aggressive-indent-mode +1)
+  (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
+
 (require 'alert)
 (setq alert-default-style 'notifications
       alert-fade-time 30)
@@ -723,17 +728,7 @@ output as a string."
 
 (use-package! clojure-mode
   :config
-  (setq clojure-align-forms-automatically t)
-  (defun ++format-clojure-buffer ()
-    (interactive)
-    (clojure-indent-region (point-min) (point-max)))
-  (add-hook 'before-save-hook (lambda ()
-                                (when (and (or (not (boundp '++format-on-save-clojure))
-                                               (bound-and-true-p ++format-on-save-clojure))
-                                           (member major-mode '(clojure-mode
-                                                                clojurescript-mode
-                                                                clojurec-mode)))
-                                  (++format-clojure-buffer)))))
+  (setq clojure-align-forms-automatically t))
 
 (add-to-list 'dash-docs-docsets "Clojure")
 
@@ -826,7 +821,6 @@ output as a string."
                                 (doom/set-indent-width 2)))
 
 (setq ++safe-vars '((+format-on-save-enabled-modes . '())
-                    (++format-on-save-clojure . nil)
                     (cider-required-middleware-version . "0.25.5")))
 (-each ++safe-vars (lambda (pair)
                      (add-to-list 'safe-local-variable-values pair)))

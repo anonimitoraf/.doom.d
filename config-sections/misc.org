@@ -30,7 +30,6 @@ Tabs = 2 spaces. TODO Maybe each mode has to be different
 Mark particular local variables as safe
 #+begin_src elisp
 (setq ++safe-vars '((+format-on-save-enabled-modes . '())
-                    (++format-on-save-clojure . nil)
                     (cider-required-middleware-version . "0.25.5")))
 (-each ++safe-vars (lambda (pair)
                      (add-to-list 'safe-local-variable-values pair)))
