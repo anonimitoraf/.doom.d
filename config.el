@@ -107,9 +107,38 @@ output as a string."
 
 (setq window-divider-default-right-width 10)
 
-(setq doom-font (font-spec :family "Ubuntu Mono"
-                           :size (or (string-to-number (getenv "EMACS_FONT_SIZE"))
-                                     16)))
+(defvar ++font-size nil)
+(defun ++screen-pixels->font-size (width-x-height)
+  "Given WIDTH_X_HEIGHT, returns the adjusted font size"
+  (let ((default-font-size 16))
+    (cond ((member width-x-height
+                   '((3440 1440))) 18)
+          ((member width-x-height
+                   '((1920 1080))) 15)
+          (t (progn
+               (message (concat "Unhandled screen resolution " (prin1-to-string width-x-height) ". "
+                                "Defaulting to font size " (prin1-to-string default-font-size)))
+               default-font-size)))))
+
+;; Stolen from https://github.com/hlissner/doom-emacs/issues/1500
+(defun ++get-frame-list (&optional frame)
+  "Return a list consisting of FRAME and all of FRAME's child frames."
+  (let ((frame (or frame (selected-frame))))
+    (cons (selected-frame)
+          (cl-loop for fr in (frame-list)
+                   if (eq (frame-parameter fr 'parent-frame) frame)
+                   collect fr))))
+
+(defun ++configure-font-size ()
+  (let ((new-font-size (++screen-pixels->font-size
+                        (cddr (frame-monitor-attribute 'geometry)))))
+    (unless (equal new-font-size ++font-size)
+      (setq doom-font (font-spec :family "Ubuntu Mono" :size new-font-size))
+      (set-frame-font doom-font t (++get-frame-list)))
+    (setq ++font-size new-font-size)))
+
+(++configure-font-size)
+(setq ++adjust-font-timer (run-with-idle-timer 1 1 #'++configure-font-size))
 
 (defun ++ascii-banner-ansi-shadow ()
   (mapc (lambda (line)
@@ -355,10 +384,6 @@ output as a string."
       evil-split-window-below t)
 
 (evil-collection-init)
-
-(use-package! evil-lisp-state
-  :init (setq evil-lisp-state-global t)
-  :config (evil-lisp-state-leader "SPC k"))
 
 (define-fringe-bitmap 'flycheck-fringe-bitmap-beam
   (vector #b11111111
@@ -686,11 +711,18 @@ output as a string."
 
 (use-package! slime
   :config
-  (map! :nv "SPC d" #'slime-describe-symbol
+  (map! :map slime-mode-map
+        :nv "SPC d" #'slime-describe-symbol
         :nv "SPC m e e" #'slime-eval-last-expression
         :nv "SPC m '" #'slime-connect))
 
 (require 'smooth-scrolling)
+
+(use-package! symex
+  :config
+  (symex-initialize)
+  (map! :map doom-leader-map "k" #'symex-mode-interface)
+  (setq symex-modal-backend 'evil))
 
 (add-hook 'treemacs-mode-hook
           (lambda ()

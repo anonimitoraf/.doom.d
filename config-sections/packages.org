@@ -239,13 +239,6 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
 #+begin_src elisp
 (evil-collection-init)
 #+end_src
-* =evil-lisp-state=
-Currently supplies my structural editing needs
-#+begin_src elisp
-(use-package! evil-lisp-state
-  :init (setq evil-lisp-state-global t)
-  :config (evil-lisp-state-leader "SPC k"))
-#+end_src
 * =flycheck=
 Emphasize the error/warning fringe indicators. When I go through a file, I typically rely on the fridge to tell guide me to code that I have to fix.
 #+begin_src elisp
@@ -674,13 +667,23 @@ Company mode in shell is just annoying.
 #+begin_src elisp
 (use-package! slime
   :config
-  (map! :nv "SPC d" #'slime-describe-symbol
+  (map! :map slime-mode-map
+        :nv "SPC d" #'slime-describe-symbol
         :nv "SPC m e e" #'slime-eval-last-expression
         :nv "SPC m '" #'slime-connect))
 #+end_src
 * =smooth-scrolling=
 #+begin_src elisp
 (require 'smooth-scrolling)
+#+end_src
+* =symex=
+Best structural editing package to date
+#+begin_src elisp
+(use-package! symex
+  :config
+  (symex-initialize)
+  (map! :map doom-leader-map "k" #'symex-mode-interface)
+  (setq symex-modal-backend 'evil))
 #+end_src
 * =treemacs=
 #+begin_src elisp
