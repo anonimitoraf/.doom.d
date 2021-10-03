@@ -176,3 +176,9 @@
 (package! slime)
 
 (package! projectile-git-autofetch)
+
+(package! try
+  :recipe (:host github :repo "larstvei/Try"))
+
+(package! symex
+  :recipe (:host github :repo "countvajhula/symex.el"))
