@@ -256,13 +256,16 @@ output as a string."
 
 (use-package! cider
   :config
-  (setq cider-repl-pop-to-buffer-on-connect nil)
+  (setq cider-repl-pop-to-buffer-on-connect nil
+        cider-dynamic-indentation nil
+        cider-font-lock-dynamically nil
+        cider-font-lock-reader-conditionals nil)
   (map! :map cider-inspector-mode-map
-      :nv "C-k" #'cider-inspector-previous-inspectable-object
-      :nv "C-j" #'cider-inspector-next-inspectable-object
-      :nv "C-h" #'cider-inspector-pop
-      :nv [mouse-3] #'cider-inspector-pop
-      :nv "C-l" #'cider-inspector-operate-on-point))
+        :nv "C-k" #'cider-inspector-previous-inspectable-object
+        :nv "C-j" #'cider-inspector-next-inspectable-object
+        :nv "C-h" #'cider-inspector-pop
+        :nv [mouse-3] #'cider-inspector-pop
+        :nv "C-l" #'cider-inspector-operate-on-point))
 
 (after! company
   (setq company-idle-delay 0.0
