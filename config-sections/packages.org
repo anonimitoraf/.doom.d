@@ -105,6 +105,32 @@ TODO Check if this is actually a good thing to do.
 (define-key global-map (kbd "C-j") nil)
 (define-key global-map (kbd "C-k") nil)
 #+end_src
+* =dap=
+Typical templates DAP debug templates. Primarily serves as examples that can be tweaked
+#+begin_src elisp
+(use-package! dap-mode
+  :config
+  (dap-register-debug-template
+   "Typescript project (src/index.ts)"
+   (list :type "node"
+         :cwd "${workspaceFolder}"
+         :runtimeArgs ["--nolazy" "-r" "ts-node/register"]
+         :args "src/index.ts"
+         :request "launch"
+         :name "Node index.ts")))
+          #+end_src
+Disable DAP tooltips in TTY because it's glitchy
+#+begin_src elisp
+(use-package! dap-mode
+  :config
+  (dap-tooltip-mode (if (display-graphic-p) +1 -1)))
+#+end_src
+Add modeline to DAP windows (a bit hacky)
+#+begin_src elisp
+(use-package! dap-mode
+  :config
+  (add-hook '+dap-running-session-mode-hook (lambda () (doom-modeline-mode +1))))
+#+end_src
 * =dotenv-mode=
 #+begin_src elisp
 (use-package! dotenv-mode
@@ -236,6 +262,11 @@ I keep changing my mind about this, but for now, I think splitting and selecting
 #+begin_src elisp
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
+#+end_src
+
+Allow usage of evil in minibuffer
+#+begin_src elisp
+(setq evil-want-minibuffer t)
 #+end_src
 
 evil-collection with workaround for =slime= specifically (and evaluation of the last sexp)
@@ -706,7 +737,7 @@ Best structural editing package to date
   :config
   (progn
     (when window-system
-      (setq treemacs-width 30
+      (setq treemacs-width 50
             treemacs-is-never-other-window t
             treemacs-file-event-delay 1000
             treemacs-show-cursor t

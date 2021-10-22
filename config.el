@@ -137,8 +137,9 @@ output as a string."
       (set-frame-font doom-font t (++get-frame-list)))
     (setq ++font-size new-font-size)))
 
-(++configure-font-size)
-(setq ++adjust-font-timer (run-with-idle-timer 1 1 #'++configure-font-size))
+(when (display-graphic-p)
+ (++configure-font-size)
+ (setq ++adjust-font-timer (run-with-idle-timer 1 1 #'++configure-font-size)))
 
 (defun ++ascii-banner-ansi-shadow ()
   (mapc (lambda (line)
@@ -282,6 +283,25 @@ output as a string."
 (define-key global-map (kbd "C-j") nil)
 (define-key global-map (kbd "C-k") nil)
 
+(use-package! dap-mode
+  :config
+  (dap-register-debug-template
+   "Typescript project (src/index.ts)"
+   (list :type "node"
+         :cwd "${workspaceFolder}"
+         :runtimeArgs ["--nolazy" "-r" "ts-node/register"]
+         :args "src/index.ts"
+         :request "launch"
+         :name "Node index.ts")))
+
+(use-package! dap-mode
+  :config
+  (dap-tooltip-mode (if (display-graphic-p) +1 -1)))
+
+(use-package! dap-mode
+  :config
+  (add-hook '+dap-running-session-mode-hook (lambda () (doom-modeline-mode +1))))
+
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
 
@@ -385,6 +405,8 @@ output as a string."
 
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
+
+(setq evil-want-minibuffer t)
 
 (evil-collection-init)
 
@@ -743,7 +765,7 @@ output as a string."
   :config
   (progn
     (when window-system
-      (setq treemacs-width 30
+      (setq treemacs-width 50
             treemacs-is-never-other-window t
             treemacs-file-event-delay 1000
             treemacs-show-cursor t
@@ -935,6 +957,54 @@ output as a string."
     (ansi-color-apply-on-region (point-min) (point-max))))
 
 (add-to-list 'auto-mode-alist '("\\.log\\'" . display-ansi-colors))
+
+(set-popup-rules!
+  '(("^\\*helpful function"
+     :quit nil
+     :size 30)))
+
+;; Stolen from https://emacs.stackexchange.com/a/19582
+(defmacro ++with-advice (adlist &rest body)
+  "Execute BODY with temporary advice in ADLIST.
+
+Each element of ADLIST should be a list of the form
+  (SYMBOL WHERE FUNCTION [PROPS])
+suitable for passing to `advice-add'.  The BODY is wrapped in an
+`unwind-protect' form, so the advice will be removed even in the
+event of an error or nonlocal exit."
+  (declare (debug ((&rest (&rest form)) body))
+           (indent 1))
+  `(progn
+     ,@(mapcar (lambda (adform)
+                 (cons 'advice-add adform))
+               adlist)
+     (unwind-protect (progn ,@body)
+       ,@(mapcar (lambda (adform)
+                   `(advice-remove ,(car adform) ,(nth 2 adform)))
+                 adlist))))
+
+(defun ++call-logging-hooks (command &optional verbose)
+  "Call COMMAND, reporting every hook run in the process.
+Interactively, prompt for a command to execute.
+
+Return a list of the hooks run, in the order they were run.
+Interactively, or with optional argument VERBOSE, also print a
+message listing the hooks."
+  (interactive "CCommand to log hooks: \np")
+  (let* ((log     nil)
+         (logger (lambda (&rest hooks)
+                   (setq log (append log hooks nil)))))
+    (++with-advice
+     ((#'run-hooks :before logger))
+     (call-interactively command))
+    (when verbose
+      (message
+       (if log "Hooks run during execution of %s:"
+         "No hooks run during execution of %s.")
+       command)
+      (dolist (hook log)
+        (message "> %s" hook)))
+    log))
 
 (defun ++load-and-continuously-save (file)
   (interactive
