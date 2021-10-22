@@ -125,7 +125,7 @@
 
 (package! smooth-scrolling)
 
-(unpin! flycheck-posframe)
+(unpin! flycheck-posframe :disable t)
 
 (package! clojure-rand-ref
   :recipe (:host github :repo "anonimitoraf/clojure-rand-ref.el"))
