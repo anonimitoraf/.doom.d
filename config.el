@@ -225,6 +225,25 @@ output as a string."
   (global-aggressive-indent-mode +1)
   (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
 
+(defvar ++aggressive-indent-loc-threshold 500)
+(defun ++aggressive-indent-mode-setup ()
+  (interactive)
+  (aggressive-indent-mode
+   (if (< (count-lines (point-min) (point-max))
+          ++aggressive-indent-loc-threshold)
+       (progn (-> (format "ENABLING aggressive-index (LOC is < threshold %s)"
+                          ++aggressive-indent-loc-threshold)
+                  (propertize 'face '(:foreground "green"))
+                  (message))
+              +1)
+     (progn (-> (format "DISABLING aggressive-index (LOC is >= threshold %s)"
+                        ++aggressive-indent-loc-threshold)
+                (propertize 'face '(:foreground "red"))
+                (message))
+            -1))))
+
+(add-hook 'prog-mode-hook #'++aggressive-indent-mode-setup)
+
 (require 'alert)
 (setq alert-default-style 'notifications
       alert-fade-time 30)
