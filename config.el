@@ -501,6 +501,12 @@ output as a string."
 (after! counsel
   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
 
+(map! :map ivy-occur-grep-mode-map
+      :n "c" (cmd! (setq ivy-calling (not ivy-calling))))
+
+(add-hook 'ivy-occur-grep-mode-hook
+          (cmd! (setq ivy-calling t)))
+
 (use-package kubernetes
   :ensure t
   :commands (kubernetes-overview))

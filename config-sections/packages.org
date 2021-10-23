@@ -400,6 +400,15 @@ Fix for https://github.com/hlissner/doom-emacs/issues/3038.
 (after! counsel
   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
 #+end_src
+
+Patch for automatically enabling `ivy-calling` in `ivy-occur-grep-mode` and make it toggle-able
+#+begin_src elisp
+(map! :map ivy-occur-grep-mode-map
+      :n "c" (cmd! (setq ivy-calling (not ivy-calling))))
+
+(add-hook 'ivy-occur-grep-mode-hook
+          (cmd! (setq ivy-calling t)))
+#+end_src
 * =kubernetes=
 #+begin_src elisp
 (use-package kubernetes
