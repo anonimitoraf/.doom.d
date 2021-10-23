@@ -719,6 +719,14 @@ Get rid of annoying projectile staleness without it being too expensive/noticeab
 #+begin_src elisp
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
 #+end_src
+* =ranger=
+Start ranger in full-mode and show hidden files by default
+#+begin_src elisp
+(use-package! ranger
+  :config
+  (setq ranger-override-dired 'ranger
+        ranger-show-hidden t))
+#+end_src
 * =screenshot=
 #+begin_src elisp
 (use-package! screenshot)

@@ -88,7 +88,8 @@ output as a string."
                        :weight normal)
     `(ac-completion-face :foreground ,(doom-color 'yellow))
     `(ac-selection-face :foreground "black"
-                        :background ,(doom-color 'magenta)))
+                        :background ,(doom-color 'magenta))
+    '(hl-line :background "grey8"))
   ;; GUI
   (if (display-graphic-p)
       (custom-set-faces!
@@ -208,8 +209,6 @@ output as a string."
 (setq display-time-default-load-average nil
       display-time-24hr-format t
       display-line-numbers-type 'relative)
-
-(add-hook 'hl-line-mode-hook (lambda () (setq hl-line-mode nil)))
 
 (setq show-paren-style 'expression)
 
@@ -754,6 +753,11 @@ output as a string."
   (projectile-git-autofetch-mode +1))
 
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
+
+(use-package! ranger
+  :config
+  (setq ranger-override-dired 'ranger
+        ranger-show-hidden t))
 
 (use-package! screenshot)
 
