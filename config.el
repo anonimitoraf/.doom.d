@@ -517,6 +517,7 @@ output as a string."
 (after! lsp-mode
   (setq lsp-lens-enable t
         lsp-log-io nil
+        lsp-idle-delay 0.01
         lsp-completion-no-cache nil
         lsp-completion-enable nil
         lsp-headerline-breadcrumb-enable t
