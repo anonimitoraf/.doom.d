@@ -779,6 +779,8 @@ output as a string."
   (map! :map doom-leader-map "k" #'symex-mode-interface)
   (setq symex-modal-backend 'evil))
 
+(use-package! thread-dump)
+
 (add-hook 'treemacs-mode-hook
           (lambda ()
             (when (display-graphic-p)

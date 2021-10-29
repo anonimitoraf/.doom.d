@@ -759,6 +759,10 @@ Best structural editing package to date
   (map! :map doom-leader-map "k" #'symex-mode-interface)
   (setq symex-modal-backend 'evil))
 #+end_src
+* =thread-dump=
+#+begin_src elisp
+(use-package! thread-dump)
+#+end_src
 * =treemacs=
 #+begin_src elisp
 (add-hook 'treemacs-mode-hook
