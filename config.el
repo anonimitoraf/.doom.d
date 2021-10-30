@@ -532,7 +532,13 @@ output as a string."
      :quit nil
      :side bottom
      :size 20
-     :select nil))))
+     :select nil)
+    ("*lsp-help*"
+     :quit t
+     :side right
+     :size 120
+     :select t
+     :modeline t))))
 
 (after! lsp-mode
   ;; Clojure(Script)

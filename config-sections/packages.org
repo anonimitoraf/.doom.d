@@ -441,7 +441,13 @@ TODO: Find a way to disable/enable LSP completion based on the lang (I don't wan
      :quit nil
      :side bottom
      :size 20
-     :select nil))))
+     :select nil)
+    ("*lsp-help*"
+     :quit t
+     :side right
+     :size 120
+     :select t
+     :modeline t))))
 #+end_src
 Directories to ignore for specific languages
 #+begin_src elisp
