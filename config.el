@@ -214,10 +214,10 @@ output as a string."
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
-(custom-set-faces!
-  '(aw-leading-char-face
-    :foreground "white" :background "red"
-    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+  (custom-set-faces!
+    '(aw-leading-char-face
+      :foreground "white" :background "red"
+      :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
 (use-package! aggressive-indent
   :config
@@ -289,7 +289,8 @@ output as a string."
 (after! company
   (setq company-idle-delay 0.0
         company-tooltip-idle-delay 0.2
-        company-minimum-prefix-length 2)
+        company-minimum-prefix-length 2
+        company-selection-wrap-around t)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
   (if (display-graphic-p)

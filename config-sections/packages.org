@@ -112,7 +112,8 @@ I currently don't use tabs but if I did, well, the config's here
 (after! company
   (setq company-idle-delay 0.0
         company-tooltip-idle-delay 0.2
-        company-minimum-prefix-length 2)
+        company-minimum-prefix-length 2
+        company-selection-wrap-around t)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
   (if (display-graphic-p)
