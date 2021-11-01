@@ -278,7 +278,8 @@ output as a string."
   (setq cider-repl-pop-to-buffer-on-connect nil
         cider-dynamic-indentation nil
         cider-font-lock-dynamically nil
-        cider-font-lock-reader-conditionals nil)
+        cider-font-lock-reader-conditionals nil
+        nrepl-force-ssh-for-remote-hosts t)
   (map! :map cider-inspector-mode-map
         :nv "C-k" #'cider-inspector-previous-inspectable-object
         :nv "C-j" #'cider-inspector-next-inspectable-object
@@ -855,7 +856,7 @@ output as a string."
      :size 0.33
      :select t
      :modeline t)
-    ("^\\*\\(?:cider-doc\\|lsp-help\\)"
+    ("^\\*\\(?:cider-doc\\)"
      :side bottom
      :size 0.2)))
 

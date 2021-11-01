@@ -99,7 +99,8 @@ I currently don't use tabs but if I did, well, the config's here
   (setq cider-repl-pop-to-buffer-on-connect nil
         cider-dynamic-indentation nil
         cider-font-lock-dynamically nil
-        cider-font-lock-reader-conditionals nil)
+        cider-font-lock-reader-conditionals nil
+        nrepl-force-ssh-for-remote-hosts t)
   (map! :map cider-inspector-mode-map
         :nv "C-k" #'cider-inspector-previous-inspectable-object
         :nv "C-j" #'cider-inspector-next-inspectable-object

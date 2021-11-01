@@ -44,7 +44,7 @@ Popup rules
      :size 0.33
      :select t
      :modeline t)
-    ("^\\*\\(?:cider-doc\\|lsp-help\\)"
+    ("^\\*\\(?:cider-doc\\)"
      :side bottom
      :size 0.2)))
 #+end_src
