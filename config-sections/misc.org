@@ -254,3 +254,16 @@ Show a random MELPA package every so often
     (cancel-timer ++random-melpa-pkg-timer)
     (setq ++random-melpa-pkg-timer nil)))
 #+end_src
+
+Needing to open a file in multiple buffers (e.g. viewing XPM as an image and as C code)
+#+begin_src elisp
+(defun ++open-current-file-in-new-buffer ()
+  "Open the file that the current buffer is visiting in a new buffer."
+  (interactive)
+  (let* ((fn buffer-file-name)
+         (buf (create-file-buffer fn)))
+    (with-current-buffer buf
+      (setq buffer-file-name fn)
+      (revert-buffer t t))
+    (switch-to-buffer-other-window buf)))
+#+end_src

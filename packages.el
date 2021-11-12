@@ -162,7 +162,7 @@
   :recipe (:host github :repo "Alexander-Miller/i3wm-Config-Mode"))
 
 (package! nyan-mode
-  :recipe (:host github :repo "TeMPOraL/nyan-mode"))
+  :recipe (:host github :repo "anonimitoraf/nyan-mode"))
 
 (package! clomacs)
 

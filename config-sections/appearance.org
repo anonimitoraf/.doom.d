@@ -58,7 +58,8 @@ There are two ways to load a theme. Both assume the theme is installed and avail
     `(ac-completion-face :foreground ,(doom-color 'yellow))
     `(ac-selection-face :foreground "black"
                         :background ,(doom-color 'magenta))
-    '(hl-line :background "grey8"))
+    '(hl-line :background "grey8")
+    '(header-line :background "grey15"))
   ;; GUI
   (if (display-graphic-p)
       (custom-set-faces!
@@ -178,15 +179,10 @@ I know most of the keyboard shortcuts by now :P
 #+begin_src elisp
 (after! doom-modeline
   (custom-set-faces!
-    '(mode-line :height 0.9 :width condensed)
+    '(mode-line :background "darkred" :height 0.9 :width condensed)
     '(mode-line-inactive :height 0.9 :width condensed)
     '(mode-line-emphasis :inherit mode-line)
-    '(doom-modeline-buffer-file :weight normal))
-  ;; TERM (Alacritty)
-  (unless (display-graphic-p)
-    (custom-set-faces!
-      `(mode-line :background "darkred")
-      `(mode-line-inactive :background "black"))))
+    '(doom-modeline-buffer-file :weight normal)))
 #+end_src
 * Misc
 #+begin_src elisp

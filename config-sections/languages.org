@@ -54,11 +54,29 @@ Ligatures
 (plist-put! +ligatures-extra-symbols
             :lambda-prime "ƛ")
 
+(set-ligatures! 'clojure-mode nil)
+(set-ligatures! 'clojurescript-mode nil)
+(set-ligatures! 'clojure-mode
+  :lambda "fn")
 (set-ligatures! 'clojurescript-mode
   ;; Account for re-frame debux forms
+  :lambda "fn"
   :lambda-prime "fn-traced")
 #+end_src
 
+Pretty-printing currently selected Clojure code with =jet=
+#+begin_src elisp
+(defun ++clojure-pretty-format ()
+  (interactive)
+  (shell-command-on-region
+   (region-beginning)
+   (region-end)
+   "jet --pretty --edn-reader-opts '{:default tagged-literal}'"
+   (current-buffer)
+   t
+   "*jet error buffer*"
+   t))
+#+end_src
 * Emacs Lisp
 #+begin_src elisp
 

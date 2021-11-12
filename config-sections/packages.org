@@ -12,33 +12,34 @@ Make window labels very obvious
       :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 #+end_src
 * =aggressive-indent=
+Only enable aggressive-indent-mode automatically for files with LOC < threshold
 #+begin_src elisp
 (use-package! aggressive-indent
   :config
-  (global-aggressive-indent-mode +1)
-  (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
-#+end_src
-
-Only enable aggressive-indent-mode automatically for files with LOC < threshold
-#+begin_src elisp
-(defvar ++aggressive-indent-loc-threshold 500)
-(defun ++aggressive-indent-mode-setup ()
-  (interactive)
-  (aggressive-indent-mode
-   (if (< (count-lines (point-min) (point-max))
-          ++aggressive-indent-loc-threshold)
-       (progn (-> (format "ENABLING aggressive-index (LOC is < threshold %s)"
-                          ++aggressive-indent-loc-threshold)
-                  (propertize 'face '(:foreground "green"))
-                  (message))
-              +1)
-     (progn (-> (format "DISABLING aggressive-index (LOC is >= threshold %s)"
-                        ++aggressive-indent-loc-threshold)
-                (propertize 'face '(:foreground "red"))
-                (message))
-            -1))))
-
-(add-hook 'prog-mode-hook #'++aggressive-indent-mode-setup)
+  (defvar ++aggressive-indent-loc-threshold 500)
+  (defun ++aggressive-indent-mode-setup ()
+    (interactive)
+    (unless (memql major-mode aggressive-indent-excluded-modes)
+      (aggressive-indent-mode
+       (if (< (count-lines (point-min) (point-max))
+              ++aggressive-indent-loc-threshold)
+           (progn (-> (format "ENABLING aggressive-index (LOC is < threshold %s)"
+                              ++aggressive-indent-loc-threshold)
+                      (propertize 'face '(:foreground "green"))
+                      (message))
+                  +1)
+         (progn (-> (format "DISABLING aggressive-index (LOC is >= threshold %s)"
+                            ++aggressive-indent-loc-threshold)
+                    (propertize 'face '(:foreground "red"))
+                    (message))
+                -1)))))
+  (add-hook! '(clojure-mode-hook
+               clojurescript-mode-hook
+               clojurec-mode-hook
+               lisp-mode-hook
+               emacs-lisp-mode-hook
+               css-mode-hook)
+             #'++aggressive-indent-mode-setup))
 #+end_src
 * =alert=
 #+begin_src elisp
@@ -107,6 +108,56 @@ I currently don't use tabs but if I did, well, the config's here
         :nv "C-h" #'cider-inspector-pop
         :nv [mouse-3] #'cider-inspector-pop
         :nv "C-l" #'cider-inspector-operate-on-point))
+#+end_src
+
+Patch for being able to connect to multiple nREPL instances by using a random local port each time
+#+begin_src elisp
+(defun nrepl--ssh-tunnel-connect (host port)
+  "Connect to a remote machine identified by HOST and PORT through SSH tunnel."
+  (message "[nREPL] Establishing SSH tunneled connection to %s:%s ..." host port)
+  (let* ((remote-dir (if host (format "/ssh:%s:" host) default-directory))
+         (local-port (nrepl--random-free-local-port))
+         (ssh (or (executable-find "ssh")
+                  (error "[nREPL] Cannot locate 'ssh' executable")))
+         (cmd (nrepl--ssh-tunnel-command ssh remote-dir port local-port))
+         (tunnel-buf (nrepl-tunnel-buffer-name
+                      `((:host ,host) (:port ,port))))
+         (tunnel (start-process-shell-command "nrepl-tunnel" tunnel-buf cmd)))
+    (process-put tunnel :waiting-for-port t)
+    (set-process-filter tunnel (nrepl--ssh-tunnel-filter local-port))
+    (while (and (process-live-p tunnel)
+                (process-get tunnel :waiting-for-port))
+      (accept-process-output nil 0.005))
+    (if (not (process-live-p tunnel))
+        (error "[nREPL] SSH port forwarding failed.  Check the '%s' buffer" tunnel-buf)
+      (message "[nREPL] SSH port forwarding established to localhost:%s" local-port)
+      (let ((endpoint (nrepl--direct-connect "localhost" local-port)))
+        (thread-first endpoint
+          (plist-put :tunnel tunnel)
+          (plist-put :remote-host host))))))
+
+(defun nrepl--random-free-local-port ()
+  (let* ((random-free-local-port-cmd (concat "comm -23 "
+                                             "<(seq 1024 65535 | sort) "
+                                             "<(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | "
+                                             "shuf | head -n 1")))
+    (with-temp-buffer
+           (insert (string-trim-right (shell-command-to-string random-free-local-port-cmd)))
+           (buffer-string))))
+
+(defun nrepl--ssh-tunnel-command (ssh dir remote-port local-port)
+  "Command string to open SSH tunnel to the host associated with DIR's PORT."
+  (with-parsed-tramp-file-name dir v
+     ;; this abuses the -v option for ssh to get output when the port
+    ;; forwarding is set up, which is used to synchronise on, so that
+    ;; the port forwarding is up when we try to connect.
+    (format-spec
+     "%s -v -N -L %l:localhost:%p %u'%h'"
+     `((?s . ,ssh)
+       (?l . ,local-port)
+       (?p . ,remote-port)
+       (?h . ,v-host)
+       (?u . ,(if v-user (format "-l '%s' " v-user) ""))))))
 #+end_src
 * =company=
 #+begin_src elisp
@@ -428,7 +479,7 @@ TODO: Find a way to disable/enable LSP completion based on the lang (I don't wan
 (after! lsp-mode
   (setq lsp-lens-enable t
         lsp-log-io nil
-        lsp-idle-delay 0.01
+        lsp-idle-delay 0.2
         lsp-completion-no-cache nil
         lsp-completion-enable nil
         lsp-headerline-breadcrumb-enable t
@@ -459,6 +510,10 @@ Directories to ignore for specific languages
                        "[/\\\\]\\.shadow-cljs$"
                        "[/\\\\]resources$"))
     (add-to-list 'lsp-file-watch-ignored to-ignore)))
+#+end_src
+Disable flycheck popups because they make Emacs lag
+#+begin_src elisp
+(add-hook 'lsp-mode-hook (lambda () (flycheck-popup-tip-mode -1)))
 #+end_src
 ** =lsp-ui=
 TODO Convert the `define-key` statements to use `map!`
@@ -552,7 +607,8 @@ Display clock on modeline
 #+begin_src elisp
 (use-package! nyan-mode
   :config
-  (setq nyan-minimum-window-width 100)
+  (setq nyan-minimum-window-width 100
+        nyan-mark-modified-buffers t)
   (nyan-mode +1))
 #+end_src
 * =org=

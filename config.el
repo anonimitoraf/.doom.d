@@ -89,7 +89,8 @@ output as a string."
     `(ac-completion-face :foreground ,(doom-color 'yellow))
     `(ac-selection-face :foreground "black"
                         :background ,(doom-color 'magenta))
-    '(hl-line :background "grey8"))
+    '(hl-line :background "grey8")
+    '(header-line :background "grey15"))
   ;; GUI
   (if (display-graphic-p)
       (custom-set-faces!
@@ -196,15 +197,10 @@ output as a string."
 
 (after! doom-modeline
   (custom-set-faces!
-    '(mode-line :height 0.9 :width condensed)
+    '(mode-line :background "darkred" :height 0.9 :width condensed)
     '(mode-line-inactive :height 0.9 :width condensed)
     '(mode-line-emphasis :inherit mode-line)
-    '(doom-modeline-buffer-file :weight normal))
-  ;; TERM (Alacritty)
-  (unless (display-graphic-p)
-    (custom-set-faces!
-      `(mode-line :background "darkred")
-      `(mode-line-inactive :background "black"))))
+    '(doom-modeline-buffer-file :weight normal)))
 
 (setq display-time-default-load-average nil
       display-time-24hr-format t
@@ -214,34 +210,37 @@ output as a string."
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
-  (custom-set-faces!
-    '(aw-leading-char-face
-      :foreground "white" :background "red"
-      :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+(custom-set-faces!
+  '(aw-leading-char-face
+    :foreground "white" :background "red"
+    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
 (use-package! aggressive-indent
   :config
-  (global-aggressive-indent-mode +1)
-  (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
-
-(defvar ++aggressive-indent-loc-threshold 500)
-(defun ++aggressive-indent-mode-setup ()
-  (interactive)
-  (aggressive-indent-mode
-   (if (< (count-lines (point-min) (point-max))
-          ++aggressive-indent-loc-threshold)
-       (progn (-> (format "ENABLING aggressive-index (LOC is < threshold %s)"
-                          ++aggressive-indent-loc-threshold)
-                  (propertize 'face '(:foreground "green"))
-                  (message))
-              +1)
-     (progn (-> (format "DISABLING aggressive-index (LOC is >= threshold %s)"
-                        ++aggressive-indent-loc-threshold)
-                (propertize 'face '(:foreground "red"))
-                (message))
-            -1))))
-
-(add-hook 'prog-mode-hook #'++aggressive-indent-mode-setup)
+  (defvar ++aggressive-indent-loc-threshold 500)
+  (defun ++aggressive-indent-mode-setup ()
+    (interactive)
+    (unless (memql major-mode aggressive-indent-excluded-modes)
+      (aggressive-indent-mode
+       (if (< (count-lines (point-min) (point-max))
+              ++aggressive-indent-loc-threshold)
+           (progn (-> (format "ENABLING aggressive-index (LOC is < threshold %s)"
+                              ++aggressive-indent-loc-threshold)
+                      (propertize 'face '(:foreground "green"))
+                      (message))
+                  +1)
+         (progn (-> (format "DISABLING aggressive-index (LOC is >= threshold %s)"
+                            ++aggressive-indent-loc-threshold)
+                    (propertize 'face '(:foreground "red"))
+                    (message))
+                -1)))))
+  (add-hook! '(clojure-mode-hook
+               clojurescript-mode-hook
+               clojurec-mode-hook
+               lisp-mode-hook
+               emacs-lisp-mode-hook
+               css-mode-hook)
+             #'++aggressive-indent-mode-setup))
 
 (require 'alert)
 (setq alert-default-style 'notifications
@@ -286,6 +285,53 @@ output as a string."
         :nv "C-h" #'cider-inspector-pop
         :nv [mouse-3] #'cider-inspector-pop
         :nv "C-l" #'cider-inspector-operate-on-point))
+
+(defun nrepl--ssh-tunnel-connect (host port)
+  "Connect to a remote machine identified by HOST and PORT through SSH tunnel."
+  (message "[nREPL] Establishing SSH tunneled connection to %s:%s ..." host port)
+  (let* ((remote-dir (if host (format "/ssh:%s:" host) default-directory))
+         (local-port (nrepl--random-free-local-port))
+         (ssh (or (executable-find "ssh")
+                  (error "[nREPL] Cannot locate 'ssh' executable")))
+         (cmd (nrepl--ssh-tunnel-command ssh remote-dir port local-port))
+         (tunnel-buf (nrepl-tunnel-buffer-name
+                      `((:host ,host) (:port ,port))))
+         (tunnel (start-process-shell-command "nrepl-tunnel" tunnel-buf cmd)))
+    (process-put tunnel :waiting-for-port t)
+    (set-process-filter tunnel (nrepl--ssh-tunnel-filter local-port))
+    (while (and (process-live-p tunnel)
+                (process-get tunnel :waiting-for-port))
+      (accept-process-output nil 0.005))
+    (if (not (process-live-p tunnel))
+        (error "[nREPL] SSH port forwarding failed.  Check the '%s' buffer" tunnel-buf)
+      (message "[nREPL] SSH port forwarding established to localhost:%s" local-port)
+      (let ((endpoint (nrepl--direct-connect "localhost" local-port)))
+        (thread-first endpoint
+          (plist-put :tunnel tunnel)
+          (plist-put :remote-host host))))))
+
+(defun nrepl--random-free-local-port ()
+  (let* ((random-free-local-port-cmd (concat "comm -23 "
+                                             "<(seq 1024 65535 | sort) "
+                                             "<(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | "
+                                             "shuf | head -n 1")))
+    (with-temp-buffer
+           (insert (string-trim-right (shell-command-to-string random-free-local-port-cmd)))
+           (buffer-string))))
+
+(defun nrepl--ssh-tunnel-command (ssh dir remote-port local-port)
+  "Command string to open SSH tunnel to the host associated with DIR's PORT."
+  (with-parsed-tramp-file-name dir v
+     ;; this abuses the -v option for ssh to get output when the port
+    ;; forwarding is set up, which is used to synchronise on, so that
+    ;; the port forwarding is up when we try to connect.
+    (format-spec
+     "%s -v -N -L %l:localhost:%p %u'%h'"
+     `((?s . ,ssh)
+       (?l . ,local-port)
+       (?p . ,remote-port)
+       (?h . ,v-host)
+       (?u . ,(if v-user (format "-l '%s' " v-user) ""))))))
 
 (after! company
   (setq company-idle-delay 0.0
@@ -519,7 +565,7 @@ output as a string."
 (after! lsp-mode
   (setq lsp-lens-enable t
         lsp-log-io nil
-        lsp-idle-delay 0.01
+        lsp-idle-delay 0.2
         lsp-completion-no-cache nil
         lsp-completion-enable nil
         lsp-headerline-breadcrumb-enable t
@@ -548,6 +594,8 @@ output as a string."
                        "[/\\\\]\\.shadow-cljs$"
                        "[/\\\\]resources$"))
     (add-to-list 'lsp-file-watch-ignored to-ignore)))
+
+(add-hook 'lsp-mode-hook (lambda () (flycheck-popup-tip-mode -1)))
 
 (after! lsp-ui
   (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
@@ -623,7 +671,8 @@ output as a string."
 
 (use-package! nyan-mode
   :config
-  (setq nyan-minimum-window-width 100)
+  (setq nyan-minimum-window-width 100
+        nyan-mark-modified-buffers t)
   (nyan-mode +1))
 
 (use-package! org
@@ -863,9 +912,25 @@ output as a string."
 (plist-put! +ligatures-extra-symbols
             :lambda-prime "ƛ")
 
+(set-ligatures! 'clojure-mode nil)
+(set-ligatures! 'clojurescript-mode nil)
+(set-ligatures! 'clojure-mode
+  :lambda "fn")
 (set-ligatures! 'clojurescript-mode
   ;; Account for re-frame debux forms
+  :lambda "fn"
   :lambda-prime "fn-traced")
+
+(defun ++clojure-pretty-format ()
+  (interactive)
+  (shell-command-on-region
+   (region-beginning)
+   (region-end)
+   "jet --pretty --edn-reader-opts '{:default tagged-literal}'"
+   (current-buffer)
+   t
+   "*jet error buffer*"
+   t))
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
@@ -1106,3 +1171,13 @@ message listing the hooks."
   (when ++random-melpa-pkg-timer
     (cancel-timer ++random-melpa-pkg-timer)
     (setq ++random-melpa-pkg-timer nil)))
+
+(defun ++open-current-file-in-new-buffer ()
+  "Open the file that the current buffer is visiting in a new buffer."
+  (interactive)
+  (let* ((fn buffer-file-name)
+         (buf (create-file-buffer fn)))
+    (with-current-buffer buf
+      (setq buffer-file-name fn)
+      (revert-buffer t t))
+    (switch-to-buffer-other-window buf)))
