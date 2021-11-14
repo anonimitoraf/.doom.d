@@ -614,8 +614,7 @@ Display clock on modeline
 #+end_src
 * =org=
 #+begin_src elisp
-(use-package! org
-  :init
+(after! org
   (setq org-directory (concat ++sync-folder-path "/org")
         org-default-notes-file (concat org-directory "/notes/default.org")
         org-agenda-files (cl-map 'list (lambda (f) (concat org-directory "/" f))
@@ -623,7 +622,6 @@ Display clock on modeline
                                    "work"
                                    "captures"
                                    "notes")))
-  :config
   (setq org-agenda-span 60
         org-agenda-start-on-weekday nil
         org-agenda-start-day "-3d"

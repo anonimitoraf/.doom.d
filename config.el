@@ -656,8 +656,7 @@ output as a string."
         nyan-mark-modified-buffers t)
   (nyan-mode +1))
 
-(use-package! org
-  :init
+(after! org
   (setq org-directory (concat ++sync-folder-path "/org")
         org-default-notes-file (concat org-directory "/notes/default.org")
         org-agenda-files (cl-map 'list (lambda (f) (concat org-directory "/" f))
@@ -665,7 +664,6 @@ output as a string."
                                    "work"
                                    "captures"
                                    "notes")))
-  :config
   (setq org-agenda-span 60
         org-agenda-start-on-weekday nil
         org-agenda-start-day "-3d"
