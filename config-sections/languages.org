@@ -128,6 +128,5 @@ Company is a bit useless inside the erlang-shell
 #+end_src
 ** Vue
 #+begin_src elisp
-(require 'lsp-mode) ;; No harm in requiring it even if it's already loaded
 (add-hook 'vue-mode-hook #'lsp)
 #+end_src

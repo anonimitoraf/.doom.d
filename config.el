@@ -349,25 +349,6 @@ output as a string."
 (define-key global-map (kbd "C-j") nil)
 (define-key global-map (kbd "C-k") nil)
 
-(use-package! dap-mode
-  :config
-  (dap-register-debug-template
-   "Typescript project (src/index.ts)"
-   (list :type "node"
-         :cwd "${workspaceFolder}"
-         :runtimeArgs ["--nolazy" "-r" "ts-node/register"]
-         :args "src/index.ts"
-         :request "launch"
-         :name "Node index.ts")))
-
-(use-package! dap-mode
-  :config
-  (dap-tooltip-mode (if (display-graphic-p) +1 -1)))
-
-(use-package! dap-mode
-  :config
-  (add-hook '+dap-running-session-mode-hook (lambda () (doom-modeline-mode +1))))
-
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
 
@@ -968,7 +949,6 @@ output as a string."
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
-(require 'lsp-mode) ;; No harm in requiring it even if it's already loaded
 (add-hook 'vue-mode-hook #'lsp)
 
 (setq byte-compile-warnings '(not obsolete))
