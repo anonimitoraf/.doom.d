@@ -799,9 +799,16 @@ output as a string."
 
 (map! :nv "SPC f g" #'projectile-find-file-other-window)
 
+(defun ++set-projectile-cache-duration ()
+  (setq projectile-files-cache-expire
+        (if (and buffer-file-name
+            (file-remote-p (file-truename buffer-file-name)))
+       (* 10 60) ; Long-ish projectile cache for remote files
+     10)))
+
 (use-package! projectile
   :config
-  (setq projectile-files-cache-expire 10))
+  (add-hook 'find-file-hook #'++set-projectile-cache-duration))
 
 (use-package! projectile-git-autofetch
   :config

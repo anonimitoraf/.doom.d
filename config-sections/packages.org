@@ -765,11 +765,19 @@ It's convenient to open a file in a different window sometimes.
 (map! :nv "SPC f g" #'projectile-find-file-other-window)
 #+end_src
 
-Get rid of annoying projectile staleness without it being too expensive/noticeable.
+Get rid of annoying projectile staleness without it being too expensive/noticeable for local files.
+For remote files, make it a bit longer
 #+begin_src elisp
+(defun ++set-projectile-cache-duration ()
+  (setq projectile-files-cache-expire
+        (if (and buffer-file-name
+            (file-remote-p (file-truename buffer-file-name)))
+       (* 10 60) ; Long-ish projectile cache for remote files
+     10)))
+
 (use-package! projectile
   :config
-  (setq projectile-files-cache-expire 10))
+  (add-hook 'find-file-hook #'++set-projectile-cache-duration))
 #+end_src
 * =projectile-git-autofetch=
 #+begin_src elisp
