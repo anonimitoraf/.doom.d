@@ -181,31 +181,32 @@ TODO Check if this is actually a good thing to do.
 (define-key global-map (kbd "C-k") nil)
 #+end_src
 * =dap=
-Typical templates DAP debug templates. Primarily serves as examples that can be tweaked
-#+begin_src elisp
-(use-package! dap-mode
-  :config
-  (dap-register-debug-template
-   "Typescript project (src/index.ts)"
-   (list :type "node"
-         :cwd "${workspaceFolder}"
-         :runtimeArgs ["--nolazy" "-r" "ts-node/register"]
-         :args "src/index.ts"
-         :request "launch"
-         :name "Node index.ts")))
-          #+end_src
-Disable DAP tooltips in TTY because it's glitchy
-#+begin_src elisp
-(use-package! dap-mode
-  :config
-  (dap-tooltip-mode (if (display-graphic-p) +1 -1)))
-#+end_src
-Add modeline to DAP windows (a bit hacky)
-#+begin_src elisp
-(use-package! dap-mode
-  :config
-  (add-hook '+dap-running-session-mode-hook (lambda () (doom-modeline-mode +1))))
-#+end_src
+# dap-mode causes errors so comment it for now
+# Typical templates DAP debug templates. Primarily serves as examples that can be tweaked
+# #+begin_src elisp
+# (use-package! dap-mode
+#   :config
+#   (dap-register-debug-template
+#    "Typescript project (src/index.ts)"
+#    (list :type "node"
+#          :cwd "${workspaceFolder}"
+#          :runtimeArgs ["--nolazy" "-r" "ts-node/register"]
+#          :args "src/index.ts"
+#          :request "launch"
+#          :name "Node index.ts")))
+#           #+end_src
+# Disable DAP tooltips in TTY because it's glitchy
+# #+begin_src elisp
+# (use-package! dap-mode
+#   :config
+#   (dap-tooltip-mode (if (display-graphic-p) +1 -1)))
+# #+end_src
+# Add modeline to DAP windows (a bit hacky)
+# #+begin_src elisp
+# (use-package! dap-mode
+#   :config
+#   (add-hook '+dap-running-session-mode-hook (lambda () (doom-modeline-mode +1))))
+# #+end_src
 * =dotenv-mode=
 #+begin_src elisp
 (use-package! dotenv-mode
@@ -510,10 +511,6 @@ Directories to ignore for specific languages
                        "[/\\\\]\\.shadow-cljs$"
                        "[/\\\\]resources$"))
     (add-to-list 'lsp-file-watch-ignored to-ignore)))
-#+end_src
-Disable flycheck popups because they make Emacs lag
-#+begin_src elisp
-(add-hook 'lsp-mode-hook (lambda () (flycheck-popup-tip-mode -1)))
 #+end_src
 ** =lsp-ui=
 TODO Convert the `define-key` statements to use `map!`
