@@ -179,7 +179,7 @@ I know most of the keyboard shortcuts by now :P
 #+begin_src elisp
 (after! doom-modeline
   (custom-set-faces!
-    '(mode-line :background "darkred" :height 0.9 :width condensed)
+    '(mode-line :background "#23102C" :height 0.9 :width condensed)
     '(mode-line-inactive :height 0.9 :width condensed)
     '(mode-line-emphasis :inherit mode-line)
     '(doom-modeline-buffer-file :weight normal)))
