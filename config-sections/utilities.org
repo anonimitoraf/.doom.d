@@ -38,3 +38,10 @@ output as a string."
          (kill-buffer output-buffer))))
     output-buffer))
 #+end_src
+
+* Nifty functions
+#+begin_src elisp
+(defmacro comment (&rest body)
+  "Comment out one or more s-expressions."
+  nil)
+#+end_src

@@ -498,7 +498,7 @@ TODO: Find a way to disable/enable LSP completion based on the lang (I don't wan
      :select nil)
     ("*lsp-help*"
      :quit t
-     :side right
+     :side left
      :size 120
      :select t
      :modeline t))))

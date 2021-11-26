@@ -184,6 +184,16 @@ message listing the hooks."
         (message "> %s" hook)))
     log))
 #+end_src
+* Buffer manipulation
+#+begin_src elisp
+(map! :map evil-normal-state-map
+      "g t" #'next-buffer
+      "g T" #'previous-buffer)
+#+end_src
+* Process manipulation
+#+begin_src elisp
+(map! :map doom-leader-map "l p" #'list-processes)
+#+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp
@@ -267,3 +277,30 @@ Needing to open a file in multiple buffers (e.g. viewing XPM as an image and as 
       (revert-buffer t t))
     (switch-to-buffer-other-window buf)))
 #+end_src
+
+Make it easy to select and display a CIDER buffer for the current project
+#+begin_src elisp
+(defun ++cider-popup ()
+  (interactive)
+  (let* ((all-buffers (mapcar #'buffer-name (buffer-list)))
+         (cider-buffers (seq-filter
+                         (lambda (buf) (string-match-p (concat "\\*"
+                                                          "cider-repl "
+                                                          ".*"
+                                                          (projectile-project-name)
+                                                          ":.+" ;; hostname
+                                                          ":[0-9]+" ;; port
+                                                          ".*"
+                                                          "\\*")
+                                                  buf))
+                         all-buffers)))
+    (ivy-read "Pop-up CIDER buffer: " cider-buffers
+              :require-match t
+              :action (lambda (buf-name)
+                        (display-buffer buf-name
+                                        '(display-buffer-in-side-window . ((side . left)
+                                                                           (slot . -1))))))))
+#+end_src
+
+** TODO Automatically kill CIDER buffers with dead connections
+** TODO CIDER headerline/modeline to make it obvious which server and which port

@@ -35,6 +35,10 @@ output as a string."
          (kill-buffer output-buffer))))
     output-buffer))
 
+(defmacro comment (&rest body)
+  "Comment out one or more s-expressions."
+  nil)
+
 (defvar ++sync-folder-path "~/Dropbox")
 
 (defvar ++vscode-search-occ-bg "#48240a")
@@ -564,7 +568,7 @@ output as a string."
      :select nil)
     ("*lsp-help*"
      :quit t
-     :side right
+     :side left
      :size 120
      :select t
      :modeline t))))
@@ -1094,6 +1098,12 @@ message listing the hooks."
         (message "> %s" hook)))
     log))
 
+(map! :map evil-normal-state-map
+      "g t" #'next-buffer
+      "g T" #'previous-buffer)
+
+(map! :map doom-leader-map "l p" #'list-processes)
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))
@@ -1164,3 +1174,24 @@ message listing the hooks."
       (setq buffer-file-name fn)
       (revert-buffer t t))
     (switch-to-buffer-other-window buf)))
+
+(defun ++cider-popup ()
+  (interactive)
+  (let* ((all-buffers (mapcar #'buffer-name (buffer-list)))
+         (cider-buffers (seq-filter
+                         (lambda (buf) (string-match-p (concat "\\*"
+                                                          "cider-repl "
+                                                          ".*"
+                                                          (projectile-project-name)
+                                                          ":.+" ;; hostname
+                                                          ":[0-9]+" ;; port
+                                                          ".*"
+                                                          "\\*")
+                                                  buf))
+                         all-buffers)))
+    (ivy-read "Pop-up CIDER buffer: " cider-buffers
+              :require-match t
+              :action (lambda (buf-name)
+                        (display-buffer buf-name
+                                        '(display-buffer-in-side-window . ((side . left)
+                                                                           (slot . -1))))))))
