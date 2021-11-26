@@ -824,6 +824,13 @@ output as a string."
   (map! :map doom-leader-map "k" #'symex-mode-interface)
   (setq symex-modal-backend 'evil))
 
+(use-package! speed-dial
+  :config
+  (speed-dial-mode +1)
+  (speed-dial-apply '(("C-c 1" . "~/Dropbox/work/audience-republic/misc.el")
+                      ("C-c 2" . "~/Dropbox/life/todos.org")
+                      ("C-c 3" . "~/Dropbox/blog/"))))
+
 (use-package! thread-dump)
 
 (add-hook 'treemacs-mode-hook

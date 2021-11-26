@@ -826,6 +826,15 @@ Best structural editing package to date
   (map! :map doom-leader-map "k" #'symex-mode-interface)
   (setq symex-modal-backend 'evil))
 #+end_src
+* =speed-dial=
+#+begin_src elisp
+(use-package! speed-dial
+  :config
+  (speed-dial-mode +1)
+  (speed-dial-apply '(("C-c 1" . "~/Dropbox/work/audience-republic/misc.el")
+                      ("C-c 2" . "~/Dropbox/life/todos.org")
+                      ("C-c 3" . "~/Dropbox/blog/"))))
+#+end_src
 * =thread-dump=
 #+begin_src elisp
 (use-package! thread-dump)
