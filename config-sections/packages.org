@@ -13,33 +13,35 @@ Make window labels very obvious
 #+end_src
 * =aggressive-indent=
 Only enable aggressive-indent-mode automatically for files with LOC < threshold
+
+NOTE: Disable aggressive-indent for now because it makes a lot of things laggy. Instead, just indent stuff manually
 #+begin_src elisp
-(use-package! aggressive-indent
-  :config
-  (defvar ++aggressive-indent-loc-threshold 500)
-  (defun ++aggressive-indent-mode-setup ()
-    (interactive)
-    (unless (memql major-mode aggressive-indent-excluded-modes)
-      (aggressive-indent-mode
-       (if (< (count-lines (point-min) (point-max))
-              ++aggressive-indent-loc-threshold)
-           (progn (-> (format "ENABLING aggressive-index (LOC is < threshold %s)"
-                              ++aggressive-indent-loc-threshold)
-                      (propertize 'face '(:foreground "green"))
-                      (message))
-                  +1)
-         (progn (-> (format "DISABLING aggressive-index (LOC is >= threshold %s)"
-                            ++aggressive-indent-loc-threshold)
-                    (propertize 'face '(:foreground "red"))
-                    (message))
-                -1)))))
-  (add-hook! '(clojure-mode-hook
-               clojurescript-mode-hook
-               clojurec-mode-hook
-               lisp-mode-hook
-               emacs-lisp-mode-hook
-               css-mode-hook)
-             #'++aggressive-indent-mode-setup))
+;; (use-package! aggressive-indent
+;;   :config
+;;   (defvar ++aggressive-indent-loc-threshold 500)
+;;   (defun ++aggressive-indent-mode-setup ()
+;;     (interactive)
+;;     (unless (memql major-mode aggressive-indent-excluded-modes)
+;;       (aggressive-indent-mode
+;;        (if (< (count-lines (point-min) (point-max))
+;;               ++aggressive-indent-loc-threshold)
+;;            (progn (-> (format "ENABLING aggressive-index (LOC is < threshold %s)"
+;;                               ++aggressive-indent-loc-threshold)
+;;                       (propertize 'face '(:foreground "green"))
+;;                       (message))
+;;                   +1)
+;;          (progn (-> (format "DISABLING aggressive-index (LOC is >= threshold %s)"
+;;                             ++aggressive-indent-loc-threshold)
+;;                     (propertize 'face '(:foreground "red"))
+;;                     (message))
+;;                 -1)))))
+;;   (add-hook! '(clojure-mode-hook
+;;                clojurescript-mode-hook
+;;                clojurec-mode-hook
+;;                lisp-mode-hook
+;;                emacs-lisp-mode-hook
+;;                css-mode-hook)
+;;              #'++aggressive-indent-mode-setup))
 #+end_src
 * =alert=
 #+begin_src elisp
@@ -833,7 +835,7 @@ Best structural editing package to date
   (speed-dial-mode +1)
   (speed-dial-apply '(("C-c 1" . "~/Dropbox/work/audience-republic/misc.el")
                       ("C-c 2" . "~/Dropbox/life/todos.org")
-                      ("C-c 3" . "~/Dropbox/blog/"))))
+                      ("C-c 3" . "~/Dropbox/blog/content-org"))))
 #+end_src
 * =thread-dump=
 #+begin_src elisp

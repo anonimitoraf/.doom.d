@@ -219,32 +219,32 @@ output as a string."
     :foreground "white" :background "red"
     :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
-(use-package! aggressive-indent
-  :config
-  (defvar ++aggressive-indent-loc-threshold 500)
-  (defun ++aggressive-indent-mode-setup ()
-    (interactive)
-    (unless (memql major-mode aggressive-indent-excluded-modes)
-      (aggressive-indent-mode
-       (if (< (count-lines (point-min) (point-max))
-              ++aggressive-indent-loc-threshold)
-           (progn (-> (format "ENABLING aggressive-index (LOC is < threshold %s)"
-                              ++aggressive-indent-loc-threshold)
-                      (propertize 'face '(:foreground "green"))
-                      (message))
-                  +1)
-         (progn (-> (format "DISABLING aggressive-index (LOC is >= threshold %s)"
-                            ++aggressive-indent-loc-threshold)
-                    (propertize 'face '(:foreground "red"))
-                    (message))
-                -1)))))
-  (add-hook! '(clojure-mode-hook
-               clojurescript-mode-hook
-               clojurec-mode-hook
-               lisp-mode-hook
-               emacs-lisp-mode-hook
-               css-mode-hook)
-             #'++aggressive-indent-mode-setup))
+;; (use-package! aggressive-indent
+;;   :config
+;;   (defvar ++aggressive-indent-loc-threshold 500)
+;;   (defun ++aggressive-indent-mode-setup ()
+;;     (interactive)
+;;     (unless (memql major-mode aggressive-indent-excluded-modes)
+;;       (aggressive-indent-mode
+;;        (if (< (count-lines (point-min) (point-max))
+;;               ++aggressive-indent-loc-threshold)
+;;            (progn (-> (format "ENABLING aggressive-index (LOC is < threshold %s)"
+;;                               ++aggressive-indent-loc-threshold)
+;;                       (propertize 'face '(:foreground "green"))
+;;                       (message))
+;;                   +1)
+;;          (progn (-> (format "DISABLING aggressive-index (LOC is >= threshold %s)"
+;;                             ++aggressive-indent-loc-threshold)
+;;                     (propertize 'face '(:foreground "red"))
+;;                     (message))
+;;                 -1)))))
+;;   (add-hook! '(clojure-mode-hook
+;;                clojurescript-mode-hook
+;;                clojurec-mode-hook
+;;                lisp-mode-hook
+;;                emacs-lisp-mode-hook
+;;                css-mode-hook)
+;;              #'++aggressive-indent-mode-setup))
 
 (require 'alert)
 (setq alert-default-style 'notifications
@@ -829,7 +829,7 @@ output as a string."
   (speed-dial-mode +1)
   (speed-dial-apply '(("C-c 1" . "~/Dropbox/work/audience-republic/misc.el")
                       ("C-c 2" . "~/Dropbox/life/todos.org")
-                      ("C-c 3" . "~/Dropbox/blog/"))))
+                      ("C-c 3" . "~/Dropbox/blog/content-org"))))
 
 (use-package! thread-dump)
 
