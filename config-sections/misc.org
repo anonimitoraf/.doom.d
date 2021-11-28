@@ -194,6 +194,16 @@ message listing the hooks."
 #+begin_src elisp
 (map! :map doom-leader-map "l p" #'list-processes)
 #+end_src
+* Auto-generate ox-hugo headers
+#+begin_src elisp
+(defun ++ox-hugo-generate-headers ()
+  (interactive)
+  (save-excursion
+    (insert "#+HUGO_BASE_DIR: ..\n")
+    (insert "#+HUGO_SECTION: post\n")
+    (insert (concat "#+HUGO_CUSTOM_FRONT_MATTER: :date " (format-time-string "%Y-%m-%d") " :pin false :summary \"TODO\"\n"))
+    (insert "#+HUGO_TAGS: \"TODO\"\n")))
+#+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp

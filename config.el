@@ -1111,6 +1111,14 @@ message listing the hooks."
 
 (map! :map doom-leader-map "l p" #'list-processes)
 
+(defun ++ox-hugo-generate-headers ()
+  (interactive)
+  (save-excursion
+    (insert "#+HUGO_BASE_DIR: ..\n")
+    (insert "#+HUGO_SECTION: post\n")
+    (insert (concat "#+HUGO_CUSTOM_FRONT_MATTER: :date " (format-time-string "%Y-%m-%d") " :pin false :summary \"TODO\"\n"))
+    (insert "#+HUGO_TAGS: \"TODO\"\n")))
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))
