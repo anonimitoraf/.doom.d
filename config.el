@@ -356,7 +356,7 @@ output as a string."
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
 
-(require 'edbi)
+;; (require 'edbi)
 
 (require 'ejc-sql)
 (require 'ejc-autocomplete)

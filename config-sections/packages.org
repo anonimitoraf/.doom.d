@@ -216,7 +216,7 @@ TODO Check if this is actually a good thing to do.
 #+end_src
 * =edbi=
 #+begin_src elisp
-(require 'edbi)
+;; (require 'edbi)
 #+end_src
 * =ejc=
 
