@@ -547,31 +547,39 @@ output as a string."
   :ensure t
   :after kubernetes)
 
+(use-package lsp-mode
+  :config
+  (add-hook! '(prog-mode-hook)
+    (setq lsp-completion-enable t))
+  (add-hook! '(clojure-mode-hook
+               clojurescript-mode-hook
+               clojurec-mode-hook)
+    (setq lsp-completion-enable nil)))
+
 (after! lsp-mode
   (setq lsp-lens-enable t
         lsp-log-io nil
         lsp-idle-delay 0.2
         lsp-completion-no-cache nil
-        lsp-completion-enable nil
         lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-completion-sort-initial-results nil
         lsp-completion-use-last-result nil
         lsp-eldoc-enable-hover nil
         lsp-lens-place-position 'end-of-line
-        lsp-enable-indentation nil)
+        lsp-enable-indentation t)
   (set-popup-rules!
-  '(("*Flycheck errors*"
-     :quit nil
-     :side bottom
-     :size 20
-     :select nil)
-    ("*lsp-help*"
-     :quit t
-     :side left
-     :size 120
-     :select t
-     :modeline t))))
+    '(("*Flycheck errors*"
+       :quit nil
+       :side bottom
+       :size 20
+       :select nil)
+      ("*lsp-help*"
+       :quit t
+       :side left
+       :size 120
+       :select t
+       :modeline t))))
 
 (after! lsp-mode
   ;; Clojure(Script)
