@@ -344,7 +344,8 @@ I keep changing my mind about this, but for now, I think splitting and selecting
 
 Allow usage of evil in minibuffer
 #+begin_src elisp
-(setq evil-want-minibuffer t)
+(when (display-graphic-p)
+  (setq evil-want-minibuffer t))
 #+end_src
 
 evil-collection with workaround for =slime= specifically (and evaluation of the last sexp)

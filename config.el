@@ -457,7 +457,8 @@ output as a string."
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
 
-(setq evil-want-minibuffer t)
+(when (display-graphic-p)
+  (setq evil-want-minibuffer t))
 
 (evil-collection-init)
 
