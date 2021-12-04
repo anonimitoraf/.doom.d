@@ -58,6 +58,14 @@ Terminal emacs tends to throw a bunch of extra errors.
 (when (not (display-graphic-p))
   (setq debug-on-error nil))
 #+end_src
+Allow scrolling via mouse
+#+begin_src elisp
+(unless (display-graphic-p)
+  ;; activate mouse-based scrolling
+  (xterm-mouse-mode +1)
+  (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+  (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
+#+end_src
 * Prevent Emacs from hanging when exiting
 #+begin_src elisp
 (setq x-select-enable-clipboard-manager nil)

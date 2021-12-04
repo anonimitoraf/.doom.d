@@ -996,6 +996,12 @@ output as a string."
 (when (not (display-graphic-p))
   (setq debug-on-error nil))
 
+(unless (display-graphic-p)
+  ;; activate mouse-based scrolling
+  (xterm-mouse-mode +1)
+  (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+  (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
+
 (setq x-select-enable-clipboard-manager nil)
 
 (setq-default line-spacing 0.25)
