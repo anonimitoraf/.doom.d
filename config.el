@@ -1216,3 +1216,7 @@ message listing the hooks."
                         (display-buffer buf-name
                                         '(display-buffer-in-side-window . ((side . left)
                                                                            (slot . -1))))))))
+
+(map! :map clojure-mode-map :nv "SPC m r p" #'++cider-popup)
+(map! :map clojurescript-mode-map :nv "SPC m r p" #'++cider-popup)
+(map! :map clojurec-mode-map :nv "SPC m r p" #'++cider-popup)
