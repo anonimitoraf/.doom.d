@@ -66,6 +66,10 @@ Allow scrolling via mouse
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
   (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
 #+end_src
+Allow convenient word deletion with C-<backspace>. In the terminal, C-<backspace> is interpreted as C-h.
+#+begin_src elisp
+(map! :map global-map "C-h" #'backward-kill-word)
+#+end_src
 * Prevent Emacs from hanging when exiting
 #+begin_src elisp
 (setq x-select-enable-clipboard-manager nil)

@@ -1011,6 +1011,8 @@ output as a string."
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
   (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
 
+(map! :map global-map "C-h" #'backward-kill-word)
+
 (setq x-select-enable-clipboard-manager nil)
 
 (setq-default line-spacing 0.25)
