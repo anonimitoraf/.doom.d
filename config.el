@@ -105,11 +105,13 @@ output as a string."
                                        :foreground "white")
         `(flycheck-posframe-warning-face :background "dark goldenrod"
                                          :foreground "white"))
-    ;; TERM (Alacritty)
-    ;; Weirdly, "black" is more like "dark grey"
+    ;; TERM
     (custom-set-faces!
-      `(default :background "color-16")
-      `(header-line :background "black"))))
+      `(default :background "black")
+      ;; Same as window-divider's
+      `(header-line :background "#191b20")
+      `(lsp-face-highlight-read :background "#34536c"
+                                :foreground "#dfdfdf"))))
 
 (setq window-divider-default-right-width 10)
 
