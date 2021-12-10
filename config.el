@@ -502,7 +502,10 @@ output as a string."
 (require 'keychain-environment)
 (keychain-refresh-environment)
 
-(add-hook! '(text-mode-hook prog-mode-hook) #'idle-highlight-mode)
+(add-hook 'text-mode-hook (lambda () (idle-highlight-mode +1)))
+(add-hook 'prog-mode-hook (lambda () (if (bound-and-true-p lsp-mode)
+                                    (idle-highlight-mode -1)
+                                  (idle-highlight-mode +1))))
 
 (require 'i3wm-config-mode)
 
