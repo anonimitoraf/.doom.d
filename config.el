@@ -979,6 +979,23 @@ output as a string."
 
 (add-hook 'vue-mode-hook #'lsp)
 
+(setq garbage-collection-messages t)
+(defmacro k-time (&rest body)
+  "Measure and return the time it takes evaluating BODY."
+  `(let ((time (current-time)))
+     ,@body
+     (float-time (time-since time))))
+
+;; Set garbage collection threshold to 1GB.
+(setq gc-cons-threshold #x40000000)
+
+;; When idle for N secs run the GC no matter what.
+(defvar k-gc-timer
+  (run-with-idle-timer 15 t
+                       (lambda ()
+                         (message "Garbage Collector ran for %.06fsec"
+                                  (k-time (garbage-collect))))))
+
 (setq byte-compile-warnings '(not obsolete))
 
 (add-to-list 'term-file-aliases '("alacritty" . "xterm"))
