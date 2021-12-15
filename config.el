@@ -292,6 +292,8 @@ output as a string."
         :nv [mouse-3] #'cider-inspector-pop
         :nv "C-l" #'cider-inspector-operate-on-point))
 
+(advice-add 'cider-eldoc :around #'ignore)
+
 (defun nrepl--ssh-tunnel-connect (host port)
   "Connect to a remote machine identified by HOST and PORT through SSH tunnel."
   (message "[nREPL] Establishing SSH tunneled connection to %s:%s ..." host port)
