@@ -989,6 +989,8 @@ output as a string."
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
+
 (add-hook 'vue-mode-hook #'lsp)
 
 (setq garbage-collection-messages t)

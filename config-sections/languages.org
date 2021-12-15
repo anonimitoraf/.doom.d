@@ -126,6 +126,11 @@ Company is a bit useless inside the erlang-shell
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 #+end_src
+
+Auto-configure modes
+#+begin_src elisp
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
+#+end_src
 ** Vue
 #+begin_src elisp
 (add-hook 'vue-mode-hook #'lsp)
