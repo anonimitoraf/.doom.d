@@ -1245,22 +1245,23 @@ message listing the hooks."
   (interactive)
   (let* ((all-buffers (mapcar #'buffer-name (buffer-list)))
          (cider-buffers (seq-filter
-                         (lambda (buf) (string-match-p (concat "\\*"
-                                                          "cider-repl "
-                                                          ".*"
-                                                          (projectile-project-name)
-                                                          ":.+" ;; hostname
-                                                          ":[0-9]+" ;; port
-                                                          ".*"
-                                                          "\\*")
-                                                  buf))
+                         (lambda (buf) (string-match-p (concat
+                                                        "\\*"
+                                                        "cider-repl "
+                                                        ".*"
+                                                        (projectile-project-name)
+                                                        ":.+" ;; hostname
+                                                        ":[0-9]+" ;; port
+                                                        ".*"
+                                                        "\\*")
+                                                       buf))
                          all-buffers)))
     (ivy-read "Pop-up CIDER buffer: " cider-buffers
               :require-match t
               :action (lambda (buf-name)
                         (display-buffer buf-name
-                                        '(display-buffer-in-side-window . ((side . left)
-                                                                           (slot . -1))))))))
+                                        '(display-buffer-in-pop-up-window . ((side . left)
+                                                                             (slot . -1))))))))
 
 (map! :map clojure-mode-map :nv "SPC m r p" #'++cider-popup)
 (map! :map clojurescript-mode-map :nv "SPC m r p" #'++cider-popup)
