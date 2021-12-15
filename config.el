@@ -461,10 +461,10 @@ output as a string."
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
 
-(when (display-graphic-p)
-  (setq evil-want-minibuffer t))
-
-(evil-collection-init)
+(use-package! evil-collection
+  :config
+  (evil-collection-init)
+  (setq evil-collection-setup-minibuffer t))
 
 (define-fringe-bitmap 'flycheck-fringe-bitmap-beam
   (vector #b11111111
