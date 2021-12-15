@@ -575,7 +575,17 @@ output as a string."
         lsp-completion-use-last-result nil
         lsp-eldoc-enable-hover nil
         lsp-lens-place-position 'end-of-line
-        lsp-enable-indentation t)
+        lsp-enable-indentation t
+        lsp-signature-auto-activate t
+        lsp-signature-function 'lsp-signature-posframe
+        lsp-signature-posframe-params '(:poshandler posframe-poshandler-point-bottom-left-corner-upward
+                                        :height 10
+                                        :width 120
+                                        :border-width 1
+                                        :min-width 120))
+  (map! :map lsp-signature-mode-map
+        "C-j" #'lsp-signature-next
+        "C-k" #'lsp-signature-previous)
   (set-popup-rules!
     '(("*Flycheck errors*"
        :quit nil
