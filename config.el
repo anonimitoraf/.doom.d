@@ -342,8 +342,8 @@ output as a string."
        (?u . ,(if v-user (format "-l '%s' " v-user) ""))))))
 
 (after! company
-  (setq company-idle-delay 0.0
-        company-tooltip-idle-delay 0.2
+  (setq company-idle-delay 0.05
+        company-tooltip-idle-delay 0.05
         company-minimum-prefix-length 2
         company-selection-wrap-around t)
   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
