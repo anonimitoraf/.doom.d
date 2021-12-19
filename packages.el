@@ -198,3 +198,6 @@
 
 (package! speed-dial
   :recipe (:host github :repo "anonimitoraf/speed-dial.el"))
+
+(package! company-quickhelp
+  :recipe (:host github :repo "anonimitoraf/company-quickhelp"))

@@ -358,6 +358,10 @@ output as a string."
 (define-key global-map (kbd "C-j") nil)
 (define-key global-map (kbd "C-k") nil)
 
+(use-package! company-quickhelp
+  :config
+  (company-quickhelp-mode +1))
+
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
 
