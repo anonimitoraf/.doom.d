@@ -848,7 +848,19 @@ output as a string."
   :config
   (symex-initialize)
   (map! :map doom-leader-map "k" #'symex-mode-interface)
-  (setq symex-modal-backend 'evil))
+  (setq symex-modal-backend 'hydra))
+
+(defhydra+ hydra-symex (:post (progn
+                                (custom-set-faces!
+                                  ;; TODO Avoid duplication by storing this beforehand
+                                  '(mode-line :background "#23102C" :height 0.9 :width condensed))
+                                (symex-exit-mode)))
+  "Symex mode")
+
+(advice-add 'symex-mode-interface :after (lambda (&rest args)
+                                           (symex-hide-menu)
+                                           (custom-set-faces!
+                                             '(mode-line :background "#5a1111" :height 0.9 :width condensed))))
 
 (use-package! speed-dial
   :config
