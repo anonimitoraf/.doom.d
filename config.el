@@ -1203,11 +1203,11 @@ message listing the hooks."
     (cancel-timer ++continuous-saving-timer))
   ;; Save the session every 10 seconds
   (setq ++continuous-saving-timer
-        (run-with-timer 1 10 (cmd!
-                              ;; (message "Saving '%s' session" file)
-                              (let ((message-log-max nil)
-                                    (inhibit-message t))
-                                (doom-save-session file))))))
+        (run-with-idle-timer 1 5 (cmd!
+                                  ;; (message "Saving '%s' session" file)
+                                  (let ((message-log-max nil)
+                                        (inhibit-message t))
+                                    (doom-save-session file))))))
 (map! :map doom-leader-map "q N" '++load-and-continuously-save)
 
 (defun external-terminal ()
