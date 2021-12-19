@@ -617,12 +617,13 @@ output as a string."
   (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
   (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
   (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
-  (map! :map lsp-mode-map
+  (map! :map lsp-ui-mode-map
         :nv "SPC c m" #'lsp-ui-imenu
         :nv "SPC d" #'lsp-ui-doc-glance)
   (setq lsp-ui-peek-fontify 'always
         lsp-ui-peek-list-width 100
         lsp-ui-peek-peek-height 40
+        lsp-ui-peek-always-show t
 
         ;; These can be brought up on-demand with SPC d
         lsp-ui-doc-enable nil
