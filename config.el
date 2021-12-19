@@ -352,6 +352,7 @@ output as a string."
       (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
     ;; Terminal seems to work with just "TAB"
     (define-key company-active-map (kbd "TAB") 'company-complete-selection))
+  (define-key company-active-map (kbd "C-l") 'company-complete-selection)
   (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
 
 (define-key global-map (kbd "C-j") nil)
