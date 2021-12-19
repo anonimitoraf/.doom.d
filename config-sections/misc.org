@@ -243,6 +243,12 @@ message listing the hooks."
 (remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
 (add-hook 'vterm-mode-hook #'doom-modeline-mode)
 #+end_src
+* Temporary hacks
+Hack for error `(void-function lsp--matching-clients\?)'
+#+begin_src elisp
+(after! lsp-mode
+  (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
+#+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp

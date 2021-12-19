@@ -1213,6 +1213,9 @@ message listing the hooks."
 (remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
 (add-hook 'vterm-mode-hook #'doom-modeline-mode)
 
+(after! lsp-mode
+  (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))
