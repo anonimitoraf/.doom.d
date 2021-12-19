@@ -233,6 +233,16 @@ message listing the hooks."
     (insert (concat "#+HUGO_CUSTOM_FRONT_MATTER: :date " (format-time-string "%Y-%m-%d") " :pin false :summary \"TODO\"\n"))
     (insert "#+HUGO_TAGS: \"TODO\"\n")))
 #+end_src
+* Enabling modeline for most (if not, all) buffers, including popups
+#+begin_src elisp
+(plist-put +popup-defaults :modeline t)
+(remove-hook '+popup-buffer-mode-hook #'+popup-set-modeline-on-enable-h)
+
+(add-hook '+dap-running-session-mode-hook #'doom-modeline-mode)
+
+(remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
+(add-hook 'vterm-mode-hook #'doom-modeline-mode)
+#+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp

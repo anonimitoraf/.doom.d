@@ -1187,6 +1187,14 @@ message listing the hooks."
     (insert (concat "#+HUGO_CUSTOM_FRONT_MATTER: :date " (format-time-string "%Y-%m-%d") " :pin false :summary \"TODO\"\n"))
     (insert "#+HUGO_TAGS: \"TODO\"\n")))
 
+(plist-put +popup-defaults :modeline t)
+(remove-hook '+popup-buffer-mode-hook #'+popup-set-modeline-on-enable-h)
+
+(add-hook '+dap-running-session-mode-hook #'doom-modeline-mode)
+
+(remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
+(add-hook 'vterm-mode-hook #'doom-modeline-mode)
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))
