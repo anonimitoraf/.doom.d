@@ -953,6 +953,23 @@ output as a string."
    "*jet error buffer*"
    t))
 
+;; TODO Instead of replacing buffer contents, copy to clipboard
+(defun ++clojure-json->edn ()
+  (interactive)
+  (shell-command-on-region
+   (region-beginning)
+   (region-end)
+   (concat "jet"
+           " --pretty"
+           " --edn-reader-opts '{:default tagged-literal}'"
+           " --from json"
+           " --to edn"
+           " --keywordize '#(-> % csk/->kebab-case keyword)'")
+   (current-buffer)
+   t
+   "*jet error buffer*"
+   t))
+
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
             (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))

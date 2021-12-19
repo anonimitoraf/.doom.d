@@ -77,6 +77,26 @@ Pretty-printing currently selected Clojure code with =jet=
    "*jet error buffer*"
    t))
 #+end_src
+
+JSON -> EDN with =jet=
+#+begin_src elisp
+;; TODO Instead of replacing buffer contents, copy to clipboard
+(defun ++clojure-json->edn ()
+  (interactive)
+  (shell-command-on-region
+   (region-beginning)
+   (region-end)
+   (concat "jet"
+           " --pretty"
+           " --edn-reader-opts '{:default tagged-literal}'"
+           " --from json"
+           " --to edn"
+           " --keywordize '#(-> % csk/->kebab-case keyword)'")
+   (current-buffer)
+   t
+   "*jet error buffer*"
+   t))
+#+end_src
 * Emacs Lisp
 #+begin_src elisp
 
