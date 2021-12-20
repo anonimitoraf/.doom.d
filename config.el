@@ -623,7 +623,7 @@ output as a string."
   (setq lsp-ui-peek-fontify 'always
         lsp-ui-peek-list-width 100
         lsp-ui-peek-peek-height 40
-        lsp-ui-peek-always-show t
+        lsp-ui-peek-always-show nil
 
         ;; These can be brought up on-demand with SPC d
         lsp-ui-doc-enable nil
