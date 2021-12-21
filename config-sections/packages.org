@@ -321,7 +321,7 @@ Flex on Discord that we're using Emacs.
 (define-key evil-motion-state-map (kbd "<tab>") nil)
 
 (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
-(define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
+(define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
 #+end_src
 
 Disable the annoying auto-comment on newline.

@@ -449,7 +449,7 @@ output as a string."
 (define-key evil-motion-state-map (kbd "<tab>") nil)
 
 (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
-(define-key evil-motion-state-map (kbd "C-S-o") 'evil-jump-forward)
+(define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
 
 (setq +evil-want-o/O-to-continue-comments nil)
 
