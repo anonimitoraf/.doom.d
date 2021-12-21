@@ -201,3 +201,5 @@
 
 (package! company-quickhelp
   :recipe (:host github :repo "anonimitoraf/company-quickhelp"))
+
+(package! xclip)
