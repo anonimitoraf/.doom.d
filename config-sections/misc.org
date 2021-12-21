@@ -277,9 +277,7 @@ Regularly save to a session file. I use this a lot because I can't be bothered c
   ;; Save the session every 10 seconds
   (setq ++continuous-saving-timer
         (run-with-idle-timer 1 5 (cmd!
-                                  ;; (message "Saving '%s' session" file)
-                                  (let ((message-log-max nil)
-                                        (inhibit-message t))
+                                  (let ((inhibit-message t))
                                     (doom-save-session file))))))
 (map! :map doom-leader-map "q N" '++load-and-continuously-save)
 #+end_src
