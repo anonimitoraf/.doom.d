@@ -930,6 +930,12 @@ Utilize modeline color to tell me if I'm in symex-mode
 #+begin_src elisp
 (map! :map doom-leader-map "z" #'writeroom-mode)
 #+end_src
+* =xclip=
+#+begin_src elisp
+(use-package! xclip
+  :config
+  (xclip-mode +1))
+#+end_src
 * =+lookup=
 =SPC e= for eldoc
 #+begin_src elisp

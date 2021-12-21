@@ -914,6 +914,10 @@ output as a string."
 
 (map! :map doom-leader-map "z" #'writeroom-mode)
 
+(use-package! xclip
+  :config
+  (xclip-mode +1))
+
 (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 
 (use-package! clojure-mode
