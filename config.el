@@ -863,10 +863,10 @@ output as a string."
                                   '(mode-line :background "#23102C" :height 0.9 :width condensed))
                                 (symex-exit-mode)))
   "Symex mode"
-  ("C-h" symex-emit-backward "emit backward")
-  ("C-j" symex-capture-backward "capture backward")
-  ("C-k" symex-capture-forward "capture forward")
-  ("C-l" symex-emit-forward "emit forward"))
+  ("C-j" symex-emit-backward "emit backward")
+  ("C-h" symex-capture-backward "capture backward")
+  ("C-l" symex-capture-forward "capture forward")
+  ("C-k" symex-emit-forward "emit forward"))
 
 (advice-add 'symex-mode-interface :after (lambda (&rest args)
                                            (symex-hide-menu)
