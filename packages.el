@@ -203,3 +203,6 @@
   :recipe (:host github :repo "anonimitoraf/company-quickhelp"))
 
 (package! xclip)
+
+(package! icons-in-terminal
+  :recipe (:host github :repo "seagle0128/icons-in-terminal.el"))
