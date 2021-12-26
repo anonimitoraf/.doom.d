@@ -882,11 +882,6 @@ output as a string."
 
 (use-package! thread-dump)
 
-(add-hook 'treemacs-mode-hook
-          (lambda ()
-            (when (display-graphic-p)
-              (text-scale-decrease 1.5))))
-
 (with-eval-after-load 'treemacs-icons
   (when (display-graphic-p)
     (treemacs-resize-icons 10)))
@@ -896,23 +891,25 @@ output as a string."
   :bind (("<f8>" . treemacs)
          ("<f9>" . treemacs-select-window))
   :config
-  (progn
-    (when window-system
-      (setq treemacs-width 50
-            treemacs-is-never-other-window t
-            treemacs-file-event-delay 1000
-            treemacs-show-cursor t
-            treemacs--width-is-locked nil
-            treemacs-space-between-root-nodes nil
-            treemacs-filewatch-mode t
-            treemacs-fringe-indicator-mode t
-            treemacs-read-string-input 'from-minibuffer))
-    (when (not (display-graphic-p))
-      (setq treemacs-no-png-images t))))
+  (add-hook 'treemacs-mode-hook
+            (lambda ()
+              (when (display-graphic-p)
+                (text-scale-decrease 1.5))))
+  (unless (display-graphic-p)
+    (treemacs-indent-guide-mode t))
+  (setq treemacs-width 50
+        treemacs-is-never-other-window t
+        treemacs-file-event-delay 1000
+        treemacs-show-cursor t
+        treemacs--width-is-locked nil
+        treemacs-space-between-root-nodes nil
+        treemacs-filewatch-mode t
+        treemacs-fringe-indicator-mode t
+        treemacs-read-string-input 'from-minibuffer))
 
 (which-key-mode +1)
 
-(map! :map doom-leader-map "z" #'writeroom-mode)
+(map! :map doom-leader-map "z" #'+zen/toggle-fullscreen)
 
 (use-package! xclip
   :config
