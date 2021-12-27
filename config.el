@@ -94,7 +94,8 @@ output as a string."
     `(ac-selection-face :foreground "black"
                         :background ,(doom-color 'magenta))
     '(hl-line :background "grey8")
-    '(header-line :background "grey15"))
+    '(header-line :background "grey15")
+    `(popup-tip-face :foreground ,(doom-color 'cyan)))
   ;; GUI
   (if (display-graphic-p)
       (custom-set-faces!
