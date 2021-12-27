@@ -111,7 +111,10 @@ output as a string."
       ;; Same as window-divider's
       `(header-line :background "#191b20")
       `(lsp-face-highlight-read :background "#34536c"
-                                :foreground "#dfdfdf"))))
+                                :foreground "#dfdfdf")
+      `(flycheck-error :foreground ,(doom-color 'red) :underline t)
+      `(flycheck-warning :foreground ,(doom-color 'orange) :underline t)
+      `(lsp-lsp-flycheck-info-unnecessary-face :foreground ,(doom-color 'orange) :underline t))))
 
 (setq window-divider-default-right-width 10)
 
@@ -505,6 +508,10 @@ output as a string."
   :error-list-face 'flycheck-error-list-warning)
 
 (setq flycheck-display-errors-delay 0.01)
+
+(use-package! flycheck-popup-tip
+  :config
+  (setq flycheck-popup-tip-error-prefix " "))
 
 (require 'keychain-environment)
 (keychain-refresh-environment)

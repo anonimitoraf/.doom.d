@@ -400,6 +400,13 @@ Emphasize the error/warning fringe indicators. When I go through a file, I typic
 (setq flycheck-display-errors-delay 0.01)
 #+end_src
 
+Popup-tip customization for the terminal
+#+begin_src emacs-lisp :tangle yes
+(use-package! flycheck-popup-tip
+  :config
+  (setq flycheck-popup-tip-error-prefix " "))
+#+end_src
+
 * =keychain-environment=
 #+begin_src elisp
 (require 'keychain-environment)
