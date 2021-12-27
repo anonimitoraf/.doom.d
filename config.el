@@ -567,14 +567,26 @@ output as a string."
   :ensure t
   :after kubernetes)
 
-(use-package lsp-mode
+(use-package! lsp-mode
   :config
   (add-hook! '(prog-mode-hook)
     (setq lsp-completion-enable t))
   (add-hook! '(clojure-mode-hook
                clojurescript-mode-hook
                clojurec-mode-hook)
-    (setq lsp-completion-enable nil)))
+    (setq lsp-completion-enable nil))
+  (set-popup-rules!
+    '(("*Flycheck errors*"
+       :quit nil
+       :side bottom
+       :size 20
+       :select nil)
+      ("*lsp-help*"
+       :quit t
+       :side left
+       :size 120
+       :select t
+       :modeline t))))
 
 (after! lsp-mode
   (setq lsp-lens-enable t
@@ -597,19 +609,7 @@ output as a string."
                                         :min-width 120))
   (map! :map lsp-signature-mode-map
         "C-j" #'lsp-signature-next
-        "C-k" #'lsp-signature-previous)
-  (set-popup-rules!
-    '(("*Flycheck errors*"
-       :quit nil
-       :side bottom
-       :size 20
-       :select nil)
-      ("*lsp-help*"
-       :quit t
-       :side left
-       :size 120
-       :select t
-       :modeline t))))
+        "C-k" #'lsp-signature-previous))
 
 (after! lsp-mode
   ;; Clojure(Script)
