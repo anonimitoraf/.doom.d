@@ -28,7 +28,7 @@
        ;;ido               ; the other *other* search engine...
        (ivy +fuzzy
             +prescient
-            +childframe
+            ;; +childframe
             +icons ) ; a search engine for love and life
        ;; vertico
 
