@@ -166,6 +166,12 @@ Patch for being able to connect to multiple nREPL instances by using a random lo
        (?h . ,v-host)
        (?u . ,(if v-user (format "-l '%s' " v-user) ""))))))
 #+end_src
+* =clipetty=
+#+begin_src elisp
+(use-package! clipetty
+  :config
+  (global-clipetty-mode +1))
+#+end_src
 * =company=
 #+begin_src elisp
 (after! company
@@ -933,12 +939,6 @@ Utilize modeline color to tell me if I'm in symex-mode
 * =writeroom-mode=
 #+begin_src elisp
 (map! :map doom-leader-map "z" #'+zen/toggle-fullscreen)
-#+end_src
-* =xclip=
-#+begin_src elisp
-(use-package! xclip
-  :config
-  (xclip-mode +1))
 #+end_src
 * =+lookup=
 =SPC e= for eldoc

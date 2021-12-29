@@ -347,6 +347,10 @@ output as a string."
        (?h . ,v-host)
        (?u . ,(if v-user (format "-l '%s' " v-user) ""))))))
 
+(use-package! clipetty
+  :config
+  (global-clipetty-mode +1))
+
 (after! company
   (setq company-idle-delay 0.05
         company-tooltip-idle-delay 0.05
@@ -920,10 +924,6 @@ output as a string."
 (which-key-mode +1)
 
 (map! :map doom-leader-map "z" #'+zen/toggle-fullscreen)
-
-(use-package! xclip
-  :config
-  (xclip-mode +1))
 
 (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 
