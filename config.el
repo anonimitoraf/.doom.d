@@ -119,6 +119,8 @@ output as a string."
       `(default :background "black")
       ;; Same as window-divider's
       `(header-line :background "#191b20")
+      ;; Ivy
+      `(ivy-minibuffer-match-face-1 :foreground "white")
       `(lsp-face-highlight-read :background "#34536c"
                                 :foreground "#dfdfdf")
       `(lsp-face-highlight-write :inherit lsp-face-highlight-read)
