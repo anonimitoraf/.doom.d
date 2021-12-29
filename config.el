@@ -126,9 +126,7 @@ output as a string."
       `(lsp-face-highlight-write :inherit lsp-face-highlight-read)
       `(lsp-face-highlight-textual :inherit lsp-face-highlight-read)
       `(flycheck-error :foreground ,(doom-color 'red) :underline t)
-      `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t)
-      `(lsp-lsp-flycheck-info-unnecessary-face :inherit flycheck-warning)
-      `(lsp-flycheck-warning-unnecessary :inherit flycheck-warning))))
+      `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
 
 (setq window-divider-default-right-width 10)
 
