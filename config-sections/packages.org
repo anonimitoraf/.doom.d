@@ -416,6 +416,7 @@ Popup-tip customization for the terminal
 Customize the flycheck errors table to have longer columns
 #+begin_src elisp
 (use-package! flycheck
+  :config
   (setq flycheck-error-list-format
         `[("File" 32)
           ("Line" 8 flycheck-error-list-entry-<)

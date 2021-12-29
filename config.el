@@ -532,6 +532,7 @@ output as a string."
   (setq flycheck-popup-tip-error-prefix " "))
 
 (use-package! flycheck
+  :config
   (setq flycheck-error-list-format
         `[("File" 32)
           ("Line" 8 flycheck-error-list-entry-<)
