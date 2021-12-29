@@ -35,9 +35,17 @@ output as a string."
          (kill-buffer output-buffer))))
     output-buffer))
 
-(defmacro comment (&rest body)
+(defmacro ++comment (&rest body)
   "Comment out one or more s-expressions."
   nil)
+
+(defmacro ++spy (form)
+  `(message (concat (prin1-to-string ',form) " => %s") ,form))
+
+(++comment
+ (++spy (+ 1 1)) ;; "(+ 1 1) => 2"
+ (++spy IS-LINUX) ;; "IS-LINUX => t"
+ )
 
 (defvar ++sync-folder-path "~/Dropbox")
 
