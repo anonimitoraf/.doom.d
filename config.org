@@ -10,3 +10,4 @@
 #+INCLUDE: "config-sections/packages.org"
 #+INCLUDE: "config-sections/languages.org"
 #+INCLUDE: "config-sections/misc.org"
+#+INCLUDE: "config-sections/patches.org"

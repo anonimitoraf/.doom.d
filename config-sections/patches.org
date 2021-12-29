@@ -1,0 +1,42 @@
+#+TITLE: Patches
+#+DESCRIPTION: File meant to be for patches/hacks while waiting for the official repo authors to push their fixes
+
+* LSP peek reference count jumping to the next line
+Remove if/when PR https://github.com/emacs-lsp/lsp-ui/pull/673 is merged
+#+begin_src elisp
+(defun lsp-ui-peek--show (xrefs)
+  "Create a window to list references/defintions.
+XREFS is a list of references/definitions."
+  (setq lsp-ui-peek--win-start (window-start)
+        lsp-ui-peek--selection 0
+        lsp-ui-peek--offset 0
+        lsp-ui-peek--size-list 0
+        lsp-ui-peek--list nil)
+  (when (eq (logand lsp-ui-peek-peek-height 1) 1)
+    (setq lsp-ui-peek-peek-height (1+ lsp-ui-peek-peek-height)))
+  (when (< (- (line-number-at-pos (window-end)) (line-number-at-pos))
+           (+ lsp-ui-peek-peek-height 3))
+    (recenter 15))
+  (setq xrefs (--sort (string< (plist-get it :file) (plist-get other :file)) xrefs))
+  (--each xrefs
+    (-let* (((&plist :file filename :xrefs xrefs :count count) it)
+            (len-str (number-to-string count)))
+      (setq lsp-ui-peek--size-list (+ lsp-ui-peek--size-list count))
+      (push (concat (propertize (if lsp-ui-peek-show-directory
+                                    (lsp-ui--workspace-path filename)
+                                  (file-name-nondirectory filename))
+                                'face 'lsp-ui-peek-filename
+                                'file filename
+                                'xrefs xrefs)
+                    (propertize " " 'display `(space :align-to (- right-fringe
+                                                                  ;; Account for Emacs TTY's window divider
+                                                                  ;; Without this leeway, the reference count
+                                                                  ;; string goes to next line - impairs readability
+                                                                  ,(if (display-graphic-p) 0 1)
+                                                                  ,(1+ (length len-str)))))
+                    (propertize len-str 'face 'lsp-ui-peek-filename))
+            lsp-ui-peek--list)))
+  (setq lsp-ui-peek--list (nreverse lsp-ui-peek--list))
+  (lsp-ui-peek--expand xrefs)
+  (lsp-ui-peek--peek))
+#+end_src
