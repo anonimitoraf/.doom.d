@@ -541,7 +541,15 @@ output as a string."
              (face flycheck-error-list-error-message)
              9 16
              (face flycheck-error-list-checker-name))
-           0 t)]))
+           0 t)])
+  (add-hook 'flycheck-error-list-mode-hook
+            (lambda () (tabulated-list-sort 3)))
+  (set-popup-rules!
+    ("*Flycheck errors*"
+     :quit nil
+     :side bottom
+     :size 10
+     :select nil)))
 
 (require 'keychain-environment)
 (keychain-refresh-environment)
@@ -606,12 +614,7 @@ output as a string."
                clojurec-mode-hook)
     (setq lsp-completion-enable nil))
   (set-popup-rules!
-    '(("*Flycheck errors*"
-       :quit nil
-       :side bottom
-       :size 20
-       :select nil)
-      ("*lsp-help*"
+    '(("*lsp-help*"
        :quit t
        :side left
        :size 120

@@ -413,7 +413,7 @@ Popup-tip customization for the terminal
   (setq flycheck-popup-tip-error-prefix " "))
 #+end_src
 
-Customize the flycheck errors table to have longer columns
+Customize the flycheck errors table to have longer columns and sort by error level by default
 #+begin_src elisp
 (use-package! flycheck
   :config
@@ -427,7 +427,15 @@ Customize the flycheck errors table to have longer columns
              (face flycheck-error-list-error-message)
              9 16
              (face flycheck-error-list-checker-name))
-           0 t)]))
+           0 t)])
+  (add-hook 'flycheck-error-list-mode-hook
+            (lambda () (tabulated-list-sort 3)))
+  (set-popup-rules!
+    ("*Flycheck errors*"
+     :quit nil
+     :side bottom
+     :size 10
+     :select nil)))
 #+end_src
 
 * =keychain-environment=
@@ -529,12 +537,7 @@ Patch for automatically enabling `ivy-calling` in `ivy-occur-grep-mode` and make
                clojurec-mode-hook)
     (setq lsp-completion-enable nil))
   (set-popup-rules!
-    '(("*Flycheck errors*"
-       :quit nil
-       :side bottom
-       :size 20
-       :select nil)
-      ("*lsp-help*"
+    '(("*lsp-help*"
        :quit t
        :side left
        :size 120
