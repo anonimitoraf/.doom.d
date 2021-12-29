@@ -407,10 +407,26 @@ Emphasize the error/warning fringe indicators. When I go through a file, I typic
 #+end_src
 
 Popup-tip customization for the terminal
-#+begin_src emacs-lisp :tangle yes
+#+begin_src elisp
 (use-package! flycheck-popup-tip
   :config
   (setq flycheck-popup-tip-error-prefix " "))
+#+end_src
+
+Customize the flycheck errors table to have longer columns
+#+begin_src elisp
+(use-package! flycheck
+  (setq flycheck-error-list-format
+        `[("File" 32)
+          ("Line" 8 flycheck-error-list-entry-<)
+          ("Col" 8 nil)
+          ("Level" 32 flycheck-error-list-entry-level-<)
+          ("ID" 32 t)
+          (#("Message (Checker)" 0 7
+             (face flycheck-error-list-error-message)
+             9 16
+             (face flycheck-error-list-checker-name))
+           0 t)]))
 #+end_src
 
 * =keychain-environment=

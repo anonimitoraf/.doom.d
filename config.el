@@ -127,7 +127,8 @@ output as a string."
       `(lsp-face-highlight-textual :inherit lsp-face-highlight-read)
       `(flycheck-error :foreground ,(doom-color 'red) :underline t)
       `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t)
-      `(lsp-lsp-flycheck-info-unnecessary-face :inherit flycheck-warning))))
+      `(lsp-lsp-flycheck-info-unnecessary-face :inherit flycheck-warning)
+      `(lsp-flycheck-warning-unnecessary :inherit flycheck-warning))))
 
 (setq window-divider-default-right-width 10)
 
@@ -529,6 +530,19 @@ output as a string."
 (use-package! flycheck-popup-tip
   :config
   (setq flycheck-popup-tip-error-prefix " "))
+
+(use-package! flycheck
+  (setq flycheck-error-list-format
+        `[("File" 32)
+          ("Line" 8 flycheck-error-list-entry-<)
+          ("Col" 8 nil)
+          ("Level" 32 flycheck-error-list-entry-level-<)
+          ("ID" 32 t)
+          (#("Message (Checker)" 0 7
+             (face flycheck-error-list-error-message)
+             9 16
+             (face flycheck-error-list-checker-name))
+           0 t)]))
 
 (require 'keychain-environment)
 (keychain-refresh-environment)
