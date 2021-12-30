@@ -539,9 +539,9 @@ Patch for automatically enabling `ivy-calling` in `ivy-occur-grep-mode` and make
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
-       :side left
-       :size 120
-       :select t
+       :side top
+       :size 10
+       :select nil
        :modeline t))))
 
 (after! lsp-mode

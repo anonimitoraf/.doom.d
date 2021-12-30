@@ -616,9 +616,9 @@ output as a string."
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
-       :side left
-       :size 120
-       :select t
+       :side top
+       :size 10
+       :select nil
        :modeline t))))
 
 (after! lsp-mode
