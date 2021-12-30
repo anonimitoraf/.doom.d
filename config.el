@@ -545,11 +545,11 @@ output as a string."
   (add-hook 'flycheck-error-list-mode-hook
             (lambda () (tabulated-list-sort 3)))
   (set-popup-rules!
-    ("*Flycheck errors*"
-     :quit nil
-     :side bottom
-     :size 10
-     :select nil)))
+    '(("*Flycheck errors*"
+       :quit nil
+       :side bottom
+       :size 10
+       :select nil))))
 
 (require 'keychain-environment)
 (keychain-refresh-environment)
