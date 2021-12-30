@@ -51,6 +51,11 @@ Mark particular local variables as safe
 (-each ++safe-vars (lambda (pair)
                      (add-to-list 'safe-local-variable-values pair)))
 #+end_src
+
+# Prevent messages from interrupting minibuffer usage! Thanks to https://www.reddit.com/r/emacs/comments/bfoah0/comment/elf53gv
+#+begin_src elisp
+(setq minibuffer-message-timeout 0.0)
+#+end_src
 * Enabling only particular formatters
 #+begin_src elisp
 (setq +format-on-save-enabled-modes
@@ -276,9 +281,9 @@ Regularly save to a session file. I use this a lot because I can't be bothered c
     (cancel-timer ++continuous-saving-timer))
   ;; Save the session every 10 seconds
   (setq ++continuous-saving-timer
-        (run-with-idle-timer 30 t (cmd!
-                                   (let ((inhibit-message t))
-                                     (doom-save-session file))))))
+        (run-with-idle-timer 1 t (cmd!
+                                  (let ((inhibit-message t))
+                                    (doom-save-session file))))))
 (map! :map doom-leader-map "q N" '++load-and-continuously-save)
 #+end_src
 
