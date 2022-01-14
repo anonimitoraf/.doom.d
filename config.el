@@ -651,6 +651,10 @@ output as a string."
                        "[/\\\\]resources$"))
     (add-to-list 'lsp-file-watch-ignored to-ignore)))
 
+(use-package! lsp-mode
+  :config
+  (setq lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr")))
+
 (after! lsp-ui
   (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
   (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)

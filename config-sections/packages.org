@@ -576,6 +576,12 @@ Directories to ignore for specific languages
                        "[/\\\\]resources$"))
     (add-to-list 'lsp-file-watch-ignored to-ignore)))
 #+end_src
+Typescript
+#+begin_src elisp
+(use-package! lsp-mode
+  :config
+  (setq lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr")))
+#+end_src
 ** =lsp-ui=
 TODO Convert the `define-key` statements to use `map!`
 #+begin_src elisp
