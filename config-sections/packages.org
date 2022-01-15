@@ -893,10 +893,14 @@ Best structural editing package to date
 #+begin_src elisp
 (use-package! symex
   :config
-  (symex-initialize)
-  (map! :map doom-leader-map "k" #'symex-mode-interface)
-  (setq symex-modal-backend 'hydra))
-
+  (add-hook! '(clojure-mode-hook
+                clojurescript-mode-hook
+                clojurec-mode-hook
+                emacs-lisp-mode-hook
+                inferior-emacs-lisp-mode-hook)
+    (symex-initialize)
+    (map! :map doom-leader-map "k" #'symex-mode-interface)
+    (setq symex-modal-backend 'hydra)))
 #+end_src
 
 Utilize modeline color to tell me if I'm in symex-mode
@@ -961,6 +965,17 @@ Utilize modeline color to tell me if I'm in symex-mode
 * =which-key=
 #+begin_src elisp
 (which-key-mode +1)
+#+end_src
+* =whitespace=
+Make trailing spaces and tabs visible
+#+begin_src elisp
+(use-package! whitespace
+  :config
+  (global-whitespace-mode)
+  (setq whitespace-style '(face tabs tab-mark trailing)
+        whitespace-display-mappings '((tab-mark 9 [124 9] [92 9])))
+  (custom-set-faces
+   '(whitespace-tab ((t (:foreground "#636363"))))))
 #+end_src
 * =writeroom-mode=
 #+begin_src elisp

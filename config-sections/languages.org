@@ -137,12 +137,6 @@ Company is a bit useless inside the erlang-shell
 #+end_src
 * Type/Javascript
 #+begin_src elisp
-;; TODO Should this be part of a use-package! call?
-(setq typescript-indent-level 2)
-
-;; TODO Is this redundant the setting of indentation somewhere else?
-(add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
-
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 #+end_src

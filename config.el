@@ -103,26 +103,25 @@ output as a string."
                         :background ,(doom-color 'magenta))
     '(hl-line :background "grey8")
     '(header-line :background "grey15")
-    `(popup-tip-face :foreground ,(doom-color 'cyan)))
+    `(popup-tip-face :foreground ,(doom-color 'yellow))
+    ;; Ivy
+    `(ivy-minibuffer-match-face-1 :foreground "white"))
   ;; GUI
   (if (display-graphic-p)
-      (custom-set-faces!
-        `(default :background "black")
-        `(fill-column-indicator :foreground ,(doom-color 'base1))
-        `(window-divider :foreground "grey5")
-        `(flycheck-posframe-error-face :background "firebrick"
-                                       :foreground "white")
-        `(flycheck-posframe-warning-face :background "dark goldenrod"
-                                         :foreground "white"))
+    (custom-set-faces!
+      `(default :background "black")
+      `(fill-column-indicator :foreground ,(doom-color 'base1))
+      `(window-divider :foreground "grey5")
+      `(flycheck-posframe-error-face :background "firebrick"
+         :foreground "white")
+      `(flycheck-posframe-warning-face :background "dark goldenrod"
+         :foreground "white"))
     ;; TERM
     (custom-set-faces!
       `(default :background "black")
       ;; Same as window-divider's
       `(header-line :background "#191b20")
-      ;; Ivy
-      `(ivy-minibuffer-match-face-1 :foreground "white")
-      `(lsp-face-highlight-read :background "#34536c"
-                                :foreground "#dfdfdf")
+      `(lsp-face-highlight-read :background "#34536c" :foreground "#dfdfdf")
       `(lsp-face-highlight-write :inherit lsp-face-highlight-read)
       `(lsp-face-highlight-textual :inherit lsp-face-highlight-read)
       `(flycheck-error :foreground ,(doom-color 'red) :underline t)
@@ -896,9 +895,14 @@ output as a string."
 
 (use-package! symex
   :config
-  (symex-initialize)
-  (map! :map doom-leader-map "k" #'symex-mode-interface)
-  (setq symex-modal-backend 'hydra))
+  (add-hook! '(clojure-mode-hook
+                clojurescript-mode-hook
+                clojurec-mode-hook
+                emacs-lisp-mode-hook
+                inferior-emacs-lisp-mode-hook)
+    (symex-initialize)
+    (map! :map doom-leader-map "k" #'symex-mode-interface)
+    (setq symex-modal-backend 'hydra)))
 
 (defhydra+ hydra-symex (:columns 5
                         :post (progn
@@ -952,6 +956,14 @@ output as a string."
         treemacs-read-string-input 'from-minibuffer))
 
 (which-key-mode +1)
+
+(use-package! whitespace
+  :config
+  (global-whitespace-mode)
+  (setq whitespace-style '(face tabs tab-mark trailing)
+        whitespace-display-mappings '((tab-mark 9 [124 9] [92 9])))
+  (custom-set-faces
+   '(whitespace-tab ((t (:foreground "#636363"))))))
 
 (map! :map doom-leader-map "z" #'+zen/toggle-fullscreen)
 
@@ -1061,12 +1073,6 @@ output as a string."
 (map! :map erlang-mode-map
       "C-c C-k" #'++erlang-compile)
 
-;; TODO Should this be part of a use-package! call?
-(setq typescript-indent-level 2)
-
-;; TODO Is this redundant the setting of indentation somewhere else?
-(add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
-
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
@@ -1097,8 +1103,7 @@ output as a string."
 
 (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 
-(add-hook 'prog-mode-hook (cmd! (setq indent-tabs-mode nil)
-                                (doom/set-indent-width 2)))
+(add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
 
 (setq ++safe-vars '((+format-on-save-enabled-modes . '())
                     (cider-required-middleware-version . "0.25.5")))
@@ -1357,8 +1362,8 @@ message listing the hooks."
               :require-match t
               :action (lambda (buf-name)
                         (display-buffer buf-name
-                                        '(display-buffer-in-pop-up-window . ((side . left)
-                                                                             (slot . -1))))))))
+                                        '(display-buffer-pop-up-window . ((side . left)
+                                                                          (slot . -1))))))))
 
 (map! :map clojure-mode-map :nv "SPC m r p" #'++cider-popup)
 (map! :map clojurescript-mode-map :nv "SPC m r p" #'++cider-popup)
