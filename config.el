@@ -626,6 +626,7 @@ output as a string."
 (after! lsp-mode
   (setq lsp-lens-enable t
         lsp-log-io nil
+        lsp-use-plists t
         lsp-idle-delay 0.2
         lsp-completion-no-cache nil
         lsp-headerline-breadcrumb-enable t
