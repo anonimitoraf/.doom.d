@@ -137,6 +137,9 @@ output as a string."
                    '((3440 1440))) 18)
           ((member width-x-height
                    '((1920 1080))) 15)
+          ;; MAC for work
+          ((member width-x-height
+                   '((1792 1120))) 16)
           (t (progn
                (message (concat "Unhandled screen resolution " (prin1-to-string width-x-height) ". "
                                 "Defaulting to font size " (prin1-to-string default-font-size)))
