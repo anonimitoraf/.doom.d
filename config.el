@@ -630,8 +630,6 @@ output as a string."
         lsp-completion-no-cache nil
         lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-enable-diagnostics nil
-        lsp-completion-sort-initial-results nil
-        lsp-completion-use-last-result nil
         lsp-eldoc-enable-hover nil
         lsp-lens-place-position 'end-of-line
         lsp-enable-indentation t
@@ -666,6 +664,9 @@ output as a string."
   (map! :map lsp-ui-mode-map
         :nv "SPC c m" #'lsp-ui-imenu
         :nv "SPC d" #'lsp-ui-doc-glance)
+  (map! :map lsp-ui-peek-mode-map
+        "l" #'lsp-ui-peek--goto-xref
+        "C-l" #'lsp-ui-peek--goto-xref-other-window)
   (setq lsp-ui-peek-fontify 'always
         lsp-ui-peek-list-width 100
         lsp-ui-peek-peek-height 40
