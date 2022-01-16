@@ -629,6 +629,7 @@ output as a string."
         lsp-use-plists t
         lsp-idle-delay 0.2
         lsp-completion-no-cache nil
+        lsp-completion-use-last-result nil
         lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-eldoc-enable-hover nil
