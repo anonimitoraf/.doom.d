@@ -194,7 +194,7 @@
 (package! thread-dump
   :recipe (:host github :repo "anonimitoraf/thread-dump.el"))
 
-(package! flycheck-popup-tip :disable t)
+;; (package! flycheck-popup-tip :disable t)
 
 (package! speed-dial
   :recipe (:host github :repo "anonimitoraf/speed-dial.el"))
