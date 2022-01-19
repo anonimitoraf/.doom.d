@@ -67,6 +67,9 @@ output as a string."
   ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
   ;; for the doom-colors
   (custom-set-faces!
+    `(popup-tip-face :inherit popup-face
+                     :foreground ,(doom-color 'yellow)
+                     :box t)
     `(swiper-background-match-face-2 :background ,++vscode-search-occ-bg
                                      :foreground ,++vscode-search-occ-fg)
     `(swiper-match-face-2 :background ,++vscode-search-occ-bg
@@ -388,68 +391,68 @@ output as a string."
 
 ;; (require 'edbi)
 
-(require 'ejc-sql)
-(require 'ejc-autocomplete)
-(require 'ejc-direx)
-(use-package! ejc-sql
-  :config
-  (setq ejc-ring-length 10000
-        ejc-result-table-impl 'ejc-result-mode
-        ejc-complete-on-dot t
-        ejc-sql-separator "---")
-  (set-popup-rules!
-    '(("^database: "
-       :quit nil
-       :side left
-       :size 75
-       :select t)
-      ("*ejc-sql-output*"
-       :quit nil
-       :side bottom
-       :size 30
-       :select nil)))
-  (add-hook 'sql-mode-hook (lambda ()
-                             (ejc-sql-mode t)
-                             (map! :nv "SPC a" #'ejc-eval-user-sql-at-point)))
-  (add-hook 'ejc-result-mode-hook (lambda () (visual-line-mode -1)))
-  (add-hook 'ejc-sql-minor-mode-hook
-            (lambda ()
-              (company-mode -1)
-              (auto-complete-mode +1)
-              (ejc-ac-setup)
-              ;; Fuzzy doesn't seem to work though. TODO Find out why
-              (setq ac-use-fuzzy t
-                    ac-fuzzy-enable t
-                    ac-menu-height 10
-                    ac-candidate-max 10
-                    ac-delay 0.5
-                    ac-auto-show-menu 0.5)
-              (map! :map ac-completing-map
-                    "C-k" #'ac-previous
-                    "C-j" #'ac-next
-                    "<tab>" #'ac-complete)))
-  (add-hook 'ejc-sql-connected-hook (lambda ()
-                                      (ejc-set-fetch-size 100)
-                                      (ejc-set-max-rows 100)
-                                      (ejc-set-show-too-many-rows-message t)
-                                      (ejc-set-column-width-limit 50)
-                                      (ejc-set-use-unicode t))))
+;; (require 'ejc-sql)
+;; (require 'ejc-autocomplete)
+;; (require 'ejc-direx)
+;; (use-package! ejc-sql
+;;   :config
+;;   (setq ejc-ring-length 10000
+;;         ejc-result-table-impl 'ejc-result-mode
+;;         ejc-complete-on-dot t
+;;         ejc-sql-separator "---")
+;;   (set-popup-rules!
+;;     '(("^database: "
+;;        :quit nil
+;;        :side left
+;;        :size 75
+;;        :select t)
+;;       ("*ejc-sql-output*"
+;;        :quit nil
+;;        :side bottom
+;;        :size 30
+;;        :select nil)))
+;;   (add-hook 'sql-mode-hook (lambda ()
+;;                              (ejc-sql-mode t)
+;;                              (map! :nv "SPC a" #'ejc-eval-user-sql-at-point)))
+;;   (add-hook 'ejc-result-mode-hook (lambda () (visual-line-mode -1)))
+;;   (add-hook 'ejc-sql-minor-mode-hook
+;;             (lambda ()
+;;               (company-mode -1)
+;;               (auto-complete-mode +1)
+;;               (ejc-ac-setup)
+;;               ;; Fuzzy doesn't seem to work though. TODO Find out why
+;;               (setq ac-use-fuzzy t
+;;                     ac-fuzzy-enable t
+;;                     ac-menu-height 10
+;;                     ac-candidate-max 10
+;;                     ac-delay 0.5
+;;                     ac-auto-show-menu 0.5)
+;;               (map! :map ac-completing-map
+;;                     "C-k" #'ac-previous
+;;                     "C-j" #'ac-next
+;;                     "<tab>" #'ac-complete)))
+;;   (add-hook 'ejc-sql-connected-hook (lambda ()
+;;                                       (ejc-set-fetch-size 100)
+;;                                       (ejc-set-max-rows 100)
+;;                                       (ejc-set-show-too-many-rows-message t)
+;;                                       (ejc-set-column-width-limit 50)
+;;                                       (ejc-set-use-unicode t))))
 
-(defun ejx-direx:make-buffer-prefixed ()
-  (let ((current-ejc-db ejc-db)
-        (buf (direx:ensure-buffer-for-root
-              (make-instance 'ejc-direx:database
-                             :name (format "database: %s" (ejc-get-db-name ejc-db))
-                             :buffer (current-buffer)
-                             :file-name (buffer-file-name)
-                             :cache (cons nil (ejc-direx:get-structure))))))
-    (with-current-buffer buf
-      (setq-local ejc-db current-ejc-db))
-    buf))
+;; (defun ejx-direx:make-buffer-prefixed ()
+;;   (let ((current-ejc-db ejc-db)
+;;         (buf (direx:ensure-buffer-for-root
+;;               (make-instance 'ejc-direx:database
+;;                              :name (format "database: %s" (ejc-get-db-name ejc-db))
+;;                              :buffer (current-buffer)
+;;                              :file-name (buffer-file-name)
+;;                              :cache (cons nil (ejc-direx:get-structure))))))
+;;     (with-current-buffer buf
+;;       (setq-local ejc-db current-ejc-db))
+;;     buf))
 
-(defun ejx-direx:show ()
-  (interactive)
-  (pop-to-buffer (ejx-direx:make-buffer-prefixed)))
+;; (defun ejx-direx:show ()
+;;   (interactive)
+;;   (pop-to-buffer (ejx-direx:make-buffer-prefixed)))
 
 (defun start-elcord ()
   (interactive)
@@ -552,6 +555,10 @@ output as a string."
        :side bottom
        :size 10
        :select nil))))
+
+(use-package! flycheck-posframe
+  :config
+  (setq flycheck-posframe-position 'window-top-right-corner))
 
 (require 'keychain-environment)
 (keychain-refresh-environment)
@@ -1368,8 +1375,8 @@ message listing the hooks."
               :require-match t
               :action (lambda (buf-name)
                         (display-buffer buf-name
-                                        '(display-buffer-pop-up-window . ((side . left)
-                                                                          (slot . -1))))))))
+                                        '(pop-to-buffer . ((side . left)
+                                                           (slot . -1))))))))
 
 (map! :map clojure-mode-map :nv "SPC m r p" #'++cider-popup)
 (map! :map clojurescript-mode-map :nv "SPC m r p" #'++cider-popup)

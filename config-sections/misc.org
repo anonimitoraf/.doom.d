@@ -364,8 +364,8 @@ Make it easy to select and display a CIDER buffer for the current project
               :require-match t
               :action (lambda (buf-name)
                         (display-buffer buf-name
-                                        '(display-buffer-pop-up-window . ((side . left)
-                                                                          (slot . -1))))))))
+                                        '(pop-to-buffer . ((side . left)
+                                                           (slot . -1))))))))
 
 (map! :map clojure-mode-map :nv "SPC m r p" #'++cider-popup)
 (map! :map clojurescript-mode-map :nv "SPC m r p" #'++cider-popup)
