@@ -261,6 +261,12 @@ Perpetual quest to make scrolling feel alright
       scroll-conservatively 10000
       scroll-preserve-screen-position 1)
 #+end_src
+* Personal projects
+JIVE
+#+begin_src elisp
+(when (load "~/work/open-source/jive/jive.el" t)
+  (require 'jive))
+#+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp

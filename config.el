@@ -1287,6 +1287,9 @@ message listing the hooks."
       scroll-conservatively 10000
       scroll-preserve-screen-position 1)
 
+(when (load "~/work/open-source/jive/jive.el" t)
+  (require 'jive))
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))
