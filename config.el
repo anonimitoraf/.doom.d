@@ -968,6 +968,9 @@ output as a string."
         treemacs-fringe-indicator-mode t
         treemacs-read-string-input 'from-minibuffer))
 
+(use-package! tree-sitter)
+(use-package! tree-sitter-langs)
+
 (which-key-mode +1)
 
 (use-package! whitespace
@@ -1089,7 +1092,12 @@ output as a string."
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
+(tree-sitter-require 'tsx)
+
+(define-derived-mode typescript-tsx-mode web-mode "TypeScript/TSX")
+
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
+(add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
 
 (add-hook 'vue-mode-hook #'lsp)
 

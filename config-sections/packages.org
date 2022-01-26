@@ -972,6 +972,11 @@ Utilize modeline color to tell me if I'm in symex-mode
         treemacs-fringe-indicator-mode t
         treemacs-read-string-input 'from-minibuffer))
 #+end_src
+* =tree-sitter=
+#+begin_src elisp
+(use-package! tree-sitter)
+(use-package! tree-sitter-langs)
+#+end_src
 * =which-key=
 #+begin_src elisp
 (which-key-mode +1)
