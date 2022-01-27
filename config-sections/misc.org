@@ -378,5 +378,11 @@ Make it easy to select and display a CIDER buffer for the current project
 (map! :map clojurec-mode-map :nv "SPC m r p" #'++cider-popup)
 #+end_src
 
+Custom Elisp that I can't commit publicly
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'onetwo nil t)
+#+end_src
+
 ** TODO Automatically kill CIDER buffers with dead connections
 ** TODO CIDER headerline/modeline to make it obvious which server and which port

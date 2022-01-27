@@ -1394,6 +1394,9 @@ message listing the hooks."
 (map! :map clojurescript-mode-map :nv "SPC m r p" #'++cider-popup)
 (map! :map clojurec-mode-map :nv "SPC m r p" #'++cider-popup)
 
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'onetwo nil t)
+
 (defun lsp-ui-peek--show (xrefs)
   "Create a window to list references/defintions.
 XREFS is a list of references/definitions."
