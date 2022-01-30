@@ -205,3 +205,5 @@
 
 (package! tree-sitter)
 (package! tree-sitter-langs)
+
+(package! speed-type)

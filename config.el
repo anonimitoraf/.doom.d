@@ -942,6 +942,10 @@ output as a string."
                       ("C-c 3" . "~/Dropbox/blog/content-org")
                       ("C-c 4" . "~/Dropbox/work/audience-republic/contracting.org"))))
 
+(use-package! speed-type
+  :config
+  (setq speed-type-default-lang "English"))
+
 (use-package! thread-dump)
 
 (with-eval-after-load 'treemacs-icons
@@ -1299,6 +1303,19 @@ message listing the hooks."
 (when (load "~/work/open-source/jive/jive.el" t)
   (require 'jive))
 
+(require 'filenotify)
+(defvar jive--file-notify-watch)
+
+(defun jive--file-stop-notify-watch ()
+  (interactive)
+  (when jive--file-notify-watch (file-notify-rm-watch jive--file-notify-watch)))
+
+(defun jive--file-start-notify-watch (filepath cmd)
+  (interactive)
+  (jive--file-stop-notify-watch)
+  (setq jive--file-notify-watch
+    (file-notify-add-watch filepath '(change attribute-change) (async-shell-command cmd))))
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))
@@ -1396,6 +1413,19 @@ message listing the hooks."
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'onetwo nil t)
+
+(defun ++org-table->csv (table-name)
+  "Search for table named `TABLE-NAME` and export."
+  (interactive "sTable name to export to CSV: ")
+  (save-excursion
+    (message "Exporting table %s to CSV" table-name)
+    (outline-show-all)
+    (goto-char (point-min))
+    (let ((case-fold-search t))
+     (if (search-forward-regexp (concat "#\\+TBLNAME: +" table-name) nil t)
+       (progn
+         (next-line)
+         (org-table-export (format "%s.csv" table-name) "orgtbl-to-csv"))))))
 
 (defun lsp-ui-peek--show (xrefs)
   "Create a window to list references/defintions.

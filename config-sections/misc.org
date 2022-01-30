@@ -266,6 +266,19 @@ JIVE
 #+begin_src elisp
 (when (load "~/work/open-source/jive/jive.el" t)
   (require 'jive))
+
+(require 'filenotify)
+(defvar jive--file-notify-watch)
+
+(defun jive--file-stop-notify-watch ()
+  (interactive)
+  (when jive--file-notify-watch (file-notify-rm-watch jive--file-notify-watch)))
+
+(defun jive--file-start-notify-watch (filepath cmd)
+  (interactive)
+  (jive--file-stop-notify-watch)
+  (setq jive--file-notify-watch
+    (file-notify-add-watch filepath '(change attribute-change) (async-shell-command cmd))))
 #+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
@@ -382,6 +395,22 @@ Custom Elisp that I can't commit publicly
 #+begin_src elisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'onetwo nil t)
+#+end_src
+
+Converting an org table -> CSV
+#+begin_src elisp
+(defun ++org-table->csv (table-name)
+  "Search for table named `TABLE-NAME` and export."
+  (interactive "sTable name to export to CSV: ")
+  (save-excursion
+    (message "Exporting table %s to CSV" table-name)
+    (outline-show-all)
+    (goto-char (point-min))
+    (let ((case-fold-search t))
+     (if (search-forward-regexp (concat "#\\+TBLNAME: +" table-name) nil t)
+       (progn
+         (next-line)
+         (org-table-export (format "%s.csv" table-name) "orgtbl-to-csv"))))))
 #+end_src
 
 ** TODO Automatically kill CIDER buffers with dead connections

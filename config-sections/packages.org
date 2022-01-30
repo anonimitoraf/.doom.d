@@ -942,6 +942,12 @@ Utilize modeline color to tell me if I'm in symex-mode
                       ("C-c 3" . "~/Dropbox/blog/content-org")
                       ("C-c 4" . "~/Dropbox/work/audience-republic/contracting.org"))))
 #+end_src
+* =speed-type=
+#+begin_src elisp
+(use-package! speed-type
+  :config
+  (setq speed-type-default-lang "English"))
+#+end_src
 * =thread-dump=
 #+begin_src elisp
 (use-package! thread-dump)
