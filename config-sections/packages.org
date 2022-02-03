@@ -335,13 +335,6 @@ Disable the annoying auto-comment on newline.
 (setq +evil-want-o/O-to-continue-comments nil)
 #+end_src
 
-Additionally, I like to have structural typing for s-exprs.
-#+begin_src elisp
-(use-package! evil-lisp-state
-  :init (setq evil-lisp-state-global t)
-  :config (evil-lisp-state-leader "SPC k"))
-#+end_src
-
 Unbind annoying key that I press a lot accidentally.
 #+begin_src elisp
 (unbind-key "K" evil-normal-state-map)
@@ -750,6 +743,10 @@ Allow drag-and-drop-ing to `dired`
 #+begin_src elisp
 (add-hook 'dired-mode-hook 'org-download-enable)
 #+end_src
+Avoid wrapping org-tables
+#+begin_src elisp
+(add-hook 'org-mode-hook (lambda () (visual-line-mode -1)))
+#+end_src
 ** =org-capture=
 #+begin_src elisp
 (after! org
@@ -903,13 +900,16 @@ Best structural editing package to date
 #+begin_src elisp
 (use-package! symex
   :config
+  (add-hook! '(prog-mode-hook)
+    (symex-mode -1))
   (add-hook! '(clojure-mode-hook
-                clojurescript-mode-hook
-                clojurec-mode-hook
-                emacs-lisp-mode-hook
-                inferior-emacs-lisp-mode-hook)
+               clojurescript-mode-hook
+               clojurec-mode-hook
+               emacs-lisp-mode-hook
+               inferior-emacs-lisp-mode-hook)
+    (symex-mode +1)
     (symex-initialize)
-    (map! :map doom-leader-map "k" #'symex-mode-interface)
+    (map! :map doom-leader-map "k" (cmd! (when symex-mode (symex-mode-interface))))
     (setq symex-modal-backend 'hydra)))
 #+end_src
 

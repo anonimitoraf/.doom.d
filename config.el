@@ -139,10 +139,7 @@ output as a string."
     (cond ((member width-x-height
                    '((3440 1440))) 18)
           ((member width-x-height
-                   '((1920 1080))) 15)
-          ;; MAC for work
-          ((member width-x-height
-                   '((1792 1120))) 16)
+                   '((1920 1080))) 14)
           (t (progn
                (message (concat "Unhandled screen resolution " (prin1-to-string width-x-height) ". "
                                 "Defaulting to font size " (prin1-to-string default-font-size)))
@@ -477,10 +474,6 @@ output as a string."
 
 (setq +evil-want-o/O-to-continue-comments nil)
 
-(use-package! evil-lisp-state
-  :init (setq evil-lisp-state-global t)
-  :config (evil-lisp-state-leader "SPC k"))
-
 (unbind-key "K" evil-normal-state-map)
 (unbind-key "K" evil-visual-state-map)
 (unbind-key "K" evil-motion-state-map)
@@ -799,6 +792,8 @@ output as a string."
 
 (add-hook 'dired-mode-hook 'org-download-enable)
 
+(add-hook 'org-mode-hook (lambda () (visual-line-mode -1)))
+
 (after! org
   (setq org-capture-templates
         '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")
@@ -908,13 +903,16 @@ output as a string."
 
 (use-package! symex
   :config
+  (add-hook! '(prog-mode-hook)
+    (symex-mode -1))
   (add-hook! '(clojure-mode-hook
-                clojurescript-mode-hook
-                clojurec-mode-hook
-                emacs-lisp-mode-hook
-                inferior-emacs-lisp-mode-hook)
+               clojurescript-mode-hook
+               clojurec-mode-hook
+               emacs-lisp-mode-hook
+               inferior-emacs-lisp-mode-hook)
+    (symex-mode +1)
     (symex-initialize)
-    (map! :map doom-leader-map "k" #'symex-mode-interface)
+    (map! :map doom-leader-map "k" (cmd! (when symex-mode (symex-mode-interface))))
     (setq symex-modal-backend 'hydra)))
 
 (defhydra+ hydra-symex (:columns 5
