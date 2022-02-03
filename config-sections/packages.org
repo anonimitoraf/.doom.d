@@ -499,7 +499,7 @@ TODO What is this for?
 
 Get rid of ./ and ../ in ivy file prompts
 #+begin_src elisp
-(setq ivy-extra-directories ())
+(setq ivy-extra-directories '("."))
 #+end_src
 
 Fix for https://github.com/hlissner/doom-emacs/issues/3038.
@@ -906,7 +906,8 @@ Best structural editing package to date
                clojurescript-mode-hook
                clojurec-mode-hook
                emacs-lisp-mode-hook
-               inferior-emacs-lisp-mode-hook)
+               inferior-emacs-lisp-mode-hook
+               org-mode-hook)
     (symex-mode +1)
     (symex-initialize)
     (map! :map doom-leader-map "k" (cmd! (when symex-mode (symex-mode-interface))))
@@ -940,7 +941,8 @@ Utilize modeline color to tell me if I'm in symex-mode
   (speed-dial-apply '(("C-c 1" . "~/Dropbox/work/audience-republic/misc.el")
                       ("C-c 2" . "~/Dropbox/life/todos.org")
                       ("C-c 3" . "~/Dropbox/blog/content-org")
-                      ("C-c 4" . "~/Dropbox/work/audience-republic/contracting.org"))))
+                      ("C-c 4" . "~/Dropbox/work/audience-republic/contracting.org")
+                      ("C-c 5" . "~/work/misc.org"))))
 #+end_src
 * =speed-type=
 #+begin_src elisp

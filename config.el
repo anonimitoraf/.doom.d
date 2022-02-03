@@ -588,7 +588,7 @@ output as a string."
         (or (eq key :lines-truncate)
             value)))
 
-(setq ivy-extra-directories ())
+(setq ivy-extra-directories '("."))
 
 (after! counsel
   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
@@ -909,7 +909,8 @@ output as a string."
                clojurescript-mode-hook
                clojurec-mode-hook
                emacs-lisp-mode-hook
-               inferior-emacs-lisp-mode-hook)
+               inferior-emacs-lisp-mode-hook
+               org-mode-hook)
     (symex-mode +1)
     (symex-initialize)
     (map! :map doom-leader-map "k" (cmd! (when symex-mode (symex-mode-interface))))
@@ -938,7 +939,8 @@ output as a string."
   (speed-dial-apply '(("C-c 1" . "~/Dropbox/work/audience-republic/misc.el")
                       ("C-c 2" . "~/Dropbox/life/todos.org")
                       ("C-c 3" . "~/Dropbox/blog/content-org")
-                      ("C-c 4" . "~/Dropbox/work/audience-republic/contracting.org"))))
+                      ("C-c 4" . "~/Dropbox/work/audience-republic/contracting.org")
+                      ("C-c 5" . "~/work/misc.org"))))
 
 (use-package! speed-type
   :config
