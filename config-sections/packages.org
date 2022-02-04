@@ -499,7 +499,7 @@ TODO What is this for?
 
 Get rid of ./ and ../ in ivy file prompts
 #+begin_src elisp
-(setq ivy-extra-directories '("."))
+(setq ivy-extra-directories '("./"))
 #+end_src
 
 Fix for https://github.com/hlissner/doom-emacs/issues/3038.

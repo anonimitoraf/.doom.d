@@ -588,7 +588,7 @@ output as a string."
         (or (eq key :lines-truncate)
             value)))
 
-(setq ivy-extra-directories '("."))
+(setq ivy-extra-directories '("./"))
 
 (after! counsel
   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
