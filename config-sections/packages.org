@@ -982,9 +982,13 @@ Utilize modeline color to tell me if I'm in symex-mode
         treemacs-read-string-input 'from-minibuffer))
 #+end_src
 * =tree-sitter=
+Use tree-sitter for highlighting for whichever languages are supported
 #+begin_src elisp
 (use-package! tree-sitter)
 (use-package! tree-sitter-langs)
+
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 #+end_src
 * =which-key=
 #+begin_src elisp

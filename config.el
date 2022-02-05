@@ -108,7 +108,11 @@ output as a string."
     '(header-line :background "grey15")
     `(popup-tip-face :foreground ,(doom-color 'yellow))
     ;; Ivy
-    `(ivy-minibuffer-match-face-1 :foreground "white"))
+    `(ivy-minibuffer-match-face-1 :foreground "white")
+    ;; Tree-sitter
+    '(tree-sitter-hl-face:property :slant normal)
+    `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
+    `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow)))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
@@ -975,6 +979,9 @@ output as a string."
 
 (use-package! tree-sitter)
 (use-package! tree-sitter-langs)
+
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 (which-key-mode +1)
 

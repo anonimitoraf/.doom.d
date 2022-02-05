@@ -65,7 +65,11 @@ There are two ways to load a theme. Both assume the theme is installed and avail
     '(header-line :background "grey15")
     `(popup-tip-face :foreground ,(doom-color 'yellow))
     ;; Ivy
-    `(ivy-minibuffer-match-face-1 :foreground "white"))
+    `(ivy-minibuffer-match-face-1 :foreground "white")
+    ;; Tree-sitter
+    '(tree-sitter-hl-face:property :slant normal)
+    `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
+    `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow)))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
