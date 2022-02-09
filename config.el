@@ -387,6 +387,11 @@ output as a string."
   :config
   (company-quickhelp-mode +1))
 
+(use-package! counsel
+  :config
+  (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
+  (setq counsel-search-engine 'google))
+
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
 

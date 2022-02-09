@@ -200,6 +200,13 @@ TODO Check if this is actually a good thing to do.
   :config
   (company-quickhelp-mode +1))
 #+end_src
+* =counsel=
+#+begin_src elisp
+(use-package! counsel
+  :config
+  (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
+  (setq counsel-search-engine 'google))
+#+end_src
 * =dap=
 # dap-mode causes errors so comment it for now
 # Typical templates DAP debug templates. Primarily serves as examples that can be tweaked
