@@ -545,8 +545,12 @@ Patch for automatically enabling `ivy-calling` in `ivy-occur-grep-mode` and make
                clojurec-mode-hook)
     (setq lsp-completion-enable nil))
   (add-hook! '(typescript-tsx-mode-hook
-                typescript-mode-hook)
-    (setq-local lsp-idle-delay 2))
+               typescript-mode-hook
+               web-mode-hook
+               js-mode-hook
+               js2-mode-hook)
+    ;; Use `tide' for completions instead since LSP is too laggy
+    (setq-local lsp-completion-enable nil))
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
@@ -1000,6 +1004,18 @@ Use tree-sitter for highlighting for whichever languages are supported
 
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+#+end_src
+* =tide=
+#+begin_src elisp
+(use-package! tide
+  :config
+  (advice-remove 'tide-setup 'eldoc-mode)
+  (add-hook! '(typescript-tsx-mode-hook
+               typescript-mode-hook
+               web-mode-hook
+               js-mode-hook
+               js2-mode-hook)
+    (tide-setup)))
 #+end_src
 * =which-key=
 #+begin_src elisp

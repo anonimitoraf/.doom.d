@@ -207,3 +207,5 @@
 (package! tree-sitter-langs)
 
 (package! speed-type)
+
+(package! tide)

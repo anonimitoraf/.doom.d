@@ -626,8 +626,12 @@ output as a string."
                clojurec-mode-hook)
     (setq lsp-completion-enable nil))
   (add-hook! '(typescript-tsx-mode-hook
-                typescript-mode-hook)
-    (setq-local lsp-idle-delay 2))
+               typescript-mode-hook
+               web-mode-hook
+               js-mode-hook
+               js2-mode-hook)
+    ;; Use `tide' for completions instead since LSP is too laggy
+    (setq-local lsp-completion-enable nil))
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
@@ -991,6 +995,16 @@ output as a string."
 
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+(use-package! tide
+  :config
+  (advice-remove 'tide-setup 'eldoc-mode)
+  (add-hook! '(typescript-tsx-mode-hook
+               typescript-mode-hook
+               web-mode-hook
+               js-mode-hook
+               js2-mode-hook)
+    (tide-setup)))
 
 (which-key-mode +1)
 
