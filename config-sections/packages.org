@@ -1007,6 +1007,15 @@ Use tree-sitter for highlighting for whichever languages are supported
 #+end_src
 * =tide=
 #+begin_src elisp
+(defun setup-tide-mode ()
+  (tide-setup)
+  (company-mode +1)
+  (eldoc-mode -1)
+  (tide-hl-identifier-mode -1)
+  (setq company-tooltip-align-annotations t))
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
 (use-package! tide
   :config
   (advice-remove 'tide-setup 'eldoc-mode)
@@ -1015,7 +1024,7 @@ Use tree-sitter for highlighting for whichever languages are supported
                web-mode-hook
                js-mode-hook
                js2-mode-hook)
-    (tide-setup)))
+    #'setup-tide-mode))
 #+end_src
 * =which-key=
 #+begin_src elisp

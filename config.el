@@ -996,6 +996,15 @@ output as a string."
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
+(defun setup-tide-mode ()
+  (tide-setup)
+  (company-mode +1)
+  (eldoc-mode -1)
+  (tide-hl-identifier-mode -1)
+  (setq company-tooltip-align-annotations t))
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
 (use-package! tide
   :config
   (advice-remove 'tide-setup 'eldoc-mode)
@@ -1004,7 +1013,7 @@ output as a string."
                web-mode-hook
                js-mode-hook
                js2-mode-hook)
-    (tide-setup)))
+    #'setup-tide-mode))
 
 (which-key-mode +1)
 
