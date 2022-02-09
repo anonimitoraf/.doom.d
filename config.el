@@ -619,11 +619,15 @@ output as a string."
 (use-package! lsp-mode
   :config
   (add-hook! '(prog-mode-hook)
-    (setq lsp-completion-enable t))
+    (setq lsp-completion-enable t
+          lsp-idle-delay 0.2))
   (add-hook! '(clojure-mode-hook
                clojurescript-mode-hook
                clojurec-mode-hook)
     (setq lsp-completion-enable nil))
+  (add-hook! '(typescript-tsx-mode-hook
+                typescript-mode-hook)
+    (setq-local lsp-idle-delay 2))
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
@@ -636,7 +640,6 @@ output as a string."
   (setq lsp-lens-enable t
         lsp-log-io nil
         lsp-use-plists t
-        lsp-idle-delay 0.2
         lsp-completion-no-cache nil
         lsp-completion-use-last-result nil
         lsp-headerline-breadcrumb-enable t
@@ -949,7 +952,8 @@ output as a string."
                       ("C-c 2" . "~/Dropbox/life/todos.org")
                       ("C-c 3" . "~/Dropbox/blog/content-org")
                       ("C-c 4" . "~/Dropbox/work/audience-republic/contracting.org")
-                      ("C-c 5" . "~/work/misc.org"))))
+                      ("C-c 5" . "~/work/misc.org")
+                      ("C-c 6" . "~/work/misc-2.org"))))
 
 (use-package! speed-type
   :config
