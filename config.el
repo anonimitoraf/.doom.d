@@ -1001,6 +1001,7 @@ output as a string."
   (company-mode +1)
   (eldoc-mode -1)
   (tide-hl-identifier-mode -1)
+  (setq tide-completion-detailed nil)
   (setq company-tooltip-align-annotations t))
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
