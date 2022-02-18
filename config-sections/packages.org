@@ -809,6 +809,24 @@ TODO Find out why emacs-lisp is set to nil
    (Clojure . t)
    (Javascript . t)))
 #+end_src
+* =origami=
+#+begin_src elisp
+(use-package! origami
+  :config
+  (global-origami-mode)
+  (custom-set-faces!
+    `(origami-fold-replacement-face :foreground ,(doom-color 'magenta)))
+  (map! :map origami-mode-map
+        :nv "z o" #'origami-open-node
+        :nv "z O" #'origami-open-node-recursively
+        :nv "z c" #'origami-close-node
+        :nv "z C" #'origami-close-node-recursively
+        :nv "z m" #'origami-close-all-nodes
+        :nv "z n" #'origami-open-all-nodes
+        :nv "z u" #'origami-undo
+        :nv "z r" #'origami-redo
+        :nv "z R" #'origami-reset))
+#+end_src
 * =chrome=
 Keybindings
 #+begin_src elisp

@@ -847,6 +847,22 @@ output as a string."
    (Clojure . t)
    (Javascript . t)))
 
+(use-package! origami
+  :config
+  (global-origami-mode)
+  (custom-set-faces!
+    `(origami-fold-replacement-face :foreground ,(doom-color 'magenta)))
+  (map! :map origami-mode-map
+        :nv "z o" #'origami-open-node
+        :nv "z O" #'origami-open-node-recursively
+        :nv "z c" #'origami-close-node
+        :nv "z C" #'origami-close-node-recursively
+        :nv "z m" #'origami-close-all-nodes
+        :nv "z n" #'origami-open-all-nodes
+        :nv "z u" #'origami-undo
+        :nv "z r" #'origami-redo
+        :nv "z R" #'origami-reset))
+
 (use-package! chrome
   :config (setq chrome-auto-retrieve t
                 ++chrome-host "127.0.0.1"
