@@ -367,6 +367,16 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
   (evil-collection-init)
   (setq evil-collection-setup-minibuffer t))
 #+end_src
+* =elfeed=
+#+begin_src elisp
+(use-package! elfeed
+  :config
+  (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org")))
+  (add-hook! 'elfeed-search-mode-hook 'elfeed-update))
+
+(after! elfeed
+  (setq elfeed-search-filter "@5-year-ago +unread"))
+#+end_src
 * =flycheck=
 Emphasize the error/warning fringe indicators. When I go through a file, I typically rely on the fridge to tell guide me to code that I have to fix.
 #+begin_src elisp
@@ -1000,6 +1010,8 @@ Utilize modeline color to tell me if I'm in symex-mode
     (treemacs-resize-icons 10)))
 
 (use-package treemacs
+  :init
+  (setq +treemacs-git-mode 'deferred)
   :commands (treemacs)
   :bind (("<f8>" . treemacs)
          ("<f9>" . treemacs-select-window))

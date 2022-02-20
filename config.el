@@ -497,6 +497,14 @@ output as a string."
   (evil-collection-init)
   (setq evil-collection-setup-minibuffer t))
 
+(use-package! elfeed
+  :config
+  (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org")))
+  (add-hook! 'elfeed-search-mode-hook 'elfeed-update))
+
+(after! elfeed
+  (setq elfeed-search-filter "@5-year-ago +unread"))
+
 (define-fringe-bitmap 'flycheck-fringe-bitmap-beam
   (vector #b11111111
           #b11111111
@@ -992,6 +1000,8 @@ output as a string."
     (treemacs-resize-icons 10)))
 
 (use-package treemacs
+  :init
+  (setq +treemacs-git-mode 'deferred)
   :commands (treemacs)
   :bind (("<f8>" . treemacs)
          ("<f9>" . treemacs-select-window))
