@@ -849,7 +849,13 @@ output as a string."
 
 (use-package! origami
   :config
-  (global-origami-mode)
+  ;; Only use origami for some modes
+  (add-hook! '(typescript-tsx-mode-hook
+                typescript-mode-hook
+                web-mode-hook
+                js-mode-hook
+                js2-mode-hook)
+    (origami-mode +1))
   (custom-set-faces!
     `(origami-fold-replacement-face :foreground ,(doom-color 'magenta)))
   (map! :map origami-mode-map
