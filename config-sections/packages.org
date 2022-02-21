@@ -455,6 +455,15 @@ Make flycheck posframes a bit less obtrusive
   (setq flycheck-posframe-position 'window-top-right-corner))
 #+end_src
 
+* =google-translate=
+#+begin_src elisp
+(use-package! google-translate
+  :config
+  (map! :leader :desc "Google translate" "s a" #'google-translate-smooth-translate)
+  (setq google-translate-translation-directions-alist
+        '(("en" . "ja") ("ja" . "en"))))
+(use-package! google-translate-smooth-ui)
+#+end_src
 * =keychain-environment=
 #+begin_src elisp
 (require 'keychain-environment)

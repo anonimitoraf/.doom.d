@@ -570,6 +570,13 @@ output as a string."
   :config
   (setq flycheck-posframe-position 'window-top-right-corner))
 
+(use-package! google-translate
+  :config
+  (map! :leader :desc "Google translate" "s a" #'google-translate-smooth-translate)
+  (setq google-translate-translation-directions-alist
+        '(("en" . "ja") ("ja" . "en"))))
+(use-package! google-translate-smooth-ui)
+
 (require 'keychain-environment)
 (keychain-refresh-environment)
 
