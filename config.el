@@ -574,7 +574,11 @@ output as a string."
   :config
   (map! :leader :desc "Google translate" "s a" #'google-translate-smooth-translate)
   (setq google-translate-translation-directions-alist
-        '(("en" . "ja") ("ja" . "en"))))
+        '(("en" . "ja") ("ja" . "en")))
+  ;; Workaround: see https://github.com/atykhonov/google-translate/issues/137
+  (defun google-translate--search-tkk ()
+    "Search TKK."
+    (list 430675 2721866130)))
 (use-package! google-translate-smooth-ui)
 
 (require 'keychain-environment)
