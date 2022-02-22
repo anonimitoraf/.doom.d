@@ -1047,7 +1047,9 @@ output as a string."
   (eldoc-mode -1)
   (tide-hl-identifier-mode -1)
   (setq tide-completion-detailed nil)
-  (setq company-tooltip-align-annotations t))
+  (setq company-tooltip-align-annotations t)
+  ;; Disable TIDE eldoc
+  (defun tide-eldoc-function ()))
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
