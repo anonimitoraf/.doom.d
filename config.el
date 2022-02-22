@@ -677,8 +677,8 @@ output as a string."
                                         :width 120
                                         :border-width 1
                                         :min-width 120))
-  (map! :map lsp-mode-map
-        "g t" #'lsp-find-type-definition)
+  (map! :map evil-normal-state-map
+    "g t" #'lsp-find-type-definition)
   (map! :map lsp-signature-mode-map
         "C-j" #'lsp-signature-next
         "C-k" #'lsp-signature-previous))
@@ -700,7 +700,7 @@ output as a string."
   (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
   (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
   (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
-  (map! :map lsp-ui-mode-map
+  (map! :map lsp-mode-map
         :nv "SPC c m" #'lsp-ui-imenu
         :nv "SPC d" #'lsp-ui-doc-glance)
   (map! :map lsp-ui-peek-mode-map
