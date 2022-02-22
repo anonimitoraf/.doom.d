@@ -600,6 +600,8 @@ Patch for automatically enabling `ivy-calling` in `ivy-occur-grep-mode` and make
                                         :width 120
                                         :border-width 1
                                         :min-width 120))
+  (map! :map lsp-mode-map
+        "g t" #'lsp-find-type-definition)
   (map! :map lsp-signature-mode-map
         "C-j" #'lsp-signature-next
         "C-k" #'lsp-signature-previous))
@@ -693,7 +695,7 @@ Copied from https://github.com/emacs-lsp/lsp-ui/issues/441.
 * =modeline=
 #+begin_src elisp
 (after! doom-modeline
-  (setq doom-modeline-buffer-file-name-style nil
+  (setq doom-modeline-buffer-file-name-style 'auto
         doom-modeline-height 0
         doom-modeline-major-mode-icon t
         doom-modeline-major-mode-color-icon t

@@ -677,6 +677,8 @@ output as a string."
                                         :width 120
                                         :border-width 1
                                         :min-width 120))
+  (map! :map lsp-mode-map
+        "g t" #'lsp-find-type-definition)
   (map! :map lsp-signature-mode-map
         "C-j" #'lsp-signature-next
         "C-k" #'lsp-signature-previous))
@@ -753,7 +755,7 @@ output as a string."
 (require 'logview)
 
 (after! doom-modeline
-  (setq doom-modeline-buffer-file-name-style nil
+  (setq doom-modeline-buffer-file-name-style 'auto
         doom-modeline-height 0
         doom-modeline-major-mode-icon t
         doom-modeline-major-mode-color-icon t
@@ -1189,6 +1191,13 @@ output as a string."
 
 (add-hook 'vue-mode-hook #'lsp)
 
+(use-package! lsp-mode
+    :hook (groovy-mode . lsp-deferred)
+    :commands (lsp lsp-deferred)
+    :config (setq lsp-groovy-classpath
+              ["/usr/local/opt/groovy/libexec/lib"
+                "~/.gradle/caches/modules-2/files-2.1"]))
+
 (setq garbage-collection-messages nil)
 (defmacro k-time (&rest body)
   "Measure and return the time it takes evaluating BODY."
@@ -1353,9 +1362,9 @@ message listing the hooks."
         (message "> %s" hook)))
     log))
 
-(map! :map evil-normal-state-map
-      "g t" #'next-buffer
-      "g T" #'previous-buffer)
+;; (map! :map evil-normal-state-map
+;;       "g t" #'next-buffer
+;;       "g T" #'previous-buffer)
 
 (map! :map doom-leader-map "l p" #'list-processes)
 

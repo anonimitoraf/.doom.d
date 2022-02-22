@@ -219,9 +219,9 @@ message listing the hooks."
 #+end_src
 * Buffer manipulation
 #+begin_src elisp
-(map! :map evil-normal-state-map
-      "g t" #'next-buffer
-      "g T" #'previous-buffer)
+;; (map! :map evil-normal-state-map
+;;       "g t" #'next-buffer
+;;       "g T" #'previous-buffer)
 #+end_src
 * Process manipulation
 #+begin_src elisp
