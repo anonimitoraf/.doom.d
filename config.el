@@ -1521,6 +1521,11 @@ message listing the hooks."
          (next-line)
          (org-table-export (format "%s.csv" table-name) "orgtbl-to-csv"))))))
 
+(defun ++webcam-active? ()
+  (interactive)
+  (let ((v (shell-command-to-string "lsmod | grep uvcvideo | head -c -1 | awk 'NR==1 { printf $3 }'")))
+    (message (if (equal v "1") "ACTIVE" "NOT ACTIVE"))))
+
 (defun lsp-ui-peek--show (xrefs)
   "Create a window to list references/defintions.
 XREFS is a list of references/definitions."

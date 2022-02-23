@@ -413,5 +413,12 @@ Converting an org table -> CSV
          (org-table-export (format "%s.csv" table-name) "orgtbl-to-csv"))))))
 #+end_src
 
+Tell me whether my webcam is active
+#+begin_src elisp
+(defun ++webcam-active? ()
+  (interactive)
+  (let ((v (shell-command-to-string "lsmod | grep uvcvideo | head -c -1 | awk 'NR==1 { printf $3 }'")))
+    (message (if (equal v "1") "ACTIVE" "NOT ACTIVE"))))
+#+end_src
 ** TODO Automatically kill CIDER buffers with dead connections
 ** TODO CIDER headerline/modeline to make it obvious which server and which port
