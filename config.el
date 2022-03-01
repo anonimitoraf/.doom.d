@@ -649,8 +649,9 @@ output as a string."
                web-mode-hook
                js-mode-hook
                js2-mode-hook)
-    ;; Use `tide' for completions instead since LSP is too laggy
-    (setq-local lsp-completion-enable nil))
+    ;; Use `tide' for completions and formatting instead since LSP is too laggy
+    (setq-local lsp-completion-enable nil
+                lsp-typescript-format-enable nil))
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
@@ -1048,10 +1049,7 @@ output as a string."
   (tide-hl-identifier-mode -1)
   (setq tide-completion-detailed nil)
   (setq company-tooltip-align-annotations t)
-  ;; Disable TIDE eldoc
-  (defun tide-eldoc-function ()))
-
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
+  (add-hook 'before-save-hook #'tide-format-before-save))
 
 (use-package! tide
   :config
@@ -1061,7 +1059,7 @@ output as a string."
                web-mode-hook
                js-mode-hook
                js2-mode-hook)
-    #'setup-tide-mode))
+             #'setup-tide-mode))
 
 (which-key-mode +1)
 
@@ -1525,6 +1523,12 @@ message listing the hooks."
   (interactive)
   (let ((v (shell-command-to-string "lsmod | grep uvcvideo | head -c -1 | awk 'NR==1 { printf $3 }'")))
     (message (if (equal v "1") "ACTIVE" "NOT ACTIVE"))))
+
+(defun ++demo-recording ()
+  (interactive)
+  (map! :map doom-leader-map "m e r" #'skerrick-eval-region)
+  (hide-mode-line-mode +1)
+  (display-line-numbers-mode -1))
 
 (defun lsp-ui-peek--show (xrefs)
   "Create a window to list references/defintions.

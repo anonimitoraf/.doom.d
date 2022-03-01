@@ -420,5 +420,14 @@ Tell me whether my webcam is active
   (let ((v (shell-command-to-string "lsmod | grep uvcvideo | head -c -1 | awk 'NR==1 { printf $3 }'")))
     (message (if (equal v "1") "ACTIVE" "NOT ACTIVE"))))
 #+end_src
+
+Demo-recording
+#+begin_src elisp
+(defun ++demo-recording ()
+  (interactive)
+  (map! :map doom-leader-map "m e r" #'skerrick-eval-region)
+  (hide-mode-line-mode +1)
+  (display-line-numbers-mode -1))
+#+end_src
 ** TODO Automatically kill CIDER buffers with dead connections
 ** TODO CIDER headerline/modeline to make it obvious which server and which port
