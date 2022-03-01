@@ -1,4 +1,5 @@
 #+TITLE: Elfeed
 
 * Root                                                                                                          :elfeed:
-** [[https://github.com/jbranchaud/til/commits/master.atom][Tech TIL]]                                                                                                      :tech:
+** [[https://github.com/jbranchaud/til/commits/master.atom][Tech - TIL]]                                                                                                    :tech:
+** [[https://github.com/sindresorhus/awesome/commits/main.atom][Tech - Awesome List]]                                                                                           :tech:
