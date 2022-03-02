@@ -202,10 +202,10 @@ TODO Check if this is actually a good thing to do.
 #+end_src
 * =counsel=
 #+begin_src elisp
-(use-package! counsel
-  :config
-  (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
-  (setq counsel-search-engine 'google))
+;; (use-package! counsel
+;;   :config
+;;   (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
+;;   (setq counsel-search-engine 'google))
 #+end_src
 * =dap=
 # dap-mode causes errors so comment it for now
@@ -507,44 +507,44 @@ Fix the ispell dictinoary.
 * =ivy=
 Make ivy show up in the top center of the screen (apart from when used with counsel)
 #+begin_src elisp
-(after! ivy-posframe
-  (setf (alist-get t ivy-posframe-display-functions-alist)
-        #'ivy-posframe-display-at-frame-top-center)
-  (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
-        #'ivy-posframe-display-at-frame-top-center)
-  (setq ivy-posframe-border-width 10
-        ivy-posframe-width 120
-        ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
-                                                                  (right-fringe . 3)))))
+;; (after! ivy-posframe
+;;   (setf (alist-get t ivy-posframe-display-functions-alist)
+;;         #'ivy-posframe-display-at-frame-top-center)
+;;   (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
+;;         #'ivy-posframe-display-at-frame-top-center)
+;;   (setq ivy-posframe-border-width 10
+;;         ivy-posframe-width 120
+;;         ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
+;;                                                                   (right-fringe . 3)))))
 #+end_src
 
 
 TODO What is this for?
 #+begin_src elisp
-(setq posframe-arghandler
-      (lambda (_buffer-or-name key value)
-        (or (eq key :lines-truncate)
-            value)))
+;; (setq posframe-arghandler
+;;       (lambda (_buffer-or-name key value)
+;;         (or (eq key :lines-truncate)
+;;             value)))
 #+end_src
 
 Get rid of ./ and ../ in ivy file prompts
 #+begin_src elisp
-(setq ivy-extra-directories '("./"))
+;; (setq ivy-extra-directories '("./"))
 #+end_src
 
 Fix for https://github.com/hlissner/doom-emacs/issues/3038.
 #+begin_src elisp
-(after! counsel
-  (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
+;; (after! counsel
+;;   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
 #+end_src
 
 Patch for automatically enabling `ivy-calling` in `ivy-occur-grep-mode` and make it toggle-able
 #+begin_src elisp
-(map! :map ivy-occur-grep-mode-map
-      :n "c" (cmd! (setq ivy-calling (not ivy-calling))))
+;; (map! :map ivy-occur-grep-mode-map
+;;       :n "c" (cmd! (setq ivy-calling (not ivy-calling))))
 
-(add-hook 'ivy-occur-grep-mode-hook
-          (cmd! (setq ivy-calling t)))
+;; (add-hook 'ivy-occur-grep-mode-hook
+;;           (cmd! (setq ivy-calling t)))
 #+end_src
 * =kubernetes=
 #+begin_src elisp

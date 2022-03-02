@@ -237,10 +237,10 @@ output as a string."
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
-(custom-set-faces!
-  '(aw-leading-char-face
-    :foreground "white" :background "red"
-    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+  (custom-set-faces!
+    '(aw-leading-char-face
+      :foreground "white" :background "red"
+      :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
 ;; (use-package! aggressive-indent
 ;;   :config
@@ -387,10 +387,10 @@ output as a string."
   :config
   (company-quickhelp-mode +1))
 
-(use-package! counsel
-  :config
-  (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
-  (setq counsel-search-engine 'google))
+;; (use-package! counsel
+;;   :config
+;;   (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
+;;   (setq counsel-search-engine 'google))
 
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
@@ -601,31 +601,31 @@ output as a string."
 
 (setq ispell-dictionary "en")
 
-(after! ivy-posframe
-  (setf (alist-get t ivy-posframe-display-functions-alist)
-        #'ivy-posframe-display-at-frame-top-center)
-  (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
-        #'ivy-posframe-display-at-frame-top-center)
-  (setq ivy-posframe-border-width 10
-        ivy-posframe-width 120
-        ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
-                                                                  (right-fringe . 3)))))
+;; (after! ivy-posframe
+;;   (setf (alist-get t ivy-posframe-display-functions-alist)
+;;         #'ivy-posframe-display-at-frame-top-center)
+;;   (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
+;;         #'ivy-posframe-display-at-frame-top-center)
+;;   (setq ivy-posframe-border-width 10
+;;         ivy-posframe-width 120
+;;         ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
+;;                                                                   (right-fringe . 3)))))
 
-(setq posframe-arghandler
-      (lambda (_buffer-or-name key value)
-        (or (eq key :lines-truncate)
-            value)))
+;; (setq posframe-arghandler
+;;       (lambda (_buffer-or-name key value)
+;;         (or (eq key :lines-truncate)
+;;             value)))
 
-(setq ivy-extra-directories '("./"))
+;; (setq ivy-extra-directories '("./"))
 
-(after! counsel
-  (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
+;; (after! counsel
+;;   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
 
-(map! :map ivy-occur-grep-mode-map
-      :n "c" (cmd! (setq ivy-calling (not ivy-calling))))
+;; (map! :map ivy-occur-grep-mode-map
+;;       :n "c" (cmd! (setq ivy-calling (not ivy-calling))))
 
-(add-hook 'ivy-occur-grep-mode-hook
-          (cmd! (setq ivy-calling t)))
+;; (add-hook 'ivy-occur-grep-mode-hook
+;;           (cmd! (setq ivy-calling t)))
 
 (use-package kubernetes
   :ensure t
