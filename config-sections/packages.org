@@ -1080,6 +1080,13 @@ Use tree-sitter for highlighting for whichever languages are supported
                js2-mode-hook)
     #'setup-tide-mode))
 #+end_src
+* =vertico=
+#+begin_src elisp :results none
+(use-package! vertico
+  :config
+  (map! :map vertico-map
+        "C-l" #'vertico-exit))
+#+end_src
 * =which-key=
 #+begin_src elisp
 (which-key-mode +1)

@@ -237,10 +237,10 @@ output as a string."
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
-  (custom-set-faces!
-    '(aw-leading-char-face
-      :foreground "white" :background "red"
-      :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+(custom-set-faces!
+  '(aw-leading-char-face
+    :foreground "white" :background "red"
+    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
 ;; (use-package! aggressive-indent
 ;;   :config
@@ -1062,6 +1062,11 @@ output as a string."
                js-mode-hook
                js2-mode-hook)
     #'setup-tide-mode))
+
+(use-package! vertico
+  :config
+  (map! :map vertico-map
+        "C-l" #'vertico-exit))
 
 (which-key-mode +1)
 
