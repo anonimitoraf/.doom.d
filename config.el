@@ -392,6 +392,15 @@ output as a string."
 ;;   (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
 ;;   (setq counsel-search-engine 'google))
 
+(use-package! consult
+  :config
+  (consult-customize
+    consult-ripgrep consult-git-grep consult-grep
+    consult-bookmark consult-xref
+    consult--source-bookmark
+    :preview-key '(:debounce 0.2 any))
+  (map! :map doom-leader-map "s p" #'consult-ripgrep))
+
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
 

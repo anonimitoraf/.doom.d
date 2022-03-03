@@ -207,6 +207,17 @@ TODO Check if this is actually a good thing to do.
 ;;   (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
 ;;   (setq counsel-search-engine 'google))
 #+end_src
+* =consult=
+#+begin_src elisp :results none
+(use-package! consult
+  :config
+  (consult-customize
+    consult-ripgrep consult-git-grep consult-grep
+    consult-bookmark consult-xref
+    consult--source-bookmark
+    :preview-key '(:debounce 0.2 any))
+  (map! :map doom-leader-map "s p" #'consult-ripgrep))
+#+end_src
 * =dap=
 # dap-mode causes errors so comment it for now
 # Typical templates DAP debug templates. Primarily serves as examples that can be tweaked
