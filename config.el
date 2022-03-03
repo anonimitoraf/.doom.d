@@ -387,10 +387,19 @@ output as a string."
   :config
   (company-quickhelp-mode +1))
 
-(use-package! counsel
+;; (use-package! counsel
+;;   :config
+;;   (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
+;;   (setq counsel-search-engine 'google))
+
+(use-package! consult
   :config
-  (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
-  (setq counsel-search-engine 'google))
+  (consult-customize
+    consult-ripgrep consult-git-grep consult-grep
+    consult-bookmark consult-xref
+    consult--source-bookmark
+    :preview-key '(:debounce 0.2 any))
+  (map! :map doom-leader-map "s p" #'consult-ripgrep))
 
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
@@ -601,31 +610,31 @@ output as a string."
 
 (setq ispell-dictionary "en")
 
-(after! ivy-posframe
-  (setf (alist-get t ivy-posframe-display-functions-alist)
-        #'ivy-posframe-display-at-frame-top-center)
-  (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
-        #'ivy-posframe-display-at-frame-top-center)
-  (setq ivy-posframe-border-width 10
-        ivy-posframe-width 120
-        ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
-                                                                  (right-fringe . 3)))))
+;; (after! ivy-posframe
+;;   (setf (alist-get t ivy-posframe-display-functions-alist)
+;;         #'ivy-posframe-display-at-frame-top-center)
+;;   (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
+;;         #'ivy-posframe-display-at-frame-top-center)
+;;   (setq ivy-posframe-border-width 10
+;;         ivy-posframe-width 120
+;;         ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
+;;                                                                   (right-fringe . 3)))))
 
-(setq posframe-arghandler
-      (lambda (_buffer-or-name key value)
-        (or (eq key :lines-truncate)
-            value)))
+;; (setq posframe-arghandler
+;;       (lambda (_buffer-or-name key value)
+;;         (or (eq key :lines-truncate)
+;;             value)))
 
-(setq ivy-extra-directories '("./"))
+;; (setq ivy-extra-directories '("./"))
 
-(after! counsel
-  (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
+;; (after! counsel
+;;   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
 
-(map! :map ivy-occur-grep-mode-map
-      :n "c" (cmd! (setq ivy-calling (not ivy-calling))))
+;; (map! :map ivy-occur-grep-mode-map
+;;       :n "c" (cmd! (setq ivy-calling (not ivy-calling))))
 
-(add-hook 'ivy-occur-grep-mode-hook
-          (cmd! (setq ivy-calling t)))
+;; (add-hook 'ivy-occur-grep-mode-hook
+;;           (cmd! (setq ivy-calling t)))
 
 (use-package kubernetes
   :ensure t
@@ -744,7 +753,7 @@ output as a string."
                      :poshandler #'posframe-poshandler-frame-center)))
 
   (defun lsp-ui-peek--peek-destroy ()
-    (when (bufferp lsp-ui-peek--buffer)
+    (when (and (boundp 'lsp-ui-peek--buffer) (bufferp lsp-ui-peek--buffer))
       (posframe-delete lsp-ui-peek--buffer))
     (setq lsp-ui-peek--buffer nil
           lsp-ui-peek--last-xref nil)
@@ -1060,6 +1069,11 @@ output as a string."
                js-mode-hook
                js2-mode-hook)
              #'setup-tide-mode))
+
+(use-package! vertico
+  :config
+  (map! :map vertico-map
+        "C-l" #'vertico-exit))
 
 (which-key-mode +1)
 
