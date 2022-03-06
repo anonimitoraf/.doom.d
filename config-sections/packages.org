@@ -966,10 +966,6 @@ Company mode in shell is just annoying.
         :nv "SPC m e e" #'slime-eval-last-expression
         :nv "SPC m '" #'slime-connect))
 #+end_src
-* =smooth-scrolling=
-#+begin_src elisp
-(require 'smooth-scrolling)
-#+end_src
 * =symex=
 Best structural editing package to date
 #+begin_src elisp
@@ -1069,13 +1065,14 @@ Use tree-sitter for highlighting for whichever languages are supported
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 #+end_src
 * =tide=
-#+begin_src elisp
+#+begin_src elisp :results none
 (defun setup-tide-mode ()
   (tide-setup)
   (company-mode +1)
   (eldoc-mode -1)
   (tide-hl-identifier-mode -1)
-  (setq tide-completion-detailed nil)
+  (setq tide-completion-detailed nil
+        tide-completion-ignore-case t)
   (setq company-tooltip-align-annotations t)
   (add-hook 'before-save-hook #'tide-format-before-save))
 

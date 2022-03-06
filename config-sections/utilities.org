@@ -53,3 +53,12 @@ output as a string."
  (++spy IS-LINUX) ;; "IS-LINUX => t"
  )
 #+end_src
+* Suppressing minibuffer messages
+#+begin_src elisp :results none
+(defun ++suppress-messages (old-fun &rest args)
+  (cl-flet ((silence (&rest args1) (ignore)))
+    (advice-add 'message :around #'silence)
+    (unwind-protect
+         (apply old-fun args)
+      (advice-remove 'message #'silence))))
+#+end_src

@@ -254,32 +254,16 @@ Hack for error `(void-function lsp--matching-clients\?)'
   (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
 #+end_src
 * Scrolling
-Perpetual quest to make scrolling feel alright
+Perpetual quest to make scrolling feel alright (if not supported)
 #+begin_src elisp
-(setq scroll-margin 1
-      scroll-step 1
-      scroll-conservatively 10000
-      scroll-preserve-screen-position 1)
+(if (fboundp 'pixel-scroll-precision-mode)
+  (pixel-scroll-precision-mode +1)
+  (setq scroll-margin 1
+        scroll-step 1
+        scroll-conservatively 10000
+        scroll-preserve-screen-position 1))
 #+end_src
 * Personal projects
-JIVE
-#+begin_src elisp
-(when (load "~/work/open-source/jive/jive.el" t)
-  (require 'jive))
-
-(require 'filenotify)
-(defvar jive--file-notify-watch)
-
-(defun jive--file-stop-notify-watch ()
-  (interactive)
-  (when jive--file-notify-watch (file-notify-rm-watch jive--file-notify-watch)))
-
-(defun jive--file-start-notify-watch (filepath cmd)
-  (interactive)
-  (jive--file-stop-notify-watch)
-  (setq jive--file-notify-watch
-    (file-notify-add-watch filepath '(change attribute-change) (async-shell-command cmd))))
-#+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp
@@ -301,6 +285,7 @@ Regularly save to a session file. I use this a lot because I can't be bothered c
   (setq ++continuous-saving-timer
         (run-with-idle-timer 5 t (cmd!
                                   (let ((inhibit-message t))
+                                    (advice-add #'doom-save-session :around #'++suppress-messages)
                                     (doom-save-session file))))))
 (map! :map doom-leader-map "q N" '++load-and-continuously-save)
 #+end_src
@@ -391,10 +376,11 @@ Make it easy to select and display a CIDER buffer for the current project
 (map! :map clojurec-mode-map :nv "SPC m r p" #'++cider-popup)
 #+end_src
 
-Custom Elisp that I can't commit publicly
+Custom Elisp that I can't commit publicly or stuff I'm constantly working on
 #+begin_src elisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'onetwo nil t)
+(require 'skerrick nil t)
 #+end_src
 
 Converting an org table -> CSV

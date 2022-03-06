@@ -47,6 +47,13 @@ output as a string."
  (++spy IS-LINUX) ;; "IS-LINUX => t"
  )
 
+(defun ++suppress-messages (old-fun &rest args)
+  (cl-flet ((silence (&rest args1) (ignore)))
+    (advice-add 'message :around #'silence)
+    (unwind-protect
+         (apply old-fun args)
+      (advice-remove 'message #'silence))))
+
 (defvar ++sync-folder-path "~/Dropbox")
 
 (defvar ++vscode-search-occ-bg "#48240a")
@@ -968,8 +975,6 @@ output as a string."
         :nv "SPC m e e" #'slime-eval-last-expression
         :nv "SPC m '" #'slime-connect))
 
-(require 'smooth-scrolling)
-
 (use-package! symex
   :config
   (add-hook! '(prog-mode-hook)
@@ -1056,7 +1061,8 @@ output as a string."
   (company-mode +1)
   (eldoc-mode -1)
   (tide-hl-identifier-mode -1)
-  (setq tide-completion-detailed nil)
+  (setq tide-completion-detailed nil
+        tide-completion-ignore-case t)
   (setq company-tooltip-align-annotations t)
   (add-hook 'before-save-hook #'tide-format-before-save))
 
@@ -1401,26 +1407,12 @@ message listing the hooks."
 (after! lsp-mode
   (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
 
-(setq scroll-margin 1
-      scroll-step 1
-      scroll-conservatively 10000
-      scroll-preserve-screen-position 1)
-
-(when (load "~/work/open-source/jive/jive.el" t)
-  (require 'jive))
-
-(require 'filenotify)
-(defvar jive--file-notify-watch)
-
-(defun jive--file-stop-notify-watch ()
-  (interactive)
-  (when jive--file-notify-watch (file-notify-rm-watch jive--file-notify-watch)))
-
-(defun jive--file-start-notify-watch (filepath cmd)
-  (interactive)
-  (jive--file-stop-notify-watch)
-  (setq jive--file-notify-watch
-    (file-notify-add-watch filepath '(change attribute-change) (async-shell-command cmd))))
+(if (fboundp 'pixel-scroll-precision-mode)
+  (pixel-scroll-precision-mode +1)
+  (setq scroll-margin 1
+        scroll-step 1
+        scroll-conservatively 10000
+        scroll-preserve-screen-position 1))
 
 (defun ++load-and-continuously-save (file)
   (interactive
@@ -1440,6 +1432,7 @@ message listing the hooks."
   (setq ++continuous-saving-timer
         (run-with-idle-timer 5 t (cmd!
                                   (let ((inhibit-message t))
+                                    (advice-add #'doom-save-session :around #'++suppress-messages)
                                     (doom-save-session file))))))
 (map! :map doom-leader-map "q N" '++load-and-continuously-save)
 
@@ -1519,6 +1512,7 @@ message listing the hooks."
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'onetwo nil t)
+(require 'skerrick nil t)
 
 (defun ++org-table->csv (table-name)
   "Search for table named `TABLE-NAME` and export."
