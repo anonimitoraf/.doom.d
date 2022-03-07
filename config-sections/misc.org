@@ -264,6 +264,10 @@ Perpetual quest to make scrolling feel alright (if not supported)
         scroll-preserve-screen-position 1))
 #+end_src
 * Personal projects
+* Emacs as a clipboard manager
+#+begin_src elisp :results none
+(setq kill-ring-max 10000)
+#+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp

@@ -405,8 +405,10 @@ output as a string."
     consult-ripgrep consult-git-grep consult-grep
     consult-bookmark consult-xref
     consult--source-bookmark
+    +default/search-project
     :preview-key '(:debounce 0.2 any))
-  (map! :map doom-leader-map "s p" #'consult-ripgrep))
+  (map! :map doom-leader-map
+        "y" #'consult-yank-from-kill-ring))
 
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
@@ -1085,7 +1087,12 @@ output as a string."
   ;; Use a buffer with indices for imenu
   ;; and a flat (Ido-like) menu for M-x.
   (setq vertico-multiform-commands
-    '((execute-extended-command posframe)))
+    '((execute-extended-command posframe)
+      (helpful-callable posframe)
+      (helpful-variable posframe)
+      (find-file posframe)
+      (projectile-find-file posframe)
+      (doom/find-file-in-private-config posframe)))
   ;; Configure the display per completion category.
   ;; Use the grid display for files and a buffer
   ;; for the consult-grep commands.
@@ -1424,6 +1431,8 @@ message listing the hooks."
         scroll-step 1
         scroll-conservatively 10000
         scroll-preserve-screen-position 1))
+
+(setq kill-ring-max 10000)
 
 (defun ++load-and-continuously-save (file)
   (interactive
