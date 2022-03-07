@@ -216,3 +216,5 @@
 (package! google-translate)
 
 (package! vertico-posframe)
+
+(package! consult-projectile)
