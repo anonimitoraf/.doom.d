@@ -214,3 +214,5 @@
   :recipe (:host github :repo "elp-revive/origami.el"))
 
 (package! google-translate)
+
+(package! vertico-posframe)

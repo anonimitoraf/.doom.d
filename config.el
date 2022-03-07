@@ -1063,8 +1063,7 @@ output as a string."
   (tide-hl-identifier-mode -1)
   (setq tide-completion-detailed nil
         tide-completion-ignore-case t)
-  (setq company-tooltip-align-annotations t)
-  (add-hook 'before-save-hook #'tide-format-before-save))
+  (setq company-tooltip-align-annotations t))
 
 (use-package! tide
   :config
@@ -1079,7 +1078,19 @@ output as a string."
 (use-package! vertico
   :config
   (map! :map vertico-map
-        "C-l" #'vertico-exit))
+        "C-l" #'vertico-exit)
+  (require 'vertico-posframe)
+  (vertico-multiform-mode)
+  ;; Configure the display per command.
+  ;; Use a buffer with indices for imenu
+  ;; and a flat (Ido-like) menu for M-x.
+  (setq vertico-multiform-commands
+    '())
+  ;; Configure the display per completion category.
+  ;; Use the grid display for files and a buffer
+  ;; for the consult-grep commands.
+  (setq vertico-multiform-categories
+    '((consult-grep buffer))))
 
 (which-key-mode +1)
 
