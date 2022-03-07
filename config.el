@@ -1092,7 +1092,8 @@ output as a string."
       (helpful-variable posframe)
       (find-file posframe)
       (projectile-find-file posframe)
-      (doom/find-file-in-private-config posframe)))
+      (doom/find-file-in-private-config posframe)
+      (projectile-switch-project grid)))
   ;; Configure the display per completion category.
   ;; Use the grid display for files and a buffer
   ;; for the consult-grep commands.
