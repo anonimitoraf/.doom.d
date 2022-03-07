@@ -1085,7 +1085,7 @@ output as a string."
   ;; Use a buffer with indices for imenu
   ;; and a flat (Ido-like) menu for M-x.
   (setq vertico-multiform-commands
-    '())
+    '((execute-extended-command posframe)))
   ;; Configure the display per completion category.
   ;; Use the grid display for files and a buffer
   ;; for the consult-grep commands.
