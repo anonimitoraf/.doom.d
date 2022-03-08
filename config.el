@@ -1435,6 +1435,9 @@ message listing the hooks."
 
 (setq kill-ring-max 10000)
 
+(setq recentf-max-menu-items 20
+      recentf-max-saved-items 400)
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))
