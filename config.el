@@ -1056,7 +1056,7 @@ output as a string."
 (use-package! tree-sitter-langs)
 
 (global-tree-sitter-mode)
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+(add-hook 'tree-sitter-after-on-hook (lambda (&rest args) (ignore-errors (tree-sitter-hl-mode +1))))
 
 (defun setup-tide-mode ()
   (tide-setup)

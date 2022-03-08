@@ -1064,7 +1064,7 @@ Use tree-sitter for highlighting for whichever languages are supported
 (use-package! tree-sitter-langs)
 
 (global-tree-sitter-mode)
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+(add-hook 'tree-sitter-after-on-hook (lambda (&rest args) (ignore-errors (tree-sitter-hl-mode +1))))
 #+end_src
 * =tide=
 #+begin_src elisp :results none
