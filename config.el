@@ -318,7 +318,8 @@ output as a string."
         :nv "C-j" #'cider-inspector-next-inspectable-object
         :nv "C-h" #'cider-inspector-pop
         :nv [mouse-3] #'cider-inspector-pop
-        :nv "C-l" #'cider-inspector-operate-on-point))
+        :nv "C-l" #'cider-inspector-operate-on-point)
+  (add-hook 'cider-mode-hook (lambda () (setq-local completion-styles '(cider)))))
 
 (advice-add 'cider-eldoc :around #'ignore)
 
@@ -661,7 +662,7 @@ output as a string."
   (add-hook! '(clojure-mode-hook
                clojurescript-mode-hook
                clojurec-mode-hook)
-    (setq lsp-completion-enable nil))
+    (setq lsp-completion-enable t))
   (add-hook! '(typescript-tsx-mode-hook
                typescript-mode-hook
                web-mode-hook
@@ -1598,32 +1599,33 @@ XREFS is a list of references/definitions."
 
 (use-package corfu-doc
   :config
-  (setq corfu-doc-delay 0.1
+  (setq corfu-doc-delay 0.2
         corfu-doc-max-width 80
         corfu-doc-max-height 40))
 
 (use-package corfu
   :config
   (setq corfu-cycle t
-    corfu-auto t
-    corfu-auto-prefix 2
-    corfu-auto-delay 0.1
-    corfu-separator ?\s
-    corfu-quit-at-boundary nil
-    corfu-quit-no-match t
-    corfu-preview-current nil
-    corfu-preselect-first t
-    corfu-on-exact-match nil
-    corfu-echo-documentation t
-    corfu-scroll-margin 5)
+        corfu-auto t
+        corfu-auto-prefix 2
+        corfu-auto-delay 0.01
+        corfu-separator ?\s
+        corfu-quit-at-boundary nil
+        corfu-quit-no-match t
+        corfu-preview-current nil
+        corfu-preselect-first t
+        corfu-on-exact-match nil
+        corfu-echo-documentation t
+        corfu-scroll-margin 10)
+  (map! :map global-map
+        "C-SPC" #'completion-at-point)
   (map! :map corfu-map
-    "C-SPC" #'completion-at-point
-    "C-j" #'corfu-next
-    "C-k" #'corfu-previous
-    "C-l" #'corfu-insert
-    "C-;" #'corfu-doc-toggle
-    "TAB" #'corfu-insert
-    "ESC" #'corfu-reset)
+        "C-j" #'corfu-next
+        "C-k" #'corfu-previous
+        "C-l" #'corfu-insert
+        "C-;" #'corfu-doc-toggle
+        "TAB" #'corfu-insert
+        "ESC" #'corfu-reset)
   :init
   (corfu-global-mode +1)
   (corfu-doc-mode +1))
@@ -1645,20 +1647,22 @@ XREFS is a list of references/definitions."
   ;; Tune the global completion style settings to your liking!
   ;; This affects the minibuffer and non-lsp completion at point.
   (setq completion-styles '(orderless partial-completion)
-    completion-category-defaults nil
-    completion-category-overrides nil))
+        completion-category-defaults nil
+        completion-category-overrides nil))
 
 (use-package lsp-mode
   :init
   (defun my/lsp-mode-setup-completion ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-      '(orderless)))
-  :hook
-  (lsp-completion-mode . my/lsp-mode-setup-completion)
-  (lsp-mode . (lambda () (lsp-completion-mode +1)))
+          '(orderless)))
   :config
   ;; We use Corfu!
-  (setq lsp-completion-provider :none))
+  (setq lsp-completion-provider :none)
+  (add-hook 'lsp-completion-mode-hook #'my/lsp-mode-setup-completion)
+  (add-hook 'lsp-mode-hook (lambda ()
+                             (lsp-completion-mode +1)
+                             (when (eq major-mode 'clojure-mode)
+                               (setq-local completion-styles '(basic))))))
 
 ;; Add extensions
 (use-package cape
