@@ -1,5 +1,7 @@
-;;; corfu-config.el -*- lexical-binding: t; -*-
+#+TITLE: Experimental
 
+* =corfu and co.=
+#+begin_src emacs-lisp :results none
 (use-package corfu-doc
   :config
   (setq corfu-doc-delay 0.1
@@ -29,7 +31,8 @@
     "TAB" #'corfu-insert
     "ESC" #'corfu-reset)
   :init
-  (corfu-global-mode +1))
+  (corfu-global-mode +1)
+  (corfu-doc-mode +1))
 
 (use-package kind-icon
   :ensure t
@@ -79,5 +82,4 @@
   ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
   )
-
-(provide 'corfu-config)
+#+end_src

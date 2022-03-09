@@ -218,3 +218,10 @@
 (package! vertico-posframe)
 
 (package! consult-projectile)
+
+(package! company :disable t)
+(package! corfu)
+(package! corfu-doc
+  :recipe (:host github :repo "galeo/corfu-doc"))
+(package! cape)
+(package! kind-icon)
