@@ -670,7 +670,16 @@ output as a string."
                js2-mode-hook)
     ;; Use `tide' for completions and formatting instead since LSP is too laggy
     (setq-local lsp-completion-enable nil
-                lsp-typescript-format-enable nil))
+                lsp-typescript-format-enable nil)
+    (add-hook! '(lsp-mode-hook) :append
+      (when (-contains? '(typescript-tsx-mode
+                           typescript-mode
+                           web-mode
+                           js-mode
+                           js2-mode)
+              major-mode)
+        (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
+                                                   (list #'company-tide))))))
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
@@ -1060,11 +1069,15 @@ output as a string."
 (add-hook 'tree-sitter-after-on-hook (lambda (&rest args) (ignore-errors (tree-sitter-hl-mode +1))))
 
 (defun setup-tide-mode ()
+  (require 'company)
   (tide-setup)
   (eldoc-mode -1)
   (tide-hl-identifier-mode -1)
   (setq tide-completion-detailed nil
-        tide-completion-ignore-case t))
+        tide-completion-ignore-case t)
+  (setq-local completion-at-point-functions
+    (mapcar #'cape-company-to-capf
+      (list #'company-tide))))
 
 (use-package! tide
   :config
