@@ -1659,23 +1659,19 @@ XREFS is a list of references/definitions."
   :init
   ;; Tune the global completion style settings to your liking!
   ;; This affects the minibuffer and non-lsp completion at point.
-  (setq completion-styles '(orderless partial-completion)
+  (setq completion-styles '(orderless)
         completion-category-defaults nil
-        completion-category-overrides nil))
+        completion-category-overrides '((file (styles . (partial-completion))))))
 
 (use-package lsp-mode
   :init
   (defun my/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
+    (setq-local completion-styles '(flex)))
   :config
   ;; We use Corfu!
   (setq lsp-completion-provider :none)
   (add-hook 'lsp-completion-mode-hook #'my/lsp-mode-setup-completion)
-  (add-hook 'lsp-mode-hook (lambda ()
-                             (lsp-completion-mode +1)
-                             (when (eq major-mode 'clojure-mode)
-                               (setq-local completion-styles '(basic))))))
+  (add-hook 'lsp-mode-hook (lambda () (lsp-completion-mode +1))))
 
 ;; Add extensions
 (use-package cape
@@ -1685,11 +1681,11 @@ XREFS is a list of references/definitions."
   (add-to-list 'completion-at-point-functions #'cape-tex)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-symbol)
   ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
   ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
   ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
   ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
   ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
   )
