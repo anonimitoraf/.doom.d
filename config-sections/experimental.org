@@ -82,3 +82,32 @@
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
   )
 #+end_src
+
+* =google-translate=
+Japanese kana -> romaji
+#+begin_src emacs-lisp :tangle yes :results none
+(defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
+
+(defun ++google-translate-kana->romaji (kana)
+  (replace-regexp-in-string "\r?\n" ""
+    (shell-command-to-string
+     (format "echo \"%s\" | iconv -f utf8 -t eucjp | kakasi -i euc -w | kakasi -i euc -Ha -Ka -Ja -Ea -ka" kana))))
+
+(defun ++google-translate-curr-region-kana->romaji ()
+  (when (equal (buffer-name) "*Google Translate*")
+    (if (region-active-p)
+      (posframe-show ++google-translate-kana->romaji-buffer
+        :string (++google-translate-kana->romaji (buffer-substring-no-properties
+                                                   (region-beginning)
+                                                   (region-end)))
+        :position (point)
+        :border-color (doom-color 'yellow)
+        :border-width 1
+        :foreground-color (doom-color 'yellow))
+      (posframe-hide ++google-translate-kana->romaji-buffer))))
+
+(defun ++google-translate-setup-hook ()
+  (add-hook 'post-command-hook #'++google-translate-curr-region-kana->romaji))
+
+(++google-translate-setup-hook)
+#+end_src
