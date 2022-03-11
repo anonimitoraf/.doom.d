@@ -524,6 +524,11 @@ output as a string."
 (after! elfeed
   (setq elfeed-search-filter "@5-year-ago +unread"))
 
+(use-package! exec-path-from-shell
+  :config
+  (exec-path-from-shell-copy-env "SSH_AGENT_PID")
+  (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
+
 (define-fringe-bitmap 'flycheck-fringe-bitmap-beam
   (vector #b11111111
           #b11111111

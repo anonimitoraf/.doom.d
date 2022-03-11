@@ -219,6 +219,8 @@
 
 (package! consult-projectile)
 
+(package! exec-path-from-shell)
+
 (package! company)
 (package! corfu)
 (package! corfu-doc
