@@ -407,6 +407,8 @@ output as a string."
     consult-bookmark consult-xref
     consult--source-bookmark
     +default/search-project
+    +default/search-cwd
+    +default/search-other-cwd
     :preview-key '(:debounce 0.2 any))
   (map! :map doom-leader-map
         "y" #'consult-yank-from-kill-ring))
