@@ -1710,7 +1710,7 @@ XREFS is a list of references/definitions."
       (posframe-show ++google-translate-kana->romaji-buffer
         :string (++google-translate-kana->romaji (buffer-substring-no-properties
                                                    (region-beginning)
-                                                   (region-end)))
+                                                   (+ (region-end) 1)))
         :position (point)
         :border-color (doom-color 'yellow)
         :border-width 1
