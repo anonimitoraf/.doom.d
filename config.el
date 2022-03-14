@@ -1457,6 +1457,14 @@ message listing the hooks."
 (setq recentf-max-menu-items 20
       recentf-max-saved-items 400)
 
+(map! :map doom-leader-map "s x" #'async-shell-command)
+(set-popup-rules!
+    '(("*Async Shell Command*"
+       :quit t
+       :side bottom
+       :size 10
+       :select nil)))
+
 (defun ++load-and-continuously-save (file)
   (interactive
    (let ((session-file (doom-session-file)))

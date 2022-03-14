@@ -273,6 +273,16 @@ Perpetual quest to make scrolling feel alright (if not supported)
 (setq recentf-max-menu-items 20
       recentf-max-saved-items 400)
 #+end_src
+* Who needs a shell when I have Emacs?
+#+begin_src emacs-lisp :tangle yes :results none
+(map! :map doom-leader-map "s x" #'async-shell-command)
+(set-popup-rules!
+    '(("*Async Shell Command*"
+       :quit t
+       :side bottom
+       :size 10
+       :select nil)))
+#+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp
