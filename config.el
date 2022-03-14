@@ -119,7 +119,8 @@ output as a string."
     ;; Tree-sitter
     '(tree-sitter-hl-face:property :slant normal)
     `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
-    `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow)))
+    `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
+    `(corfu-border :background "white"))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
