@@ -1653,6 +1653,7 @@ XREFS is a list of references/definitions."
         "C-l" #'corfu-insert
         "C-;" #'corfu-doc-toggle
         "TAB" #'corfu-insert
+        "<tab>" #'corfu-insert
         "ESC" #'corfu-reset)
   :init
   (corfu-global-mode +1)
