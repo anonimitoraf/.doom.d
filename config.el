@@ -780,7 +780,7 @@ output as a string."
                      :poshandler #'posframe-poshandler-frame-center)))
 
   (defun lsp-ui-peek--peek-destroy ()
-    (when (and (boundp 'lsp-ui-peek--buffer) (bufferp lsp-ui-peek--buffer))
+    (when (bufferp lsp-ui-peek--buffer)
       (posframe-delete lsp-ui-peek--buffer))
     (setq lsp-ui-peek--buffer nil
           lsp-ui-peek--last-xref nil)
@@ -1101,24 +1101,25 @@ output as a string."
   :config
   (map! :map vertico-map
         "C-l" #'vertico-exit)
-  (require 'vertico-posframe)
-  (vertico-multiform-mode)
-  ;; Configure the display per command.
-  ;; Use a buffer with indices for imenu
-  ;; and a flat (Ido-like) menu for M-x.
-  (setq vertico-multiform-commands
-    '((execute-extended-command posframe)
-      (helpful-callable posframe)
-      (helpful-variable posframe)
-      (find-file posframe)
-      (projectile-find-file posframe)
-      (doom/find-file-in-private-config posframe)
-      (projectile-switch-project grid)))
-  ;; Configure the display per completion category.
-  ;; Use the grid display for files and a buffer
-  ;; for the consult-grep commands.
-  (setq vertico-multiform-categories
-    '((consult-grep buffer))))
+  (when (display-graphic-p)
+    (require 'vertico-posframe)
+    (vertico-multiform-mode)
+    ;; Configure the display per command.
+    ;; Use a buffer with indices for imenu
+    ;; and a flat (Ido-like) menu for M-x.
+    (setq vertico-multiform-commands
+          '((execute-extended-command posframe)
+            (helpful-callable posframe)
+            (helpful-variable posframe)
+            (find-file posframe)
+            (projectile-find-file posframe)
+            (doom/find-file-in-private-config posframe)
+            (projectile-switch-project grid)))
+    ;; Configure the display per completion category.
+    ;; Use the grid display for files and a buffer
+    ;; for the consult-grep commands.
+    (setq vertico-multiform-categories
+          '((consult-grep buffer)))))
 
 (which-key-mode +1)
 
