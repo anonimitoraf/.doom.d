@@ -791,6 +791,10 @@ output as a string."
 
 (require 'logview)
 
+(use-package magit-todos
+  :config
+  (magit-todos-mode +1))
+
 (after! doom-modeline
   (setq doom-modeline-buffer-file-name-style 'auto
         doom-modeline-height 0
