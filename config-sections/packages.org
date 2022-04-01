@@ -175,19 +175,19 @@ Patch for being able to connect to multiple nREPL instances by using a random lo
 #+end_src
 * =company=
 #+begin_src elisp
-;; (after! company
-;;   (setq company-idle-delay 0.01
-;;         company-tooltip-idle-delay 0.01
-;;         company-minimum-prefix-length 2
-;;         company-selection-wrap-around t)
-;;   (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
-;;   (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
-;;   (if (display-graphic-p)
-;;       (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
-;;     ;; Terminal seems to work with just "TAB"
-;;     (define-key company-active-map (kbd "TAB") 'company-complete-selection))
-;;   (define-key company-active-map (kbd "C-l") 'company-complete-selection)
-;;   (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
+(after! company
+  (setq company-idle-delay 0.01
+        company-tooltip-idle-delay 0.01
+        company-minimum-prefix-length 2
+        company-selection-wrap-around t)
+  (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
+  (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
+  (if (display-graphic-p)
+      (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
+    ;; Terminal seems to work with just "TAB"
+    (define-key company-active-map (kbd "TAB") 'company-complete-selection))
+  (define-key company-active-map (kbd "C-l") 'company-complete-selection)
+  (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
 #+end_src
 Remove some conflicting keybindings with company-mode.
 TODO Check if this is actually a good thing to do.
@@ -197,9 +197,9 @@ TODO Check if this is actually a good thing to do.
 #+end_src
 * =company-quickhelp=
 #+begin_src elisp
-;; (use-package! company-quickhelp
-;;   :config
-;;   (company-quickhelp-mode +1))
+(use-package! company-quickhelp
+  :config
+  (company-quickhelp-mode +1))
 #+end_src
 * =counsel=
 #+begin_src elisp
