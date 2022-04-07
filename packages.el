@@ -229,3 +229,8 @@
 (package! kind-icon)
 
 (package! magit-todos)
+
+(package! org-modern
+  :recipe (:host github :repo "minad/org-modern"))
+
+(package! focus)

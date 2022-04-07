@@ -387,8 +387,18 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
 #+begin_src elisp
 (use-package! elfeed
   :config
-  (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org")))
-  (add-hook! 'elfeed-search-mode-hook 'elfeed-update))
+  (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org"))
+        elfeed-db-directory "~/Dropbox/emacs/elfeed")
+  (add-hook! 'elfeed-search-mode-hook (cmd!
+                                       (elfeed-update)
+                                       (setq browse-url-browser-function 'eww-browse-url)))
+  (defun ++elfeed-content ()
+    (interactive)
+    (writeroom-mode -1)
+    (+zen/toggle-fullscreen)
+    (doom/window-maximize-buffer)
+    (focus-mode +1))
+  (map! :map doom-leader-map "Z" #'++elfeed-content))
 
 (after! elfeed
   (setq elfeed-search-filter "@5-year-ago +unread"))
@@ -478,6 +488,12 @@ Make flycheck posframes a bit less obtrusive
   (setq flycheck-posframe-position 'window-top-right-corner))
 #+end_src
 
+* =focus=
+#+begin_src emacs-lisp :tangle yes :results none
+(use-package! focus
+  :config
+  (add-to-list 'focus-mode-to-thing '(eww-mode . paragraph)))
+#+end_src
 * =google-translate=
 #+begin_src elisp
 (use-package! google-translate

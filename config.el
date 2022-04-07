@@ -521,8 +521,18 @@ output as a string."
 
 (use-package! elfeed
   :config
-  (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org")))
-  (add-hook! 'elfeed-search-mode-hook 'elfeed-update))
+  (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org"))
+        elfeed-db-directory "~/Dropbox/emacs/elfeed")
+  (add-hook! 'elfeed-search-mode-hook (cmd!
+                                       (elfeed-update)
+                                       (setq browse-url-browser-function 'eww-browse-url)))
+  (defun ++elfeed-content ()
+    (interactive)
+    (writeroom-mode -1)
+    (+zen/toggle-fullscreen)
+    (doom/window-maximize-buffer)
+    (focus-mode +1))
+  (map! :map doom-leader-map "Z" #'++elfeed-content))
 
 (after! elfeed
   (setq elfeed-search-filter "@5-year-ago +unread"))
@@ -596,6 +606,10 @@ output as a string."
 (use-package! flycheck-posframe
   :config
   (setq flycheck-posframe-position 'window-top-right-corner))
+
+(use-package! focus
+  :config
+  (add-to-list 'focus-mode-to-thing '(eww-mode . paragraph)))
 
 (use-package! google-translate
   :config
