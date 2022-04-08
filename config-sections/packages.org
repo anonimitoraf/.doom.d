@@ -389,9 +389,7 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
   :config
   (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org"))
         elfeed-db-directory "~/Dropbox/emacs/elfeed")
-  (add-hook! 'elfeed-search-mode-hook (cmd!
-                                       (elfeed-update)
-                                       (setq browse-url-browser-function 'eww-browse-url)))
+  (add-hook! 'elfeed-search-mode-hook #'elfeed-update)
   (defun ++elfeed-content ()
     (interactive)
     (writeroom-mode -1)

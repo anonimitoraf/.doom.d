@@ -55,6 +55,11 @@ Mark particular local variables as safe
 #+begin_src elisp
 (setq minibuffer-message-timeout 0.0)
 #+end_src
+
+Use eww for inline browsing
+#+begin_src emacs-lisp :tangle yes :results none
+(setq browse-url-browser-function 'eww-browse-url)
+#+end_src
 * Enabling only particular formatters
 #+begin_src elisp
 (setq +format-on-save-enabled-modes

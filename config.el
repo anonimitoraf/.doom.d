@@ -1308,6 +1308,8 @@ output as a string."
 
 (setq minibuffer-message-timeout 0.0)
 
+(setq browse-url-browser-function 'eww-browse-url)
+
 (setq +format-on-save-enabled-modes
       '(emacs-lisp-mode
         erlang-mode))
