@@ -234,3 +234,5 @@
   :recipe (:host github :repo "minad/org-modern"))
 
 (package! focus)
+
+(package! org-alert)
