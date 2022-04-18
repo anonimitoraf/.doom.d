@@ -161,7 +161,8 @@
        ;;ocaml             ; an objective came
        (org +pretty        ; organize your plain life in plain text
             +dragndrop
-            +hugo)
+            +hugo
+            +roam2)
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
