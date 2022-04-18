@@ -278,7 +278,9 @@ output as a string."
 ;;              #'++aggressive-indent-mode-setup))
 
 (require 'alert)
-(setq alert-default-style 'notifications
+(setq alert-default-style (if IS-MAC
+                            'growl
+                            'libnotify)
       alert-fade-time 30)
 
 (use-package! all-the-icons
@@ -523,9 +525,7 @@ output as a string."
   :config
   (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org"))
         elfeed-db-directory "~/Dropbox/emacs/elfeed")
-  (add-hook! 'elfeed-search-mode-hook (cmd!
-                                       (elfeed-update)
-                                       (setq browse-url-browser-function 'eww-browse-url)))
+  (add-hook! 'elfeed-search-mode-hook #'elfeed-update)
   (defun ++elfeed-content ()
     (interactive)
     (writeroom-mode -1)
@@ -922,6 +922,18 @@ output as a string."
  '((emacs-lisp . nil)
    (Clojure . t)
    (Javascript . t)))
+
+(use-package! org-alert
+  :config
+  (setq org-alert-interval 30)
+  (org-alert-enable))
+
+(use-package! org-roam
+  :config
+  (defvar ++org-roam-dir "~/Dropbox/emacs/org-roam")
+  (make-directory ++org-roam-dir 'parents)
+  (setq org-roam-directory ++org-roam-dir)
+  (org-roam-db-autosync-mode))
 
 (use-package! origami
   :config

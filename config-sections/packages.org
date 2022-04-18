@@ -46,7 +46,9 @@ NOTE: Disable aggressive-indent for now because it makes a lot of things laggy. 
 * =alert=
 #+begin_src elisp
 (require 'alert)
-(setq alert-default-style 'notifications
+(setq alert-default-style (if IS-MAC
+                            'growl
+                            'libnotify)
       alert-fade-time 30)
 #+end_src
 * =all-the-icons=
@@ -886,6 +888,22 @@ TODO Find out why emacs-lisp is set to nil
  '((emacs-lisp . nil)
    (Clojure . t)
    (Javascript . t)))
+#+end_src
+* =org-alert=
+#+begin_src emacs-lisp :tangle yes :results none
+(use-package! org-alert
+  :config
+  (setq org-alert-interval 30)
+  (org-alert-enable))
+#+end_src
+* =org-roam=
+#+begin_src emacs-lisp :tangle yes :results none
+(use-package! org-roam
+  :config
+  (defvar ++org-roam-dir "~/Dropbox/emacs/org-roam")
+  (make-directory ++org-roam-dir 'parents)
+  (setq org-roam-directory ++org-roam-dir)
+  (org-roam-db-autosync-mode))
 #+end_src
 * =origami=
 #+begin_src elisp
