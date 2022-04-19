@@ -893,7 +893,7 @@ TODO Find out why emacs-lisp is set to nil
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! org-alert
   :config
-  (setq org-alert-interval 30)
+  (setq org-alert-interval 300)
   (org-alert-enable))
 #+end_src
 * =org-roam=

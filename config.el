@@ -925,7 +925,7 @@ output as a string."
 
 (use-package! org-alert
   :config
-  (setq org-alert-interval 30)
+  (setq org-alert-interval 300)
   (org-alert-enable))
 
 (use-package! org-roam
