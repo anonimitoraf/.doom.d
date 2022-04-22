@@ -1151,6 +1151,22 @@ output as a string."
     (setq vertico-multiform-categories
           '((consult-grep buffer)))))
 
+(use-package! vterm
+  :config
+  (setq vterm-ignore-blink-cursor nil)
+  (map! :map vterm-mode-map
+        "C-k" #'vterm-send-up
+        "C-j" #'vterm-send-down
+        "C-l" #'vterm-send-return)
+
+  (defun evil-collection-vterm-escape-stay ()
+    "Go back to normal state but don't move
+cursor backwards. Moving cursor backwards is the default vim behavior but it is
+not appropriate in some cases like terminals."
+    (setq-local evil-move-cursor-back nil))
+
+  (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay))
+
 (which-key-mode +1)
 
 (use-package! whitespace
