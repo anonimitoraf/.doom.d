@@ -47,12 +47,19 @@ output as a string."
  (++spy IS-LINUX) ;; "IS-LINUX => t"
  )
 
+(defmacro ++advice-lambda (fnc)
+  "Return function that ignores its arguments and invokes FNC."
+  `(lambda (&rest _rest)
+     (funcall ,fnc)))
+
 (defun ++suppress-messages (old-fun &rest args)
   (cl-flet ((silence (&rest args1) (ignore)))
     (advice-add 'message :around #'silence)
     (unwind-protect
          (apply old-fun args)
       (advice-remove 'message #'silence))))
+
+(defvar ++window-id (shell-command-to-string "xdotool getwindowfocus getactivewindow | tr -d '\n'"))
 
 (defvar ++sync-folder-path "~/Dropbox")
 
@@ -280,7 +287,7 @@ output as a string."
 (require 'alert)
 (setq alert-default-style (if IS-MAC
                             'growl
-                            'libnotify)
+                            'dunst+i3)
       alert-fade-time 30)
 
 (use-package! all-the-icons
@@ -879,6 +886,11 @@ output as a string."
   "Refresh org-agenda."
   (org-agenda-refresh))
 
+(advice-add 'org-deadline       :after (++advice-lambda #'org-save-all-org-buffers))
+(advice-add 'org-schedule       :after (++advice-lambda #'org-save-all-org-buffers))
+(advice-add 'org-store-log-note :after (++advice-lambda #'org-save-all-org-buffers))
+(advice-add 'org-todo           :after (++advice-lambda #'org-save-all-org-buffers))
+
 (use-package! org-download
   :config (setq org-download-method 'attach))
 
@@ -927,6 +939,38 @@ output as a string."
   :config
   (setq org-alert-interval 300)
   (org-alert-enable))
+
+(defun ++dunst+i3-notify (info)
+  (async-start
+    `(lambda ()
+       ,(async-inject-variables "alert-default-icon")
+       (shell-command-to-string (concat (executable-find "dunstify")
+                                  (format " --action=\"forwardAction,Forward\" --appname=Emacs --icon=%s \"%s\" \"%s\" "
+                                    alert-default-icon
+                                    ,(plist-get info :buffer-name)
+                                    ,(plist-get info :message))
+                                  " | tr -d '\n'")))
+    (lambda (dunstify-result)
+      (when (equal dunstify-result "forwardAction")
+        (async-start
+          `(lambda ()
+             ,(async-inject-variables "++window-id")
+             (shell-command-to-string ,(format "i3-msg --socket %s [id=%s] focus"
+                                         ;; See https://www.reddit.com/r/i3wm/comments/glhgo4/comment/fvntamj/?utm_source=share&utm_medium=web2x&context=3
+                                         "\"/run/user/1000/i3/$(ls -t /run/user/1000/i3/ | awk '{print $1}' | grep ipc | head -n 1)\""
+                                         ++window-id)))
+          (lambda (i3-focus-result)
+            (message "FOCUS RESULT FROM i3: %s !!!" i3-focus-result)
+            (org-agenda-list)))))))
+
+(require 'async)
+(alert-define-style 'dunst+i3 :title "dunst + i3"
+  :notifier
+  (lambda (info)
+    ;; buffer prop isn't serializable
+    (plist-put info :buffer-name (buffer-name (plist-get info :buffer)))
+    (plist-delete! info :buffer)
+    (++dunst+i3-notify info)))
 
 (use-package! org-habit
   :config
@@ -1345,6 +1389,8 @@ not appropriate in some cases like terminals."
 (setq minibuffer-message-timeout 0.0)
 
 (setq browse-url-browser-function 'eww-browse-url)
+
+(setq show-help-function nil)
 
 (setq +format-on-save-enabled-modes
       '(emacs-lisp-mode

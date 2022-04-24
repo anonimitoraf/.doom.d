@@ -40,7 +40,7 @@ output as a string."
 #+end_src
 
 * Nifty functions
-#+begin_src elisp
+#+begin_src elisp :results none
 (defmacro ++comment (&rest body)
   "Comment out one or more s-expressions."
   nil)
@@ -52,6 +52,11 @@ output as a string."
  (++spy (+ 1 1)) ;; "(+ 1 1) => 2"
  (++spy IS-LINUX) ;; "IS-LINUX => t"
  )
+
+(defmacro ++advice-lambda (fnc)
+  "Return function that ignores its arguments and invokes FNC."
+  `(lambda (&rest _rest)
+     (funcall ,fnc)))
 #+end_src
 * Suppressing minibuffer messages
 #+begin_src elisp :results none
@@ -61,4 +66,9 @@ output as a string."
     (unwind-protect
          (apply old-fun args)
       (advice-remove 'message #'silence))))
+#+end_src
+
+* Useful general variables
+#+begin_src emacs-lisp :tangle yes :results none
+(defvar ++window-id (shell-command-to-string "xdotool getwindowfocus getactivewindow | tr -d '\n'"))
 #+end_src

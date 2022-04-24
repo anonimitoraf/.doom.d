@@ -60,6 +60,11 @@ Use eww for inline browsing
 #+begin_src emacs-lisp :tangle yes :results none
 (setq browse-url-browser-function 'eww-browse-url)
 #+end_src
+
+I don't need the mouse-hover help functions, having it enabled makes Emacs lag for me
+#+begin_src emacs-lisp :tangle yes :results none
+(setq show-help-function nil)
+#+end_src
 * Enabling only particular formatters
 #+begin_src elisp
 (setq +format-on-save-enabled-modes

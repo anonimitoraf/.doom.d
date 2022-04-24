@@ -236,3 +236,5 @@
 (package! focus)
 
 (package! org-alert)
+
+(package! emacs-async)
