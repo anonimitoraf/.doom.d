@@ -839,7 +839,7 @@ output as a string."
                                    "work"
                                    "captures"
                                    "notes")))
-  (setq org-agenda-span 60
+  (setq org-agenda-span 14
         org-agenda-start-on-weekday nil
         org-agenda-start-day "-3d"
         org-agenda-skip-scheduled-if-done t
@@ -927,6 +927,14 @@ output as a string."
   :config
   (setq org-alert-interval 300)
   (org-alert-enable))
+
+(use-package! org-habit
+  :config
+  (add-to-list 'org-modules 'org-habit)
+  (setq org-habit-show-habits-only-for-today nil
+        org-habit-show-all-today nil
+        org-habit-preceding-days 14
+        org-habit-following-days 7))
 
 (use-package! org-roam
   :config

@@ -786,7 +786,7 @@ Display clock on modeline
                                    "work"
                                    "captures"
                                    "notes")))
-  (setq org-agenda-span 60
+  (setq org-agenda-span 14
         org-agenda-start-on-weekday nil
         org-agenda-start-day "-3d"
         org-agenda-skip-scheduled-if-done t
@@ -895,6 +895,16 @@ TODO Find out why emacs-lisp is set to nil
   :config
   (setq org-alert-interval 300)
   (org-alert-enable))
+#+end_src
+* =org-habit=
+#+begin_src emacs-lisp :tangle yes :results none
+(use-package! org-habit
+  :config
+  (add-to-list 'org-modules 'org-habit)
+  (setq org-habit-show-habits-only-for-today nil
+        org-habit-show-all-today nil
+        org-habit-preceding-days 14
+        org-habit-following-days 7))
 #+end_src
 * =org-roam=
 #+begin_src emacs-lisp :tangle yes :results none
