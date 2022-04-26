@@ -288,7 +288,7 @@ output as a string."
 (setq alert-default-style (if IS-MAC
                             'growl
                             'dunst+i3)
-      alert-fade-time 30)
+      alert-fade-time 120)
 
 (use-package! all-the-icons
   :config (setq all-the-icons-scale-factor 0.90))

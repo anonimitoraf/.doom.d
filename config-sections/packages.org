@@ -44,12 +44,12 @@ NOTE: Disable aggressive-indent for now because it makes a lot of things laggy. 
 ;;              #'++aggressive-indent-mode-setup))
 #+end_src
 * =alert=
-#+begin_src elisp
+#+begin_src elisp :results none
 (require 'alert)
 (setq alert-default-style (if IS-MAC
                             'growl
                             'dunst+i3)
-      alert-fade-time 30)
+      alert-fade-time 120)
 #+end_src
 * =all-the-icons=
 They're too big (by default) for my taste
