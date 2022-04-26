@@ -238,3 +238,6 @@
 (package! org-alert)
 
 (package! emacs-async)
+
+(package! svg-tag-mode
+  :recipe (:host github :repo "rougier/svg-tag-mode"))
