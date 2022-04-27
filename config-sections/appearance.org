@@ -128,7 +128,7 @@ I want my font to automatically resize based on which screen Emacs is
     (setq ++font-size new-font-size)))
 
 (when (display-graphic-p)
- (++configure-font-size)
+ (run-at-time 0 nil (lambda () (++configure-font-size)))
  (setq ++adjust-font-timer (run-with-idle-timer 1 1 #'++configure-font-size)))
 #+end_src
 * Dashboard

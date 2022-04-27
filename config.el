@@ -63,193 +63,6 @@ output as a string."
 
 (defvar ++sync-folder-path "~/Dropbox")
 
-(defvar ++vscode-search-occ-bg "#48240a")
-(defvar ++vscode-search-occ-fg "#cccccc")
-
-(setq doom-theme 'doom-one)
-
-(use-package doom-themes
-  :config
-  ;; Use the colorful treemacs theme
-  (setq doom-themes-treemacs-theme "doom-colors"
-        doom-themes-enable-bold nil    ; if nil, bold is universally disabled
-        doom-themes-enable-italic nil)
-  (doom-themes-treemacs-config)
-  (doom-themes-org-config)
-
-  ;; Custom style tweaks
-  ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
-  ;; for the doom-colors
-  (custom-set-faces!
-    `(popup-tip-face :inherit popup-face
-                     :foreground ,(doom-color 'yellow)
-                     :box t)
-    `(swiper-background-match-face-2 :background ,++vscode-search-occ-bg
-                                     :foreground ,++vscode-search-occ-fg)
-    `(swiper-match-face-2 :background ,++vscode-search-occ-bg
-                          :foreground ,++vscode-search-occ-fg)
-    `(swiper-line-face :background "DodgerBlue4"
-                       :foreground ,++vscode-search-occ-fg)
-    ;; TODO Move the LSP faces out of here?
-    `(lsp-ui-peek-peek :background "#000029")
-    `(lsp-ui-peek-selection :background ,++vscode-search-occ-bg
-                            :foreground ,++vscode-search-occ-fg)
-    `(lsp-ui-peek-list :background "grey7"
-                       :height 1.0
-                       :width condensed)
-    `(lsp-ui-peek-header :background "#000050"
-                         :foreground "white"
-                         :height 0.8
-                         :width condensed)
-    `(lsp-ui-peek-filename :foreground "#98be65"
-                           :height 1.0
-                           :width condensed
-                           :box (:line-width (1 . 10)
-                                 :color "grey7"))
-    `(lsp-ui-peek-line-number :foreground "grey7")
-    `(lsp-ui-peek-highlight :background ,++vscode-search-occ-bg
-                            :foreground ,++vscode-search-occ-fg
-                            :heght 1.0
-                            :box nil
-                            :inherit nil)
-    '(show-paren-match :foreground nil
-                       :background "#333"
-                       :weight normal)
-    `(ac-completion-face :foreground ,(doom-color 'yellow))
-    `(ac-selection-face :foreground "black"
-                        :background ,(doom-color 'magenta))
-    '(hl-line :background "grey8")
-    '(header-line :background "grey15")
-    `(popup-tip-face :foreground ,(doom-color 'yellow))
-    ;; Ivy
-    `(ivy-minibuffer-match-face-1 :foreground "white")
-    ;; Tree-sitter
-    '(tree-sitter-hl-face:property :slant normal)
-    `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
-    `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
-    `(corfu-border :background "white"))
-  ;; GUI
-  (if (display-graphic-p)
-    (custom-set-faces!
-      `(default :background "black")
-      `(fill-column-indicator :foreground ,(doom-color 'base1))
-      `(window-divider :foreground "grey5")
-      `(flycheck-posframe-error-face :background "firebrick"
-         :foreground "white")
-      `(flycheck-posframe-warning-face :background "dark goldenrod"
-         :foreground "white"))
-    ;; TERM
-    (custom-set-faces!
-      `(default :background "black")
-      ;; Same as window-divider's
-      `(header-line :background "#191b20")
-      `(lsp-face-highlight-read :background "#34536c" :foreground "#dfdfdf")
-      `(lsp-face-highlight-write :inherit lsp-face-highlight-read)
-      `(lsp-face-highlight-textual :inherit lsp-face-highlight-read)
-      `(flycheck-error :foreground ,(doom-color 'red) :underline t)
-      `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
-
-(setq window-divider-default-right-width 10)
-
-(defvar ++font-size nil)
-(defun ++screen-pixels->font-size (width-x-height)
-  "Given WIDTH_X_HEIGHT, returns the adjusted font size"
-  (let ((default-font-size 16))
-    (cond ((member width-x-height
-                   '((3440 1440))) 18)
-          ((member width-x-height
-                   '((1920 1080))) 14)
-          (t (progn
-               (message (concat "Unhandled screen resolution " (prin1-to-string width-x-height) ". "
-                                "Defaulting to font size " (prin1-to-string default-font-size)))
-               default-font-size)))))
-
-;; Stolen from https://github.com/hlissner/doom-emacs/issues/1500
-(defun ++get-frame-list (&optional frame)
-  "Return a list consisting of FRAME and all of FRAME's child frames."
-  (let ((frame (or frame (selected-frame))))
-    (cons (selected-frame)
-          (cl-loop for fr in (frame-list)
-                   if (eq (frame-parameter fr 'parent-frame) frame)
-                   collect fr))))
-
-(defun ++configure-font-size ()
-  (let ((new-font-size (++screen-pixels->font-size
-                        (cddr (frame-monitor-attribute 'geometry)))))
-    (unless (equal new-font-size ++font-size)
-      (setq doom-font (font-spec :family "Ubuntu Mono" :size new-font-size))
-      (set-frame-font doom-font t (++get-frame-list)))
-    (setq ++font-size new-font-size)))
-
-(when (display-graphic-p)
- (++configure-font-size)
- (setq ++adjust-font-timer (run-with-idle-timer 1 1 #'++configure-font-size)))
-
-(defun ++ascii-banner-ansi-shadow ()
-  (mapc (lambda (line)
-          (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-                              'face 'doom-dashboard-banner) " ")
-          (insert "\n"))
-        '("=================     ===============     ===============   ========  ========"
-          "\\\\ . . . . . . .\\\\   //. . . . . . .\\\\   //. . . . . . .\\\\  \\\\. . .\\\\// . . //"
-          "||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\\/ . . .||"
-          "|| . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||"
-          "||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||"
-          "|| . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\\ . . . . ||"
-          "||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\\_ . .|. .||"
-          "|| . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\\ `-_/| . ||"
-          "||_-' ||  .|/    || ||    \\|.  || `-_|| ||_-' ||  .|/    || ||   | \\  / |-_.||"
-          "||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \\  / |  `||"
-          "||    `'         || ||         `'    || ||    `'         || ||   | \\  / |   ||"
-          "||            .===' `===.         .==='.`===.         .===' /==. |  \\/  |   ||"
-          "||         .=='   ███████╗███╗   ███╗ █████╗  ██████╗███████╗  `==  \\/  |   ||"
-          "||      .=='    _-██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝_  /|  \\/  |   ||"
-          "||   .=='    _-'  █████╗  ██╔████╔██║███████║██║     ███████╗ `' |. /|  |   ||"
-          "||.=='    _-'     ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║     `' |  /==.||"
-          "=='    _-'        ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║         \\/   `=="
-          "\\   _-'           ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝          `-_   /"
-          "`''                                                                      ``'")))
-(setq +doom-dashboard-ascii-banner-fn #'++ascii-banner-ansi-shadow)
-
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
-
-(require 'clojure-rand-ref)
-
-(defun ++dashboard-trivia ()
- (clojure-rand-ref
-  (lambda (entry)
-    (with-current-buffer +doom-dashboard-name
-      (when entry
-        (read-only-mode -1)
-        (goto-char (point-min))
-        (forward-line 5)
-        (insert "Clojure Trivia\n\n")
-        (insert-text-button (concat "  " (plist-get entry :symbol) "\n")
-                            'action (lambda (_)
-                                      (+doom-dashboard-reload t)
-                                      (++dashboard-trivia)
-                                      (browse-url (plist-get entry :link)))
-                            'face 'doom-dashboard-menu-title
-                            'mouse-face 'doom-dashboard-menu-title
-                            'follow-link t)
-        (insert "  " (plist-get entry :description) "\n")
-        (read-only-mode +1))))))
-
-(advice-add #'+doom-dashboard-init-h :after #'++dashboard-trivia)
-
-(after! doom-modeline
-  (custom-set-faces!
-    '(mode-line :background "#23102C" :height 0.9 :width condensed)
-    '(mode-line-inactive :height 0.9 :width condensed)
-    '(mode-line-emphasis :inherit mode-line)
-    '(doom-modeline-buffer-file :weight normal)))
-
-(setq display-time-default-load-average nil
-      display-time-24hr-format t
-      display-line-numbers-type 'relative)
-
-(setq show-paren-style 'expression)
-
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
 (custom-set-faces!
@@ -1898,3 +1711,190 @@ XREFS is a list of references/definitions."
   (add-hook 'post-command-hook #'++google-translate-curr-region-kana->romaji))
 
 (++google-translate-setup-hook)
+
+(defvar ++vscode-search-occ-bg "#48240a")
+(defvar ++vscode-search-occ-fg "#cccccc")
+
+(setq doom-theme 'doom-one)
+
+(use-package doom-themes
+  :config
+  ;; Use the colorful treemacs theme
+  (setq doom-themes-treemacs-theme "doom-colors"
+        doom-themes-enable-bold nil    ; if nil, bold is universally disabled
+        doom-themes-enable-italic nil)
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config)
+
+  ;; Custom style tweaks
+  ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
+  ;; for the doom-colors
+  (custom-set-faces!
+    `(popup-tip-face :inherit popup-face
+                     :foreground ,(doom-color 'yellow)
+                     :box t)
+    `(swiper-background-match-face-2 :background ,++vscode-search-occ-bg
+                                     :foreground ,++vscode-search-occ-fg)
+    `(swiper-match-face-2 :background ,++vscode-search-occ-bg
+                          :foreground ,++vscode-search-occ-fg)
+    `(swiper-line-face :background "DodgerBlue4"
+                       :foreground ,++vscode-search-occ-fg)
+    ;; TODO Move the LSP faces out of here?
+    `(lsp-ui-peek-peek :background "#000029")
+    `(lsp-ui-peek-selection :background ,++vscode-search-occ-bg
+                            :foreground ,++vscode-search-occ-fg)
+    `(lsp-ui-peek-list :background "grey7"
+                       :height 1.0
+                       :width condensed)
+    `(lsp-ui-peek-header :background "#000050"
+                         :foreground "white"
+                         :height 0.8
+                         :width condensed)
+    `(lsp-ui-peek-filename :foreground "#98be65"
+                           :height 1.0
+                           :width condensed
+                           :box (:line-width (1 . 10)
+                                 :color "grey7"))
+    `(lsp-ui-peek-line-number :foreground "grey7")
+    `(lsp-ui-peek-highlight :background ,++vscode-search-occ-bg
+                            :foreground ,++vscode-search-occ-fg
+                            :heght 1.0
+                            :box nil
+                            :inherit nil)
+    '(show-paren-match :foreground nil
+                       :background "#333"
+                       :weight normal)
+    `(ac-completion-face :foreground ,(doom-color 'yellow))
+    `(ac-selection-face :foreground "black"
+                        :background ,(doom-color 'magenta))
+    '(hl-line :background "grey8")
+    '(header-line :background "grey15")
+    `(popup-tip-face :foreground ,(doom-color 'yellow))
+    ;; Ivy
+    `(ivy-minibuffer-match-face-1 :foreground "white")
+    ;; Tree-sitter
+    '(tree-sitter-hl-face:property :slant normal)
+    `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
+    `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
+    `(corfu-border :background "white"))
+  ;; GUI
+  (if (display-graphic-p)
+    (custom-set-faces!
+      `(default :background "black")
+      `(fill-column-indicator :foreground ,(doom-color 'base1))
+      `(window-divider :foreground "grey5")
+      `(flycheck-posframe-error-face :background "firebrick"
+         :foreground "white")
+      `(flycheck-posframe-warning-face :background "dark goldenrod"
+         :foreground "white"))
+    ;; TERM
+    (custom-set-faces!
+      `(default :background "black")
+      ;; Same as window-divider's
+      `(header-line :background "#191b20")
+      `(lsp-face-highlight-read :background "#34536c" :foreground "#dfdfdf")
+      `(lsp-face-highlight-write :inherit lsp-face-highlight-read)
+      `(lsp-face-highlight-textual :inherit lsp-face-highlight-read)
+      `(flycheck-error :foreground ,(doom-color 'red) :underline t)
+      `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
+
+(setq window-divider-default-right-width 10)
+
+(defvar ++font-size nil)
+(defun ++screen-pixels->font-size (width-x-height)
+  "Given WIDTH_X_HEIGHT, returns the adjusted font size"
+  (let ((default-font-size 16))
+    (cond ((member width-x-height
+                   '((3440 1440))) 18)
+          ((member width-x-height
+                   '((1920 1080))) 14)
+          (t (progn
+               (message (concat "Unhandled screen resolution " (prin1-to-string width-x-height) ". "
+                                "Defaulting to font size " (prin1-to-string default-font-size)))
+               default-font-size)))))
+
+;; Stolen from https://github.com/hlissner/doom-emacs/issues/1500
+(defun ++get-frame-list (&optional frame)
+  "Return a list consisting of FRAME and all of FRAME's child frames."
+  (let ((frame (or frame (selected-frame))))
+    (cons (selected-frame)
+          (cl-loop for fr in (frame-list)
+                   if (eq (frame-parameter fr 'parent-frame) frame)
+                   collect fr))))
+
+(defun ++configure-font-size ()
+  (let ((new-font-size (++screen-pixels->font-size
+                        (cddr (frame-monitor-attribute 'geometry)))))
+    (unless (equal new-font-size ++font-size)
+      (setq doom-font (font-spec :family "Ubuntu Mono" :size new-font-size))
+      (set-frame-font doom-font t (++get-frame-list)))
+    (setq ++font-size new-font-size)))
+
+(when (display-graphic-p)
+ (run-at-time 0 nil (lambda () (++configure-font-size)))
+ (setq ++adjust-font-timer (run-with-idle-timer 1 1 #'++configure-font-size)))
+
+(defun ++ascii-banner-ansi-shadow ()
+  (mapc (lambda (line)
+          (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+                              'face 'doom-dashboard-banner) " ")
+          (insert "\n"))
+        '("=================     ===============     ===============   ========  ========"
+          "\\\\ . . . . . . .\\\\   //. . . . . . .\\\\   //. . . . . . .\\\\  \\\\. . .\\\\// . . //"
+          "||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\\/ . . .||"
+          "|| . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||"
+          "||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||"
+          "|| . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\\ . . . . ||"
+          "||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\\_ . .|. .||"
+          "|| . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\\ `-_/| . ||"
+          "||_-' ||  .|/    || ||    \\|.  || `-_|| ||_-' ||  .|/    || ||   | \\  / |-_.||"
+          "||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \\  / |  `||"
+          "||    `'         || ||         `'    || ||    `'         || ||   | \\  / |   ||"
+          "||            .===' `===.         .==='.`===.         .===' /==. |  \\/  |   ||"
+          "||         .=='   ███████╗███╗   ███╗ █████╗  ██████╗███████╗  `==  \\/  |   ||"
+          "||      .=='    _-██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝_  /|  \\/  |   ||"
+          "||   .=='    _-'  █████╗  ██╔████╔██║███████║██║     ███████╗ `' |. /|  |   ||"
+          "||.=='    _-'     ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║     `' |  /==.||"
+          "=='    _-'        ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║         \\/   `=="
+          "\\   _-'           ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝          `-_   /"
+          "`''                                                                      ``'")))
+(setq +doom-dashboard-ascii-banner-fn #'++ascii-banner-ansi-shadow)
+
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+
+(require 'clojure-rand-ref)
+
+(defun ++dashboard-trivia ()
+ (clojure-rand-ref
+  (lambda (entry)
+    (with-current-buffer +doom-dashboard-name
+      (when entry
+        (read-only-mode -1)
+        (goto-char (point-min))
+        (forward-line 5)
+        (insert "Clojure Trivia\n\n")
+        (insert-text-button (concat "  " (plist-get entry :symbol) "\n")
+                            'action (lambda (_)
+                                      (+doom-dashboard-reload t)
+                                      (++dashboard-trivia)
+                                      (browse-url (plist-get entry :link)))
+                            'face 'doom-dashboard-menu-title
+                            'mouse-face 'doom-dashboard-menu-title
+                            'follow-link t)
+        (insert "  " (plist-get entry :description) "\n")
+        (read-only-mode +1))))))
+
+(advice-add #'+doom-dashboard-init-h :after #'++dashboard-trivia)
+
+(after! doom-modeline
+  (custom-set-faces!
+    '(mode-line :background "#23102C" :height 0.9 :width condensed)
+    '(mode-line-inactive :height 0.9 :width condensed)
+    '(mode-line-emphasis :inherit mode-line)
+    '(doom-modeline-buffer-file :weight normal)))
+
+(setq display-time-default-load-average nil
+      display-time-24hr-format t
+      display-line-numbers-type 'relative)
+
+(setq show-paren-style 'expression)
