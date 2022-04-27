@@ -386,12 +386,14 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
   (setq evil-collection-setup-minibuffer t))
 #+end_src
 * =elfeed=
-#+begin_src elisp
+#+begin_src elisp :results none
 (use-package! elfeed
   :config
   (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org"))
         elfeed-db-directory "~/Dropbox/emacs/elfeed")
-  (add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+  (add-hook 'elfeed-search-mode-hook (lambda ()
+                                       (elfeed-update)
+                                       (setq-local browse-url-browser-function 'eww-browse-url)))
   (defun ++elfeed-content ()
     (interactive)
     (writeroom-mode -1)

@@ -114,9 +114,6 @@
 (package! edbi
   :recipe (:host github :repo "kiwanami/emacs-edbi"))
 
-(package! helm
-  :recipe (:host github :repo "emacs-helm/helm"))
-
 (package! selectrum
   :recipe (:host github :repo "raxod502/selectrum"))
 

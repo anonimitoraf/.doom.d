@@ -345,7 +345,9 @@ output as a string."
   :config
   (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org"))
         elfeed-db-directory "~/Dropbox/emacs/elfeed")
-  (add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+  (add-hook 'elfeed-search-mode-hook (lambda ()
+                                       (elfeed-update)
+                                       (setq-local browse-url-browser-function 'eww-browse-url)))
   (defun ++elfeed-content ()
     (interactive)
     (writeroom-mode -1)
@@ -1264,8 +1266,6 @@ not appropriate in some cases like terminals."
                      (add-to-list 'safe-local-variable-values pair)))
 
 (setq minibuffer-message-timeout 0.0)
-
-(setq browse-url-browser-function 'eww-browse-url)
 
 (setq show-help-function nil)
 
