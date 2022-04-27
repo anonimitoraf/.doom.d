@@ -1126,7 +1126,7 @@ output as a string."
 (defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
 (defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
 (defconst day-re "[A-Za-z]\\{3\\}")
-(defconst repeater-re "[+.]+[0-9]+[dwmy]")
+(defconst repeater-re "[+.]+[0-9]+[dwmy]\/\\(?:[0-9]+[dwmy]\\)")
 (defconst day-time-re (format "\\(%s\\)? ?\\(%s\\)? ?\\(%s\\)?" day-re time-re repeater-re))
 
 (use-package! svg-tag-mode
@@ -1135,8 +1135,8 @@ output as a string."
   (setq svg-tag-tags
     `(
        ;; Org tags
-       (":\\([A-Za-z0-9]+\\)" . ((lambda (tag) (svg-tag-make tag))))
-       (":\\([A-Za-z0-9]+[ \-]\\)" . ((lambda (tag) tag)))
+       (":\\([A-Za-z0-9_]+\\)" . ((lambda (tag) (svg-tag-make tag))))
+       (":\\([A-Za-z0-9_]+[ \-]\\)" . ((lambda (tag) tag)))
        ;; Task priority
        ("\\[#[A-Z]\\]" . ( (lambda (tag)
                              (svg-tag-make tag :face 'org-priority
