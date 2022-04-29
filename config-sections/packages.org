@@ -1285,7 +1285,8 @@ Use tree-sitter for highlighting for whichever languages are supported
             (find-file posframe)
             (projectile-find-file posframe)
             (doom/find-file-in-private-config posframe)
-            (projectile-switch-project grid)))
+            (projectile-switch-project grid)
+            (consult-recent-file posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.

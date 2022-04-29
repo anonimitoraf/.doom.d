@@ -1075,7 +1075,8 @@ output as a string."
             (find-file posframe)
             (projectile-find-file posframe)
             (doom/find-file-in-private-config posframe)
-            (projectile-switch-project grid)))
+            (projectile-switch-project grid)
+            (consult-recent-file posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
@@ -1716,7 +1717,7 @@ XREFS is a list of references/definitions."
 
 (++google-translate-setup-hook)
 
-(defvar ++vscode-search-occ-bg "#48240a")
+(defvar ++vscode-search-occ-bg "#470000")
 (defvar ++vscode-search-occ-fg "#cccccc")
 
 (setq doom-theme 'doom-one)
@@ -1744,24 +1745,24 @@ XREFS is a list of references/definitions."
     `(swiper-line-face :background "DodgerBlue4"
                        :foreground ,++vscode-search-occ-fg)
     ;; TODO Move the LSP faces out of here?
-    `(lsp-ui-peek-peek :background "#000029")
+    `(lsp-ui-peek-peek :background "#0a0014")
     `(lsp-ui-peek-selection :background ,++vscode-search-occ-bg
                             :foreground ,++vscode-search-occ-fg)
-    `(lsp-ui-peek-list :background "grey7"
+    `(lsp-ui-peek-list :background "grey5"
                        :height 1.0
                        :width condensed)
-    `(lsp-ui-peek-header :background "#000050"
+    `(lsp-ui-peek-header :background "#2a0e46"
                          :foreground "white"
-                         :height 0.8
+                         :height 1.0
                          :width condensed)
-    `(lsp-ui-peek-filename :foreground "#98be65"
+    `(lsp-ui-peek-filename :foreground ,(doom-color 'yellow)
                            :height 1.0
                            :width condensed
                            :box (:line-width (1 . 10)
-                                 :color "grey7"))
-    `(lsp-ui-peek-line-number :foreground "grey7")
+                                 :color "grey5"))
+    `(lsp-ui-peek-line-number :foreground "grey5")
     `(lsp-ui-peek-highlight :background ,++vscode-search-occ-bg
-                            :foreground ,++vscode-search-occ-fg
+                            :foreground "white"
                             :heght 1.0
                             :box nil
                             :inherit nil)
@@ -1781,8 +1782,9 @@ XREFS is a list of references/definitions."
     `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
     `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
     `(corfu-border :background "white")
-    `(vertico-posframe-border :background "grey10")
-    `(vertico-posframe :background "grey10"))
+    `(vertico-posframe-border :background "grey8")
+    `(vertico-posframe :background "grey8")
+    `(minibuffer-prompt :foreground ,(doom-color 'yellow)))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
@@ -1805,6 +1807,11 @@ XREFS is a list of references/definitions."
       `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
 
 (setq window-divider-default-right-width 10)
+
+(add-hook 'minibuffer-setup-hook
+          (lambda ()
+            (make-local-variable 'face-remapping-alist)
+            (add-to-list 'face-remapping-alist '(default (:background "grey8")))))
 
 (defvar ++font-size nil)
 (defun ++screen-pixels->font-size (width-x-height)

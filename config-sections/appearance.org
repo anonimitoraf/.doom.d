@@ -3,12 +3,12 @@
 * Colors
 I'm rather fond of vscode's theme for highlighting search results
 #+begin_src elisp
-(defvar ++vscode-search-occ-bg "#48240a")
+(defvar ++vscode-search-occ-bg "#470000")
 (defvar ++vscode-search-occ-fg "#cccccc")
 #+end_src
 * Theme
 There are two ways to load a theme. Both assume the theme is installed and available. You can either set `doom-theme' or manually load a theme with the `load-theme' function.
-#+begin_src elisp
+#+begin_src elisp :results none
 (setq doom-theme 'doom-one)
 
 (use-package doom-themes
@@ -34,24 +34,24 @@ There are two ways to load a theme. Both assume the theme is installed and avail
     `(swiper-line-face :background "DodgerBlue4"
                        :foreground ,++vscode-search-occ-fg)
     ;; TODO Move the LSP faces out of here?
-    `(lsp-ui-peek-peek :background "#000029")
+    `(lsp-ui-peek-peek :background "#0a0014")
     `(lsp-ui-peek-selection :background ,++vscode-search-occ-bg
                             :foreground ,++vscode-search-occ-fg)
-    `(lsp-ui-peek-list :background "grey7"
+    `(lsp-ui-peek-list :background "grey5"
                        :height 1.0
                        :width condensed)
-    `(lsp-ui-peek-header :background "#000050"
+    `(lsp-ui-peek-header :background "#2a0e46"
                          :foreground "white"
-                         :height 0.8
+                         :height 1.0
                          :width condensed)
-    `(lsp-ui-peek-filename :foreground "#98be65"
+    `(lsp-ui-peek-filename :foreground ,(doom-color 'yellow)
                            :height 1.0
                            :width condensed
                            :box (:line-width (1 . 10)
-                                 :color "grey7"))
-    `(lsp-ui-peek-line-number :foreground "grey7")
+                                 :color "grey5"))
+    `(lsp-ui-peek-line-number :foreground "grey5")
     `(lsp-ui-peek-highlight :background ,++vscode-search-occ-bg
-                            :foreground ,++vscode-search-occ-fg
+                            :foreground "white"
                             :heght 1.0
                             :box nil
                             :inherit nil)
@@ -71,8 +71,9 @@ There are two ways to load a theme. Both assume the theme is installed and avail
     `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
     `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
     `(corfu-border :background "white")
-    `(vertico-posframe-border :background "grey10")
-    `(vertico-posframe :background "grey10"))
+    `(vertico-posframe-border :background "grey8")
+    `(vertico-posframe :background "grey8")
+    `(minibuffer-prompt :foreground ,(doom-color 'yellow)))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
@@ -95,6 +96,14 @@ There are two ways to load a theme. Both assume the theme is installed and avail
       `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
 
 (setq window-divider-default-right-width 10)
+#+end_src
+
+Minibuffer background to be dark grey
+#+begin_src emacs-lisp :tangle yes :results none
+(add-hook 'minibuffer-setup-hook
+          (lambda ()
+            (make-local-variable 'face-remapping-alist)
+            (add-to-list 'face-remapping-alist '(default (:background "grey8")))))
 #+end_src
 * Font
 I want my font to automatically resize based on which screen Emacs is
