@@ -1082,6 +1082,10 @@ output as a string."
     (setq vertico-multiform-categories
           '((consult-grep buffer)))))
 
+(use-package! vertico-posframe
+  :config
+  (setq vertico-posframe-border-width 20))
+
 (use-package! vterm
   :config
   (setq vterm-ignore-blink-cursor nil)
@@ -1776,7 +1780,9 @@ XREFS is a list of references/definitions."
     '(tree-sitter-hl-face:property :slant normal)
     `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
     `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
-    `(corfu-border :background "white"))
+    `(corfu-border :background "white")
+    `(vertico-posframe-border :background "grey10")
+    `(vertico-posframe :background "grey10"))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
