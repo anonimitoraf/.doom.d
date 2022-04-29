@@ -946,7 +946,7 @@ output as a string."
 
 (use-package! svg-tag-mode
   :config
-  (add-hook 'org-mode-hook (lambda () (svg-tag-mode +1)))
+  ;; (add-hook 'org-mode-hook (lambda () (svg-tag-mode +1))) ;; Disable this mode for now
   (setq svg-tag-tags
     `(
        ;; Org tags
