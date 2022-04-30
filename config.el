@@ -1782,8 +1782,8 @@ XREFS is a list of references/definitions."
     `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
     `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
     `(corfu-border :background "white")
-    `(vertico-posframe-border :background "grey8")
-    `(vertico-posframe :background "grey8")
+    `(vertico-posframe-border :background "grey5")
+    `(vertico-posframe :background "grey5")
     `(minibuffer-prompt :foreground ,(doom-color 'yellow)))
   ;; GUI
   (if (display-graphic-p)
@@ -1811,7 +1811,7 @@ XREFS is a list of references/definitions."
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (make-local-variable 'face-remapping-alist)
-            (add-to-list 'face-remapping-alist '(default (:background "grey8")))))
+            (add-to-list 'face-remapping-alist '(default (:background "grey5")))))
 
 (defvar ++font-size nil)
 (defun ++screen-pixels->font-size (width-x-height)
