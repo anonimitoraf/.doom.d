@@ -32,8 +32,7 @@
        ;;      ;; +childframe
        ;;      +icons )
                                         ; a search engine for love and life
-       (vertico +icons
-                +childframe)
+       (vertico +icons)
 
        :ui
        ;;deft              ; notational velocity for Emacs
