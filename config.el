@@ -1101,6 +1101,7 @@ cursor backwards. Moving cursor backwards is the default vim behavior but it is
 not appropriate in some cases like terminals."
     (setq-local evil-move-cursor-back nil))
 
+  (setq vterm-shell "/bin/bash")
   (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay))
 
 (which-key-mode +1)
