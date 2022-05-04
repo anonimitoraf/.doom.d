@@ -1085,7 +1085,7 @@ output as a string."
 
 (use-package! vertico-posframe
   :config
-  (setq vertico-posframe-border-width 20))
+  (setq vertico-posframe-border-width 1))
 
 (use-package! vterm
   :config
@@ -1783,9 +1783,8 @@ XREFS is a list of references/definitions."
     `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
     `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
     `(corfu-border :background "white")
-    `(vertico-posframe-border :background "grey5")
-    `(vertico-posframe :background "grey5")
-    `(minibuffer-prompt :foreground ,(doom-color 'yellow)))
+    `(vertico-posframe-border :background ,(doom-color 'blue))
+    `(minibuffer-prompt :foreground ,(doom-color 'blue)))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
@@ -1809,11 +1808,6 @@ XREFS is a list of references/definitions."
 
 (setq window-divider-default-right-width 10)
 
-(add-hook 'minibuffer-setup-hook
-          (lambda ()
-            (make-local-variable 'face-remapping-alist)
-            (add-to-list 'face-remapping-alist '(default (:background "grey5")))))
-
 (defvar ++font-size nil)
 (defun ++screen-pixels->font-size (width-x-height)
   "Given WIDTH_X_HEIGHT, returns the adjusted font size"
@@ -1822,6 +1816,9 @@ XREFS is a list of references/definitions."
                    '((3440 1440))) 18)
           ((member width-x-height
                    '((1920 1080))) 14)
+          ;; My Flux mac
+          ((member width-x-height
+                    '((1440 900))) 16)
           (t (progn
                (message (concat "Unhandled screen resolution " (prin1-to-string width-x-height) ". "
                                 "Defaulting to font size " (prin1-to-string default-font-size)))

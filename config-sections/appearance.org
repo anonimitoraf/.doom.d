@@ -71,9 +71,8 @@ There are two ways to load a theme. Both assume the theme is installed and avail
     `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
     `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
     `(corfu-border :background "white")
-    `(vertico-posframe-border :background "grey5")
-    `(vertico-posframe :background "grey5")
-    `(minibuffer-prompt :foreground ,(doom-color 'yellow)))
+    `(vertico-posframe-border :background ,(doom-color 'blue))
+    `(minibuffer-prompt :foreground ,(doom-color 'blue)))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
@@ -97,14 +96,6 @@ There are two ways to load a theme. Both assume the theme is installed and avail
 
 (setq window-divider-default-right-width 10)
 #+end_src
-
-Minibuffer background to be dark grey
-#+begin_src emacs-lisp :tangle yes :results none
-(add-hook 'minibuffer-setup-hook
-          (lambda ()
-            (make-local-variable 'face-remapping-alist)
-            (add-to-list 'face-remapping-alist '(default (:background "grey5")))))
-#+end_src
 * Font
 I want my font to automatically resize based on which screen Emacs is
 #+begin_src elisp
@@ -116,6 +107,9 @@ I want my font to automatically resize based on which screen Emacs is
                    '((3440 1440))) 18)
           ((member width-x-height
                    '((1920 1080))) 14)
+          ;; My Flux mac
+          ((member width-x-height
+                    '((1440 900))) 16)
           (t (progn
                (message (concat "Unhandled screen resolution " (prin1-to-string width-x-height) ". "
                                 "Defaulting to font size " (prin1-to-string default-font-size)))

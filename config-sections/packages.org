@@ -1298,7 +1298,7 @@ posframe setup
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! vertico-posframe
   :config
-  (setq vertico-posframe-border-width 20))
+  (setq vertico-posframe-border-width 1))
 #+end_src
 * =vterm=
 #+begin_src emacs-lisp :tangle yes :results none
