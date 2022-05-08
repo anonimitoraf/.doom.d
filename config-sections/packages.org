@@ -175,6 +175,10 @@ Patch for being able to connect to multiple nREPL instances by using a random lo
   :config
   (global-clipetty-mode +1))
 #+end_src
+* =clippo=
+#+begin_src emacs-lisp :tangle yes :results none
+(use-package! clippo)
+#+end_src
 * =company=
 #+begin_src elisp
 (after! company
@@ -508,6 +512,10 @@ Make flycheck posframes a bit less obtrusive
     "Search TKK."
     (list 430675 2721866130)))
 (use-package! google-translate-smooth-ui)
+#+end_src
+* =hackernews=
+#+begin_src emacs-lisp :tangle yes :results none
+(use-package! hackernews)
 #+end_src
 * =keychain-environment=
 #+begin_src elisp

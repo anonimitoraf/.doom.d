@@ -197,6 +197,8 @@ output as a string."
   :config
   (global-clipetty-mode +1))
 
+(use-package! clippo)
+
 (after! company
   (setq company-idle-delay 0.01
         company-tooltip-idle-delay 0.01
@@ -443,6 +445,8 @@ output as a string."
     "Search TKK."
     (list 430675 2721866130)))
 (use-package! google-translate-smooth-ui)
+
+(use-package! hackernews)
 
 (require 'keychain-environment)
 (keychain-refresh-environment)

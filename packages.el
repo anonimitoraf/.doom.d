@@ -238,3 +238,9 @@
 
 (package! svg-tag-mode
   :recipe (:host github :repo "rougier/svg-tag-mode"))
+
+(package! clippo
+  :recipe (:host github :repo "anonimitoraf/emacs-clippo"))
+
+(package! hackernews
+  :recipe (:host github :repo "clarete/hackernews.el"))
