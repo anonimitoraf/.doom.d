@@ -1066,7 +1066,7 @@ output as a string."
   :config
   (map! :map vertico-map
         "C-l" #'vertico-exit)
-  (when (display-graphic-p)
+  (when (and (display-graphic-p) (not IS-MAC)) ; Yabai on Mac sometimes hides posframes
     (require 'vertico-posframe)
     (vertico-multiform-mode)
     ;; Configure the display per command.
