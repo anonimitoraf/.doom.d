@@ -873,6 +873,19 @@ output as a string."
   :config
   (add-hook 'find-file-hook #'++set-projectile-cache-duration))
 
+(defun ++maybe-enable-prettier ()
+  (when (locate-dominating-file default-directory ".prettierrc")
+    (prettier-mode +1)))
+
+(use-package! prettier
+  :config
+  (add-hook! '(typescript-tsx-mode-hook
+               typescript-mode-hook
+               web-mode-hook
+               js-mode-hook
+               js2-mode-hook)
+             #'++maybe-enable-prettier))
+
 (use-package! projectile-git-autofetch
   :config
   (setq projectile-git-autofetch-notify nil)

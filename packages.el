@@ -244,3 +244,5 @@
 
 (package! hackernews
   :recipe (:host github :repo "clarete/hackernews.el"))
+
+(package! prettier)
