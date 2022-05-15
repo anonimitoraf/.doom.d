@@ -1656,7 +1656,7 @@ XREFS is a list of references/definitions."
         corfu-echo-documentation t
         corfu-scroll-margin 10)
   (map! :map global-map
-        "C-SPC" #'completion-at-point)
+        :nvi "C-SPC" #'completion-at-point)
   (map! :map corfu-map
         "C-j" #'corfu-next
         "C-k" #'corfu-previous
