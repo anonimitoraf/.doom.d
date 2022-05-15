@@ -555,7 +555,7 @@ output as a string."
                                         :border-width 1
                                         :min-width 120))
   (map! :map evil-normal-state-map
-    "g t" #'lsp-find-type-definition)
+    "g y" #'lsp-find-type-definition)
   (map! :map lsp-signature-mode-map
         "C-j" #'lsp-signature-next
         "C-k" #'lsp-signature-previous))
@@ -1424,9 +1424,9 @@ message listing the hooks."
         (message "> %s" hook)))
     log))
 
-;; (map! :map evil-normal-state-map
-;;       "g t" #'next-buffer
-;;       "g T" #'previous-buffer)
+(map! :map evil-normal-state-map
+      "g T" #'next-buffer
+      "g t" #'previous-buffer)
 
 (map! :map doom-leader-map "l p" #'list-processes)
 

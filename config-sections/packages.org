@@ -660,7 +660,7 @@ Patch for automatically enabling `ivy-calling` in `ivy-occur-grep-mode` and make
                                         :border-width 1
                                         :min-width 120))
   (map! :map evil-normal-state-map
-    "g t" #'lsp-find-type-definition)
+    "g y" #'lsp-find-type-definition)
   (map! :map lsp-signature-mode-map
         "C-j" #'lsp-signature-next
         "C-k" #'lsp-signature-previous))
