@@ -389,6 +389,13 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
   (evil-collection-init)
   (setq evil-collection-setup-minibuffer t))
 #+end_src
+
+** =evil-matchit=
+#+begin_src emacs-lisp :tangle yes :results none
+(use-package! evil-matchit
+  :config
+  (global-evil-matchit-mode +1))
+#+end_src
 * =elfeed=
 #+begin_src elisp :results none
 (use-package! elfeed

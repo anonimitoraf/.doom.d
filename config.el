@@ -343,6 +343,10 @@ output as a string."
   (evil-collection-init)
   (setq evil-collection-setup-minibuffer t))
 
+(use-package! evil-matchit
+  :config
+  (global-evil-matchit-mode +1))
+
 (use-package! elfeed
   :config
   (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org"))
