@@ -620,8 +620,10 @@ output as a string."
       (setq lsp-ui-peek--buffer (get-buffer-create " *lsp-peek--buffer*"))
       (posframe-show lsp-ui-peek--buffer
                      :string (mapconcat 'identity string "")
-                     :min-width (frame-width)
-                     :poshandler #'posframe-poshandler-frame-center)))
+                     :min-width (truncate (/ (frame-width) 1.1))
+                     :poshandler #'posframe-poshandler-frame-center
+                     :border-color "white"
+                     :border-width 1)))
 
   (defun lsp-ui-peek--peek-destroy ()
     (when (bufferp lsp-ui-peek--buffer)
