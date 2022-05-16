@@ -1645,7 +1645,7 @@ XREFS is a list of references/definitions."
   :config
   (setq corfu-cycle t
         corfu-auto t
-        corfu-auto-prefix 2
+        corfu-auto-prefix 1
         corfu-auto-delay 0.01
         corfu-separator ?\s
         corfu-quit-at-boundary nil
