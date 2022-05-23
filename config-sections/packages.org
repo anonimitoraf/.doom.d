@@ -1336,7 +1336,8 @@ posframe setup
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! vterm
   :config
-  (setq vterm-ignore-blink-cursor nil)
+  (setq vterm-ignore-blink-cursor nil
+        vterm-timer-delay 0.01)
   (map! :map vterm-mode-map
         "C-k" #'vterm-send-up
         "C-j" #'vterm-send-down
