@@ -1673,7 +1673,11 @@ XREFS is a list of references/definitions."
     (company-mode -1))
   (add-hook! '(clojure-mode-hook
                 clojurescript-mode-hook
-                clojurec-mode-hook)
+                clojurec-mode-hook
+                css-mode-hook
+                scss-mode-hook
+                sass-mode-hook
+                less-css-mode-hook)
     (corfu-mode -1)
     (company-mode +1)))
 
