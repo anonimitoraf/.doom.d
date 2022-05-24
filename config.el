@@ -506,135 +506,6 @@ output as a string."
   :ensure t
   :after kubernetes)
 
-(use-package! lsp-mode
-  :config
-  (add-hook! '(prog-mode-hook)
-    (setq lsp-completion-enable t
-          lsp-idle-delay 0.2))
-  (add-hook! '(clojure-mode-hook
-               clojurescript-mode-hook
-               clojurec-mode-hook)
-    (setq lsp-completion-enable t))
-  (add-hook! '(typescript-tsx-mode-hook
-               typescript-mode-hook
-               web-mode-hook
-               js-mode-hook
-               js2-mode-hook)
-    ;; Use `tide' for completions and formatting instead since LSP is too laggy
-    (setq-local lsp-completion-enable nil
-                lsp-typescript-format-enable nil)
-    (add-hook! '(lsp-mode-hook) :append
-      (when (-contains? '(typescript-tsx-mode
-                           typescript-mode
-                           web-mode
-                           js-mode
-                           js2-mode)
-              major-mode)
-        (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
-                                                   (list #'company-tide))))))
-  (set-popup-rules!
-    '(("*lsp-help*"
-       :quit t
-       :side top
-       :size 10
-       :select nil
-       :modeline t))))
-
-(after! lsp-mode
-  (setq lsp-lens-enable t
-        lsp-log-io nil
-        lsp-use-plists t
-        lsp-completion-no-cache nil
-        lsp-completion-use-last-result nil
-        lsp-headerline-breadcrumb-enable t
-        lsp-headerline-breadcrumb-enable-diagnostics nil
-        lsp-eldoc-enable-hover nil
-        lsp-lens-place-position 'end-of-line
-        lsp-enable-indentation t
-        lsp-signature-auto-activate t
-        lsp-signature-function 'lsp-signature-posframe
-        lsp-signature-posframe-params '(:poshandler posframe-poshandler-point-bottom-left-corner-upward
-                                        :height 10
-                                        :width 120
-                                        :border-width 1
-                                        :min-width 120))
-  (map! :map evil-normal-state-map
-    "g y" #'lsp-find-type-definition)
-  (map! :map lsp-signature-mode-map
-        "C-j" #'lsp-signature-next
-        "C-k" #'lsp-signature-previous))
-
-(after! lsp-mode
-  ;; Clojure(Script)
-  (dolist (to-ignore '("[/\\\\]\\.clj-kondo$"
-                       "[/\\\\]\\.shadow-cljs$"
-                       "[/\\\\]resources$"))
-    (add-to-list 'lsp-file-watch-ignored to-ignore)))
-
-(use-package! lsp-mode
-  :config
-  (setq lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr")))
-
-(after! lsp-ui
-  (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
-  (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
-  (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
-  (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
-  (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
-  (map! :map lsp-mode-map
-        :nv "SPC c m" #'lsp-ui-imenu
-        :nv "SPC d" #'lsp-ui-doc-glance)
-  (map! :map lsp-ui-peek-mode-map
-        "l" #'lsp-ui-peek--goto-xref
-        "C-l" #'lsp-ui-peek--goto-xref-other-window)
-  (setq lsp-ui-peek-fontify 'always
-        lsp-ui-peek-list-width 100
-        lsp-ui-peek-peek-height 40
-        lsp-ui-peek-always-show nil
-
-        ;; These can be brought up on-demand with SPC d
-        lsp-ui-doc-enable nil
-        ;; Prevents LSP peek to disappear when mouse touches it
-        lsp-ui-doc-show-with-mouse nil
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-delay 0
-        lsp-ui-doc-position (if (display-graphic-p) 'at-point 'top)
-        lsp-ui-doc-max-width 120
-        lsp-ui-doc-max-height 120
-        lsp-ui-doc-header nil
-
-
-        lsp-ui-imenu-enable t
-
-        ;; This is just annoying, really
-        lsp-ui-sideline-enable nil))
-
-(when (display-graphic-p)
-  (defun lsp-ui-peek--peek-display (src1 src2)
-    (-let* ((win-width (frame-width))
-            (lsp-ui-peek-list-width (/ (frame-width) 2))
-            (string (-some--> (-zip-fill "" src1 src2)
-                      (--map (lsp-ui-peek--adjust win-width it) it)
-                      (-map-indexed 'lsp-ui-peek--make-line it)
-                      (-concat it (lsp-ui-peek--make-footer)))))
-      (setq lsp-ui-peek--buffer (get-buffer-create " *lsp-peek--buffer*"))
-      (posframe-show lsp-ui-peek--buffer
-                     :string (mapconcat 'identity string "")
-                     :min-width (truncate (/ (frame-width) 1.1))
-                     :poshandler #'posframe-poshandler-frame-center
-                     :border-color "white"
-                     :border-width 1)))
-
-  (defun lsp-ui-peek--peek-destroy ()
-    (when (bufferp lsp-ui-peek--buffer)
-      (posframe-delete lsp-ui-peek--buffer))
-    (setq lsp-ui-peek--buffer nil
-          lsp-ui-peek--last-xref nil)
-    (set-window-start (get-buffer-window) lsp-ui-peek--win-start))
-
-  (advice-add #'lsp-ui-peek--peek-new :override #'lsp-ui-peek--peek-display)
-  (advice-add #'lsp-ui-peek--peek-hide :override #'lsp-ui-peek--peek-destroy))
-
 (require 'logview)
 
 (use-package magit-todos
@@ -1060,31 +931,10 @@ output as a string."
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook (lambda (&rest args) (ignore-errors (tree-sitter-hl-mode +1))))
 
-(defun setup-tide-mode ()
-  (require 'company)
-  (tide-setup)
-  (eldoc-mode -1)
-  (tide-hl-identifier-mode -1)
-  (setq tide-completion-detailed nil
-        tide-completion-ignore-case t)
-  (setq-local completion-at-point-functions
-    (mapcar #'cape-company-to-capf
-      (list #'company-tide))))
-
-(use-package! tide
-  :config
-  (advice-remove 'tide-setup 'eldoc-mode)
-  (add-hook! '(typescript-tsx-mode-hook
-               typescript-mode-hook
-               web-mode-hook
-               js-mode-hook
-               js2-mode-hook)
-             #'setup-tide-mode))
-
 (use-package! vertico
   :config
   (map! :map vertico-map
-        "C-l" #'vertico-exit)
+    "C-l" #'vertico-exit)
   (when (display-graphic-p) ; Yabai on Mac sometimes hides posframes
     (require 'vertico-posframe)
     (vertico-multiform-mode)
@@ -1092,19 +942,19 @@ output as a string."
     ;; Use a buffer with indices for imenu
     ;; and a flat (Ido-like) menu for M-x.
     (setq vertico-multiform-commands
-          '((execute-extended-command posframe)
-            (helpful-callable posframe)
-            (helpful-variable posframe)
-            (find-file posframe)
-            (projectile-find-file posframe)
-            (doom/find-file-in-private-config posframe)
-            (projectile-switch-project grid)
-            (consult-recent-file posframe)))
+      '((execute-extended-command posframe)
+         (helpful-callable posframe)
+         (helpful-variable posframe)
+         (find-file posframe)
+         (projectile-find-file posframe)
+         (doom/find-file-in-private-config posframe)
+         (projectile-switch-project grid)
+         (consult-recent-file posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
     (setq vertico-multiform-categories
-          '((consult-grep buffer)))))
+      '((consult-grep buffer)))))
 
 (use-package! vertico-posframe
   :config
@@ -1255,15 +1105,6 @@ not appropriate in some cases like terminals."
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
 (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
-
-(add-hook 'vue-mode-hook #'lsp)
-
-(use-package! lsp-mode
-    :hook (groovy-mode . lsp-deferred)
-    :commands (lsp lsp-deferred)
-    :config (setq lsp-groovy-classpath
-              ["/usr/local/opt/groovy/libexec/lib"
-                "~/.gradle/caches/modules-2/files-2.1"]))
 
 (setq garbage-collection-messages nil)
 (defmacro k-time (&rest body)
@@ -1453,15 +1294,12 @@ message listing the hooks."
 (remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
 (add-hook 'vterm-mode-hook #'doom-modeline-mode)
 
-(after! lsp-mode
-  (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
-
 (if (fboundp 'pixel-scroll-precision-mode)
   (pixel-scroll-precision-mode +1)
   (setq scroll-margin 1
-        scroll-step 1
-        scroll-conservatively 10000
-        scroll-preserve-screen-position 1))
+    scroll-step 1
+    scroll-conservatively 10000
+    scroll-preserve-screen-position 1))
 
 (setq kill-ring-max 10000)
 
@@ -1600,47 +1438,11 @@ message listing the hooks."
   (hide-mode-line-mode +1)
   (display-line-numbers-mode -1))
 
-(defun lsp-ui-peek--show (xrefs)
-  "Create a window to list references/defintions.
-XREFS is a list of references/definitions."
-  (setq lsp-ui-peek--win-start (window-start)
-        lsp-ui-peek--selection 0
-        lsp-ui-peek--offset 0
-        lsp-ui-peek--size-list 0
-        lsp-ui-peek--list nil)
-  (when (eq (logand lsp-ui-peek-peek-height 1) 1)
-    (setq lsp-ui-peek-peek-height (1+ lsp-ui-peek-peek-height)))
-  (when (< (- (line-number-at-pos (window-end)) (line-number-at-pos))
-           (+ lsp-ui-peek-peek-height 3))
-    (recenter 15))
-  (setq xrefs (--sort (string< (plist-get it :file) (plist-get other :file)) xrefs))
-  (--each xrefs
-    (-let* (((&plist :file filename :xrefs xrefs :count count) it)
-            (len-str (number-to-string count)))
-      (setq lsp-ui-peek--size-list (+ lsp-ui-peek--size-list count))
-      (push (concat (propertize (if lsp-ui-peek-show-directory
-                                    (lsp-ui--workspace-path filename)
-                                  (file-name-nondirectory filename))
-                                'face 'lsp-ui-peek-filename
-                                'file filename
-                                'xrefs xrefs)
-                    (propertize " " 'display `(space :align-to (- right-fringe
-                                                                  ;; Account for Emacs TTY's window divider
-                                                                  ;; Without this leeway, the reference count
-                                                                  ;; string goes to next line - impairs readability
-                                                                  ,(if (display-graphic-p) 0 1)
-                                                                  ,(1+ (length len-str)))))
-                    (propertize len-str 'face 'lsp-ui-peek-filename))
-            lsp-ui-peek--list)))
-  (setq lsp-ui-peek--list (nreverse lsp-ui-peek--list))
-  (lsp-ui-peek--expand xrefs)
-  (lsp-ui-peek--peek))
-
 (use-package corfu-doc
   :config
   (setq corfu-doc-delay 0.2
-        corfu-doc-max-width 80
-        corfu-doc-max-height 40))
+    corfu-doc-max-width 80
+    corfu-doc-max-height 40))
 
 (use-package corfu
   :config
@@ -1700,16 +1502,6 @@ XREFS is a list of references/definitions."
   (setq completion-styles '(orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (partial-completion))))))
-
-(use-package lsp-mode
-  :init
-  (defun my/lsp-mode-setup-completion ()
-    (setq-local completion-styles '(flex)))
-  :config
-  ;; We use Corfu!
-  (setq lsp-completion-provider :none)
-  (add-hook 'lsp-completion-mode-hook #'my/lsp-mode-setup-completion)
-  (add-hook 'lsp-mode-hook (lambda () (lsp-completion-mode +1))))
 
 ;; Add extensions
 (use-package cape
@@ -1944,3 +1736,15 @@ XREFS is a list of references/definitions."
       display-line-numbers-type 'relative)
 
 (setq show-paren-style 'expression)
+
+(require 'lsp-bridge)
+(setq lsp-bridge-completion-provider 'corfu)
+(require 'corfu)
+(require 'lsp-bridge-icon)        ;; show icons for completion items, optional
+(require 'lsp-bridge-orderless)   ;; make lsp-bridge support fuzzy match, optional
+(global-corfu-mode)
+(global-lsp-bridge-mode)
+(when (> (frame-pixel-width) 3000) (custom-set-faces '(corfu-default ((t (:height 1.3))))))  ;; adjust default font height when running in HiDPI screen.
+;; For Xref support
+(add-hook 'lsp-bridge-mode-hook (lambda ()
+  (add-hook 'xref-backend-functions #'lsp-bridge-xref-backend nil t)))

@@ -248,3 +248,7 @@
 (package! prettier)
 
 (package! evil-matchit)
+
+(package! lsp-bridge
+  :recipe (:host github :repo "manateelazycat/lsp-bridge"
+            :files ("*.el" "*.py")))
