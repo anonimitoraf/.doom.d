@@ -194,7 +194,7 @@ I know most of the keyboard shortcuts by now :P
         (insert "  " (plist-get entry :description) "\n")
         (read-only-mode +1))))))
 
-(advice-add #'+doom-dashboard-init-h :after #'++dashboard-trivia)
+(unless IS-MAC (advice-add #'+doom-dashboard-init-h :after #'++dashboard-trivia))
 #+end_src
 * Modeline
 #+begin_src elisp

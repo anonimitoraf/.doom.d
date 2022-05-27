@@ -1930,7 +1930,7 @@ XREFS is a list of references/definitions."
         (insert "  " (plist-get entry :description) "\n")
         (read-only-mode +1))))))
 
-(advice-add #'+doom-dashboard-init-h :after #'++dashboard-trivia)
+(unless IS-MAC (advice-add #'+doom-dashboard-init-h :after #'++dashboard-trivia))
 
 (after! doom-modeline
   (custom-set-faces!
