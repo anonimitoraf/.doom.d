@@ -1739,3 +1739,19 @@ message listing the hooks."
 ;; For Xref support
 (add-hook 'lsp-bridge-mode-hook (lambda ()
   (add-hook 'xref-backend-functions #'lsp-bridge-xref-backend nil t)))
+
+(use-package! lsp-bridge
+  :config
+  (global-lsp-bridge-mode)
+  (setq lsp-bridge-enable-log nil)
+  (map! :map lsp-bridge-mode-map
+    :nv "g d" #'lsp-bridge-find-def
+    :nv "g f" #'lsp-bridge-find-references
+    :nv "SPC d" #'lsp-bridge-lookup-documentation)
+  (map! :map lsp-bridge-ref-mode-map
+    :nv "C-k" #'lsp-bridge-ref-jump-prev-keyword
+    :nv "C-S-k" #'lsp-bridge-ref-jump-prev-file
+    :nv "C-j" #'lsp-bridge-ref-jump-next-keyword
+    :nv "C-S-j" #'lsp-bridge-ref-jump-next-file
+    :nv "C-e" #'lsp-bridge-ref-switch-to-edit-mode
+    :nv "q" #'lsp-bridge-ref-quit))
