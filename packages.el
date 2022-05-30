@@ -212,14 +212,17 @@
 
 (package! google-translate)
 
-(package! vertico-posframe)
+(package! vertico-posframe
+  :recipe (:host github :repo "tumashu/vertico-posframe"))
 
 (package! consult-projectile)
 
 (package! exec-path-from-shell)
 
 (package! company)
-(package! corfu)
+(package! corfu
+  :recipe (:host github :repo "minad/corfu"
+           :files ("*.el" "extensions/*.el")))
 (package! corfu-doc
   :recipe (:host github :repo "galeo/corfu-doc"))
 (package! cape)
