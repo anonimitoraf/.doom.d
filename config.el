@@ -1813,7 +1813,7 @@ XREFS is a list of references/definitions."
     `(ac-selection-face :foreground "black"
                         :background ,(doom-color 'magenta))
     '(hl-line :background "grey8")
-    `(header-line :background "grey10"
+    `(header-line :background "black"
                   :box (:line-width 1 :color "grey30"))
     `(popup-tip-face :foreground ,(doom-color 'yellow))
     ;; Ivy
@@ -1825,7 +1825,7 @@ XREFS is a list of references/definitions."
     `(corfu-border :background "white")
     `(vertico-posframe-border :background ,(doom-color 'blue))
     `(minibuffer-prompt :foreground ,(doom-color 'blue))
-    `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'yellow))
+    `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'red))
     `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'blue)))
   ;; GUI
   (if (display-graphic-p)
