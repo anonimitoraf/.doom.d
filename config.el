@@ -327,6 +327,10 @@ output as a string."
 (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
 (define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
 
+(evil-add-command-properties #'projectile-find-file :jump t)
+(evil-add-command-properties #'find-file :jump t)
+(evil-add-command-properties #'consult-recent-file :jump t)
+
 (setq +evil-want-o/O-to-continue-comments nil)
 
 (unbind-key "K" evil-normal-state-map)

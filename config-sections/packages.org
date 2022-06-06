@@ -359,6 +359,13 @@ Flex on Discord that we're using Emacs.
 (define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
 #+end_src
 
+Configure particular commands to register a jump (i.e. my most used navigation commands)
+#+begin_src elisp :results none
+(evil-add-command-properties #'projectile-find-file :jump t)
+(evil-add-command-properties #'find-file :jump t)
+(evil-add-command-properties #'consult-recent-file :jump t)
+#+end_src
+
 Disable the annoying auto-comment on newline.
 #+begin_src elisp
 (setq +evil-want-o/O-to-continue-comments nil)
