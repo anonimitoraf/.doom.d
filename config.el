@@ -1825,8 +1825,8 @@ XREFS is a list of references/definitions."
     `(corfu-border :background "white")
     `(vertico-posframe-border :background ,(doom-color 'blue))
     `(minibuffer-prompt :foreground ,(doom-color 'blue))
-    `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'red))
-    `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'blue)))
+    `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'green))
+    `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'yellow)))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
