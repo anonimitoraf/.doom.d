@@ -1458,8 +1458,9 @@ message listing the hooks."
         corfu-on-exact-match nil
         corfu-echo-documentation t
         corfu-scroll-margin 10)
-  (map! :map global-map
-        :nvi "C-SPC" #'completion-at-point)
+  (add-hook 'corfu-mode-hook
+    (lambda () (map! :map global-map
+            :nvi "C-SPC" #'completion-at-point)))
   (map! :map corfu-map
         "C-j" #'corfu-next
         "C-k" #'corfu-previous
@@ -1729,16 +1730,18 @@ message listing the hooks."
 (setq show-paren-style 'expression)
 
 (require 'lsp-bridge)
-(setq lsp-bridge-completion-provider 'corfu)
-(require 'corfu)
-(require 'lsp-bridge-icon)        ;; show icons for completion items, optional
-(require 'lsp-bridge-orderless)   ;; make lsp-bridge support fuzzy match, optional
-(global-corfu-mode)
+;; (setq lsp-bridge-completion-provider 'corfu)
+;; (require 'corfu)
+;; (require 'lsp-bridge-icon)        ;; show icons for completion items, optional
+;; (require 'lsp-bridge-orderless)   ;; make lsp-bridge support fuzzy match, optional
+;; (global-corfu-mode)
 (global-lsp-bridge-mode)
 (when (> (frame-pixel-width) 3000) (custom-set-faces '(corfu-default ((t (:height 1.3))))))  ;; adjust default font height when running in HiDPI screen.
 ;; For Xref support
-(add-hook 'lsp-bridge-mode-hook (lambda ()
-  (add-hook 'xref-backend-functions #'lsp-bridge-xref-backend nil t)))
+(add-hook 'lsp-bridge-mode-hook
+  (lambda ()
+    (add-hook 'xref-backend-functions #'lsp-bridge-xref-backend nil t)
+    (corfu-mode -1)))
 
 (use-package! lsp-bridge
   :config
@@ -1754,4 +1757,33 @@ message listing the hooks."
     :nv "C-j" #'lsp-bridge-ref-jump-next-keyword
     :nv "C-S-j" #'lsp-bridge-ref-jump-next-file
     :nv "C-e" #'lsp-bridge-ref-switch-to-edit-mode
-    :nv "q" #'lsp-bridge-ref-quit))
+    :nv "q" #'lsp-bridge-ref-quit)
+  (map! :map acm-mode-map
+    "C-k" #'acm-select-prev
+    "C-j" #'acm-select-next
+    "C-;" #'acm-doc-sh))
+
+(defun acm-doc-show ()
+  (interactive)
+  (let* ((candidate (acm-menu-current-candidate))
+         (backend (plist-get candidate :backend))
+         (candidate-doc
+          (pcase backend
+            ("lsp" (acm-backend-lsp-candidate-doc candidate))
+            ("elisp" (acm-backend-elisp-candidate-doc candidate))
+            ("yas" (acm-backend-yas-candidate-doc candidate))
+            ("tempel" (acm-backend-tempel-candidate-doc candidate))
+            (_ ""))))
+    (when (and candidate-doc
+               (not (string-equal candidate-doc "")))
+      ;; Create doc frame if it not exist.
+      (acm-create-frame-if-not-exist acm-doc-frame acm-doc-buffer "acm doc frame" 10)
+
+      ;; Insert documentation and turn on wrap line.
+      (with-current-buffer (get-buffer-create acm-doc-buffer)
+        (erase-buffer)
+        (insert candidate-doc)
+        (visual-line-mode 1))
+
+      ;; Adjust doc frame position and size.
+      (acm-doc-fame-adjust))))

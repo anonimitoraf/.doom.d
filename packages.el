@@ -254,4 +254,4 @@
 
 (package! lsp-bridge
   :recipe (:host github :repo "manateelazycat/lsp-bridge"
-            :files ("*.el" "*.py")))
+            :files ("*.el" "*.py" "acm/*")))
