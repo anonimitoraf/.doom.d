@@ -1674,6 +1674,9 @@ XREFS is a list of references/definitions."
                 text-mode-hook)
     (corfu-mode +1)
     (corfu-doc-mode +1)
+    (unless (display-graphic-p)
+      (corfu-terminal-mode +1)
+      (corfu-doc-terminal-mode +1))
     (company-mode -1))
   (add-hook! '(clojure-mode-hook
                 clojurescript-mode-hook
@@ -1951,3 +1954,13 @@ XREFS is a list of references/definitions."
       display-line-numbers-type 'relative)
 
 (setq show-paren-style 'expression)
+
+;; (straight-use-package
+;;  '(corfu-terminal
+;;    :type git
+;;    :repo "https://codeberg.org/akib/emacs-corfu-terminal.git"))
+
+;; (straight-use-package
+;;  '(corfu-doc-terminal
+;;    :type git
+;;    :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal.git"))
