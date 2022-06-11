@@ -1954,13 +1954,3 @@ XREFS is a list of references/definitions."
       display-line-numbers-type 'relative)
 
 (setq show-paren-style 'expression)
-
-;; (straight-use-package
-;;  '(corfu-terminal
-;;    :type git
-;;    :repo "https://codeberg.org/akib/emacs-corfu-terminal.git"))
-
-;; (straight-use-package
-;;  '(corfu-doc-terminal
-;;    :type git
-;;    :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal.git"))
