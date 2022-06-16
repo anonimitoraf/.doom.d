@@ -205,7 +205,7 @@
 
 (package! speed-type)
 
-(package! tide)
+;; (package! tide)
 
 (package! origami
   :recipe (:host github :repo "elp-revive/origami.el"))
