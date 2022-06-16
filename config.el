@@ -1750,7 +1750,8 @@ message listing the hooks."
   (map! :map lsp-bridge-mode-map
     :nv "g d" #'lsp-bridge-find-def
     :nv "g f" #'lsp-bridge-find-references
-    :nv "SPC d" #'lsp-bridge-lookup-documentation)
+    :nv "SPC d" #'lsp-bridge-lookup-documentation
+    :nv "SPC c r" #'lsp-bridge-rename)
   (map! :map lsp-bridge-ref-mode-map
     :nv "C-k" #'lsp-bridge-ref-jump-prev-keyword
     :nv "C-S-k" #'lsp-bridge-ref-jump-prev-file
