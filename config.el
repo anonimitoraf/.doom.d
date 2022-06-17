@@ -1766,7 +1766,8 @@ message listing the hooks."
   (map! :map acm-mode-map
     "C-k" #'acm-select-prev
     "C-j" #'acm-select-next
-    "C-;" #'acm-doc-sh))
+    "C-;" #'acm-doc-show
+    "C-l" #'acm-complete))
 
 (defun acm-doc-show ()
   (interactive)
