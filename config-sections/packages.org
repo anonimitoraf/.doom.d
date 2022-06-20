@@ -767,12 +767,6 @@ Copied from https://github.com/emacs-lsp/lsp-ui/issues/441.
 #+begin_src elisp
 (require 'logview)
 #+end_src
-* =magit-todos=
-#+begin_src elisp :results none
-(use-package magit-todos
-  :config
-  (magit-todos-mode +1))
-#+end_src
 * =modeline=
 #+begin_src elisp
 (after! doom-modeline
