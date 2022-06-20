@@ -1084,7 +1084,8 @@ output as a string."
 (use-package! vertico
   :config
   (map! :map vertico-map
-        "C-l" #'vertico-exit)
+        "C-l" #'vertico-insert
+        "C-;" #'vertico-exit)
   (when (display-graphic-p) ; Yabai on Mac sometimes hides posframes
     (require 'vertico-posframe)
     (vertico-multiform-mode)
