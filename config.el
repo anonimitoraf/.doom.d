@@ -470,9 +470,6 @@ output as a string."
 
 (require 'itail)
 
-(use-package! iscroll
-  :config (iscroll-mode +1))
-
 (setq ispell-dictionary "en")
 
 ;; (after! ivy-posframe
@@ -897,11 +894,6 @@ output as a string."
   (projectile-git-autofetch-mode +1))
 
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
-
-(use-package! ranger
-  :config
-  (setq ranger-override-dired 'ranger
-        ranger-show-hidden t))
 
 (use-package! screenshot)
 

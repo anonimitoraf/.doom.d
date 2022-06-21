@@ -556,11 +556,6 @@ Set a cool prompt and make it non-noisy (What does this even mean?)
 #+begin_src elisp
 (require 'itail)
 #+end_src
-* =iscroll=
-#+begin_src elisp
-(use-package! iscroll
-  :config (iscroll-mode +1))
-#+end_src
 * =ispell=
 Fix the ispell dictinoary.
 #+begin_src elisp
@@ -1084,14 +1079,6 @@ For remote files, make it a bit longer
 * =rainbow=
 #+begin_src elisp
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
-#+end_src
-* =ranger=
-Start ranger in full-mode and show hidden files by default
-#+begin_src elisp
-(use-package! ranger
-  :config
-  (setq ranger-override-dired 'ranger
-        ranger-show-hidden t))
 #+end_src
 * =screenshot=
 #+begin_src elisp
