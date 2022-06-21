@@ -344,7 +344,6 @@ output as a string."
 
 (use-package! evil-collection
   :config
-  (evil-collection-init)
   (setq evil-collection-setup-minibuffer t))
 
 (use-package! evil-matchit

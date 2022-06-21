@@ -393,7 +393,6 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
 #+begin_src elisp
 (use-package! evil-collection
   :config
-  (evil-collection-init)
   (setq evil-collection-setup-minibuffer t))
 #+end_src
 
