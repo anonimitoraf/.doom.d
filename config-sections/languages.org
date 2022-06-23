@@ -150,16 +150,3 @@ Auto-configure modes
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
 (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
 #+end_src
-** Vue
-#+begin_src elisp
-(add-hook 'vue-mode-hook #'lsp)
-#+end_src
-* Groovy
-#+begin_src elisp
-(use-package! lsp-mode
-    :hook (groovy-mode . lsp-deferred)
-    :commands (lsp lsp-deferred)
-    :config (setq lsp-groovy-classpath
-              ["/usr/local/opt/groovy/libexec/lib"
-                "~/.gradle/caches/modules-2/files-2.1"]))
-#+end_src

@@ -46,17 +46,9 @@
 ;; our package manager can't deal with; see raxod502/straight.el#279)
                                         ;(package! builtin-package :recipe (:branch "develop"))
 
-;; feature/evil
-(package! evil-lisp-state
-  :recipe (:host github :repo "syl20bnr/evil-lisp-state"))
-
 ;; live preview of markdown files
 (package! livedown
   :recipe (:host github :repo "shime/emacs-livedown"))
-
-;; Blogging
-(package! org2blog
-  :recipe (:host github :repo "org2blog/org2blog"))
 
 (package! ripgrep)
 (package! ag)
@@ -70,19 +62,6 @@
 (package! gherkin-mode
   :recipe (:host github :repo "candera/gherkin-mode"))
 
-(package! org-recur
-  :recipe (:host github :repo "m-cat/org-recur"))
-
-(package! exwm)
-;; (package! exwm-config)
-(package! xelb)
-
-(package! iscroll
-  :recipe (:host github :repo "casouri/iscroll"))
-
-;; (package! sayid
-;;   :recipe (:host github :repo "clojure-emacs/sayid"))
-
 (package! emacs-anywhere
   :recipe (:host github :repo "zachcurry/emacs-anywhere"))
 
@@ -90,12 +69,10 @@
 (package! org-download
   :recipe (:host github :repo "abo-abo/org-download"))
 
-(package! gdscript-mode
-  :recipe (:host github
-           :repo "GDQuest/emacs-gdscript-mode"))
-
 ;; I want everything to have jet black bg
 (package! solaire-mode :disable t)
+
+(package! tide :disable t)
 
 (package! kubernetes-el
   :recipe (:host github :repo "chrisbarrett/kubernetes-el"))
@@ -105,22 +82,8 @@
 (package! org-mime
   :recipe (:host github :repo "org-mime/org-mime"))
 
-;; (package! webkit
-;;   :recipe (:type git :host github :repo "akirakyle/emacs-webkit"
-;;            :branch "main"
-;;            :files (:defaults "*.js" "*.css" "*.so")
-;;            :pre-build ("make")))
-
-(package! edbi
-  :recipe (:host github :repo "kiwanami/emacs-edbi"))
-
-(package! selectrum
-  :recipe (:host github :repo "raxod502/selectrum"))
-
 (package! erefactor
   :recipe (:host github :repo "mhayashi1120/Emacs-erefactor"))
-
-(package! smooth-scrolling)
 
 (package! clojure-rand-ref
   :recipe (:host github :repo "anonimitoraf/clojure-rand-ref.el"))
@@ -131,8 +94,6 @@
 (package! benchmark-init
   :recipe (:host github :repo "kekeimiku/benchmark-init-el"))
 
-(unpin! lsp-mode)
-
 (package! idle-highlight-mode
   :recipe (:host github :repo "nonsequitur/idle-highlight-mode"))
 
@@ -142,10 +103,6 @@
 
 (package! keychain-environment
   :recipe (:host github :repo "tarsius/keychain-environment"))
-
-(package! fuzzy
-  :recipe (:host github :repo "auto-complete/fuzzy-el"))
-(package! auto-complete)
 
 (package! logview)
 (package! itail)
@@ -165,8 +122,6 @@
 
 (package! screenshot
   :recipe (:host github :repo "tecosaur/screenshot"))
-
-;; (package! aggressive-indent-mode)
 
 (package! slime)
 
@@ -192,9 +147,6 @@
 (package! speed-dial
   :recipe (:host github :repo "anonimitoraf/speed-dial.el"))
 
-(package! company-quickhelp
-  :recipe (:host github :repo "anonimitoraf/company-quickhelp"))
-
 (package! xclip)
 
 (package! icons-in-terminal
@@ -204,8 +156,6 @@
 (package! tree-sitter-langs)
 
 (package! speed-type)
-
-;; (package! tide)
 
 (package! origami
   :recipe (:host github :repo "elp-revive/origami.el"))
@@ -218,17 +168,6 @@
 (package! consult-projectile)
 
 (package! exec-path-from-shell)
-
-(package! company)
-(package! corfu
-  :recipe (:host github :repo "minad/corfu"
-           :files ("*.el" "extensions/*.el")))
-(package! corfu-doc
-  :recipe (:host github :repo "galeo/corfu-doc"))
-(package! cape)
-(package! kind-icon)
-
-(package! magit-todos)
 
 (package! org-modern
   :recipe (:host github :repo "minad/org-modern"))
@@ -255,3 +194,6 @@
 (package! lsp-bridge
   :recipe (:host github :repo "manateelazycat/lsp-bridge"
             :files ("*.el" "*.py" "acm/*")))
+
+(package! keycast
+  :recipe (:host github :repo "tarsius/keycast"))

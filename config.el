@@ -199,27 +199,6 @@ output as a string."
 
 (use-package! clippo)
 
-(after! company
-  (setq company-idle-delay 0.01
-        company-tooltip-idle-delay 0.01
-        company-minimum-prefix-length 2
-        company-selection-wrap-around t)
-  (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
-  (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
-  (if (display-graphic-p)
-      (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
-    ;; Terminal seems to work with just "TAB"
-    (define-key company-active-map (kbd "TAB") 'company-complete-selection))
-  (define-key company-active-map (kbd "C-l") 'company-complete-selection)
-  (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
-
-(define-key global-map (kbd "C-j") nil)
-(define-key global-map (kbd "C-k") nil)
-
-(use-package! company-quickhelp
-  :config
-  (company-quickhelp-mode +1))
-
 ;; (use-package! counsel
 ;;   :config
 ;;   (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
@@ -242,69 +221,6 @@ output as a string."
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
 
 ;; (require 'edbi)
-
-;; (require 'ejc-sql)
-;; (require 'ejc-autocomplete)
-;; (require 'ejc-direx)
-;; (use-package! ejc-sql
-;;   :config
-;;   (setq ejc-ring-length 10000
-;;         ejc-result-table-impl 'ejc-result-mode
-;;         ejc-complete-on-dot t
-;;         ejc-sql-separator "---")
-;;   (set-popup-rules!
-;;     '(("^database: "
-;;        :quit nil
-;;        :side left
-;;        :size 75
-;;        :select t)
-;;       ("*ejc-sql-output*"
-;;        :quit nil
-;;        :side bottom
-;;        :size 30
-;;        :select nil)))
-;;   (add-hook 'sql-mode-hook (lambda ()
-;;                              (ejc-sql-mode t)
-;;                              (map! :nv "SPC a" #'ejc-eval-user-sql-at-point)))
-;;   (add-hook 'ejc-result-mode-hook (lambda () (visual-line-mode -1)))
-;;   (add-hook 'ejc-sql-minor-mode-hook
-;;             (lambda ()
-;;               (company-mode -1)
-;;               (auto-complete-mode +1)
-;;               (ejc-ac-setup)
-;;               ;; Fuzzy doesn't seem to work though. TODO Find out why
-;;               (setq ac-use-fuzzy t
-;;                     ac-fuzzy-enable t
-;;                     ac-menu-height 10
-;;                     ac-candidate-max 10
-;;                     ac-delay 0.5
-;;                     ac-auto-show-menu 0.5)
-;;               (map! :map ac-completing-map
-;;                     "C-k" #'ac-previous
-;;                     "C-j" #'ac-next
-;;                     "<tab>" #'ac-complete)))
-;;   (add-hook 'ejc-sql-connected-hook (lambda ()
-;;                                       (ejc-set-fetch-size 100)
-;;                                       (ejc-set-max-rows 100)
-;;                                       (ejc-set-show-too-many-rows-message t)
-;;                                       (ejc-set-column-width-limit 50)
-;;                                       (ejc-set-use-unicode t))))
-
-;; (defun ejx-direx:make-buffer-prefixed ()
-;;   (let ((current-ejc-db ejc-db)
-;;         (buf (direx:ensure-buffer-for-root
-;;               (make-instance 'ejc-direx:database
-;;                              :name (format "database: %s" (ejc-get-db-name ejc-db))
-;;                              :buffer (current-buffer)
-;;                              :file-name (buffer-file-name)
-;;                              :cache (cons nil (ejc-direx:get-structure))))))
-;;     (with-current-buffer buf
-;;       (setq-local ejc-db current-ejc-db))
-;;     buf))
-
-;; (defun ejx-direx:show ()
-;;   (interactive)
-;;   (pop-to-buffer (ejx-direx:make-buffer-prefixed)))
 
 (defun start-elcord ()
   (interactive)
@@ -344,7 +260,6 @@ output as a string."
 
 (use-package! evil-collection
   :config
-  (evil-collection-init)
   (setq evil-collection-setup-minibuffer t))
 
 (use-package! evil-matchit
@@ -460,9 +375,6 @@ output as a string."
 (keychain-refresh-environment)
 
 (add-hook 'text-mode-hook (lambda () (idle-highlight-mode +1)))
-(add-hook 'prog-mode-hook (lambda () (if (bound-and-true-p lsp-mode)
-                                    (idle-highlight-mode -1)
-                                  (idle-highlight-mode +1))))
 
 (require 'i3wm-config-mode)
 
@@ -470,9 +382,6 @@ output as a string."
       ielm-prompt "λ> ")
 
 (require 'itail)
-
-(use-package! iscroll
-  :config (iscroll-mode +1))
 
 (setq ispell-dictionary "en")
 
@@ -512,9 +421,54 @@ output as a string."
 
 (require 'logview)
 
-(use-package magit-todos
+(use-package! lsp-bridge
   :config
-  (magit-todos-mode +1))
+  (global-lsp-bridge-mode)
+  (setq lsp-bridge-enable-log nil)
+  ;; adjust default font height when running in HiDPI screen.
+  (when (> (frame-pixel-width) 3000) (custom-set-faces '(corfu-default ((t (:height 1.3))))))
+  (map! :map lsp-bridge-mode-map
+    :nv "g d" #'lsp-bridge-find-def
+    :nv "g f" #'lsp-bridge-find-references
+    :nv "SPC d" #'lsp-bridge-lookup-documentation
+    :nv "SPC c r" #'lsp-bridge-rename)
+  (map! :map lsp-bridge-ref-mode-map
+    :nv "C-k" #'lsp-bridge-ref-jump-prev-keyword
+    :nv "C-S-k" #'lsp-bridge-ref-jump-prev-file
+    :nv "C-j" #'lsp-bridge-ref-jump-next-keyword
+    :nv "C-S-j" #'lsp-bridge-ref-jump-next-file
+    :nv "C-e" #'lsp-bridge-ref-switch-to-edit-mode
+    :nv "q" #'lsp-bridge-ref-quit)
+  (map! :map acm-mode-map
+    "C-k" #'acm-select-prev
+    "C-j" #'acm-select-next
+    "C-;" #'acm-doc-show
+    "C-l" #'acm-complete))
+
+(defun acm-doc-show ()
+  (interactive)
+  (let* ((candidate (acm-menu-current-candidate))
+         (backend (plist-get candidate :backend))
+         (candidate-doc
+          (pcase backend
+            ("lsp" (acm-backend-lsp-candidate-doc candidate))
+            ("elisp" (acm-backend-elisp-candidate-doc candidate))
+            ("yas" (acm-backend-yas-candidate-doc candidate))
+            ("tempel" (acm-backend-tempel-candidate-doc candidate))
+            (_ ""))))
+    (when (and candidate-doc
+               (not (string-equal candidate-doc "")))
+      ;; Create doc frame if it not exist.
+      (acm-create-frame-if-not-exist acm-doc-frame acm-doc-buffer "acm doc frame" 10)
+
+      ;; Insert documentation and turn on wrap line.
+      (with-current-buffer (get-buffer-create acm-doc-buffer)
+        (erase-buffer)
+        (insert candidate-doc)
+        (visual-line-mode 1))
+
+      ;; Adjust doc frame position and size.
+      (acm-doc-fame-adjust))))
 
 (after! doom-modeline
   (setq doom-modeline-buffer-file-name-style 'auto
@@ -774,11 +728,6 @@ output as a string."
 
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
 
-(use-package! ranger
-  :config
-  (setq ranger-override-dired 'ranger
-        ranger-show-hidden t))
-
 (use-package! screenshot)
 
 ;; (add-hook 'shell-mode-hook (lambda () (company-mode -1)))
@@ -938,7 +887,8 @@ output as a string."
 (use-package! vertico
   :config
   (map! :map vertico-map
-    "C-l" #'vertico-exit)
+        "C-l" #'vertico-insert
+        "C-;" #'vertico-exit)
   (when (display-graphic-p) ; Yabai on Mac sometimes hides posframes
     (require 'vertico-posframe)
     (vertico-multiform-mode)
@@ -946,19 +896,19 @@ output as a string."
     ;; Use a buffer with indices for imenu
     ;; and a flat (Ido-like) menu for M-x.
     (setq vertico-multiform-commands
-      '((execute-extended-command posframe)
-         (helpful-callable posframe)
-         (helpful-variable posframe)
-         (find-file posframe)
-         (projectile-find-file posframe)
-         (doom/find-file-in-private-config posframe)
-         (projectile-switch-project grid)
-         (consult-recent-file posframe)))
+          '((execute-extended-command posframe)
+            (helpful-callable posframe)
+            (helpful-variable posframe)
+            (find-file posframe)
+            (projectile-find-file posframe)
+            (doom/find-file-in-private-config posframe)
+            (projectile-switch-project grid)
+            (consult-recent-file posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
     (setq vertico-multiform-categories
-      '((consult-grep buffer)))))
+          '((consult-grep buffer)))))
 
 (use-package! vertico-posframe
   :config
@@ -1301,9 +1251,9 @@ message listing the hooks."
 (if (fboundp 'pixel-scroll-precision-mode)
   (pixel-scroll-precision-mode +1)
   (setq scroll-margin 1
-    scroll-step 1
-    scroll-conservatively 10000
-    scroll-preserve-screen-position 1))
+        scroll-step 1
+        scroll-conservatively 10000
+        scroll-preserve-screen-position 1))
 
 (setq kill-ring-max 10000)
 
@@ -1442,80 +1392,6 @@ message listing the hooks."
   (hide-mode-line-mode +1)
   (display-line-numbers-mode -1))
 
-(use-package corfu-doc
-  :config
-  (setq corfu-doc-delay 0.2
-    corfu-doc-max-width 80
-    corfu-doc-max-height 40))
-
-(use-package corfu
-  :config
-  (setq corfu-cycle t
-        corfu-auto t
-        corfu-auto-prefix 1
-        corfu-auto-delay 0.01
-        corfu-separator ?\s
-        corfu-quit-at-boundary nil
-        corfu-quit-no-match t
-        corfu-preview-current nil
-        corfu-preselect-first t
-        corfu-on-exact-match nil
-        corfu-echo-documentation t
-        corfu-scroll-margin 10)
-  (add-hook 'corfu-mode-hook
-    (lambda () (map! :map global-map
-            :nvi "C-SPC" #'completion-at-point)))
-  (map! :map corfu-map
-        "C-j" #'corfu-next
-        "C-k" #'corfu-previous
-        "C-l" #'corfu-insert
-        "C-;" #'corfu-doc-toggle
-        "TAB" #'corfu-insert
-        "<tab>" #'corfu-insert
-        "ESC" #'corfu-reset)
-  (add-hook! '(prog-mode-hook
-                text-mode-hook)
-    (corfu-mode +1)
-    (corfu-doc-mode +1)
-    (company-mode -1)))
-
-(use-package kind-icon
-  :ensure t
-  :after corfu
-  :custom
-  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
-;; Optionally use the `orderless' completion style. See `+orderless-dispatch'
-;; in the Consult wiki for an advanced Orderless style dispatcher.
-;; Enable `partial-completion' for files to allow path expansion.
-;; You may prefer to use `initials' instead of `partial-completion'.
-(use-package orderless
-  :init
-  ;; Tune the global completion style settings to your liking!
-  ;; This affects the minibuffer and non-lsp completion at point.
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion))))))
-
-;; Add extensions
-(use-package cape
-  :init
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-tex)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-symbol)
-  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
-  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
-  ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
-  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-  ;;(add-to-list 'completion-at-point-functions #'cape-line)
-  )
-
 (defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
 
 (defun ++google-translate-kana->romaji (kana)
@@ -1568,28 +1444,6 @@ message listing the hooks."
                           :foreground ,++vscode-search-occ-fg)
     `(swiper-line-face :background "DodgerBlue4"
                        :foreground ,++vscode-search-occ-fg)
-    ;; TODO Move the LSP faces out of here?
-    `(lsp-ui-peek-peek :background "#0a0014")
-    `(lsp-ui-peek-selection :background ,++vscode-search-occ-bg
-                            :foreground ,++vscode-search-occ-fg)
-    `(lsp-ui-peek-list :background "grey5"
-                       :height 1.0
-                       :width condensed)
-    `(lsp-ui-peek-header :background "#2a0e46"
-                         :foreground "white"
-                         :height 1.0
-                         :width condensed)
-    `(lsp-ui-peek-filename :foreground ,(doom-color 'yellow)
-                           :height 1.0
-                           :width condensed
-                           :box (:line-width (1 . 10)
-                                 :color "grey5"))
-    `(lsp-ui-peek-line-number :foreground "grey5")
-    `(lsp-ui-peek-highlight :background ,++vscode-search-occ-bg
-                            :foreground "white"
-                            :heght 1.0
-                            :box nil
-                            :inherit nil)
     '(show-paren-match :foreground nil
                        :background "#333"
                        :weight normal)
@@ -1597,7 +1451,8 @@ message listing the hooks."
     `(ac-selection-face :foreground "black"
                         :background ,(doom-color 'magenta))
     '(hl-line :background "grey8")
-    '(header-line :background "grey15")
+    `(header-line :background "black"
+                  :box (:line-width 1 :color "grey30"))
     `(popup-tip-face :foreground ,(doom-color 'yellow))
     ;; Ivy
     `(ivy-minibuffer-match-face-1 :foreground "white")
@@ -1607,25 +1462,22 @@ message listing the hooks."
     `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
     `(corfu-border :background "white")
     `(vertico-posframe-border :background ,(doom-color 'blue))
-    `(minibuffer-prompt :foreground ,(doom-color 'blue)))
+    ` (minibuffer-prompt :foreground ,(doom-color 'blue)))
   ;; GUI
   (if (display-graphic-p)
-    (custom-set-faces!
-      `(default :background "black")
-      `(fill-column-indicator :foreground ,(doom-color 'base1))
-      `(window-divider :foreground "grey5")
-      `(flycheck-posframe-error-face :background "firebrick"
-         :foreground "white")
-      `(flycheck-posframe-warning-face :background "dark goldenrod"
-         :foreground "white"))
+      (custom-set-faces!
+        `(default :background "black")
+        `(fill-column-indicator :foreground ,(doom-color 'base1))
+        `(window-divider :foreground "grey5")
+        `(flycheck-posframe-error-face :background "firebrick"
+                                       :foreground "white")
+        `(flycheck-posframe-warning-face :background "dark goldenrod"
+                                         :foreground "white"))
     ;; TERM
     (custom-set-faces!
       `(default :background "black")
       ;; Same as window-divider's
       `(header-line :background "#191b20")
-      `(lsp-face-highlight-read :background "#34536c" :foreground "#dfdfdf")
-      `(lsp-face-highlight-write :inherit lsp-face-highlight-read)
-      `(lsp-face-highlight-textual :inherit lsp-face-highlight-read)
       `(flycheck-error :foreground ,(doom-color 'red) :underline t)
       `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
 
@@ -1732,64 +1584,3 @@ message listing the hooks."
       display-line-numbers-type 'relative)
 
 (setq show-paren-style 'expression)
-
-(require 'lsp-bridge)
-;; (setq lsp-bridge-completion-provider 'corfu)
-;; (require 'corfu)
-;; (require 'lsp-bridge-icon)        ;; show icons for completion items, optional
-;; (require 'lsp-bridge-orderless)   ;; make lsp-bridge support fuzzy match, optional
-;; (global-corfu-mode)
-(global-lsp-bridge-mode)
-(when (> (frame-pixel-width) 3000) (custom-set-faces '(corfu-default ((t (:height 1.3))))))  ;; adjust default font height when running in HiDPI screen.
-;; For Xref support
-(add-hook 'lsp-bridge-mode-hook
-  (lambda ()
-    (add-hook 'xref-backend-functions #'lsp-bridge-xref-backend nil t)
-    (corfu-mode -1)))
-
-(use-package! lsp-bridge
-  :config
-  (global-lsp-bridge-mode)
-  (setq lsp-bridge-enable-log nil)
-  (map! :map lsp-bridge-mode-map
-    :nv "g d" #'lsp-bridge-find-def
-    :nv "g f" #'lsp-bridge-find-references
-    :nv "SPC d" #'lsp-bridge-lookup-documentation
-    :nv "SPC c r" #'lsp-bridge-rename)
-  (map! :map lsp-bridge-ref-mode-map
-    :nv "C-k" #'lsp-bridge-ref-jump-prev-keyword
-    :nv "C-S-k" #'lsp-bridge-ref-jump-prev-file
-    :nv "C-j" #'lsp-bridge-ref-jump-next-keyword
-    :nv "C-S-j" #'lsp-bridge-ref-jump-next-file
-    :nv "C-e" #'lsp-bridge-ref-switch-to-edit-mode
-    :nv "q" #'lsp-bridge-ref-quit)
-  (map! :map acm-mode-map
-    "C-k" #'acm-select-prev
-    "C-j" #'acm-select-next
-    "C-;" #'acm-doc-show
-    "C-l" #'acm-complete))
-
-(defun acm-doc-show ()
-  (interactive)
-  (let* ((candidate (acm-menu-current-candidate))
-         (backend (plist-get candidate :backend))
-         (candidate-doc
-          (pcase backend
-            ("lsp" (acm-backend-lsp-candidate-doc candidate))
-            ("elisp" (acm-backend-elisp-candidate-doc candidate))
-            ("yas" (acm-backend-yas-candidate-doc candidate))
-            ("tempel" (acm-backend-tempel-candidate-doc candidate))
-            (_ ""))))
-    (when (and candidate-doc
-               (not (string-equal candidate-doc "")))
-      ;; Create doc frame if it not exist.
-      (acm-create-frame-if-not-exist acm-doc-frame acm-doc-buffer "acm doc frame" 10)
-
-      ;; Insert documentation and turn on wrap line.
-      (with-current-buffer (get-buffer-create acm-doc-buffer)
-        (erase-buffer)
-        (insert candidate-doc)
-        (visual-line-mode 1))
-
-      ;; Adjust doc frame position and size.
-      (acm-doc-fame-adjust))))

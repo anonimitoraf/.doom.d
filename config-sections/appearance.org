@@ -33,28 +33,6 @@ There are two ways to load a theme. Both assume the theme is installed and avail
                           :foreground ,++vscode-search-occ-fg)
     `(swiper-line-face :background "DodgerBlue4"
                        :foreground ,++vscode-search-occ-fg)
-    ;; TODO Move the LSP faces out of here?
-    `(lsp-ui-peek-peek :background "#0a0014")
-    `(lsp-ui-peek-selection :background ,++vscode-search-occ-bg
-                            :foreground ,++vscode-search-occ-fg)
-    `(lsp-ui-peek-list :background "grey5"
-                       :height 1.0
-                       :width condensed)
-    `(lsp-ui-peek-header :background "#2a0e46"
-                         :foreground "white"
-                         :height 1.0
-                         :width condensed)
-    `(lsp-ui-peek-filename :foreground ,(doom-color 'yellow)
-                           :height 1.0
-                           :width condensed
-                           :box (:line-width (1 . 10)
-                                 :color "grey5"))
-    `(lsp-ui-peek-line-number :foreground "grey5")
-    `(lsp-ui-peek-highlight :background ,++vscode-search-occ-bg
-                            :foreground "white"
-                            :heght 1.0
-                            :box nil
-                            :inherit nil)
     '(show-paren-match :foreground nil
                        :background "#333"
                        :weight normal)
@@ -62,7 +40,8 @@ There are two ways to load a theme. Both assume the theme is installed and avail
     `(ac-selection-face :foreground "black"
                         :background ,(doom-color 'magenta))
     '(hl-line :background "grey8")
-    '(header-line :background "grey15")
+    `(header-line :background "black"
+                  :box (:line-width 1 :color "grey30"))
     `(popup-tip-face :foreground ,(doom-color 'yellow))
     ;; Ivy
     `(ivy-minibuffer-match-face-1 :foreground "white")
@@ -72,25 +51,22 @@ There are two ways to load a theme. Both assume the theme is installed and avail
     `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
     `(corfu-border :background "white")
     `(vertico-posframe-border :background ,(doom-color 'blue))
-    `(minibuffer-prompt :foreground ,(doom-color 'blue)))
+    ` (minibuffer-prompt :foreground ,(doom-color 'blue)))
   ;; GUI
   (if (display-graphic-p)
-    (custom-set-faces!
-      `(default :background "black")
-      `(fill-column-indicator :foreground ,(doom-color 'base1))
-      `(window-divider :foreground "grey5")
-      `(flycheck-posframe-error-face :background "firebrick"
-         :foreground "white")
-      `(flycheck-posframe-warning-face :background "dark goldenrod"
-         :foreground "white"))
+      (custom-set-faces!
+        `(default :background "black")
+        `(fill-column-indicator :foreground ,(doom-color 'base1))
+        `(window-divider :foreground "grey5")
+        `(flycheck-posframe-error-face :background "firebrick"
+                                       :foreground "white")
+        `(flycheck-posframe-warning-face :background "dark goldenrod"
+                                         :foreground "white"))
     ;; TERM
     (custom-set-faces!
       `(default :background "black")
       ;; Same as window-divider's
       `(header-line :background "#191b20")
-      `(lsp-face-highlight-read :background "#34536c" :foreground "#dfdfdf")
-      `(lsp-face-highlight-write :inherit lsp-face-highlight-read)
-      `(lsp-face-highlight-textual :inherit lsp-face-highlight-read)
       `(flycheck-error :foreground ,(doom-color 'red) :underline t)
       `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
 
