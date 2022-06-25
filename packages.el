@@ -193,7 +193,7 @@
 
 (package! lsp-bridge
   :recipe (:host github :repo "manateelazycat/lsp-bridge"
-            :files ("*.el" "*.py" "acm/*")))
+            :files ("*.el" "*.py" "acm/*" "core/*" "langserver/*")))
 
 (package! keycast
   :recipe (:host github :repo "tarsius/keycast"))
