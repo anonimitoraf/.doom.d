@@ -532,7 +532,11 @@ Patch for automatically enabling `ivy-calling` in `ivy-occur-grep-mode` and make
     :nv "g d" #'lsp-bridge-find-def
     :nv "g f" #'lsp-bridge-find-references
     :nv "SPC d" #'lsp-bridge-lookup-documentation
-    :nv "SPC c r" #'lsp-bridge-rename)
+    :nv "SPC c r" #'lsp-bridge-rename
+    "C-SPC" (lambda ()
+              (interactive)
+              (acm-hide)
+              (acm-update)))
   (map! :map lsp-bridge-ref-mode-map
     :nv "C-k" #'lsp-bridge-ref-jump-prev-keyword
     :nv "C-S-k" #'lsp-bridge-ref-jump-prev-file
@@ -543,33 +547,8 @@ Patch for automatically enabling `ivy-calling` in `ivy-occur-grep-mode` and make
   (map! :map acm-mode-map
     "C-k" #'acm-select-prev
     "C-j" #'acm-select-next
-    "C-;" #'acm-doc-show
-    "C-l" #'acm-complete))
-
-(defun acm-doc-show ()
-  (interactive)
-  (let* ((candidate (acm-menu-current-candidate))
-         (backend (plist-get candidate :backend))
-         (candidate-doc
-          (pcase backend
-            ("lsp" (acm-backend-lsp-candidate-doc candidate))
-            ("elisp" (acm-backend-elisp-candidate-doc candidate))
-            ("yas" (acm-backend-yas-candidate-doc candidate))
-            ("tempel" (acm-backend-tempel-candidate-doc candidate))
-            (_ ""))))
-    (when (and candidate-doc
-               (not (string-equal candidate-doc "")))
-      ;; Create doc frame if it not exist.
-      (acm-create-frame-if-not-exist acm-doc-frame acm-doc-buffer "acm doc frame" 10)
-
-      ;; Insert documentation and turn on wrap line.
-      (with-current-buffer (get-buffer-create acm-doc-buffer)
-        (erase-buffer)
-        (insert candidate-doc)
-        (visual-line-mode 1))
-
-      ;; Adjust doc frame position and size.
-      (acm-doc-fame-adjust))))
+    "C-l" #'acm-complete
+    "C-;" #'acm-complete))
 #+end_src
 * =modeline=
 #+begin_src elisp
