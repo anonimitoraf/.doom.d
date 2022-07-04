@@ -75,10 +75,10 @@
        ;; word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       (dired +ranger
+       (dired +dirvish
               +icons)             ; making dired pretty [functional]
        ;;electric          ; smarter, keyword-based electric-indent
-       ibuffer         ; interactive buffer management
+       ;;ibuffer         ; interactive buffer management
        undo
        vc                ; version-control and Emacs, sitting in a tree
 
@@ -95,13 +95,13 @@
 
        :tools
        ;;ansible
-       (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
+       ;; (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
        ;;direnv
        ;;docker
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
-       gist              ; interacting with github gists
+       ;; gist              ; interacting with github gists
        (lookup +docsets
                +dictionary
                +offline)              ; navigate your code and its documentation
