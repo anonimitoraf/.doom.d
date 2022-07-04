@@ -1226,32 +1226,32 @@ Utilize modeline color to tell me if I'm in symex-mode
 #+end_src
 * =treemacs=
 #+begin_src elisp
-(with-eval-after-load 'treemacs-icons
-  (when (display-graphic-p)
-    (treemacs-resize-icons 10)))
+;; (with-eval-after-load 'treemacs-icons
+;;   (when (display-graphic-p)
+;;     (treemacs-resize-icons 10)))
 
-(use-package treemacs
-  :init
-  (setq +treemacs-git-mode 'deferred)
-  :commands (treemacs)
-  :bind (("<f8>" . treemacs)
-         ("<f9>" . treemacs-select-window))
-  :config
-  (add-hook 'treemacs-mode-hook
-            (lambda ()
-              (when (display-graphic-p)
-                (text-scale-decrease 1.5))))
-  (unless (display-graphic-p)
-    (treemacs-indent-guide-mode t))
-  (setq treemacs-width 50
-        treemacs-is-never-other-window t
-        treemacs-file-event-delay 1000
-        treemacs-show-cursor t
-        treemacs--width-is-locked nil
-        treemacs-space-between-root-nodes nil
-        treemacs-filewatch-mode t
-        treemacs-fringe-indicator-mode t
-        treemacs-read-string-input 'from-minibuffer))
+;; (use-package treemacs
+;;   :init
+;;   (setq +treemacs-git-mode 'deferred)
+;;   :commands (treemacs)
+;;   :bind (("<f8>" . treemacs)
+;;          ("<f9>" . treemacs-select-window))
+;;   :config
+;;   (add-hook 'treemacs-mode-hook
+;;             (lambda ()
+;;               (when (display-graphic-p)
+;;                 (text-scale-decrease 1.5))))
+;;   (unless (display-graphic-p)
+;;     (treemacs-indent-guide-mode t))
+;;   (setq treemacs-width 50
+;;         treemacs-is-never-other-window t
+;;         treemacs-file-event-delay 1000
+;;         treemacs-show-cursor t
+;;         treemacs--width-is-locked nil
+;;         treemacs-space-between-root-nodes nil
+;;         treemacs-filewatch-mode t
+;;         treemacs-fringe-indicator-mode t
+;;         treemacs-read-string-input 'from-minibuffer))
 #+end_src
 * =tree-sitter=
 Use tree-sitter for highlighting for whichever languages are supported

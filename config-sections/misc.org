@@ -288,6 +288,20 @@ Perpetual quest to make scrolling feel alright (if not supported)
        :size 10
        :select nil)))
 #+end_src
+* File/dir manipulation
+Copy dir path of curr buffer
+#+begin_src emacs-lisp :results none
+(defun ++copy-dir-path ()
+  (interactive)
+  (let ((dir-path (concat "\"" default-directory "\"")))
+    (kill-new dir-path)
+    (message "Copied dir path: %s into clipboard" dir-path)))
+#+end_src
+* Shortcuts of built-ins
+#+begin_src emacs-lisp :results none
+(map! :map doom-leader-map
+  "+" #'calc)
+#+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp
