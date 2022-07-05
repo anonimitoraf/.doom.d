@@ -1,5 +1,25 @@
 #+TITLE: Misc
 
+* Remove jumps from jump-list on buffer kill
+#+begin_src elisp :results none
+(defun ++remove-from-jump-list (file-name)
+  (interactive)
+  (let* ((context (better-jumper--get-current-context))
+          (old-struct (better-jumper--get-struct))
+          (struct (better-jumper--copy-struct old-struct))
+          (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
+          (jumps-filtered (->> jumps
+                                   (reverse)
+                                   (-filter (lambda (jump) (not (equal (car jump) file-name))))))
+          (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
+    (setf (better-jumper-jump-list-struct-ring struct) jump-list)
+    (better-jumper--set-struct context struct)
+    (better-jumper--get-struct context)))
+
+(advice-add #'kill-current-buffer :before (lambda ()
+                                            (and buffer-file-name
+                                              (++remove-from-jump-list buffer-file-name))))
+#+end_src
 * Performance
 #+begin_src elisp
 (setq garbage-collection-messages nil)

@@ -1257,6 +1257,24 @@ not appropriate in some cases like terminals."
               ["/usr/local/opt/groovy/libexec/lib"
                 "~/.gradle/caches/modules-2/files-2.1"]))
 
+(defun ++remove-from-jump-list (file-name)
+  (interactive)
+  (let* ((context (better-jumper--get-current-context))
+          (old-struct (better-jumper--get-struct))
+          (struct (better-jumper--copy-struct old-struct))
+          (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
+          (jumps-filtered (->> jumps
+                                   (reverse)
+                                   (-filter (lambda (jump) (not (equal (car jump) file-name))))))
+          (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
+    (setf (better-jumper-jump-list-struct-ring struct) jump-list)
+    (better-jumper--set-struct context struct)
+    (better-jumper--get-struct context)))
+
+(advice-add #'kill-current-buffer :before (lambda ()
+                                            (and buffer-file-name
+                                              (++remove-from-jump-list buffer-file-name))))
+
 (setq garbage-collection-messages nil)
 (defmacro k-time (&rest body)
   "Measure and return the time it takes evaluating BODY."
