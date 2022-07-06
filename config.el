@@ -1264,16 +1264,20 @@ not appropriate in some cases like terminals."
           (struct (better-jumper--copy-struct old-struct))
           (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
           (jumps-filtered (->> jumps
-                                   (reverse)
-                                   (-filter (lambda (jump) (not (equal (car jump) file-name))))))
+                            (reverse)
+                            (-filter (lambda (jump) (not (equal (car jump) file-name))))))
           (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
+    (message "Removing %s from jump-list" file-name)
     (setf (better-jumper-jump-list-struct-ring struct) jump-list)
     (better-jumper--set-struct context struct)
     (better-jumper--get-struct context)))
 
-(advice-add #'kill-current-buffer :before (lambda ()
-                                            (and buffer-file-name
-                                              (++remove-from-jump-list buffer-file-name))))
+(defun ++remove-current-buffer-from-jump-list ()
+  (condition-case ex
+    (and buffer-file-name (++remove-from-jump-list buffer-file-name))
+    ('error (message (format "Failed to remove buffer %s from jump list: %s" buffer-file-name ex)))))
+
+(advice-add #'kill-current-buffer :before #'++remove-current-buffer-from-jump-list)
 
 (setq garbage-collection-messages nil)
 (defmacro k-time (&rest body)
