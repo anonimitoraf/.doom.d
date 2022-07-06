@@ -1,5 +1,29 @@
 #+TITLE: Misc
 
+* Remove jumps from jump-list on buffer kill
+#+begin_src elisp :results none
+(defun ++remove-from-jump-list (file-name)
+  (interactive)
+  (let* ((context (better-jumper--get-current-context))
+          (old-struct (better-jumper--get-struct))
+          (struct (better-jumper--copy-struct old-struct))
+          (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
+          (jumps-filtered (->> jumps
+                            (reverse)
+                            (-filter (lambda (jump) (not (equal (car jump) file-name))))))
+          (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
+    (message "Removing %s from jump-list" file-name)
+    (setf (better-jumper-jump-list-struct-ring struct) jump-list)
+    (better-jumper--set-struct context struct)
+    (better-jumper--get-struct context)))
+
+(defun ++remove-current-buffer-from-jump-list ()
+  (condition-case ex
+    (and buffer-file-name (++remove-from-jump-list buffer-file-name))
+    ('error (message (format "Failed to remove buffer %s from jump list: %s" buffer-file-name ex)))))
+
+(advice-add #'kill-current-buffer :before #'++remove-current-buffer-from-jump-list)
+#+end_src
 * Performance
 #+begin_src elisp
 (setq garbage-collection-messages nil)
@@ -282,6 +306,20 @@ Perpetual quest to make scrolling feel alright (if not supported)
        :side bottom
        :size 10
        :select nil)))
+#+end_src
+* File/dir manipulation
+Copy dir path of curr buffer
+#+begin_src emacs-lisp :results none
+(defun ++copy-dir-path ()
+  (interactive)
+  (let ((dir-path (concat "\"" default-directory "\"")))
+    (kill-new dir-path)
+    (message "Copied dir path: %s into clipboard" dir-path)))
+#+end_src
+* Shortcuts of built-ins
+#+begin_src emacs-lisp :results none
+(map! :map doom-leader-map
+  "+" #'calc)
 #+end_src
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!

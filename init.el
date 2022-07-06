@@ -51,7 +51,8 @@
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
        ;; (pretty-code +fira)       ; ligatures or substitute text with pretty symbols
        ;; tabs              ; an tab bar for Emacs
-       (treemacs)          ; a project drawer, like neotree but cooler
+       ;; (treemacs +lsp)
+                                        ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
@@ -74,11 +75,11 @@
        ;; word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       (dired +ranger
+       (dired +dirvish
               +icons)             ; making dired pretty [functional]
        ;;electric          ; smarter, keyword-based electric-indent
-       ibuffer         ; interactive buffer management
-       (undo +tree)
+       ;;ibuffer         ; interactive buffer management
+       undo
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
@@ -100,7 +101,7 @@
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
-       gist              ; interacting with github gists
+       ;; gist              ; interacting with github gists
        (lookup +docsets
                +dictionary
                +offline)              ; navigate your code and its documentation

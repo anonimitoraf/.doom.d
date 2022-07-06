@@ -830,32 +830,32 @@ output as a string."
 
 (use-package! thread-dump)
 
-(with-eval-after-load 'treemacs-icons
-  (when (display-graphic-p)
-    (treemacs-resize-icons 10)))
+;; (with-eval-after-load 'treemacs-icons
+;;   (when (display-graphic-p)
+;;     (treemacs-resize-icons 10)))
 
-(use-package treemacs
-  :init
-  (setq +treemacs-git-mode 'deferred)
-  :commands (treemacs)
-  :bind (("<f8>" . treemacs)
-         ("<f9>" . treemacs-select-window))
-  :config
-  (add-hook 'treemacs-mode-hook
-            (lambda ()
-              (when (display-graphic-p)
-                (text-scale-decrease 1.5))))
-  (unless (display-graphic-p)
-    (treemacs-indent-guide-mode t))
-  (setq treemacs-width 50
-        treemacs-is-never-other-window t
-        treemacs-file-event-delay 1000
-        treemacs-show-cursor t
-        treemacs--width-is-locked nil
-        treemacs-space-between-root-nodes nil
-        treemacs-filewatch-mode t
-        treemacs-fringe-indicator-mode t
-        treemacs-read-string-input 'from-minibuffer))
+;; (use-package treemacs
+;;   :init
+;;   (setq +treemacs-git-mode 'deferred)
+;;   :commands (treemacs)
+;;   :bind (("<f8>" . treemacs)
+;;          ("<f9>" . treemacs-select-window))
+;;   :config
+;;   (add-hook 'treemacs-mode-hook
+;;             (lambda ()
+;;               (when (display-graphic-p)
+;;                 (text-scale-decrease 1.5))))
+;;   (unless (display-graphic-p)
+;;     (treemacs-indent-guide-mode t))
+;;   (setq treemacs-width 50
+;;         treemacs-is-never-other-window t
+;;         treemacs-file-event-delay 1000
+;;         treemacs-show-cursor t
+;;         treemacs--width-is-locked nil
+;;         treemacs-space-between-root-nodes nil
+;;         treemacs-filewatch-mode t
+;;         treemacs-fringe-indicator-mode t
+;;         treemacs-read-string-input 'from-minibuffer))
 
 (use-package! tree-sitter)
 (use-package! tree-sitter-langs)
@@ -1038,6 +1038,28 @@ not appropriate in some cases like terminals."
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
 (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
+
+(defun ++remove-from-jump-list (file-name)
+  (interactive)
+  (let* ((context (better-jumper--get-current-context))
+          (old-struct (better-jumper--get-struct))
+          (struct (better-jumper--copy-struct old-struct))
+          (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
+          (jumps-filtered (->> jumps
+                            (reverse)
+                            (-filter (lambda (jump) (not (equal (car jump) file-name))))))
+          (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
+    (message "Removing %s from jump-list" file-name)
+    (setf (better-jumper-jump-list-struct-ring struct) jump-list)
+    (better-jumper--set-struct context struct)
+    (better-jumper--get-struct context)))
+
+(defun ++remove-current-buffer-from-jump-list ()
+  (condition-case ex
+    (and buffer-file-name (++remove-from-jump-list buffer-file-name))
+    ('error (message (format "Failed to remove buffer %s from jump list: %s" buffer-file-name ex)))))
+
+(advice-add #'kill-current-buffer :before #'++remove-current-buffer-from-jump-list)
 
 (setq garbage-collection-messages nil)
 (defmacro k-time (&rest body)
@@ -1246,6 +1268,15 @@ message listing the hooks."
        :side bottom
        :size 10
        :select nil)))
+
+(defun ++copy-dir-path ()
+  (interactive)
+  (let ((dir-path (concat "\"" default-directory "\"")))
+    (kill-new dir-path)
+    (message "Copied dir path: %s into clipboard" dir-path)))
+
+(map! :map doom-leader-map
+  "+" #'calc)
 
 (defun ++load-and-continuously-save (file)
   (interactive
