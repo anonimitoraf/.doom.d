@@ -1259,22 +1259,24 @@ not appropriate in some cases like terminals."
 
 (defun ++remove-from-jump-list (file-name)
   (interactive)
+  (message "Removing %s from jump-list" file-name)
   (let* ((context (better-jumper--get-current-context))
-          (old-struct (better-jumper--get-struct))
-          (struct (better-jumper--copy-struct old-struct))
-          (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
-          (jumps-filtered (->> jumps
-                            (reverse)
-                            (-filter (lambda (jump) (not (equal (car jump) file-name))))))
-          (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
-    (message "Removing %s from jump-list" file-name)
-    (setf (better-jumper-jump-list-struct-ring struct) jump-list)
+         (old-struct (better-jumper--get-struct))
+         (struct (better-jumper--copy-struct old-struct))
+         (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
+         (jumps-filtered (->> jumps
+                              (reverse)
+                              (-filter (lambda (jump) (and jump (not (equal (car jump) file-name)))))))
+         (pad-count (- better-jumper-max-length (length jumps-filtered)))
+         (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
+    (ring-extend jump-list pad-count)
+    (aset struct 1 jump-list)
     (better-jumper--set-struct context struct)
     (better-jumper--get-struct context)))
 
 (defun ++remove-current-buffer-from-jump-list ()
   (condition-case ex
-    (and buffer-file-name (++remove-from-jump-list buffer-file-name))
+      (and buffer-file-name (++remove-from-jump-list buffer-file-name))
     ('error (message (format "Failed to remove buffer %s from jump list: %s" buffer-file-name ex)))))
 
 (advice-add #'kill-current-buffer :before #'++remove-current-buffer-from-jump-list)
