@@ -971,6 +971,12 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
   (setq org-roam-directory ++org-roam-dir)
   (org-roam-db-autosync-mode))
 #+end_src
+* =org-sticky-header=
+#+begin_src emacs-lisp :tangle yes :results none
+(use-package! org-sticky-header
+  :config
+  (org-sticky-header-mode +1))
+#+end_src
 * =origami=
 #+begin_src elisp
 (use-package! origami

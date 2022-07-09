@@ -808,6 +808,10 @@ output as a string."
   (setq org-roam-directory ++org-roam-dir)
   (org-roam-db-autosync-mode))
 
+(use-package! org-sticky-header
+  :config
+  (org-sticky-header-mode +1))
+
 (use-package! origami
   :config
   ;; Only use origami for some modes
