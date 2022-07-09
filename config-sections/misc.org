@@ -127,8 +127,9 @@ Allow convenient word deletion with C-<backspace>. In the terminal, C-<backspace
 (setq x-select-enable-clipboard-manager nil)
 #+end_src
 * Line spacing similar to VSCode
-#+begin_src elisp
+#+begin_src elisp :results none
 (setq-default line-spacing 0.25)
+(add-hook 'vterm-mode-hook (lambda () (setq-local line-spacing nil)))
 #+end_src
 * Opening tmux, creating/switching sessions, etc.
 #+begin_src elisp

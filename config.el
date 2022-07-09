@@ -1341,6 +1341,7 @@ not appropriate in some cases like terminals."
 (setq x-select-enable-clipboard-manager nil)
 
 (setq-default line-spacing 0.25)
+(add-hook 'vterm-mode-hook (lambda () (setq-local line-spacing nil)))
 
 (defun ++tmux--new-session (session-name)
   (++async-shell-command (concat "alacritty --command"
