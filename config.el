@@ -1308,7 +1308,7 @@ not appropriate in some cases like terminals."
 
 (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 
-(add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
+;; (add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
 
 (setq ++safe-vars '((+format-on-save-enabled-modes . '())
                     (cider-required-middleware-version . "0.25.5")))
