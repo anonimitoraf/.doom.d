@@ -1109,7 +1109,8 @@ output as a string."
             (projectile-find-file posframe)
             (doom/find-file-in-private-config posframe)
             (projectile-switch-project grid)
-            (consult-recent-file posframe)))
+            (consult-recent-file posframe)
+            (consult-bookmark buffer)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
@@ -1274,6 +1275,20 @@ not appropriate in some cases like terminals."
     :config (setq lsp-groovy-classpath
               ["/usr/local/opt/groovy/libexec/lib"
                 "~/.gradle/caches/modules-2/files-2.1"]))
+
+(defvar ++default-directory-remembered nil)
+(defun ++default-search+track ()
+  "Conduct a text search in files under the current folder.
+If prefix ARG is set, prompt for a directory to search from."
+  (interactive)
+  (let ((default-directory (read-directory-name "Search (and Remember) directory: " ++default-directory-remembered)))
+    (setq ++default-directory-remembered default-directory)
+    (call-interactively
+     (cond ((featurep! :completion ivy)     #'+ivy/project-search-from-cwd)
+           ((featurep! :completion helm)    #'+helm/project-search-from-cwd)
+           ((featurep! :completion vertico) #'+vertico/project-search-from-cwd)
+           (#'rgrep)))))
+(map! :map doom-leader-map :nv "s r" #'++default-search+track)
 
 (defun ++remove-from-jump-list (file-name)
   (interactive)
