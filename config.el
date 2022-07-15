@@ -108,6 +108,20 @@ output as a string."
 
 (setq avy-timeout-seconds 0.1)
 
+;; (use-package! beacon
+;;   :config
+;;   (beacon-mode +1)
+;;   (setq beacon-color (doom-color 'magenta)
+;;         beacon-blink-delay 0.2
+;;         beacon-blink-duration 0.2
+;;         beacon-blink-when-window-changes nil)
+;;   (setq beacon-do-blink-commands
+;;         '(evil-scroll-up evil-scroll-down
+;;                          evil-goto-line evil-goto-last-line))
+;;   (defun beacon-do-blink-command (func)
+;;     (advice-add func :after (lambda (_f &rest _args) (beacon-blink))))
+;;   (mapc #'beacon-do-blink-command beacon-do-blink-commands))
+
 (setq bookmark-default-file (concat ++sync-folder-path "/emacs/bookmarks"))
 
 (setq bookmark-save-flag 1)
@@ -620,6 +634,10 @@ output as a string."
   (setq org-roam-directory ++org-roam-dir)
   (org-roam-db-autosync-mode))
 
+(use-package! org-sticky-header
+  :config
+  (org-sticky-header-mode +1))
+
 (use-package! origami
   :config
   ;; Only use origami for some modes
@@ -882,7 +900,8 @@ output as a string."
             (projectile-find-file posframe)
             (doom/find-file-in-private-config posframe)
             (projectile-switch-project grid)
-            (consult-recent-file posframe)))
+            (consult-recent-file posframe)
+            (consult-bookmark buffer)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
@@ -1039,24 +1058,39 @@ not appropriate in some cases like terminals."
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
 (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
 
+(defvar ++default-directory-remembered nil)
+(defun ++default-search+track ()
+  "Conduct a text search in files under the current folder.
+If prefix ARG is set, prompt for a directory to search from."
+  (interactive)
+  (let ((default-directory (read-directory-name "Search (and Remember) directory: " ++default-directory-remembered)))
+    (setq ++default-directory-remembered default-directory)
+    (call-interactively
+     (cond ((featurep! :completion ivy)     #'+ivy/project-search-from-cwd)
+           ((featurep! :completion helm)    #'+helm/project-search-from-cwd)
+           ((featurep! :completion vertico) #'+vertico/project-search-from-cwd)
+           (#'rgrep)))))
+(map! :map doom-leader-map :nv "s r" #'++default-search+track)
 (defun ++remove-from-jump-list (file-name)
   (interactive)
+  (message "Removing %s from jump-list" file-name)
   (let* ((context (better-jumper--get-current-context))
-          (old-struct (better-jumper--get-struct))
-          (struct (better-jumper--copy-struct old-struct))
-          (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
-          (jumps-filtered (->> jumps
-                            (reverse)
-                            (-filter (lambda (jump) (not (equal (car jump) file-name))))))
-          (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
-    (message "Removing %s from jump-list" file-name)
-    (setf (better-jumper-jump-list-struct-ring struct) jump-list)
+         (old-struct (better-jumper--get-struct))
+         (struct (better-jumper--copy-struct old-struct))
+         (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
+         (jumps-filtered (->> jumps
+                              (reverse)
+                              (-filter (lambda (jump) (and jump (not (equal (car jump) file-name)))))))
+         (pad-count (- better-jumper-max-length (length jumps-filtered)))
+         (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
+    (ring-extend jump-list pad-count)
+    (aset struct 1 jump-list)
     (better-jumper--set-struct context struct)
     (better-jumper--get-struct context)))
 
 (defun ++remove-current-buffer-from-jump-list ()
   (condition-case ex
-    (and buffer-file-name (++remove-from-jump-list buffer-file-name))
+      (and buffer-file-name (++remove-from-jump-list buffer-file-name))
     ('error (message (format "Failed to remove buffer %s from jump list: %s" buffer-file-name ex)))))
 
 (advice-add #'kill-current-buffer :before #'++remove-current-buffer-from-jump-list)
@@ -1084,7 +1118,7 @@ not appropriate in some cases like terminals."
 
 (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 
-(add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
+;; (add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
 
 (setq ++safe-vars '((+format-on-save-enabled-modes . '())
                     (cider-required-middleware-version . "0.25.5")))
@@ -1121,6 +1155,7 @@ not appropriate in some cases like terminals."
 (setq x-select-enable-clipboard-manager nil)
 
 (setq-default line-spacing 0.25)
+(add-hook 'vterm-mode-hook (lambda () (setq-local line-spacing nil)))
 
 (defun ++tmux--new-session (session-name)
   (++async-shell-command (concat "alacritty --command"
@@ -1402,6 +1437,7 @@ message listing the hooks."
   (hide-mode-line-mode +1)
   (display-line-numbers-mode -1))
 
+<<<<<<< HEAD
 (defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
 
 (defun ++google-translate-kana->romaji (kana)

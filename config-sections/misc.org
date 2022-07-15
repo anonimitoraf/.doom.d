@@ -1,25 +1,43 @@
 #+TITLE: Misc
 
+* Search and remember directory
+#+begin_src elisp :results none
+(defvar ++default-directory-remembered nil)
+(defun ++default-search+track ()
+  "Conduct a text search in files under the current folder.
+If prefix ARG is set, prompt for a directory to search from."
+  (interactive)
+  (let ((default-directory (read-directory-name "Search (and Remember) directory: " ++default-directory-remembered)))
+    (setq ++default-directory-remembered default-directory)
+    (call-interactively
+     (cond ((featurep! :completion ivy)     #'+ivy/project-search-from-cwd)
+           ((featurep! :completion helm)    #'+helm/project-search-from-cwd)
+           ((featurep! :completion vertico) #'+vertico/project-search-from-cwd)
+           (#'rgrep)))))
+(map! :map doom-leader-map :nv "s r" #'++default-search+track)
+#+end_src
 * Remove jumps from jump-list on buffer kill
 #+begin_src elisp :results none
 (defun ++remove-from-jump-list (file-name)
   (interactive)
+  (message "Removing %s from jump-list" file-name)
   (let* ((context (better-jumper--get-current-context))
-          (old-struct (better-jumper--get-struct))
-          (struct (better-jumper--copy-struct old-struct))
-          (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
-          (jumps-filtered (->> jumps
-                            (reverse)
-                            (-filter (lambda (jump) (not (equal (car jump) file-name))))))
-          (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
-    (message "Removing %s from jump-list" file-name)
-    (setf (better-jumper-jump-list-struct-ring struct) jump-list)
+         (old-struct (better-jumper--get-struct))
+         (struct (better-jumper--copy-struct old-struct))
+         (jumps (ring-elements (better-jumper--get-struct-jump-list struct)))
+         (jumps-filtered (->> jumps
+                              (reverse)
+                              (-filter (lambda (jump) (and jump (not (equal (car jump) file-name)))))))
+         (pad-count (- better-jumper-max-length (length jumps-filtered)))
+         (jump-list (ring-convert-sequence-to-ring jumps-filtered)))
+    (ring-extend jump-list pad-count)
+    (aset struct 1 jump-list)
     (better-jumper--set-struct context struct)
     (better-jumper--get-struct context)))
 
 (defun ++remove-current-buffer-from-jump-list ()
   (condition-case ex
-    (and buffer-file-name (++remove-from-jump-list buffer-file-name))
+      (and buffer-file-name (++remove-from-jump-list buffer-file-name))
     ('error (message (format "Failed to remove buffer %s from jump list: %s" buffer-file-name ex)))))
 
 (advice-add #'kill-current-buffer :before #'++remove-current-buffer-from-jump-list)
@@ -64,7 +82,7 @@ Disable *Messages* from popping up when minibuffer is clicked
 
 Depend on editorconfig for controlling tabs vs spaces
 #+begin_src elisp
-(add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
+;; (add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
 #+end_src
 
 Mark particular local variables as safe
@@ -125,8 +143,9 @@ Allow convenient word deletion with C-<backspace>. In the terminal, C-<backspace
 (setq x-select-enable-clipboard-manager nil)
 #+end_src
 * Line spacing similar to VSCode
-#+begin_src elisp
+#+begin_src elisp :results none
 (setq-default line-spacing 0.25)
+(add-hook 'vterm-mode-hook (lambda () (setq-local line-spacing nil)))
 #+end_src
 * Opening tmux, creating/switching sessions, etc.
 #+begin_src elisp

@@ -197,3 +197,8 @@
 
 (package! keycast
   :recipe (:host github :repo "tarsius/keycast"))
+
+(package! org-sticky-header)
+
+(package! beacon
+  :recipe (:host github :repo "Malabarba/beacon"))
