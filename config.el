@@ -1437,7 +1437,6 @@ message listing the hooks."
   (hide-mode-line-mode +1)
   (display-line-numbers-mode -1))
 
-<<<<<<< HEAD
 (defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
 
 (defun ++google-translate-kana->romaji (kana)
