@@ -218,3 +218,6 @@
 
 (package! beacon
   :recipe (:host github :repo "Malabarba/beacon"))
+
+(package! salv
+  :recipe (:host github :repo "alphapapa/salv.el"))
