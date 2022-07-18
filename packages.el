@@ -221,3 +221,5 @@
 
 (package! salv
   :recipe (:host github :repo "alphapapa/salv.el"))
+
+(package! evil-snipe :disable t)
