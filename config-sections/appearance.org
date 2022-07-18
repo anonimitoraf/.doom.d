@@ -101,7 +101,7 @@ There are two ways to load a theme. Both assume the theme is installed and avail
 #+end_src
 * Font
 I want my font to automatically resize based on which screen Emacs is
-#+begin_src elisp
+#+begin_src elisp :results none
 (defvar ++font-size nil)
 (defun ++screen-pixels->font-size (width-x-height)
   "Given WIDTH_X_HEIGHT, returns the adjusted font size"
@@ -131,7 +131,7 @@ I want my font to automatically resize based on which screen Emacs is
   (let ((new-font-size (++screen-pixels->font-size
                         (cddr (frame-monitor-attribute 'geometry)))))
     (unless (equal new-font-size ++font-size)
-      (setq doom-font (font-spec :family "Ubuntu Mono" :size new-font-size))
+      (setq doom-font (font-spec :family "Fantasque Sans Mono" :size new-font-size))
       (set-frame-font doom-font t (++get-frame-list)))
     (setq ++font-size new-font-size)))
 
@@ -203,7 +203,7 @@ I know most of the keyboard shortcuts by now :P
 #+begin_src elisp
 (after! doom-modeline
   (custom-set-faces!
-    '(mode-line :background "#23102C" :height 0.9 :width condensed)
+    '(mode-line :background "#23102C" :height 0.9 :width condensed :box (:line-width 1 :color "grey40"))
     '(mode-line-inactive :height 0.9 :width condensed)
     '(mode-line-emphasis :inherit mode-line)
     '(doom-modeline-buffer-file :weight normal)))

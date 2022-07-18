@@ -1151,9 +1151,8 @@ Utilize modeline color to tell me if I'm in symex-mode
 #+begin_src elisp
 (defhydra+ hydra-symex (:columns 5
                         :post (progn
-                                (custom-set-faces!
-                                  ;; TODO Avoid duplication by storing this beforehand
-                                  '(mode-line :background "#23102C" :height 0.9 :width condensed))
+                                ;; TODO Avoid duplication by storing this beforehand
+                                (set-face-attribute 'mode-line nil :background "#23102C")
                                 (symex-exit-mode)))
   "Symex mode"
   ("C-j" symex-emit-backward "emit backward")
@@ -1163,8 +1162,7 @@ Utilize modeline color to tell me if I'm in symex-mode
 
 (advice-add 'symex-mode-interface :after (lambda (&rest args)
                                            (symex-hide-menu)
-                                           (custom-set-faces!
-                                             '(mode-line :background "#5a1111" :height 0.9 :width condensed))))
+                                           (set-face-attribute 'mode-line nil :background "#5a1111")))
 #+end_src
 * =speed-dial=
 #+begin_src elisp

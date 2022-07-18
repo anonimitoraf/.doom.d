@@ -947,9 +947,8 @@ output as a string."
 
 (defhydra+ hydra-symex (:columns 5
                         :post (progn
-                                (custom-set-faces!
-                                  ;; TODO Avoid duplication by storing this beforehand
-                                  '(mode-line :background "#23102C" :height 0.9 :width condensed))
+                                ;; TODO Avoid duplication by storing this beforehand
+                                (set-face-attribute 'mode-line nil :background "#23102C")
                                 (symex-exit-mode)))
   "Symex mode"
   ("C-j" symex-emit-backward "emit backward")
@@ -959,8 +958,7 @@ output as a string."
 
 (advice-add 'symex-mode-interface :after (lambda (&rest args)
                                            (symex-hide-menu)
-                                           (custom-set-faces!
-                                             '(mode-line :background "#5a1111" :height 0.9 :width condensed))))
+                                           (set-face-attribute 'mode-line nil :background "#5a1111")))
 
 (use-package! speed-dial
   :config
@@ -1947,7 +1945,7 @@ XREFS is a list of references/definitions."
   (let ((new-font-size (++screen-pixels->font-size
                         (cddr (frame-monitor-attribute 'geometry)))))
     (unless (equal new-font-size ++font-size)
-      (setq doom-font (font-spec :family "Ubuntu Mono" :size new-font-size))
+      (setq doom-font (font-spec :family "Fantasque Sans Mono" :size new-font-size))
       (set-frame-font doom-font t (++get-frame-list)))
     (setq ++font-size new-font-size)))
 
@@ -2009,7 +2007,7 @@ XREFS is a list of references/definitions."
 
 (after! doom-modeline
   (custom-set-faces!
-    '(mode-line :background "#23102C" :height 0.9 :width condensed)
+    '(mode-line :background "#23102C" :height 0.9 :width condensed :box (:line-width 1 :color "grey40"))
     '(mode-line-inactive :height 0.9 :width condensed)
     '(mode-line-emphasis :inherit mode-line)
     '(doom-modeline-buffer-file :weight normal)))
