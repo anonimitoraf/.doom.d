@@ -1,5 +1,9 @@
 #+TITLE: Misc
 
+* Auto-save when Emacs loses focus
+#+begin_src elisp :results none
+(add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
+#+end_src
 * Search and remember directory
 #+begin_src elisp :results none
 (defvar ++default-directory-remembered nil)

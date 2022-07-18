@@ -1282,6 +1282,8 @@ not appropriate in some cases like terminals."
               ["/usr/local/opt/groovy/libexec/lib"
                 "~/.gradle/caches/modules-2/files-2.1"]))
 
+(add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
+
 (defvar ++default-directory-remembered nil)
 (defun ++default-search+track ()
   "Conduct a text search in files under the current folder.
