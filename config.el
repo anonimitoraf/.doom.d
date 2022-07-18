@@ -917,7 +917,6 @@ output as a string."
 
 (use-package! salv
   :config
-  (setq salv-idle-seconds 1)
   (add-hook! '(prog-mode-hook text-mode-hook)
     (when (buffer-file-name)
       (salv-mode +1))))
