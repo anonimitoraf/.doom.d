@@ -922,12 +922,6 @@ output as a string."
 
 (use-package! screenshot)
 
-(use-package! salv
-  :config
-  (add-hook! '(prog-mode-hook text-mode-hook)
-    (when (buffer-file-name)
-      (salv-mode +1))))
-
 ;; (add-hook 'shell-mode-hook (lambda () (company-mode -1)))
 
 (use-package! slime

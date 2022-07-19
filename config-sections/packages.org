@@ -1115,14 +1115,6 @@ For remote files, make it a bit longer
 #+begin_src elisp
 (use-package! screenshot)
 #+end_src
-* =salv=
-#+begin_src elisp :results none
-(use-package! salv
-  :config
-  (add-hook! '(prog-mode-hook text-mode-hook)
-    (when (buffer-file-name)
-      (salv-mode +1))))
-#+end_src
 * =shell=
 Company mode in shell is just annoying.
 #+begin_src elisp
