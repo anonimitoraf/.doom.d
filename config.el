@@ -1095,6 +1095,10 @@ output as a string."
                js2-mode-hook)
              #'setup-tide-mode))
 
+(use-package! topspace
+  :config
+  (global-topspace-mode +1))
+
 (use-package! vertico
   :config
   (map! :map vertico-map

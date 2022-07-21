@@ -220,3 +220,6 @@
   :recipe (:host github :repo "Malabarba/beacon"))
 
 (package! evil-snipe :disable t)
+
+(package! topspace
+  :recipe (:host github :repo "trevorpogue/topspace"))
