@@ -1314,12 +1314,6 @@ Use tree-sitter for highlighting for whichever languages are supported
                js2-mode-hook)
              #'setup-tide-mode))
 #+end_src
-* =topspace=
-#+begin_src elisp :results none
-(use-package! topspace
-  :config
-  (global-topspace-mode +1))
-#+end_src
 * =vertico=
 #+begin_src elisp :results none
 (use-package! vertico
