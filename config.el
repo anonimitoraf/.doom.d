@@ -366,6 +366,7 @@ output as a string."
 
 (use-package! evil-easymotion
   :config
+  (unbind-key "s" evil-normal-state-map)
   (evilem-default-keybindings "s")
   (custom-set-faces!
     '(avy-lead-face :foreground "red" :background nil :weight bold)

@@ -422,6 +422,7 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! evil-easymotion
   :config
+  (unbind-key "s" evil-normal-state-map)
   (evilem-default-keybindings "s")
   (custom-set-faces!
     '(avy-lead-face :foreground "red" :background nil :weight bold)
