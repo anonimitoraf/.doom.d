@@ -1729,7 +1729,7 @@ XREFS is a list of references/definitions."
         "C-j" #'corfu-next
         "C-k" #'corfu-previous
         "C-l" #'corfu-insert
-        "C-;" #'corfu-doc-toggle
+        "C-;" #'corfu-insert
         "TAB" #'corfu-insert
         "<tab>" #'corfu-insert
         "ESC" #'corfu-reset)
