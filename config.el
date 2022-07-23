@@ -1157,6 +1157,12 @@ not appropriate in some cases like terminals."
 
 (map! :map doom-leader-map "z" #'+zen/toggle-fullscreen)
 
+(use-package! yasnippet
+  :config
+  (setq yas-snippet-dirs
+    '("~/.doom.d/snippets"))
+  (yas-global-mode +1))
+
 (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 
 (use-package! clojure-mode

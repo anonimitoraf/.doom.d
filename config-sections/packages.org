@@ -1390,6 +1390,14 @@ Make trailing spaces and tabs visible
 #+begin_src elisp
 (map! :map doom-leader-map "z" #'+zen/toggle-fullscreen)
 #+end_src
+* =yasnippet=
+#+begin_src elisp :results none
+(use-package! yasnippet
+  :config
+  (setq yas-snippet-dirs
+    '("~/.doom.d/snippets"))
+  (yas-global-mode +1))
+#+end_src
 * =+lookup=
 =SPC e= for eldoc
 #+begin_src elisp

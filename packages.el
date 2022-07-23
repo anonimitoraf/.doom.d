@@ -223,3 +223,5 @@
 
 (package! topspace
   :recipe (:host github :repo "trevorpogue/topspace"))
+
+(package! yasnippet)
