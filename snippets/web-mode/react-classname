@@ -1,5 +1,4 @@
 # -*- mode: snippet; require-final-newline: nil -*-
 # name: React className
-# key: cn
 # --
 className={classes.$0}
