@@ -1157,6 +1157,12 @@ not appropriate in some cases like terminals."
 
 (map! :map doom-leader-map "z" #'+zen/toggle-fullscreen)
 
+(use-package! yasnippet
+  :config
+  (setq yas-snippet-dirs
+    '("~/.doom.d/snippets"))
+  (yas-global-mode +1))
+
 (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 
 (use-package! clojure-mode
@@ -1740,7 +1746,7 @@ XREFS is a list of references/definitions."
         "C-j" #'corfu-next
         "C-k" #'corfu-previous
         "C-l" #'corfu-insert
-        "C-;" #'corfu-doc-toggle
+        "C-;" #'corfu-insert
         "TAB" #'corfu-insert
         "<tab>" #'corfu-insert
         "ESC" #'corfu-reset)
@@ -2030,9 +2036,3 @@ XREFS is a list of references/definitions."
       display-line-numbers-type 'relative)
 
 (setq show-paren-style 'expression)
-
-(use-package! yasnippet
-  :config
-  (setq yas-snippet-dirs
-    '("~/.doom.d/snippets"))
-  (yas-global-mode +1))
