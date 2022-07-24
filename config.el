@@ -581,7 +581,9 @@ output as a string."
                                         :border-width 1
                                         :min-width 120))
   (map! :map evil-normal-state-map
-    "g y" #'lsp-find-type-definition)
+        "g t" #'lsp-find-type-definition
+        "g D" #'lsp-find-implementation)
+
   (map! :map lsp-signature-mode-map
         "C-j" #'lsp-signature-next
         "C-k" #'lsp-signature-previous))
