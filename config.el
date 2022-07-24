@@ -1276,6 +1276,17 @@ not appropriate in some cases like terminals."
 (add-hook 'vue-mode-hook #'lsp)
 
 (use-package! lsp-mode
+  :config
+  (add-to-list 'lsp-language-id-configuration
+    '(typescript-tsx-mode . "css-modules"))
+  (lsp-register-client
+    (make-lsp-client :new-connection (lsp-stdio-connection "cssmodules-language-server")
+                     :priority -1
+                     :add-on? t
+                     :activation-fn (lsp-activate-on "css-modules")
+                     :server-id 'css-modules)))
+
+(use-package! lsp-mode
     :hook (groovy-mode . lsp-deferred)
     :commands (lsp lsp-deferred)
     :config (setq lsp-groovy-classpath
