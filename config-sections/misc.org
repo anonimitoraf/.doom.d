@@ -182,8 +182,7 @@ Allow convenient word deletion with C-<backspace>. In the terminal, C-<backspace
               (selected-session (consult--read sessions
                                   :prompt "Select tmux session: "
                                   ;; TODO What should be here?
-                                  :history 'consult--tmux-history
-                                  :sort nil)))
+                                  :history 'consult--tmux-history)))
         (if (not (member selected-session sessions))
           ;; Create a new session
           (progn

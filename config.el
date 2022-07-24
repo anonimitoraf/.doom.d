@@ -1420,8 +1420,7 @@ If prefix ARG is set, prompt for a directory to search from."
               (selected-session (consult--read sessions
                                   :prompt "Select tmux session: "
                                   ;; TODO What should be here?
-                                  :history 'consult--tmux-history
-                                  :sort nil)))
+                                  :history 'consult--tmux-history)))
         (if (not (member selected-session sessions))
           ;; Create a new session
           (progn
