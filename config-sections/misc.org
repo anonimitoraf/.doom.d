@@ -115,14 +115,9 @@ I don't need the mouse-hover help functions, having it enabled makes Emacs lag f
 
 * Enabling (extra) ligatures just for some modes
 Add to this list on a per-needed basis
-#+begin_src elisp
-(let ((modes '(clojure-mode
-               clojurescript-mode
-               clojurec-mode
-               emacs-lisp-mode
-               org-mode)))
-  (setq +ligatures-in-modes modes)
-  (setq +ligatures-extras-in-modes modes))
+#+begin_src elisp :results none
+(setq +ligatures-in-modes '())
+(setq +ligatures-extras-in-modes '(org-mode))
 #+end_src
 * Terminal considerations
 Terminal emacs tends to throw a bunch of extra errors.

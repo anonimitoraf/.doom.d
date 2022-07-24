@@ -1204,18 +1204,6 @@ not appropriate in some cases like terminals."
      :side bottom
      :size 0.2)))
 
-(plist-put! +ligatures-extra-symbols
-            :lambda-prime "ƛ")
-
-(set-ligatures! 'clojure-mode nil)
-(set-ligatures! 'clojurescript-mode nil)
-(set-ligatures! 'clojure-mode
-  :lambda "fn")
-(set-ligatures! 'clojurescript-mode
-  ;; Account for re-frame debux forms
-  :lambda "fn"
-  :lambda-prime "fn-traced")
-
 (defun ++clojure-pretty-format ()
   (interactive)
   (shell-command-on-region
@@ -1379,13 +1367,8 @@ If prefix ARG is set, prompt for a directory to search from."
       '(emacs-lisp-mode
         erlang-mode))
 
-(let ((modes '(clojure-mode
-               clojurescript-mode
-               clojurec-mode
-               emacs-lisp-mode
-               org-mode)))
-  (setq +ligatures-in-modes modes)
-  (setq +ligatures-extras-in-modes modes))
+(setq +ligatures-in-modes '())
+(setq +ligatures-extras-in-modes '(org-mode))
 
 (when (not (display-graphic-p))
   (setq debug-on-error nil))

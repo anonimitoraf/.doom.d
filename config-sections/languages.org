@@ -49,21 +49,6 @@ Popup rules
      :size 0.2)))
 #+end_src
 
-Ligatures
-#+begin_src elisp
-(plist-put! +ligatures-extra-symbols
-            :lambda-prime "ƛ")
-
-(set-ligatures! 'clojure-mode nil)
-(set-ligatures! 'clojurescript-mode nil)
-(set-ligatures! 'clojure-mode
-  :lambda "fn")
-(set-ligatures! 'clojurescript-mode
-  ;; Account for re-frame debux forms
-  :lambda "fn"
-  :lambda-prime "fn-traced")
-#+end_src
-
 Pretty-printing currently selected Clojure code with =jet=
 #+begin_src elisp
 (defun ++clojure-pretty-format ()
