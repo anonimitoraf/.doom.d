@@ -1,0 +1,4 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: React Ionic tag
+# --
+<Ion${1:TAG}>$0</Ion$1>
