@@ -1086,7 +1086,8 @@ output as a string."
         tide-completion-ignore-case t)
   (setq-local completion-at-point-functions
     (mapcar #'cape-company-to-capf
-      (list #'company-tide))))
+      (list #'company-tide)))
+  (advice-add #'tide-eldoc-function :around #'ignore))
 
 (use-package! tide
   :config
