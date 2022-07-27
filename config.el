@@ -1291,19 +1291,21 @@ not appropriate in some cases like terminals."
 
 (add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
 
-(defvar ++default-directory-remembered nil)
-(defun ++default-search+track ()
-  "Conduct a text search in files under the current folder.
-If prefix ARG is set, prompt for a directory to search from."
+(defvar ++consult--search-recent-dir-tracked nil)
+(define-advice read-directory-name
+  (:around (fn &rest args) ++consult--search-recent-dir-tracked)
+  (let ((dir (apply fn args)))
+    (add-to-list '++consult--search-recent-dir-tracked dir)
+    dir))
+
+(defvar ++consult--search-recent-dir-history nil)
+(defun ++consult--search-recent-dir ()
   (interactive)
-  (let ((default-directory (read-directory-name "Search (and Remember) directory: " ++default-directory-remembered)))
-    (setq ++default-directory-remembered default-directory)
-    (call-interactively
-     (cond ((featurep! :completion ivy)     #'+ivy/project-search-from-cwd)
-           ((featurep! :completion helm)    #'+helm/project-search-from-cwd)
-           ((featurep! :completion vertico) #'+vertico/project-search-from-cwd)
-           (#'rgrep)))))
-(map! :map doom-leader-map :nv "s r" #'++default-search+track)
+  (let ((default-directory (consult--read ++consult--search-recent-dir-tracked
+                              :prompt "Search recent directory: "
+                              :history ++consult--search-recent-dir-history)))
+    (+default/search-cwd)))
+(map! :map doom-leader-map "s r" #'++consult--search-recent-dir)
 
 (defun ++remove-from-jump-list (file-name)
   (interactive)
