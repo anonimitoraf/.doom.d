@@ -1308,6 +1308,12 @@ not appropriate in some cases like terminals."
                               :prompt "Search recent directory: "
                               :history ++consult--search-recent-dir-history)))
     (+default/search-cwd)))
+
+;; Persist them across restarts
+(add-hook 'savehist-mode-hook (lambda ()
+                                (add-to-list 'savehist-additional-variables '++consult--search-recent-dir-tracked)
+                                (add-to-list 'savehist-additional-variables '++consult--search-recent-dir-history)))
+
 (map! :map doom-leader-map "s r" #'++consult--search-recent-dir)
 
 (defun ++remove-from-jump-list (file-name)
