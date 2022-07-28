@@ -63,6 +63,8 @@ output as a string."
 
 (defvar ++sync-folder-path "~/Dropbox")
 
+(setq savehist-file (concat ++sync-folder-path "/emacs/savehist"))
+
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
 (custom-set-faces!

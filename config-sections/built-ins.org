@@ -1,0 +1,6 @@
+#+TITLE: Built-ins
+
+* Make sure I don't lost my savehist
+#+begin_src elisp
+(setq savehist-file (concat ++sync-folder-path "/emacs/savehist"))
+#+end_src
