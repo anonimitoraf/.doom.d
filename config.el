@@ -1179,6 +1179,9 @@ not appropriate in some cases like terminals."
     '("~/.doom.d/snippets"))
   (yas-global-mode +1))
 
+(advice-add 'yas-insert-snippet :after (lambda (&rest _)
+                                         (evil-insert-state)))
+
 (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 
 (use-package! clojure-mode
