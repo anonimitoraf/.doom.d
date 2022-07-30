@@ -793,6 +793,16 @@ output as a string."
    (Clojure . t)
    (Javascript . t)))
 
+(after! org
+  (setq org-babel-results-keyword "results")
+  (custom-set-faces!
+    `(org-level-1 :foreground ,(doom-color 'yellow))
+    `(org-meta-line :foreground ,(doom-color 'grey))
+    `(org-table :foreground ,(doom-color 'orange))
+    `(org-block :background ,(doom-color 'black))
+    `(org-block-begin-line :overline t)
+    `(org-block-end-line :overline nil :underline t)))
+
 (use-package! org-alert
   :config
   (setq org-alert-interval 300)

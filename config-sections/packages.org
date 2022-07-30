@@ -951,6 +951,17 @@ TODO Find out why emacs-lisp is set to nil
    (Clojure . t)
    (Javascript . t)))
 #+end_src
+#+BEGIN_SRC elisp :results none
+(after! org
+  (setq org-babel-results-keyword "results")
+  (custom-set-faces!
+    `(org-level-1 :foreground ,(doom-color 'yellow))
+    `(org-meta-line :foreground ,(doom-color 'grey))
+    `(org-table :foreground ,(doom-color 'orange))
+    `(org-block :background ,(doom-color 'black))
+    `(org-block-begin-line :overline t)
+    `(org-block-end-line :overline nil :underline t)))
+#+END_SRC
 * =org-alert=
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! org-alert
