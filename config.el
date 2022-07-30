@@ -979,7 +979,7 @@ output as a string."
 
 (use-package! speed-type
   :config
-  (setq speed-type-default-lang "English"))
+  (setq speed-type-default-lang 'English))
 
 (defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
 (defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")

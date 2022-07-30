@@ -1182,10 +1182,10 @@ Utilize modeline color to tell me if I'm in symex-mode
                       ("C-c 6" . "~/work/misc-2.org"))))
 #+end_src
 * =speed-type=
-#+begin_src elisp
+#+begin_src elisp :results none
 (use-package! speed-type
   :config
-  (setq speed-type-default-lang "English"))
+  (setq speed-type-default-lang 'English))
 #+end_src
 * =svg-tag-mode=
 #+begin_src emacs-lisp :tangle yes :results none
