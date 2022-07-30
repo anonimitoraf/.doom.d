@@ -219,3 +219,8 @@ Highlight the whole s-expr, not just the enclosing parens.
 #+begin_src elisp
 (setq show-paren-style 'expression)
 #+end_src
+
+Remove hl-line
+#+begin_src elisp :results none
+(global-hl-line-mode -1)
+#+end_src
