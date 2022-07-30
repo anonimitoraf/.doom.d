@@ -224,3 +224,9 @@ Remove hl-line
 #+begin_src elisp :results none
 (global-hl-line-mode -1)
 #+end_src
+
+I don't really need to know line numbers anymore if I've got =avy=
+#+begin_src elisp :results none
+(global-display-line-numbers-mode -1)
+#+end_src
+

@@ -2062,3 +2062,5 @@ XREFS is a list of references/definitions."
 (setq show-paren-style 'expression)
 
 (global-hl-line-mode -1)
+
+(global-display-line-numbers-mode -1)
