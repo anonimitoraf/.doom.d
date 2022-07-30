@@ -711,9 +711,10 @@ output as a string."
                             (sequence "[ ](T)" "[-](O)" "[?](H)" "|" "[X](D)"))
         org-log-done 'time
         org-hide-leading-stars t
-        org-superstar-headline-bullets-list '("▪")
+        org-superstar-headline-bullets-list '("•")
         org-superstar-cycle-headline-bullets 1
-        org-superstar-todo-bullet-alist '("▪")
+        org-superstar-special-todo-items t
+        org-superstar-item-bullet-alist '("-")
         org-tags-column -120
         org-image-actual-width nil
         ;; Don't log the time a task was rescheduled or redeadlined.

@@ -157,6 +157,7 @@
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective came
        (org         ; organize your plain life in plain text
+         +pretty
          +dragndrop
          +hugo
          +roam2)

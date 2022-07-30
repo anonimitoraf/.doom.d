@@ -819,7 +819,7 @@ Display clock on modeline
   (nyan-mode +1))
 #+end_src
 * =org=
-#+begin_src elisp
+#+begin_src elisp :results none
 (after! org
   (setq org-directory (concat ++sync-folder-path "/org")
         org-default-notes-file (concat org-directory "/notes/default.org")
@@ -846,9 +846,10 @@ Display clock on modeline
                             (sequence "[ ](T)" "[-](O)" "[?](H)" "|" "[X](D)"))
         org-log-done 'time
         org-hide-leading-stars t
-        org-superstar-headline-bullets-list '("▪")
+        org-superstar-headline-bullets-list '("•")
         org-superstar-cycle-headline-bullets 1
-        org-superstar-todo-bullet-alist '("▪")
+        org-superstar-special-todo-items t
+        org-superstar-item-bullet-alist '("-")
         org-tags-column -120
         org-image-actual-width nil
         ;; Don't log the time a task was rescheduled or redeadlined.
