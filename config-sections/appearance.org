@@ -211,8 +211,7 @@ I know most of the keyboard shortcuts by now :P
 * Misc
 #+begin_src elisp
 (setq display-time-default-load-average nil
-      display-time-24hr-format t
-      display-line-numbers-type 'relative)
+      display-time-24hr-format t)
 #+end_src
 
 Highlight the whole s-expr, not just the enclosing parens.
@@ -227,6 +226,5 @@ Remove hl-line
 
 I don't really need to know line numbers anymore if I've got =avy=
 #+begin_src elisp :results none
-(global-display-line-numbers-mode -1)
+(setq display-line-numbers-type nil)
 #+end_src
-

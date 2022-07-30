@@ -2056,11 +2056,10 @@ XREFS is a list of references/definitions."
     '(doom-modeline-buffer-file :weight normal)))
 
 (setq display-time-default-load-average nil
-      display-time-24hr-format t
-      display-line-numbers-type 'relative)
+      display-time-24hr-format t)
 
 (setq show-paren-style 'expression)
 
 (global-hl-line-mode -1)
 
-(global-display-line-numbers-mode -1)
+(setq display-line-numbers-type nil)
