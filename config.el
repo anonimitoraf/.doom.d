@@ -746,6 +746,16 @@ output as a string."
 
 (add-hook 'org-mode-hook (lambda () (visual-line-mode -1)))
 
+(defun ++org-babel-interpret-ansi ()
+  (when-let ((beg (org-babel-where-is-src-block-result nil nil)))
+    (save-excursion
+      (goto-char beg)
+      (when (looking-at org-babel-result-regexp)
+        (let ((end (org-babel-result-end))
+              (ansi-color-context-region nil))
+          (ansi-color-apply-on-region beg end))))))
+(add-hook 'org-babel-after-execute-hook #'++org-babel-interpret-ansi)
+
 (after! org
   (setq org-capture-templates
         '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")
