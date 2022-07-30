@@ -113,9 +113,9 @@ output as a string."
 (use-package! beacon
   :config
   (beacon-mode +1)
-  (setq beacon-color (doom-color 'magenta)
+  (setq beacon-color (doom-color 'teal)
         beacon-blink-delay 0.2
-        beacon-blink-duration 0.2
+        beacon-blink-duration 0.5
         beacon-blink-when-window-changes nil)
   (setq beacon-do-blink-commands
         '(evil-scroll-up evil-scroll-down
