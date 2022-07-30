@@ -800,8 +800,9 @@ output as a string."
     `(org-meta-line :foreground ,(doom-color 'grey))
     `(org-table :foreground ,(doom-color 'orange))
     `(org-block :background ,(doom-color 'black))
-    `(org-block-begin-line :overline t)
-    `(org-block-end-line :overline nil :underline t)))
+    `(org-block-begin-line :foreground ,(doom-color 'grey) :overline t)
+    `(org-block-end-line :foreground ,(doom-color 'grey) :overline nil :underline t)
+    `(org-code :foreground ,(doom-color 'teal))))
 
 (use-package! org-alert
   :config
