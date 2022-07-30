@@ -110,19 +110,19 @@ output as a string."
 
 (setq avy-timeout-seconds 0.1)
 
-(use-package! beacon
-  :config
-  (beacon-mode +1)
-  (setq beacon-color (doom-color 'teal)
-        beacon-blink-delay 0.2
-        beacon-blink-duration 0.5
-        beacon-blink-when-window-changes nil)
-  (setq beacon-do-blink-commands
-        '(evil-scroll-up evil-scroll-down
-                         evil-goto-line evil-goto-last-line))
-  (defun beacon-do-blink-command (func)
-    (advice-add func :after (lambda (_f &rest _args) (beacon-blink))))
-  (mapc #'beacon-do-blink-command beacon-do-blink-commands))
+;; (use-package! beacon
+;;   :config
+;;   (beacon-mode +1)
+;;   (setq beacon-color (doom-color 'teal)
+;;         beacon-blink-delay 0.2
+;;         beacon-blink-duration 0.5
+;;         beacon-blink-when-window-changes nil)
+;;   (setq beacon-do-blink-commands
+;;         '(evil-scroll-up evil-scroll-down
+;;                          evil-goto-line evil-goto-last-line))
+;;   (defun beacon-do-blink-command (func)
+;;     (advice-add func :after (lambda (_f &rest _args) (beacon-blink))))
+;;   (mapc #'beacon-do-blink-command beacon-do-blink-commands))
 
 (setq bookmark-default-file (concat ++sync-folder-path "/emacs/bookmarks"))
 
