@@ -218,9 +218,6 @@
 
 (package! org-sticky-header)
 
-(package! beacon
-  :recipe (:host github :repo "Malabarba/beacon"))
-
 (package! evil-snipe :disable t)
 
 (package! topspace
@@ -229,3 +226,6 @@
 (package! yasnippet)
 
 (package! writegood-mode :disable t)
+
+(package!  pulsar
+  :recipe (:host gitlab :repo "protesilaos/pulsar"))

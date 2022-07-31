@@ -64,22 +64,6 @@ Searching should be done using 2 chars almost all the time hence we use a very s
 #+begin_src elisp
 (setq avy-timeout-seconds 0.1)
 #+end_src
-* =beacon=
-#+begin_src elisp :results none
-;; (use-package! beacon
-;;   :config
-;;   (beacon-mode +1)
-;;   (setq beacon-color (doom-color 'teal)
-;;         beacon-blink-delay 0.2
-;;         beacon-blink-duration 0.5
-;;         beacon-blink-when-window-changes nil)
-;;   (setq beacon-do-blink-commands
-;;         '(evil-scroll-up evil-scroll-down
-;;                          evil-goto-line evil-goto-last-line))
-;;   (defun beacon-do-blink-command (func)
-;;     (advice-add func :after (lambda (_f &rest _args) (beacon-blink))))
-;;   (mapc #'beacon-do-blink-command beacon-do-blink-commands))
-#+end_src
 * =built-ins=
 ** bookmarks
 I want to sync bookmarks across my devices.
@@ -1162,6 +1146,53 @@ For remote files, make it a bit longer
   :config
   (setq projectile-git-autofetch-notify nil)
   (projectile-git-autofetch-mode +1))
+#+end_src
+* =pulsar=
+#+begin_src elisp :results none
+(use-package! pulsar
+  :config
+  (setq pulsar-pulse-functions
+        '(recenter-top-bottom
+          move-to-window-line-top-bottom
+          reposition-window
+          forward-page
+          backward-page
+          scroll-up-command
+          scroll-down-command
+          org-next-visible-heading
+          org-previous-visible-heading
+          org-forward-heading-same-level
+          org-backward-heading-same-level
+          outline-backward-same-level
+          outline-forward-same-level
+          outline-next-visible-heading
+          outline-previous-visible-heading
+          outline-up-heading))
+  (setq pulsar-pulse-on-window-change t)
+  (setq pulsar-pulse t)
+  (setq pulsar-delay 0.1)
+  (setq pulsar-iterations 10)
+  (setq pulsar-face 'pulsar-magenta)
+  (setq pulsar-highlight-face 'pulsar-yellow)
+  (pulsar-global-mode +1)
+  ;; For some reason, some commands don't work despite being in pulsar-pulse-functions
+  (setq ++pulsar-pulse-line-cmds
+        '(evil-scroll-up
+          evil-scroll-down
+          evil-goto-line
+          evil-goto-last-line
+          evilem-motion-previous-line
+          evilem-motion-next-line))
+  (defun ++pulsar-pulse-line (func)
+    (advice-add func :after (lambda (_f &rest _args) (pulsar-pulse-line))))
+  (mapc #'++pulsar-pulse-line ++pulsar-pulse-line-cmds)
+  ;; integration with the `consult' package:
+  (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
+  (add-hook 'consult-after-jump-hook #'pulsar-reveal-entry)
+  ;; integration with the built-in
+ `imenu':
+  (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
+  (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry))
 #+end_src
 * =rainbow=
 #+begin_src elisp
