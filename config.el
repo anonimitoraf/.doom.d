@@ -804,6 +804,10 @@ output as a string."
     `(org-block-end-line :foreground ,(doom-color 'grey) :overline nil :underline t)
     `(org-code :foreground ,(doom-color 'teal))))
 
+(use-package! org-sticky-header
+  :config
+  (org-sticky-header-mode +1))
+
 (use-package! org-alert
   :config
   (setq org-alert-interval 300)

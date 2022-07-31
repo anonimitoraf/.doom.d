@@ -963,6 +963,13 @@ TODO Find out why emacs-lisp is set to nil
     `(org-block-end-line :foreground ,(doom-color 'grey) :overline nil :underline t)
     `(org-code :foreground ,(doom-color 'teal))))
 #+END_SRC
+** =org-sticky-header=
+#+begin_src elisp :results none
+(use-package! org-sticky-header
+  :config
+  (org-sticky-header-mode +1))
+#+end_src
+
 * =org-alert=
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! org-alert
