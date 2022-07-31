@@ -756,6 +756,25 @@ output as a string."
           (ansi-color-apply-on-region beg end))))))
 (add-hook 'org-babel-after-execute-hook #'++org-babel-interpret-ansi)
 
+(defun ++org-collapse-all-except-current ()
+  (interactive)
+  "Collapse all nodes except current"
+  (if (save-excursion (end-of-line) (outline-invisible-p))
+      (progn (org-show-entry) (show-children))
+    (outline-back-to-heading)
+    (unless (and (bolp) (org-on-heading-p))
+      (org-up-heading-safe)
+      (hide-subtree)
+      (error "Boundary reached"))
+    (org-overview)
+    (org-reveal t)
+    (org-show-entry)
+    (recenter-top-bottom)
+    (show-children)
+    (recenter-top-bottom)))
+(map! :map org-mode-map
+      :nv "SPC m z" #'++org-collapse-all-except-current)
+
 (after! org
   (setq org-capture-templates
         '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")
