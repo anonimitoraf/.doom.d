@@ -228,3 +228,8 @@ I don't really need to know line numbers anymore if I've got =avy=
 #+begin_src elisp :results none
 (setq display-line-numbers-type nil)
 #+end_src
+
+Prefer a simpler frame title
+#+begin_src elisp :results none
+(setq-default frame-title-format '("Emacs"))
+#+end_src

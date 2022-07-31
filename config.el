@@ -2081,3 +2081,5 @@ message listing the hooks."
 (global-hl-line-mode -1)
 
 (setq display-line-numbers-type nil)
+
+(setq-default frame-title-format '("Emacs"))
