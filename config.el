@@ -443,10 +443,7 @@ output as a string."
     :nv "g f" #'lsp-bridge-find-references
     :nv "SPC d" #'lsp-bridge-lookup-documentation
     :nv "SPC c r" #'lsp-bridge-rename
-    "C-SPC" (lambda ()
-              (interactive)
-              (acm-hide)
-              (acm-update)))
+    "C-SPC" #'lsp-bridge-popup-complete)
   (map! :map lsp-bridge-ref-mode-map
     :nv "C-k" #'lsp-bridge-ref-jump-prev-keyword
     :nv "C-S-k" #'lsp-bridge-ref-jump-prev-file
