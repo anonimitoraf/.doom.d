@@ -332,6 +332,7 @@ output as a string."
 (evil-add-command-properties #'projectile-find-file :jump t)
 (evil-add-command-properties #'find-file :jump t)
 (evil-add-command-properties #'consult-recent-file :jump t)
+(evil-add-command-properties #'doom/find-file-in-private-config :jump t)
 
 (setq +evil-want-o/O-to-continue-comments nil)
 
