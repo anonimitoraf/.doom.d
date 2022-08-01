@@ -63,6 +63,8 @@ output as a string."
 
 (defvar ++sync-folder-path "~/Dropbox")
 
+(setq savehist-file (concat ++sync-folder-path "/emacs/savehist"))
+
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
 (custom-set-faces!
@@ -107,20 +109,6 @@ output as a string."
   :config (setq all-the-icons-scale-factor 0.90))
 
 (setq avy-timeout-seconds 0.1)
-
-;; (use-package! beacon
-;;   :config
-;;   (beacon-mode +1)
-;;   (setq beacon-color (doom-color 'magenta)
-;;         beacon-blink-delay 0.2
-;;         beacon-blink-duration 0.2
-;;         beacon-blink-when-window-changes nil)
-;;   (setq beacon-do-blink-commands
-;;         '(evil-scroll-up evil-scroll-down
-;;                          evil-goto-line evil-goto-last-line))
-;;   (defun beacon-do-blink-command (func)
-;;     (advice-add func :after (lambda (_f &rest _args) (beacon-blink))))
-;;   (mapc #'beacon-do-blink-command beacon-do-blink-commands))
 
 (setq bookmark-default-file (concat ++sync-folder-path "/emacs/bookmarks"))
 
@@ -260,6 +248,7 @@ output as a string."
 (evil-add-command-properties #'projectile-find-file :jump t)
 (evil-add-command-properties #'find-file :jump t)
 (evil-add-command-properties #'consult-recent-file :jump t)
+(evil-add-command-properties #'doom/find-file-in-private-config :jump t)
 
 (setq +evil-want-o/O-to-continue-comments nil)
 
@@ -279,6 +268,14 @@ output as a string."
 (use-package! evil-matchit
   :config
   (global-evil-matchit-mode +1))
+
+(use-package! evil-easymotion
+  :config
+  (unbind-key "s" evil-normal-state-map)
+  (evilem-default-keybindings "s")
+  (custom-set-faces!
+    '(avy-lead-face :foreground "red" :background nil :weight bold)
+    `(avy-lead-face-0 :foreground ,(doom-color 'yellow) :background nil)))
 
 (use-package! elfeed
   :config
@@ -511,9 +508,10 @@ output as a string."
                             (sequence "[ ](T)" "[-](O)" "[?](H)" "|" "[X](D)"))
         org-log-done 'time
         org-hide-leading-stars t
-        org-superstar-headline-bullets-list '("▪")
+        org-superstar-headline-bullets-list '("•")
         org-superstar-cycle-headline-bullets 1
-        org-superstar-todo-bullet-alist '("▪")
+        org-superstar-special-todo-items t
+        org-superstar-item-bullet-alist '("-")
         org-tags-column -120
         org-image-actual-width nil
         ;; Don't log the time a task was rescheduled or redeadlined.
@@ -544,6 +542,35 @@ output as a string."
 (add-hook 'dired-mode-hook 'org-download-enable)
 
 (add-hook 'org-mode-hook (lambda () (visual-line-mode -1)))
+
+(defun ++org-babel-interpret-ansi ()
+  (when-let ((beg (org-babel-where-is-src-block-result nil nil)))
+    (save-excursion
+      (goto-char beg)
+      (when (looking-at org-babel-result-regexp)
+        (let ((end (org-babel-result-end))
+              (ansi-color-context-region nil))
+          (ansi-color-apply-on-region beg end))))))
+(add-hook 'org-babel-after-execute-hook #'++org-babel-interpret-ansi)
+
+(defun ++org-collapse-all-except-current ()
+  (interactive)
+  "Collapse all nodes except current"
+  (if (save-excursion (end-of-line) (outline-invisible-p))
+      (progn (org-show-entry) (show-children))
+    (outline-back-to-heading)
+    (unless (and (bolp) (org-on-heading-p))
+      (org-up-heading-safe)
+      (hide-subtree)
+      (error "Boundary reached"))
+    (org-overview)
+    (org-reveal t)
+    (org-show-entry)
+    (recenter-top-bottom)
+    (show-children)
+    (recenter-top-bottom)))
+(map! :map org-mode-map
+      :nv "SPC m z" #'++org-collapse-all-except-current)
 
 (after! org
   (setq org-capture-templates
@@ -581,6 +608,21 @@ output as a string."
  '((emacs-lisp . nil)
    (Clojure . t)
    (Javascript . t)))
+
+(after! org
+  (setq org-babel-results-keyword "results")
+  (custom-set-faces!
+    `(org-level-1 :foreground ,(doom-color 'yellow))
+    `(org-meta-line :foreground ,(doom-color 'grey))
+    `(org-table :foreground ,(doom-color 'orange))
+    `(org-block :background ,(doom-color 'black))
+    `(org-block-begin-line :foreground ,(doom-color 'grey) :overline t)
+    `(org-block-end-line :foreground ,(doom-color 'grey) :overline nil :underline t)
+    `(org-code :foreground ,(doom-color 'teal))))
+
+(use-package! org-sticky-header
+  :config
+  (org-sticky-header-mode +1))
 
 (use-package! org-alert
   :config
@@ -723,6 +765,51 @@ output as a string."
   (setq projectile-git-autofetch-notify nil)
   (projectile-git-autofetch-mode +1))
 
+(use-package! pulsar
+  :config
+  (setq pulsar-pulse-functions
+        '(recenter-top-bottom
+          move-to-window-line-top-bottom
+          reposition-window
+          forward-page
+          backward-page
+          scroll-up-command
+          scroll-down-command
+          org-next-visible-heading
+          org-previous-visible-heading
+          org-forward-heading-same-level
+          org-backward-heading-same-level
+          outline-backward-same-level
+          outline-forward-same-level
+          outline-next-visible-heading
+          outline-previous-visible-heading
+          outline-up-heading))
+  (setq pulsar-pulse-on-window-change t)
+  (setq pulsar-pulse t)
+  (setq pulsar-delay 0.05)
+  (setq pulsar-iterations 10)
+  (setq pulsar-face 'pulsar-magenta)
+  (setq pulsar-highlight-face 'pulsar-yellow)
+  (pulsar-global-mode +1)
+  ;; For some reason, some commands don't work despite being in pulsar-pulse-functions
+  (setq ++pulsar-pulse-line-cmds
+        '(evil-scroll-up
+          evil-scroll-down
+          evil-goto-line
+          evil-goto-last-line
+          evilem-motion-previous-line
+          evilem-motion-next-line))
+  (defun ++pulsar-pulse-line (func)
+    (advice-add func :after (lambda (_f &rest _args) (pulsar-pulse-line))))
+  (mapc #'++pulsar-pulse-line ++pulsar-pulse-line-cmds)
+  ;; integration with the `consult' package:
+  (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
+  (add-hook 'consult-after-jump-hook #'pulsar-reveal-entry)
+  ;; integration with the built-in
+ `imenu':
+  (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
+  (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry))
+
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
 
 (use-package! screenshot)
@@ -753,9 +840,8 @@ output as a string."
 
 (defhydra+ hydra-symex (:columns 5
                         :post (progn
-                                (custom-set-faces!
-                                  ;; TODO Avoid duplication by storing this beforehand
-                                  '(mode-line :background "#23102C" :height 0.9 :width condensed))
+                                ;; TODO Avoid duplication by storing this beforehand
+                                (set-face-attribute 'mode-line nil :background "#23102C")
                                 (symex-exit-mode)))
   "Symex mode"
   ("C-j" symex-emit-backward "emit backward")
@@ -765,8 +851,7 @@ output as a string."
 
 (advice-add 'symex-mode-interface :after (lambda (&rest args)
                                            (symex-hide-menu)
-                                           (custom-set-faces!
-                                             '(mode-line :background "#5a1111" :height 0.9 :width condensed))))
+                                           (set-face-attribute 'mode-line nil :background "#5a1111")))
 
 (use-package! speed-dial
   :config
@@ -780,7 +865,7 @@ output as a string."
 
 (use-package! speed-type
   :config
-  (setq speed-type-default-lang "English"))
+  (setq speed-type-default-lang 'English))
 
 (defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
 (defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
@@ -901,7 +986,9 @@ output as a string."
             (doom/find-file-in-private-config posframe)
             (projectile-switch-project grid)
             (consult-recent-file posframe)
-            (consult-bookmark buffer)))
+            (consult-bookmark buffer)
+            (yas-insert-snippet posframe)
+            (lsp-execute-code-action posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
@@ -941,6 +1028,15 @@ not appropriate in some cases like terminals."
    '(whitespace-tab ((t (:foreground "#636363"))))))
 
 (map! :map doom-leader-map "z" #'+zen/toggle-fullscreen)
+
+(use-package! yasnippet
+  :config
+  (setq yas-snippet-dirs
+    '("~/.doom.d/snippets"))
+  (yas-global-mode +1))
+
+(advice-add 'yas-insert-snippet :after (lambda (&rest _)
+                                         (evil-insert-state)))
 
 (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 
@@ -1058,19 +1154,30 @@ not appropriate in some cases like terminals."
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
 (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
 
-(defvar ++default-directory-remembered nil)
-(defun ++default-search+track ()
-  "Conduct a text search in files under the current folder.
-If prefix ARG is set, prompt for a directory to search from."
+(add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
+
+(defvar ++consult--search-recent-dir-tracked nil)
+(define-advice read-directory-name
+  (:around (fn &rest args) ++consult--search-recent-dir-tracked)
+  (let ((dir (apply fn args)))
+    (add-to-list '++consult--search-recent-dir-tracked dir)
+    dir))
+
+(defvar ++consult--search-recent-dir-history nil)
+(defun ++consult--search-recent-dir ()
   (interactive)
-  (let ((default-directory (read-directory-name "Search (and Remember) directory: " ++default-directory-remembered)))
-    (setq ++default-directory-remembered default-directory)
-    (call-interactively
-     (cond ((featurep! :completion ivy)     #'+ivy/project-search-from-cwd)
-           ((featurep! :completion helm)    #'+helm/project-search-from-cwd)
-           ((featurep! :completion vertico) #'+vertico/project-search-from-cwd)
-           (#'rgrep)))))
-(map! :map doom-leader-map :nv "s r" #'++default-search+track)
+  (let ((default-directory (consult--read ++consult--search-recent-dir-tracked
+                              :prompt "Search recent directory: "
+                              :history ++consult--search-recent-dir-history)))
+    (+default/search-cwd)))
+
+;; Persist them across restarts
+(add-hook 'savehist-mode-hook (lambda ()
+                                (add-to-list 'savehist-additional-variables '++consult--search-recent-dir-tracked)
+                                (add-to-list 'savehist-additional-variables '++consult--search-recent-dir-history)))
+
+(map! :map doom-leader-map "s r" #'++consult--search-recent-dir)
+
 (defun ++remove-from-jump-list (file-name)
   (interactive)
   (message "Removing %s from jump-list" file-name)
@@ -1133,13 +1240,8 @@ If prefix ARG is set, prompt for a directory to search from."
       '(emacs-lisp-mode
         erlang-mode))
 
-(let ((modes '(clojure-mode
-               clojurescript-mode
-               clojurec-mode
-               emacs-lisp-mode
-               org-mode)))
-  (setq +ligatures-in-modes modes)
-  (setq +ligatures-extras-in-modes modes))
+(setq +ligatures-in-modes '())
+(setq +ligatures-extras-in-modes '(org-mode))
 
 (when (not (display-graphic-p))
   (setq debug-on-error nil))
@@ -1181,30 +1283,33 @@ If prefix ARG is set, prompt for a directory to search from."
   (++async-shell-command (concat "tmux switch -t " "\"" session-name "\"")
                          (lambda (_) (message (concat "Selected existing tmux session (quiet): " session-name)))))
 
-(defun ++tmux-go (&optional quiet?)
+(defvar ++consult--tmux-history nil)
+(defun ++consult-tmux (&optional quiet?)
   (interactive)
   (++async-shell-command "tmux list-sessions | awk '$0=$1' | sed s/://"
-                         (lambda (sessions-str)
-                           (let* ((no-sessions (string-match-p "^no server running on.*$" sessions-str))
-                                  (sessions (if no-sessions '() (split-string sessions-str))))
-                             (ivy-read "Select tmux session: " sessions
-                                       :action (lambda (selected-session)
-                                                 (if (not (member selected-session sessions))
-                                                     ;; Create a new session
-                                                     (progn
-                                                       (message (concat "Creating new tmux session: " selected-session))
-                                                       (if quiet?
-                                                           (++tmux--new-session-quiet selected-session)
-                                                         (++tmux--new-session selected-session)))
-                                                   ;; Switch to an existing session
-                                                   (progn
-                                                     (message (concat "Selecting existing session " selected-session))
-                                                     (if quiet?
-                                                         (++tmux--switch-session-quiet selected-session)
-                                                       (++tmux--switch-session selected-session))))))))))
+    (lambda (sessions-str)
+      (let* ((no-sessions (string-match-p "^no server running on.*$" sessions-str))
+              (sessions (if no-sessions '() (split-string sessions-str)))
+              (selected-session (consult--read sessions
+                                  :prompt "Select tmux session: "
+                                  ;; TODO What should be here?
+                                  :history 'consult--tmux-history)))
+        (if (not (member selected-session sessions))
+          ;; Create a new session
+          (progn
+            (message (concat "Creating new tmux session: " selected-session))
+            (if quiet?
+              (++tmux--new-session-quiet selected-session)
+              (++tmux--new-session selected-session)))
+          ;; Switch to an existing session
+          (progn
+            (message (concat "Selecting existing session " selected-session))
+            (if quiet?
+              (++tmux--switch-session-quiet selected-session)
+              (++tmux--switch-session selected-session))))))))
 
-(map! :n "SPC _" (cmd! (++tmux-go))
-      :n "SPC -" (cmd! (++tmux-go t)))
+(map! :n "SPC _" (cmd! (++consult-tmux))
+      :n "SPC -" (cmd! (++consult-tmux t)))
 
 (require 'ansi-color)
 (defun display-ansi-colors ()
@@ -1557,7 +1662,7 @@ message listing the hooks."
   (let ((new-font-size (++screen-pixels->font-size
                         (cddr (frame-monitor-attribute 'geometry)))))
     (unless (equal new-font-size ++font-size)
-      (setq doom-font (font-spec :family "Ubuntu Mono" :size new-font-size))
+      (setq doom-font (font-spec :family "Fantasque Sans Mono" :size new-font-size))
       (set-frame-font doom-font t (++get-frame-list)))
     (setq ++font-size new-font-size)))
 
@@ -1619,13 +1724,18 @@ message listing the hooks."
 
 (after! doom-modeline
   (custom-set-faces!
-    '(mode-line :background "#23102C" :height 0.9 :width condensed)
+    '(mode-line :background "#23102C" :height 0.9 :width condensed :box (:line-width 1 :color "grey40"))
     '(mode-line-inactive :height 0.9 :width condensed)
     '(mode-line-emphasis :inherit mode-line)
     '(doom-modeline-buffer-file :weight normal)))
 
 (setq display-time-default-load-average nil
-      display-time-24hr-format t
-      display-line-numbers-type 'relative)
+      display-time-24hr-format t)
 
 (setq show-paren-style 'expression)
+
+(global-hl-line-mode -1)
+
+(setq display-line-numbers-type nil)
+
+(setq-default frame-title-format '("Emacs"))

@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: React fn
+# --
+type ${1:FUNCTION_NAME}Props = {}
+function $1({  }: $1Props) {
+  $0
+}

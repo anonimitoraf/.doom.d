@@ -41,7 +41,7 @@
        ;; indent-guides     ; highlighted indent columns
        (ligatures +extra)
        modeline          ; snazzy, Atom-inspired modeline, plus API
-       nav-flash         ; blink the current line after jumping
+       ;; nav-flash         ; blink the current line after jumping
        ;; neotree           ; a project drawer, like NERDTree for vim
        ;; ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
@@ -75,7 +75,7 @@
               +icons)             ; making dired pretty [functional]
        ;;electric          ; smarter, keyword-based electric-indent
        ;;ibuffer         ; interactive buffer management
-       undo
+       (undo +tree)
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
@@ -86,7 +86,7 @@
 
        :checkers
        (syntax +childframe) ; tasing you for every semicolon you forget
-       (spell +aspell)             ; tasing you for misspelling mispelling
+       (spell +hunspell)             ; tasing you for misspelling mispelling
        grammar           ; tasing grammar mistake every you make
 
        :tools
@@ -157,6 +157,7 @@
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective came
        (org         ; organize your plain life in plain text
+         +pretty
          +dragndrop
          +hugo
          +roam2)

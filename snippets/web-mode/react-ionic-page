@@ -1,0 +1,60 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: React Ionic page
+# --
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonPage,
+  IonSkeletonText,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  useIonToast,
+} from '@ionic/react'
+import classes from './index.module.css'
+
+export function ${1:PAGE_NAME}() {
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>TODO</IonTitle>
+          <IonButtons>
+            <IonBackButton text='' defaultHref={'TODO'} />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <$1Content />
+      </IonContent>
+    </IonPage>
+  )
+}
+
+type $1ContentProps = {}
+function $1Content({}: $1ContentProps) {
+  return (
+    <>$0</>
+  )
+}
+
+function ErrorContent({ onReload }: { onReload: () => void }) {
+  return (
+    <div className={classes.errorContainer}>
+      <IonText>
+        <p>Unfortunately, we are having trouble TODO.</p>
+      </IonText>
+      <IonButton className={classes.reloadButton} fill='clear' onClick={onReload}>
+        Reload now
+      </IonButton>
+    </div>
+  )
+}

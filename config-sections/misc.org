@@ -1,20 +1,32 @@
 #+TITLE: Misc
 
-* Search and remember directory
+* Auto-save when Emacs loses focus
 #+begin_src elisp :results none
-(defvar ++default-directory-remembered nil)
-(defun ++default-search+track ()
-  "Conduct a text search in files under the current folder.
-If prefix ARG is set, prompt for a directory to search from."
+(add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
+#+end_src
+* Search a recently searched directory
+#+begin_src elisp :results none
+(defvar ++consult--search-recent-dir-tracked nil)
+(define-advice read-directory-name
+  (:around (fn &rest args) ++consult--search-recent-dir-tracked)
+  (let ((dir (apply fn args)))
+    (add-to-list '++consult--search-recent-dir-tracked dir)
+    dir))
+
+(defvar ++consult--search-recent-dir-history nil)
+(defun ++consult--search-recent-dir ()
   (interactive)
-  (let ((default-directory (read-directory-name "Search (and Remember) directory: " ++default-directory-remembered)))
-    (setq ++default-directory-remembered default-directory)
-    (call-interactively
-     (cond ((featurep! :completion ivy)     #'+ivy/project-search-from-cwd)
-           ((featurep! :completion helm)    #'+helm/project-search-from-cwd)
-           ((featurep! :completion vertico) #'+vertico/project-search-from-cwd)
-           (#'rgrep)))))
-(map! :map doom-leader-map :nv "s r" #'++default-search+track)
+  (let ((default-directory (consult--read ++consult--search-recent-dir-tracked
+                              :prompt "Search recent directory: "
+                              :history ++consult--search-recent-dir-history)))
+    (+default/search-cwd)))
+
+;; Persist them across restarts
+(add-hook 'savehist-mode-hook (lambda ()
+                                (add-to-list 'savehist-additional-variables '++consult--search-recent-dir-tracked)
+                                (add-to-list 'savehist-additional-variables '++consult--search-recent-dir-history)))
+
+(map! :map doom-leader-map "s r" #'++consult--search-recent-dir)
 #+end_src
 * Remove jumps from jump-list on buffer kill
 #+begin_src elisp :results none
@@ -111,14 +123,9 @@ I don't need the mouse-hover help functions, having it enabled makes Emacs lag f
 
 * Enabling (extra) ligatures just for some modes
 Add to this list on a per-needed basis
-#+begin_src elisp
-(let ((modes '(clojure-mode
-               clojurescript-mode
-               clojurec-mode
-               emacs-lisp-mode
-               org-mode)))
-  (setq +ligatures-in-modes modes)
-  (setq +ligatures-extras-in-modes modes))
+#+begin_src elisp :results none
+(setq +ligatures-in-modes '())
+(setq +ligatures-extras-in-modes '(org-mode))
 #+end_src
 * Terminal considerations
 Terminal emacs tends to throw a bunch of extra errors.
@@ -173,30 +180,33 @@ Allow convenient word deletion with C-<backspace>. In the terminal, C-<backspace
   (++async-shell-command (concat "tmux switch -t " "\"" session-name "\"")
                          (lambda (_) (message (concat "Selected existing tmux session (quiet): " session-name)))))
 
-(defun ++tmux-go (&optional quiet?)
+(defvar ++consult--tmux-history nil)
+(defun ++consult-tmux (&optional quiet?)
   (interactive)
   (++async-shell-command "tmux list-sessions | awk '$0=$1' | sed s/://"
-                         (lambda (sessions-str)
-                           (let* ((no-sessions (string-match-p "^no server running on.*$" sessions-str))
-                                  (sessions (if no-sessions '() (split-string sessions-str))))
-                             (ivy-read "Select tmux session: " sessions
-                                       :action (lambda (selected-session)
-                                                 (if (not (member selected-session sessions))
-                                                     ;; Create a new session
-                                                     (progn
-                                                       (message (concat "Creating new tmux session: " selected-session))
-                                                       (if quiet?
-                                                           (++tmux--new-session-quiet selected-session)
-                                                         (++tmux--new-session selected-session)))
-                                                   ;; Switch to an existing session
-                                                   (progn
-                                                     (message (concat "Selecting existing session " selected-session))
-                                                     (if quiet?
-                                                         (++tmux--switch-session-quiet selected-session)
-                                                       (++tmux--switch-session selected-session))))))))))
+    (lambda (sessions-str)
+      (let* ((no-sessions (string-match-p "^no server running on.*$" sessions-str))
+              (sessions (if no-sessions '() (split-string sessions-str)))
+              (selected-session (consult--read sessions
+                                  :prompt "Select tmux session: "
+                                  ;; TODO What should be here?
+                                  :history 'consult--tmux-history)))
+        (if (not (member selected-session sessions))
+          ;; Create a new session
+          (progn
+            (message (concat "Creating new tmux session: " selected-session))
+            (if quiet?
+              (++tmux--new-session-quiet selected-session)
+              (++tmux--new-session selected-session)))
+          ;; Switch to an existing session
+          (progn
+            (message (concat "Selecting existing session " selected-session))
+            (if quiet?
+              (++tmux--switch-session-quiet selected-session)
+              (++tmux--switch-session selected-session))))))))
 
-(map! :n "SPC _" (cmd! (++tmux-go))
-      :n "SPC -" (cmd! (++tmux-go t)))
+(map! :n "SPC _" (cmd! (++consult-tmux))
+      :n "SPC -" (cmd! (++consult-tmux t)))
 #+end_src
 
 #+RESULTS:
