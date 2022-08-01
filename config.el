@@ -1198,7 +1198,9 @@ output as a string."
             (doom/find-file-in-private-config posframe)
             (projectile-switch-project grid)
             (consult-recent-file posframe)
-            (consult-bookmark buffer)))
+            (consult-bookmark buffer)
+            (yas-insert-snippet posframe)
+            (lsp-execute-code-action posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
