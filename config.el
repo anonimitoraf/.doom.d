@@ -1162,7 +1162,8 @@ output as a string."
   (eldoc-mode -1)
   (tide-hl-identifier-mode -1)
   (setq tide-completion-detailed nil
-        tide-completion-ignore-case t)
+        tide-completion-ignore-case t
+        tide-save-buffer-after-code-edit nil)
   (setq-local completion-at-point-functions
     (mapcar #'cape-company-to-capf
       (list #'company-tide)))
