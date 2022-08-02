@@ -995,8 +995,7 @@ output as a string."
   ;; integration with the `consult' package:
   (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
   (add-hook 'consult-after-jump-hook #'pulsar-reveal-entry)
-  ;; integration with the built-in
- `imenu':
+  ;; integration with the built-in `imenu':
   (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
   (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry))
 
