@@ -221,7 +221,8 @@ Highlight the whole s-expr, not just the enclosing parens.
 
 Remove hl-line
 #+begin_src elisp :results none
-(global-hl-line-mode -1)
+(add-hook! '(prog-mode-hook text-mode-hook)
+           (cmd! (hl-line-mode -1)))
 #+end_src
 
 I don't really need to know line numbers anymore if I've got =avy=
