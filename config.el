@@ -67,10 +67,10 @@ output as a string."
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
-(custom-set-faces!
-  '(aw-leading-char-face
-    :foreground "white" :background "red"
-    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+  (custom-set-faces!
+    '(aw-leading-char-face
+      :foreground "white" :background "red"
+      :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
 ;; (use-package! aggressive-indent
 ;;   :config
@@ -1799,7 +1799,9 @@ message listing the hooks."
         "C-l" #'corfu-insert
         "C-;" #'corfu-insert
         "TAB" #'corfu-insert
-        "<tab>" #'corfu-insert)
+        "<tab>" #'corfu-insert
+        :nvi "<escape>" #'corfu-quit
+        :nvi "ESC" #'corfu-quit)
   (add-hook! '(prog-mode-hook
                text-mode-hook)
     (corfu-mode +1)
@@ -1866,10 +1868,6 @@ message listing the hooks."
   :config
   (setq cape-dabbrev-min-length 2
         cape-dabbrev-check-other-buffers 'some))
-
-(advice-add #'evil-normal-state :after (lambda (&rest _)
-                                         (when (corfu-doc--cf-popup-visible-p)
-                                           (corfu-quit))))
 
 (defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
 
