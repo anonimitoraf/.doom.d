@@ -1799,10 +1799,9 @@ message listing the hooks."
         "C-l" #'corfu-insert
         "C-;" #'corfu-insert
         "TAB" #'corfu-insert
-        "<tab>" #'corfu-insert
-        "ESC" #'corfu-reset)
+        "<tab>" #'corfu-insert)
   (add-hook! '(prog-mode-hook
-                text-mode-hook)
+               text-mode-hook)
     (corfu-mode +1)
     (corfu-doc-mode +1)
     (unless (display-graphic-p)
@@ -1867,6 +1866,10 @@ message listing the hooks."
   :config
   (setq cape-dabbrev-min-length 2
         cape-dabbrev-check-other-buffers 'some))
+
+(advice-add #'evil-normal-state :after (lambda (&rest _)
+                                         (when (corfu-doc--cf-popup-visible-p)
+                                           (corfu-quit))))
 
 (defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
 

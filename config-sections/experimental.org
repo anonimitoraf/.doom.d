@@ -30,10 +30,9 @@
         "C-l" #'corfu-insert
         "C-;" #'corfu-insert
         "TAB" #'corfu-insert
-        "<tab>" #'corfu-insert
-        "ESC" #'corfu-reset)
+        "<tab>" #'corfu-insert)
   (add-hook! '(prog-mode-hook
-                text-mode-hook)
+               text-mode-hook)
     (corfu-mode +1)
     (corfu-doc-mode +1)
     (unless (display-graphic-p)
@@ -100,6 +99,12 @@
         cape-dabbrev-check-other-buffers 'some))
 #+end_src
 
+Close corfu with 1 ESC instead of 2
+#+begin_src elisp :results none
+(advice-add #'evil-normal-state :after (lambda (&rest _)
+                                         (when (corfu-doc--cf-popup-visible-p)
+                                           (corfu-quit))))
+#+end_src
 * =google-translate=
 Japanese kana -> romaji
 #+begin_src emacs-lisp :tangle yes :results none
