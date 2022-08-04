@@ -179,34 +179,6 @@ Patch for being able to connect to multiple nREPL instances by using a random lo
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! clippo)
 #+end_src
-* =company=
-#+begin_src elisp
-(after! company
-  (setq company-idle-delay 0.01
-        company-tooltip-idle-delay 0.01
-        company-minimum-prefix-length 2
-        company-selection-wrap-around t)
-  (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
-  (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
-  (if (display-graphic-p)
-      (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
-    ;; Terminal seems to work with just "TAB"
-    (define-key company-active-map (kbd "TAB") 'company-complete-selection))
-  (define-key company-active-map (kbd "C-l") 'company-complete-selection)
-  (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
-#+end_src
-Remove some conflicting keybindings with company-mode.
-TODO Check if this is actually a good thing to do.
-#+begin_src elisp
-(define-key global-map (kbd "C-j") nil)
-(define-key global-map (kbd "C-k") nil)
-#+end_src
-* =company-quickhelp=
-#+begin_src elisp
-(use-package! company-quickhelp
-  :config
-  (company-quickhelp-mode +1))
-#+end_src
 * =counsel=
 #+begin_src elisp
 ;; (use-package! counsel
@@ -1209,11 +1181,6 @@ For remote files, make it a bit longer
 * =screenshot=
 #+begin_src elisp
 (use-package! screenshot)
-#+end_src
-* =shell=
-Company mode in shell is just annoying.
-#+begin_src elisp
-;; (add-hook 'shell-mode-hook (lambda () (company-mode -1)))
 #+end_src
 * =slime=
 #+begin_src elisp

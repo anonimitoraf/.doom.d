@@ -67,10 +67,10 @@ output as a string."
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
-  (custom-set-faces!
-    '(aw-leading-char-face
-      :foreground "white" :background "red"
-      :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+(custom-set-faces!
+  '(aw-leading-char-face
+    :foreground "white" :background "red"
+    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
 ;; (use-package! aggressive-indent
 ;;   :config
@@ -200,27 +200,6 @@ output as a string."
   (global-clipetty-mode +1))
 
 (use-package! clippo)
-
-(after! company
-  (setq company-idle-delay 0.01
-        company-tooltip-idle-delay 0.01
-        company-minimum-prefix-length 2
-        company-selection-wrap-around t)
-  (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
-  (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
-  (if (display-graphic-p)
-      (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
-    ;; Terminal seems to work with just "TAB"
-    (define-key company-active-map (kbd "TAB") 'company-complete-selection))
-  (define-key company-active-map (kbd "C-l") 'company-complete-selection)
-  (define-key company-mode-map (kbd "C-SPC") 'company-manual-begin))
-
-(define-key global-map (kbd "C-j") nil)
-(define-key global-map (kbd "C-k") nil)
-
-(use-package! company-quickhelp
-  :config
-  (company-quickhelp-mode +1))
 
 ;; (use-package! counsel
 ;;   :config
@@ -1008,8 +987,6 @@ output as a string."
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
 
 (use-package! screenshot)
-
-;; (add-hook 'shell-mode-hook (lambda () (company-mode -1)))
 
 (use-package! slime
   :config
@@ -1809,16 +1786,7 @@ message listing the hooks."
     (unless (display-graphic-p)
       (corfu-terminal-mode +1)
       (corfu-doc-terminal-mode +1))
-    (company-mode -1))
-  (add-hook! '(clojure-mode-hook
-                clojurescript-mode-hook
-                clojurec-mode-hook
-                css-mode-hook
-                scss-mode-hook
-                sass-mode-hook
-                less-css-mode-hook)
-    (corfu-mode -1)
-    (company-mode +1)))
+    (company-mode -1)))
 
 (use-package kind-icon
   :ensure t
