@@ -397,6 +397,14 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
   (setq evil-collection-setup-minibuffer t))
 #+end_src
 
+Make evil-search-word look for symbol rather than word boundaries
+#+begin_src elisp :results none
+(use-package! evil
+  :config
+  (defalias #'forward-evil-word #'forward-evil-symbol)
+  (setq-default evil-symbol-word-search t)
+  (setq))
+#+end_src
 ** =evil-matchit=
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! evil-matchit
@@ -1041,7 +1049,7 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! org-sticky-header
   :config
-  (org-sticky-header-mode +1))
+  (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 #+end_src
 * =origami=
 #+begin_src elisp
