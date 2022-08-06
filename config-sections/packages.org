@@ -1421,6 +1421,17 @@ posframe setup
         vertico-posframe-parameters '((left-fringe . 10)
                                       (right-fringe . 10))))
 #+end_src
+* =vi-tilde-fringe=
+#+begin_src elisp :results none
+(setq vi-tilde-fringe-bitmap-array [#b00000000
+                                    #b00000000
+                                    #b00000000
+                                    #b11111111
+                                    #b11111111
+                                    #b00000000
+                                    #b00000000
+                                    #b00000000])
+#+end_src
 * =vterm=
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! vterm

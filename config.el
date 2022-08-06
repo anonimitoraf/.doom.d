@@ -1199,6 +1199,15 @@ output as a string."
         vertico-posframe-parameters '((left-fringe . 10)
                                       (right-fringe . 10))))
 
+(setq vi-tilde-fringe-bitmap-array [#b00000000
+                                    #b00000000
+                                    #b00000000
+                                    #b11111111
+                                    #b11111111
+                                    #b00000000
+                                    #b00000000
+                                    #b00000000])
+
 (use-package! vterm
   :config
   (setq vterm-ignore-blink-cursor nil
