@@ -1769,7 +1769,7 @@ message listing the hooks."
         corfu-preview-current nil
         corfu-preselect-first t
         corfu-on-exact-match nil
-        corfu-echo-documentation t
+        corfu-echo-documentation nil
         corfu-scroll-margin 10)
   (map! :map global-map
         :nvi "C-SPC" #'completion-at-point)
