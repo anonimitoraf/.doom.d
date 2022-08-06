@@ -329,12 +329,6 @@ output as a string."
   :config
   (setq evil-collection-setup-minibuffer t))
 
-(use-package! evil
-  :config
-  (defalias #'forward-evil-word #'forward-evil-symbol)
-  (setq-default evil-symbol-word-search t)
-  (setq))
-
 (use-package! evil-matchit
   :config
   (global-evil-matchit-mode +1))
