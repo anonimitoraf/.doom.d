@@ -2179,8 +2179,9 @@ message listing the hooks."
 
 (setq show-paren-style 'expression)
 
-(add-hook! '(prog-mode-hook text-mode-hook)
-           (cmd! (hl-line-mode -1)))
+(setq global-hl-line-modes nil)
+(add-hook 'prog-mode-hook (lambda () (hl-line-mode -1)))
+(add-hook 'text-mode-hook (lambda () (hl-line-mode -1)))
 
 (setq display-line-numbers-type nil)
 
