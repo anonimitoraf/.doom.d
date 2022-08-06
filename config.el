@@ -1193,7 +1193,9 @@ output as a string."
 
 (use-package! vertico-posframe
   :config
-  (setq vertico-posframe-border-width 1))
+  (setq vertico-posframe-border-width 1
+        vertico-posframe-parameters '((left-fringe . 10)
+                                      (right-fringe . 10))))
 
 (use-package! vterm
   :config
