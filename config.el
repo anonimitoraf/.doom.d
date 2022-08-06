@@ -1183,6 +1183,8 @@ output as a string."
             (projectile-switch-project grid)
             (consult-recent-file posframe)
             (consult-bookmark buffer)
+            (consult-imenu buffer)
+            (+default/search-buffer buffer)
             (yas-insert-snippet posframe)
             (lsp-execute-code-action posframe)))
     ;; Configure the display per completion category.
