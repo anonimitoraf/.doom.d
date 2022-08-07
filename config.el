@@ -744,25 +744,34 @@ output as a string."
 
 (after! org
   (setq org-capture-templates
-        '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")
-           "* TODO %?\n%U"
-           :kill-buffer t)
-          ("t" "Task" entry (file "~/Dropbox/org/captures/tasks.org")
-           "* TODO %?\n%U"
-           :kill-buffer t)
-          ("e" "From emacs" entry (file "~/Dropbox/org/captures/from-emacs.org")
-           "* %i\n%?"
-           :empty-lines 1
-           :kill-buffer t)
-          ("c" "From clipboard" entry (file "~/Dropbox/org/captures/from-clipboard.org")
-           "* %x\n%?"
-           :empty-lines 1
-           :kill-buffer t)
-          ("s" "Shopping list" entry (file "~/Dropbox/org/captures/shopping-list.org")
-           "* [ ] %?"
-           :jump-to-captured t
-           :empty-lines 1
-           :kill-buffer t))))
+    '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")
+        "* TODO %?\n%U"
+        :kill-buffer t)
+       ("t" "Task" entry (file "~/Dropbox/org/captures/tasks.org")
+         "* TODO %?\n%U"
+         :kill-buffer t)
+       ("e" "From emacs" entry (file "~/Dropbox/org/captures/from-emacs.org")
+         "* %i\n%?"
+         :empty-lines 1
+         :kill-buffer t)
+       ("c" "From clipboard" entry (file "~/Dropbox/org/captures/from-clipboard.org")
+         "* %x\n%?"
+         :empty-lines 1
+         :kill-buffer t)
+       ("s" "Shopping list" entry (file "~/Dropbox/org/captures/shopping-list.org")
+         "* [ ] %?"
+         :jump-to-captured t
+         :empty-lines 1
+         :kill-buffer t)
+       ;; ("L" "Org protocol link")
+       ;; ("Lh" "Link (headless)" entry (file "~/Dropbox/emacs/web-bookmarks.org")
+       ;;    "* %:annotation\n  %U\n\n  %i"
+       ;;    :prepend t
+       ;;    :immediate-finish t
+       ;;    :kill-buffer t)
+       ("Li" "Link (interactive)" entry (file "~/Dropbox/emacs/web-bookmarks.org")
+          "* %:annotation %U\n  %?"
+          :prepend t))))
 
 (setenv "NODE_PATH"
         (concat
