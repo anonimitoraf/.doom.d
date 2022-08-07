@@ -61,9 +61,9 @@ output as a string."
 
 (defvar ++window-id (shell-command-to-string "xdotool getwindowfocus getactivewindow | tr -d '\n'"))
 
-(defvar ++sync-folder-path "~/Dropbox")
+(defvar ++sync-folder-path "~/Dropbox/emacs")
 
-(setq savehist-file (concat ++sync-folder-path "/emacs/savehist"))
+(setq savehist-file (concat ++sync-folder-path "/savehist"))
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
@@ -110,7 +110,7 @@ output as a string."
 
 (setq avy-timeout-seconds 0.1)
 
-(setq bookmark-default-file (concat ++sync-folder-path "/emacs/bookmarks"))
+(setq bookmark-default-file (concat ++sync-folder-path "/bookmarks"))
 
 (setq bookmark-save-flag 1)
 
@@ -911,7 +911,7 @@ output as a string."
                 (cancel-timer ++chrome-tabs-retriever-timer)
                 (setq ++chrome-tabs-retriever-timer nil)))))
 
-(setq persp-save-dir (concat ++sync-folder-path "/emacs/sessions/"))
+(setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
 
 (map! :nv "SPC f g" #'projectile-find-file-other-window)
 
