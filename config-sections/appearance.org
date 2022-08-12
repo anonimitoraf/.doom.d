@@ -139,66 +139,6 @@ I want my font to automatically resize based on which screen Emacs is
  (run-at-time 0 nil (lambda () (++configure-font-size)))
  (setq ++adjust-font-timer (run-with-idle-timer 1 1 #'++configure-font-size)))
 #+end_src
-* Dashboard
-** Banner
-#+begin_src elisp
-(defun ++ascii-banner-ansi-shadow ()
-  (mapc (lambda (line)
-          (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-                              'face 'doom-dashboard-banner) " ")
-          (insert "\n"))
-        '("=================     ===============     ===============   ========  ========"
-          "\\\\ . . . . . . .\\\\   //. . . . . . .\\\\   //. . . . . . .\\\\  \\\\. . .\\\\// . . //"
-          "||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\\/ . . .||"
-          "|| . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||"
-          "||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||"
-          "|| . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\\ . . . . ||"
-          "||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\\_ . .|. .||"
-          "|| . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\\ `-_/| . ||"
-          "||_-' ||  .|/    || ||    \\|.  || `-_|| ||_-' ||  .|/    || ||   | \\  / |-_.||"
-          "||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \\  / |  `||"
-          "||    `'         || ||         `'    || ||    `'         || ||   | \\  / |   ||"
-          "||            .===' `===.         .==='.`===.         .===' /==. |  \\/  |   ||"
-          "||         .=='   ███████╗███╗   ███╗ █████╗  ██████╗███████╗  `==  \\/  |   ||"
-          "||      .=='    _-██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝_  /|  \\/  |   ||"
-          "||   .=='    _-'  █████╗  ██╔████╔██║███████║██║     ███████╗ `' |. /|  |   ||"
-          "||.=='    _-'     ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║     `' |  /==.||"
-          "=='    _-'        ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║         \\/   `=="
-          "\\   _-'           ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝          `-_   /"
-          "`''                                                                      ``'")))
-(setq +doom-dashboard-ascii-banner-fn #'++ascii-banner-ansi-shadow)
-#+end_src
-** Remove the menu
-I know most of the keyboard shortcuts by now :P
-#+begin_src elisp
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
-#+end_src
-** Show a random Clojure core symbol (for learning purposes)
-#+begin_src elisp
-(require 'clojure-rand-ref)
-
-(defun ++dashboard-trivia ()
- (clojure-rand-ref
-  (lambda (entry)
-    (with-current-buffer +doom-dashboard-name
-      (when entry
-        (read-only-mode -1)
-        (goto-char (point-min))
-        (forward-line 5)
-        (insert "Clojure Trivia\n\n")
-        (insert-text-button (concat "  " (plist-get entry :symbol) "\n")
-                            'action (lambda (_)
-                                      (+doom-dashboard-reload t)
-                                      (++dashboard-trivia)
-                                      (browse-url (plist-get entry :link)))
-                            'face 'doom-dashboard-menu-title
-                            'mouse-face 'doom-dashboard-menu-title
-                            'follow-link t)
-        (insert "  " (plist-get entry :description) "\n")
-        (read-only-mode +1))))))
-
-(unless IS-MAC (advice-add #'+doom-dashboard-init-h :after #'++dashboard-trivia))
-#+end_src
 * Modeline
 #+begin_src elisp
 (after! doom-modeline

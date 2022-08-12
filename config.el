@@ -224,83 +224,6 @@ output as a string."
 
 ;; (require 'edbi)
 
-;; (require 'ejc-sql)
-;; (require 'ejc-autocomplete)
-;; (require 'ejc-direx)
-;; (use-package! ejc-sql
-;;   :config
-;;   (setq ejc-ring-length 10000
-;;         ejc-result-table-impl 'ejc-result-mode
-;;         ejc-complete-on-dot t
-;;         ejc-sql-separator "---")
-;;   (set-popup-rules!
-;;     '(("^database: "
-;;        :quit nil
-;;        :side left
-;;        :size 75
-;;        :select t)
-;;       ("*ejc-sql-output*"
-;;        :quit nil
-;;        :side bottom
-;;        :size 30
-;;        :select nil)))
-;;   (add-hook 'sql-mode-hook (lambda ()
-;;                              (ejc-sql-mode t)
-;;                              (map! :nv "SPC a" #'ejc-eval-user-sql-at-point)))
-;;   (add-hook 'ejc-result-mode-hook (lambda () (visual-line-mode -1)))
-;;   (add-hook 'ejc-sql-minor-mode-hook
-;;             (lambda ()
-;;               (company-mode -1)
-;;               (auto-complete-mode +1)
-;;               (ejc-ac-setup)
-;;               ;; Fuzzy doesn't seem to work though. TODO Find out why
-;;               (setq ac-use-fuzzy t
-;;                     ac-fuzzy-enable t
-;;                     ac-menu-height 10
-;;                     ac-candidate-max 10
-;;                     ac-delay 0.5
-;;                     ac-auto-show-menu 0.5)
-;;               (map! :map ac-completing-map
-;;                     "C-k" #'ac-previous
-;;                     "C-j" #'ac-next
-;;                     "<tab>" #'ac-complete)))
-;;   (add-hook 'ejc-sql-connected-hook (lambda ()
-;;                                       (ejc-set-fetch-size 100)
-;;                                       (ejc-set-max-rows 100)
-;;                                       (ejc-set-show-too-many-rows-message t)
-;;                                       (ejc-set-column-width-limit 50)
-;;                                       (ejc-set-use-unicode t))))
-
-;; (defun ejx-direx:make-buffer-prefixed ()
-;;   (let ((current-ejc-db ejc-db)
-;;         (buf (direx:ensure-buffer-for-root
-;;               (make-instance 'ejc-direx:database
-;;                              :name (format "database: %s" (ejc-get-db-name ejc-db))
-;;                              :buffer (current-buffer)
-;;                              :file-name (buffer-file-name)
-;;                              :cache (cons nil (ejc-direx:get-structure))))))
-;;     (with-current-buffer buf
-;;       (setq-local ejc-db current-ejc-db))
-;;     buf))
-
-;; (defun ejx-direx:show ()
-;;   (interactive)
-;;   (pop-to-buffer (ejx-direx:make-buffer-prefixed)))
-
-(defun start-elcord ()
-  (interactive)
-  (use-package! elcord
-    :config
-    (setq elcord-refresh-rate 5
-          elcord-use-major-mode-as-main-icon t)
-    (elcord-mode +1)
-    (message "Started elcord")))
-
-(defun stop-elcord ()
-  (interactive)
-  (elcord-mode -1)
-  (message "Stopped elcord"))
-
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
 (define-key evil-motion-state-map (kbd "<tab>") nil)
@@ -347,14 +270,7 @@ output as a string."
         elfeed-db-directory "~/Dropbox/emacs/elfeed")
   (add-hook 'elfeed-search-mode-hook (lambda ()
                                        (elfeed-update)
-                                       (setq-local browse-url-browser-function 'eww-browse-url)))
-  (defun ++elfeed-content ()
-    (interactive)
-    (writeroom-mode -1)
-    (+zen/toggle-fullscreen)
-    (doom/window-maximize-buffer)
-    (focus-mode +1))
-  (map! :map doom-leader-map "Z" #'++elfeed-content))
+                                       (setq-local browse-url-browser-function 'eww-browse-url))))
 
 (after! elfeed
   (setq elfeed-search-filter "@5-year-ago +unread"))
@@ -429,10 +345,6 @@ output as a string."
   :config
   (setq flycheck-posframe-position 'window-top-right-corner))
 
-(use-package! focus
-  :config
-  (add-to-list 'focus-mode-to-thing '(eww-mode . paragraph)))
-
 (use-package! google-translate
   :config
   (map! :leader :desc "Google translate" "s a" #'google-translate-smooth-translate)
@@ -448,11 +360,6 @@ output as a string."
 
 (require 'keychain-environment)
 (keychain-refresh-environment)
-
-(add-hook 'text-mode-hook (lambda () (idle-highlight-mode +1)))
-(add-hook 'prog-mode-hook (lambda () (if (bound-and-true-p lsp-mode)
-                                    (idle-highlight-mode -1)
-                                  (idle-highlight-mode +1))))
 
 (require 'i3wm-config-mode)
 
@@ -488,14 +395,6 @@ output as a string."
 
 ;; (add-hook 'ivy-occur-grep-mode-hook
 ;;           (cmd! (setq ivy-calling t)))
-
-(use-package kubernetes
-  :ensure t
-  :commands (kubernetes-overview))
-
-(use-package kubernetes-evil
-  :ensure t
-  :after kubernetes)
 
 (use-package! lsp-mode
   :config
@@ -628,8 +527,6 @@ output as a string."
   (advice-add #'lsp-ui-peek--peek-new :override #'lsp-ui-peek--peek-display)
   (advice-add #'lsp-ui-peek--peek-hide :override #'lsp-ui-peek--peek-destroy))
 
-(require 'logview)
-
 (after! doom-modeline
   (setq doom-modeline-buffer-file-name-style 'auto
         doom-modeline-height 0
@@ -645,12 +542,6 @@ output as a string."
       display-time-24hr-format t)
 
 (display-time-mode +1)
-
-(use-package! nyan-mode
-  :config
-  (setq nyan-minimum-window-width 100
-        nyan-mark-modified-buffers t)
-  (nyan-mode +1))
 
 (after! org
   (setq org-directory (concat ++sync-folder-path "/org")
@@ -859,58 +750,6 @@ output as a string."
   :config
   (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 
-(use-package! origami
-  :config
-  ;; Only use origami for some modes
-  (add-hook! '(typescript-tsx-mode-hook
-                typescript-mode-hook
-                web-mode-hook
-                js-mode-hook
-                js2-mode-hook)
-    (origami-mode +1))
-  (custom-set-faces!
-    `(origami-fold-replacement-face :foreground ,(doom-color 'magenta)))
-  (map! :map origami-mode-map
-        :nv "z o" #'origami-open-node
-        :nv "z O" #'origami-open-node-recursively
-        :nv "z c" #'origami-close-node
-        :nv "z C" #'origami-close-node-recursively
-        :nv "z m" #'origami-close-all-nodes
-        :nv "z n" #'origami-open-all-nodes
-        :nv "z u" #'origami-undo
-        :nv "z r" #'origami-redo
-        :nv "z R" #'origami-reset))
-
-(use-package! chrome
-  :config (setq chrome-auto-retrieve t
-                ++chrome-host "127.0.0.1"
-                ++chrome-port 9222))
-
-(defun ++chrome-new-tab ()
-  (interactive)
-  (chrome--devtools-do
-   (chrome-tab-create :host ++chrome-host
-                      :port ++chrome-port
-                      :session '(++chrome-port . ++chrome-host))
-   "new"))
-
-(map! :map chrome-mode-map
-      :nv "l" #'chrome-visit-tab
-      :nv "x" #'chrome-delete-tab
-      :nv "n" #'++chrome-new-tab)
-
-(setq ++chrome-tabs-retriever-timer nil)
-(add-hook 'window-configuration-change-hook
-          (lambda ()
-            (if (eq major-mode 'chrome-mode)
-                ;; Start
-                (when (not ++chrome-tabs-retriever-timer)
-                  (setq ++chrome-tabs-retriever-timer (run-at-time nil 1 #'chrome-retrieve-tabs)))
-              ;; Stop
-              (when ++chrome-tabs-retriever-timer
-                (cancel-timer ++chrome-tabs-retriever-timer)
-                (setq ++chrome-tabs-retriever-timer nil)))))
-
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
 
 (map! :nv "SPC f g" #'projectile-find-file-other-window)
@@ -990,15 +829,6 @@ output as a string."
 
 (add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
 
-(use-package! screenshot)
-
-(use-package! slime
-  :config
-  (map! :map slime-mode-map
-        :nv "SPC d" #'slime-describe-symbol
-        :nv "SPC m e e" #'slime-eval-last-expression
-        :nv "SPC m '" #'slime-connect))
-
 (use-package! symex
   :config
   (add-hook! '(prog-mode-hook)
@@ -1043,70 +873,6 @@ output as a string."
   :config
   (setq speed-type-default-lang 'English))
 
-(defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
-(defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
-(defconst day-re "[A-Za-z]\\{3\\}")
-(defconst repeater-re "[+.]+[0-9]+[dwmy]\/\\(?:[0-9]+[dwmy]\\)")
-(defconst day-time-re (format "\\(%s\\)? ?\\(%s\\)? ?\\(%s\\)?" day-re time-re repeater-re))
-
-(use-package! svg-tag-mode
-  :config
-  ;; (add-hook 'org-mode-hook (lambda () (svg-tag-mode +1))) ;; Disable this mode for now
-  (setq svg-tag-tags
-    `(
-       ;; Org tags
-       (":\\([A-Za-z0-9_]+\\)" . ((lambda (tag) (svg-tag-make tag))))
-       (":\\([A-Za-z0-9_]+[ \-]\\)" . ((lambda (tag) tag)))
-       ;; Task priority
-       ("\\[#[A-Z]\\]" . ( (lambda (tag)
-                             (svg-tag-make tag :face 'org-priority
-                               :beg 2 :end -1 :margin 0))))
-       ;; Progress
-       ("\\(\\[[0-9]\\{1,3\\}%\\]\\)" . ((lambda (tag)
-                                           (svg-progress-percent (substring tag 1 -2)))))
-       ("\\(\\[[0-9]+/[0-9]+\\]\\)" . ((lambda (tag)
-                                         (svg-progress-count (substring tag 1 -1)))))
-       ;; Org keywords
-       ("TODO" . ((lambda (tag) (svg-tag-make "TODO" :face 'org-todo :margin 0))))
-       ("DONE" . ((lambda (tag) (svg-tag-make "DONE" :face 'org-done :margin 0 :foreground ,(doom-color 'green)))))
-       ("CLOSED" . ((lambda (tag) (svg-tag-make "CLOSED" :face 'org-done :margin 0))))
-       ("SCHEDULED" . ((lambda (tag) (svg-tag-make "SCHEDULED" :face 'org-scheduled :margin 0 :foreground ,(doom-color 'yellow)))))
-       ("DEADLINE" . ((lambda (tag) (svg-tag-make "DEADLINE" :face 'org-scheduled :margin 0 :foreground ,(doom-color 'red)))))
-       ;; Citation of the form [cite:@Knuth:1984]
-       ("\\(\\[cite:@[A-Za-z]+:\\)" . ((lambda (tag)
-                                         (svg-tag-make tag
-                                           :inverse t
-                                           :beg 7 :end -1
-                                           :crop-right t))))
-       ("\\[cite:@[A-Za-z]+:\\([0-9]+\\]\\)" . ((lambda (tag)
-                                                  (svg-tag-make tag
-                                                    :end -1
-                                                    :crop-left t))))
-       ;; Active date (with or without day name, with or without time)
-       (,(format "\\(<%s>\\)" date-re) .
-         ((lambda (tag)
-            (svg-tag-make tag :beg 1 :end -1 :margin 0))))
-       (,(format "\\(<%s \\)%s>" date-re day-time-re) .
-         ((lambda (tag)
-            (svg-tag-make tag :beg 1 :inverse nil :crop-right t :margin 0))))
-       (,(format "<%s \\(%s>\\)" date-re day-time-re) .
-         ((lambda (tag)
-            (svg-tag-make tag :end -1 :inverse t :crop-left t :margin 0))))
-       ;; Inactive date  (with or without day name, with or without time)
-       (,(format "\\(\\[%s\\]\\)" date-re) .
-         ((lambda (tag)
-            (svg-tag-make tag :beg 1 :end -1 :margin 0 :face 'org-date))))
-       (,(format "\\(\\[%s \\)%s\\]" date-re day-time-re) .
-         ((lambda (tag)
-            (svg-tag-make tag :beg 1 :inverse nil :crop-right t :margin 0 :face 'org-date))))
-       (,(format "\\[%s \\(%s\\]\\)" date-re day-time-re) .
-         ((lambda (tag)
-            (svg-tag-make tag :end -1 :inverse t :crop-left t :margin 0 :face 'org-date))))
-       ("\\(:#[A-Za-z0-9]+\\)" . ((lambda (tag)
-                                    (svg-tag-make tag :beg 2))))
-       ("\\(:#[A-Za-z0-9]+:\\)$" . ((lambda (tag)
-                                      (svg-tag-make tag :beg 2 :end -1)))))))
-
 (use-package! thread-dump)
 
 ;; (with-eval-after-load 'treemacs-icons
@@ -1135,12 +901,6 @@ output as a string."
 ;;         treemacs-filewatch-mode t
 ;;         treemacs-fringe-indicator-mode t
 ;;         treemacs-read-string-input 'from-minibuffer))
-
-(use-package! tree-sitter)
-(use-package! tree-sitter-langs)
-
-(global-tree-sitter-mode)
-(add-hook 'tree-sitter-after-on-hook (lambda (&rest args) (ignore-errors (tree-sitter-hl-mode +1))))
 
 (defun setup-tide-mode ()
   (require 'company)
@@ -1347,14 +1107,9 @@ not appropriate in some cases like terminals."
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
-(tree-sitter-require 'tsx)
-
 (define-derived-mode typescript-tsx-mode web-mode "TypeScript/TSX")
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
-(add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
-
-(add-hook 'vue-mode-hook #'lsp)
 
 (use-package! lsp-mode
   :config
@@ -2117,58 +1872,6 @@ message listing the hooks."
 (when (display-graphic-p)
  (run-at-time 0 nil (lambda () (++configure-font-size)))
  (setq ++adjust-font-timer (run-with-idle-timer 1 1 #'++configure-font-size)))
-
-(defun ++ascii-banner-ansi-shadow ()
-  (mapc (lambda (line)
-          (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-                              'face 'doom-dashboard-banner) " ")
-          (insert "\n"))
-        '("=================     ===============     ===============   ========  ========"
-          "\\\\ . . . . . . .\\\\   //. . . . . . .\\\\   //. . . . . . .\\\\  \\\\. . .\\\\// . . //"
-          "||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\\/ . . .||"
-          "|| . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||"
-          "||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||"
-          "|| . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\\ . . . . ||"
-          "||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\\_ . .|. .||"
-          "|| . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\\ `-_/| . ||"
-          "||_-' ||  .|/    || ||    \\|.  || `-_|| ||_-' ||  .|/    || ||   | \\  / |-_.||"
-          "||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \\  / |  `||"
-          "||    `'         || ||         `'    || ||    `'         || ||   | \\  / |   ||"
-          "||            .===' `===.         .==='.`===.         .===' /==. |  \\/  |   ||"
-          "||         .=='   ███████╗███╗   ███╗ █████╗  ██████╗███████╗  `==  \\/  |   ||"
-          "||      .=='    _-██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝_  /|  \\/  |   ||"
-          "||   .=='    _-'  █████╗  ██╔████╔██║███████║██║     ███████╗ `' |. /|  |   ||"
-          "||.=='    _-'     ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║     `' |  /==.||"
-          "=='    _-'        ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║         \\/   `=="
-          "\\   _-'           ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝          `-_   /"
-          "`''                                                                      ``'")))
-(setq +doom-dashboard-ascii-banner-fn #'++ascii-banner-ansi-shadow)
-
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
-
-(require 'clojure-rand-ref)
-
-(defun ++dashboard-trivia ()
- (clojure-rand-ref
-  (lambda (entry)
-    (with-current-buffer +doom-dashboard-name
-      (when entry
-        (read-only-mode -1)
-        (goto-char (point-min))
-        (forward-line 5)
-        (insert "Clojure Trivia\n\n")
-        (insert-text-button (concat "  " (plist-get entry :symbol) "\n")
-                            'action (lambda (_)
-                                      (+doom-dashboard-reload t)
-                                      (++dashboard-trivia)
-                                      (browse-url (plist-get entry :link)))
-                            'face 'doom-dashboard-menu-title
-                            'mouse-face 'doom-dashboard-menu-title
-                            'follow-link t)
-        (insert "  " (plist-get entry :description) "\n")
-        (read-only-mode +1))))))
-
-(unless IS-MAC (advice-add #'+doom-dashboard-init-h :after #'++dashboard-trivia))
 
 (after! doom-modeline
   (custom-set-faces!

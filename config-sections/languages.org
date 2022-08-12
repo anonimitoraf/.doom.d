@@ -128,16 +128,9 @@ Company is a bit useless inside the erlang-shell
 
 Auto-configure modes
 #+begin_src elisp
-(tree-sitter-require 'tsx)
-
 (define-derived-mode typescript-tsx-mode web-mode "TypeScript/TSX")
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
-(add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
-#+end_src
-** Vue
-#+begin_src elisp
-(add-hook 'vue-mode-hook #'lsp)
 #+end_src
 ** CSS Modules
 #+begin_src elisp :results none

@@ -47,23 +47,23 @@
                                         ;(package! builtin-package :recipe (:branch "develop"))
 
 ;; live preview of markdown files
-(package! livedown
-  :recipe (:host github :repo "shime/emacs-livedown"))
+;; (package! livedown
+;;   :recipe (:host github :repo "shime/emacs-livedown"))
 
-(package! ripgrep)
-(package! ag)
+;; (package! ripgrep)
+;; (package! ag)
 
-(package! explain-pause-mode
-  :recipe (:host github :repo "lastquestion/explain-pause-mode"))
+;; (package! explain-pause-mode
+;;   :recipe (:host github :repo "lastquestion/explain-pause-mode"))
 
-(package! elcord
-  :recipe (:host github :repo "Mstrodl/elcord"))
+;; (package! elcord
+;;   :recipe (:host github :repo "Mstrodl/elcord"))
 
 (package! gherkin-mode
   :recipe (:host github :repo "candera/gherkin-mode"))
 
-(package! emacs-anywhere
-  :recipe (:host github :repo "zachcurry/emacs-anywhere"))
+;; (package! emacs-anywhere
+;;   :recipe (:host github :repo "zachcurry/emacs-anywhere"))
 
 ;; Allow pasting stuff into org-mode
 (package! org-download
@@ -72,19 +72,19 @@
 ;; I want everything to have jet black bg
 (package! solaire-mode :disable t)
 
-(package! kubernetes-el
-  :recipe (:host github :repo "chrisbarrett/kubernetes-el"))
+;; (package! kubernetes-el
+;;   :recipe (:host github :repo "chrisbarrett/kubernetes-el"))
 
 (unpin! org)
 
-(package! org-mime
-  :recipe (:host github :repo "org-mime/org-mime"))
+;; (package! org-mime
+;;   :recipe (:host github :repo "org-mime/org-mime"))
 
-(package! erefactor
-  :recipe (:host github :repo "mhayashi1120/Emacs-erefactor"))
+;; (package! erefactor
+;;   :recipe (:host github :repo "mhayashi1120/Emacs-erefactor"))
 
-(package! clojure-rand-ref
-  :recipe (:host github :repo "anonimitoraf/clojure-rand-ref.el"))
+;; (package! clojure-rand-ref
+;;   :recipe (:host github :repo "anonimitoraf/clojure-rand-ref.el"))
 
 (package! dotenv-mode
   :recipe (:host github :repo "preetpalS/emacs-dotenv-mode"))
@@ -94,21 +94,21 @@
 
 (unpin! lsp-mode)
 
-(package! idle-highlight-mode
-  :recipe (:host github :repo "nonsequitur/idle-highlight-mode"))
+;; (package! idle-highlight-mode
+;;   :recipe (:host github :repo "nonsequitur/idle-highlight-mode"))
 
 (package! alert)
 
-(package! ejc-sql)
+;; (package! ejc-sql)
 
 (package! keychain-environment
   :recipe (:host github :repo "tarsius/keychain-environment"))
 
-(package! logview)
+;; (package! logview)
 (package! itail)
 
-(package! chrome
-  :recipe (:host github :repo "anticomputer/chrome.el"))
+;; (package! chrome
+;;   :recipe (:host github :repo "anticomputer/chrome.el"))
 
 (package! i3wm-config-mode
   :recipe (:host github :repo "Alexander-Miller/i3wm-Config-Mode"))
@@ -116,19 +116,19 @@
 (package! nyan-mode
   :recipe (:host github :repo "anonimitoraf/nyan-mode"))
 
-(package! clomacs)
+;; (package! clomacs)
 
-(package! vue-mode)
+;; (package! vue-mode)
 
-(package! screenshot
-  :recipe (:host github :repo "tecosaur/screenshot"))
+;; (package! screenshot
+;;   :recipe (:host github :repo "tecosaur/screenshot"))
 
-(package! slime)
+;; (package! slime)
 
 (package! projectile-git-autofetch)
 
-(package! try
-  :recipe (:host github :repo "larstvei/Try"))
+;; (package! try
+;;   :recipe (:host github :repo "larstvei/Try"))
 
 (package! symex
   :recipe (:host github :repo "countvajhula/symex.el"))
@@ -147,16 +147,16 @@
 (package! speed-dial
   :recipe (:host github :repo "anonimitoraf/speed-dial.el"))
 
-(package! company-quickhelp
-  :recipe (:host github :repo "anonimitoraf/company-quickhelp"))
+;; (package! company-quickhelp
+;;   :recipe (:host github :repo "anonimitoraf/company-quickhelp"))
 
 (package! xclip)
 
-(package! icons-in-terminal
-  :recipe (:host github :repo "seagle0128/icons-in-terminal.el"))
+;; (package! icons-in-terminal
+;;   :recipe (:host github :repo "seagle0128/icons-in-terminal.el"))
 
-(package! tree-sitter)
-(package! tree-sitter-langs)
+;; (package! tree-sitter)
+;; (package! tree-sitter-langs)
 
 (package! speed-type)
 
@@ -164,8 +164,8 @@
   :recipe (:host github :repo "ananthakumaran/tide"))
 (unpin! tide)
 
-(package! origami
-  :recipe (:host github :repo "elp-revive/origami.el"))
+;; (package! origami
+;;   :recipe (:host github :repo "elp-revive/origami.el"))
 
 (package! google-translate)
 
@@ -194,7 +194,7 @@
 (package! org-modern
   :recipe (:host github :repo "minad/org-modern"))
 
-(package! focus)
+;; (package! focus)
 
 (package! org-alert)
 
