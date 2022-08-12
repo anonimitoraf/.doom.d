@@ -19,7 +19,7 @@
        ;;japanese
 
        :completion
-       (company +childframe)
+       ;;(company +childframe)
                                         ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
@@ -197,7 +197,7 @@
        everywhere
 
        :config
-       literate
+       ;;literate
        (default +bindings +smartparens))
 
 (defun ++org-tangle-with-include-files ()

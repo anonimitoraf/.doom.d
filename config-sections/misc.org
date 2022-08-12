@@ -92,11 +92,6 @@ Disable *Messages* from popping up when minibuffer is clicked
 (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 #+end_src
 
-Depend on editorconfig for controlling tabs vs spaces
-#+begin_src elisp
-;; (add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
-#+end_src
-
 Mark particular local variables as safe
 #+begin_src elisp
 (setq ++safe-vars '((+format-on-save-enabled-modes . '())

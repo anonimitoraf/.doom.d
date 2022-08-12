@@ -252,10 +252,6 @@ output as a string."
   :config
   (setq evil-collection-setup-minibuffer t))
 
-(use-package! evil-matchit
-  :config
-  (global-evil-matchit-mode +1))
-
 (use-package! evil-easymotion
   :config
   (unbind-key "s" evil-normal-state-map)
@@ -398,30 +394,24 @@ output as a string."
 
 (use-package! lsp-mode
   :config
-  (add-hook! '(prog-mode-hook)
-    (setq lsp-completion-enable t
-          lsp-idle-delay 0.2))
-  (add-hook! '(clojure-mode-hook
-               clojurescript-mode-hook
-               clojurec-mode-hook)
-    (setq lsp-completion-enable t))
+  (setq lsp-completion-enable t
+        lsp-idle-delay 0.1)
   (add-hook! '(typescript-tsx-mode-hook
                typescript-mode-hook
                web-mode-hook
                js-mode-hook
                js2-mode-hook)
-    ;; Use `tide' for completions and formatting instead since LSP is too laggy
-    (setq-local lsp-completion-enable nil
-                lsp-typescript-format-enable nil)
-    (add-hook! '(lsp-mode-hook) :append
-      (when (-contains? '(typescript-tsx-mode
-                           typescript-mode
-                           web-mode
-                           js-mode
-                           js2-mode)
-              major-mode)
-        (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
-                                                   (list #'company-tide))))))
+             ;; Use `tide' for completions and formatting instead since LSP is too laggy
+             (setq-local lsp-completion-enable nil
+                         lsp-typescript-format-enable nil)
+             (when (-contains? '(typescript-tsx-mode
+                                 typescript-mode
+                                 web-mode
+                                 js-mode
+                                 js2-mode)
+                               major-mode)
+               (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
+                                                                 (list #'company-tide)))))
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
@@ -778,11 +768,6 @@ output as a string."
                js2-mode-hook)
              #'++maybe-enable-prettier))
 
-(use-package! projectile-git-autofetch
-  :config
-  (setq projectile-git-autofetch-notify nil)
-  (projectile-git-autofetch-mode +1))
-
 (use-package! pulsar
   :config
   (setq pulsar-pulse-functions
@@ -827,12 +812,8 @@ output as a string."
   (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
   (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry))
 
-(add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
-
 (use-package! symex
   :config
-  (add-hook! '(prog-mode-hook)
-    (symex-mode -1))
   (add-hook! '(clojure-mode-hook
                clojurescript-mode-hook
                clojurec-mode-hook
@@ -1077,10 +1058,6 @@ not appropriate in some cases like terminals."
    "*jet error buffer*"
    t))
 
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))
-
 (defun ++erlang-compile ()
   (interactive)
   (erlang-compile)
@@ -1199,8 +1176,6 @@ not appropriate in some cases like terminals."
 (global-visual-line-mode t)
 
 (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
-
-;; (add-hook 'prog-mode-hook (cmd! (doom/set-indent-width 2)))
 
 (setq ++safe-vars '((+format-on-save-enabled-modes . '())
                     (cider-required-middleware-version . "0.25.5")))
@@ -1663,14 +1638,14 @@ message listing the hooks."
         "<tab>" #'corfu-insert
         :nvi "<escape>" #'corfu-quit
         :nvi "ESC" #'corfu-quit)
+  (global-corfu-mode +1)
+  (global-company-mode -1)
   (add-hook! '(prog-mode-hook
                text-mode-hook)
-    (corfu-mode +1)
     (corfu-doc-mode +1)
     (unless (display-graphic-p)
       (corfu-terminal-mode +1)
-      (corfu-doc-terminal-mode +1))
-    (company-mode -1)))
+      (corfu-doc-terminal-mode +1))))
 
 (use-package kind-icon
   :ensure t

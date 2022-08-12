@@ -33,14 +33,14 @@
         "<tab>" #'corfu-insert
         :nvi "<escape>" #'corfu-quit
         :nvi "ESC" #'corfu-quit)
+  (global-corfu-mode +1)
+  (global-company-mode -1)
   (add-hook! '(prog-mode-hook
                text-mode-hook)
-    (corfu-mode +1)
     (corfu-doc-mode +1)
     (unless (display-graphic-p)
       (corfu-terminal-mode +1)
-      (corfu-doc-terminal-mode +1))
-    (company-mode -1)))
+      (corfu-doc-terminal-mode +1))))
 
 (use-package kind-icon
   :ensure t

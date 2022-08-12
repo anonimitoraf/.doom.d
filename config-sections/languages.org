@@ -82,13 +82,6 @@ JSON -> EDN with =jet=
    "*jet error buffer*"
    t))
 #+end_src
-* Emacs Lisp
-#+begin_src elisp
-
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))
-#+end_src
 * Erlang
 Function for compiling, generating then visiting TAGS
 #+begin_src elisp

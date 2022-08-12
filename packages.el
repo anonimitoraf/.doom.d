@@ -59,6 +59,8 @@
 ;; (package! elcord
 ;;   :recipe (:host github :repo "Mstrodl/elcord"))
 
+(package! company)
+
 (package! gherkin-mode
   :recipe (:host github :repo "candera/gherkin-mode"))
 
@@ -113,8 +115,8 @@
 (package! i3wm-config-mode
   :recipe (:host github :repo "Alexander-Miller/i3wm-Config-Mode"))
 
-(package! nyan-mode
-  :recipe (:host github :repo "anonimitoraf/nyan-mode"))
+;; (package! nyan-mode
+;;   :recipe (:host github :repo "anonimitoraf/nyan-mode"))
 
 ;; (package! clomacs)
 
@@ -125,7 +127,7 @@
 
 ;; (package! slime)
 
-(package! projectile-git-autofetch)
+;; (package! projectile-git-autofetch)
 
 ;; (package! try
 ;;   :recipe (:host github :repo "larstvei/Try"))
@@ -211,7 +213,7 @@
 
 (package! prettier)
 
-(package! evil-matchit)
+;; (package! evil-matchit)
 
 (package! keycast
   :recipe (:host github :repo "tarsius/keycast"))

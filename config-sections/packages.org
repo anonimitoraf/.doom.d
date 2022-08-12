@@ -285,12 +285,6 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
   :config
   (setq evil-collection-setup-minibuffer t))
 #+end_src
-** =evil-matchit=
-#+begin_src emacs-lisp :tangle yes :results none
-(use-package! evil-matchit
-  :config
-  (global-evil-matchit-mode +1))
-#+end_src
 ** =evil-easymotion=
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! evil-easymotion
@@ -486,30 +480,24 @@ Patch for automatically enabling `ivy-calling` in `ivy-occur-grep-mode` and make
 #+begin_src elisp :results none
 (use-package! lsp-mode
   :config
-  (add-hook! '(prog-mode-hook)
-    (setq lsp-completion-enable t
-          lsp-idle-delay 0.2))
-  (add-hook! '(clojure-mode-hook
-               clojurescript-mode-hook
-               clojurec-mode-hook)
-    (setq lsp-completion-enable t))
+  (setq lsp-completion-enable t
+        lsp-idle-delay 0.1)
   (add-hook! '(typescript-tsx-mode-hook
                typescript-mode-hook
                web-mode-hook
                js-mode-hook
                js2-mode-hook)
-    ;; Use `tide' for completions and formatting instead since LSP is too laggy
-    (setq-local lsp-completion-enable nil
-                lsp-typescript-format-enable nil)
-    (add-hook! '(lsp-mode-hook) :append
-      (when (-contains? '(typescript-tsx-mode
-                           typescript-mode
-                           web-mode
-                           js-mode
-                           js2-mode)
-              major-mode)
-        (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
-                                                   (list #'company-tide))))))
+             ;; Use `tide' for completions and formatting instead since LSP is too laggy
+             (setq-local lsp-completion-enable nil
+                         lsp-typescript-format-enable nil)
+             (when (-contains? '(typescript-tsx-mode
+                                 typescript-mode
+                                 web-mode
+                                 js-mode
+                                 js2-mode)
+                               major-mode)
+               (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
+                                                                 (list #'company-tide)))))
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
@@ -937,13 +925,6 @@ For remote files, make it a bit longer
                js2-mode-hook)
              #'++maybe-enable-prettier))
 #+end_src
-* =projectile-git-autofetch=
-#+begin_src elisp
-(use-package! projectile-git-autofetch
-  :config
-  (setq projectile-git-autofetch-notify nil)
-  (projectile-git-autofetch-mode +1))
-#+end_src
 * =pulsar=
 #+begin_src elisp :results none
 (use-package! pulsar
@@ -990,17 +971,11 @@ For remote files, make it a bit longer
   (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
   (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry))
 #+end_src
-* =rainbow=
-#+begin_src elisp
-(add-hook! '(text-mode-hook prog-mode-hook) (cmd! (rainbow-mode +1)))
-#+end_src
 * =symex=
 Best structural editing package to date
 #+begin_src elisp
 (use-package! symex
   :config
-  (add-hook! '(prog-mode-hook)
-    (symex-mode -1))
   (add-hook! '(clojure-mode-hook
                clojurescript-mode-hook
                clojurec-mode-hook
