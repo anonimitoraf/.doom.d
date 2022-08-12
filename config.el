@@ -72,33 +72,6 @@ output as a string."
     :foreground "white" :background "red"
     :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
-;; (use-package! aggressive-indent
-;;   :config
-;;   (defvar ++aggressive-indent-loc-threshold 500)
-;;   (defun ++aggressive-indent-mode-setup ()
-;;     (interactive)
-;;     (unless (memql major-mode aggressive-indent-excluded-modes)
-;;       (aggressive-indent-mode
-;;        (if (< (count-lines (point-min) (point-max))
-;;               ++aggressive-indent-loc-threshold)
-;;            (progn (-> (format "ENABLING aggressive-index (LOC is < threshold %s)"
-;;                               ++aggressive-indent-loc-threshold)
-;;                       (propertize 'face '(:foreground "green"))
-;;                       (message))
-;;                   +1)
-;;          (progn (-> (format "DISABLING aggressive-index (LOC is >= threshold %s)"
-;;                             ++aggressive-indent-loc-threshold)
-;;                     (propertize 'face '(:foreground "red"))
-;;                     (message))
-;;                 -1)))))
-;;   (add-hook! '(clojure-mode-hook
-;;                clojurescript-mode-hook
-;;                clojurec-mode-hook
-;;                lisp-mode-hook
-;;                emacs-lisp-mode-hook
-;;                css-mode-hook)
-;;              #'++aggressive-indent-mode-setup))
-
 (require 'alert)
 (setq alert-default-style (if IS-MAC
                             'growl
@@ -118,18 +91,6 @@ output as a string."
       :desc "Find-replace" "r" #'anzu-query-replace)
 (map! :leader
       :desc "Find-replace (regexp)" "R" #'anzu-query-replace-regexp)
-
-(after! centaur-tabs
-  (setq centaur-tabs-style "rounded"
-        centaur-tabs-height 5
-        centaur-tabs-set-icons t
-        centaur-tabs-set-modified-marker t
-        centaur-tabs-show-navigation-buttons t
-        centaur-tabs-gray-out-icons 'buffer)
-  (centaur-tabs-headline-match)
-  (centaur-tabs-enable-buffer-reordering)
-  ;; (setq centaur-tabs-adjust-buffer-order t)
-  (centaur-tabs-mode t))
 
 (use-package! cider
   :config
@@ -197,14 +158,10 @@ output as a string."
 
 (use-package! clipetty
   :config
-  (global-clipetty-mode +1))
+  (unless (display-graphic-p)
+    (global-clipetty-mode +1)))
 
 (use-package! clippo)
-
-;; (use-package! counsel
-;;   :config
-;;   (map! :leader :desc "Search interwebs" "s g" #'counsel-search)
-;;   (setq counsel-search-engine 'google))
 
 (use-package! consult
   :config
@@ -221,8 +178,6 @@ output as a string."
 
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
-
-;; (require 'edbi)
 
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
@@ -365,32 +320,6 @@ output as a string."
 (require 'itail)
 
 (setq ispell-dictionary "en")
-
-;; (after! ivy-posframe
-;;   (setf (alist-get t ivy-posframe-display-functions-alist)
-;;         #'ivy-posframe-display-at-frame-top-center)
-;;   (setf (alist-get 'swiper ivy-posframe-display-functions-alist)
-;;         #'ivy-posframe-display-at-frame-top-center)
-;;   (setq ivy-posframe-border-width 10
-;;         ivy-posframe-width 120
-;;         ivy-posframe-parameters (append ivy-posframe-parameters '((left-fringe . 3)
-;;                                                                   (right-fringe . 3)))))
-
-;; (setq posframe-arghandler
-;;       (lambda (_buffer-or-name key value)
-;;         (or (eq key :lines-truncate)
-;;             value)))
-
-;; (setq ivy-extra-directories '("./"))
-
-;; (after! counsel
-;;   (setq counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true"))
-
-;; (map! :map ivy-occur-grep-mode-map
-;;       :n "c" (cmd! (setq ivy-calling (not ivy-calling))))
-
-;; (add-hook 'ivy-occur-grep-mode-hook
-;;           (cmd! (setq ivy-calling t)))
 
 (use-package! lsp-mode
   :config
@@ -855,33 +784,6 @@ output as a string."
   (setq speed-type-default-lang 'English))
 
 (use-package! thread-dump)
-
-;; (with-eval-after-load 'treemacs-icons
-;;   (when (display-graphic-p)
-;;     (treemacs-resize-icons 10)))
-
-;; (use-package treemacs
-;;   :init
-;;   (setq +treemacs-git-mode 'deferred)
-;;   :commands (treemacs)
-;;   :bind (("<f8>" . treemacs)
-;;          ("<f9>" . treemacs-select-window))
-;;   :config
-;;   (add-hook 'treemacs-mode-hook
-;;             (lambda ()
-;;               (when (display-graphic-p)
-;;                 (text-scale-decrease 1.5))))
-;;   (unless (display-graphic-p)
-;;     (treemacs-indent-guide-mode t))
-;;   (setq treemacs-width 50
-;;         treemacs-is-never-other-window t
-;;         treemacs-file-event-delay 1000
-;;         treemacs-show-cursor t
-;;         treemacs--width-is-locked nil
-;;         treemacs-space-between-root-nodes nil
-;;         treemacs-filewatch-mode t
-;;         treemacs-fringe-indicator-mode t
-;;         treemacs-read-string-input 'from-minibuffer))
 
 (defun setup-tide-mode ()
   (require 'company)
