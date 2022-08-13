@@ -386,6 +386,8 @@ output as a string."
   :config
   (setq lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr")))
 
+(advice-add 'lsp-deferred :override #'lsp)
+
 (after! lsp-ui
   (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
   (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)

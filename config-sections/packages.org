@@ -421,6 +421,11 @@ Typescript
   :config
   (setq lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr")))
 #+end_src
+=(lsp)= seems to make opening files a lot more responsive than =(lsp-deferred)=
+#+begin_src elisp :results none
+(advice-add 'lsp-deferred :override #'lsp)
+#+end_src
+
 ** =lsp-ui=
 TODO Convert the `define-key` statements to use `map!`
 #+begin_src elisp
