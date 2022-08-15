@@ -1531,6 +1531,10 @@ message listing the hooks."
 
 (use-package corfu
   :config
+  (defun ++corfu-quit ()
+    (interactive)
+    (call-interactively 'corfu-quit)
+    (evil-normal-state +1))
   (setq corfu-cycle t
         corfu-auto t
         corfu-auto-prefix 1
@@ -1552,8 +1556,8 @@ message listing the hooks."
         "C-;" #'corfu-insert
         "TAB" #'corfu-insert
         "<tab>" #'corfu-insert
-        :nvi "<escape>" #'corfu-quit
-        :nvi "ESC" #'corfu-quit)
+        :nvi "<escape>" #'++corfu-quit
+        :nvi "ESC" #'++corfu-quit)
   (global-corfu-mode +1)
   (global-company-mode -1)
   (add-hook! '(prog-mode-hook
