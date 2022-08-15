@@ -931,6 +931,17 @@ Utilize modeline color to tell me if I'm in symex-mode
                js2-mode-hook)
              #'setup-tide-mode))
 #+end_src
+* =tree-sitter=
+#+begin_src elisp :results none
+(use-package! tree-sitter)
+(use-package! tree-sitter-langs)
+
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook (lambda (&rest args) (ignore-errors (tree-sitter-hl-mode +1))))
+;; (tree-sitter-require 'tsx)
+(add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
+(add-to-list 'tree-sitter-major-mode-language-alist '(scss-mode . css))
+#+end_src
 * =vertico=
 #+begin_src elisp :results none
 (use-package! vertico

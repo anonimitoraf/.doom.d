@@ -157,8 +157,8 @@
 ;; (package! icons-in-terminal
 ;;   :recipe (:host github :repo "seagle0128/icons-in-terminal.el"))
 
-;; (package! tree-sitter)
-;; (package! tree-sitter-langs)
+(package! tree-sitter)
+(package! tree-sitter-langs)
 
 (package! speed-type)
 

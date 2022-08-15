@@ -810,6 +810,15 @@ output as a string."
                js2-mode-hook)
              #'setup-tide-mode))
 
+(use-package! tree-sitter)
+(use-package! tree-sitter-langs)
+
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook (lambda (&rest args) (ignore-errors (tree-sitter-hl-mode +1))))
+;; (tree-sitter-require 'tsx)
+(add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
+(add-to-list 'tree-sitter-major-mode-language-alist '(scss-mode . css))
+
 (use-package! vertico
   :config
   (map! :map vertico-map
