@@ -492,7 +492,7 @@ output as a string."
         org-hide-leading-stars t
         org-superstar-headline-bullets-list '("•")
         org-superstar-cycle-headline-bullets 1
-        org-superstar-special-todo-items t
+        org-superstar-special-todo-items 'hide
         org-superstar-item-bullet-alist '("-")
         org-tags-column -120
         org-image-actual-width nil
