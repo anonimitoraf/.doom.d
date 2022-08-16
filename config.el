@@ -1540,7 +1540,7 @@ message listing the hooks."
         corfu-auto-prefix 1
         corfu-auto-delay 0.01
         corfu-separator ?\s
-        corfu-quit-at-boundary nil
+        corfu-quit-at-boundary 'separator
         corfu-quit-no-match t
         corfu-preview-current nil
         corfu-preselect-first t
