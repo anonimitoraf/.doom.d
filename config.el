@@ -109,52 +109,52 @@ output as a string."
 
 (advice-add 'cider-eldoc :around #'ignore)
 
-(defun nrepl--ssh-tunnel-connect (host port)
-  "Connect to a remote machine identified by HOST and PORT through SSH tunnel."
-  (message "[nREPL] Establishing SSH tunneled connection to %s:%s ..." host port)
-  (let* ((remote-dir (if host (format "/ssh:%s:" host) default-directory))
-         (local-port (nrepl--random-free-local-port))
-         (ssh (or (executable-find "ssh")
-                  (error "[nREPL] Cannot locate 'ssh' executable")))
-         (cmd (nrepl--ssh-tunnel-command ssh remote-dir port local-port))
-         (tunnel-buf (nrepl-tunnel-buffer-name
-                      `((:host ,host) (:port ,port))))
-         (tunnel (start-process-shell-command "nrepl-tunnel" tunnel-buf cmd)))
-    (process-put tunnel :waiting-for-port t)
-    (set-process-filter tunnel (nrepl--ssh-tunnel-filter local-port))
-    (while (and (process-live-p tunnel)
-                (process-get tunnel :waiting-for-port))
-      (accept-process-output nil 0.005))
-    (if (not (process-live-p tunnel))
-        (error "[nREPL] SSH port forwarding failed.  Check the '%s' buffer" tunnel-buf)
-      (message "[nREPL] SSH port forwarding established to localhost:%s" local-port)
-      (let ((endpoint (nrepl--direct-connect "localhost" local-port)))
-        (thread-first endpoint
-          (plist-put :tunnel tunnel)
-          (plist-put :remote-host host))))))
+;; (defun nrepl--ssh-tunnel-connect (host port)
+;;   "Connect to a remote machine identified by HOST and PORT through SSH tunnel."
+;;   (message "[nREPL] Establishing SSH tunneled connection to %s:%s ..." host port)
+;;   (let* ((remote-dir (if host (format "/ssh:%s:" host) default-directory))
+;;          (local-port (nrepl--random-free-local-port))
+;;          (ssh (or (executable-find "ssh")
+;;                   (error "[nREPL] Cannot locate 'ssh' executable")))
+;;          (cmd (nrepl--ssh-tunnel-command ssh remote-dir port local-port))
+;;          (tunnel-buf (nrepl-tunnel-buffer-name
+;;                       `((:host ,host) (:port ,port))))
+;;          (tunnel (start-process-shell-command "nrepl-tunnel" tunnel-buf cmd)))
+;;     (process-put tunnel :waiting-for-port t)
+;;     (set-process-filter tunnel (nrepl--ssh-tunnel-filter local-port))
+;;     (while (and (process-live-p tunnel)
+;;                 (process-get tunnel :waiting-for-port))
+;;       (accept-process-output nil 0.005))
+;;     (if (not (process-live-p tunnel))
+;;         (error "[nREPL] SSH port forwarding failed.  Check the '%s' buffer" tunnel-buf)
+;;       (message "[nREPL] SSH port forwarding established to localhost:%s" local-port)
+;;       (let ((endpoint (nrepl--direct-connect "localhost" local-port)))
+;;         (thread-first endpoint
+;;           (plist-put :tunnel tunnel)
+;;           (plist-put :remote-host host))))))
 
-(defun nrepl--random-free-local-port ()
-  (let* ((random-free-local-port-cmd (concat "comm -23 "
-                                             "<(seq 1024 65535 | sort) "
-                                             "<(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | "
-                                             "shuf | head -n 1")))
-    (with-temp-buffer
-           (insert (string-trim-right (shell-command-to-string random-free-local-port-cmd)))
-           (buffer-string))))
+;; (defun nrepl--random-free-local-port ()
+;;   (let* ((random-free-local-port-cmd (concat "comm -23 "
+;;                                              "<(seq 1024 65535 | sort) "
+;;                                              "<(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | "
+;;                                              "shuf | head -n 1")))
+;;     (with-temp-buffer
+;;            (insert (string-trim-right (shell-command-to-string random-free-local-port-cmd)))
+;;            (buffer-string))))
 
-(defun nrepl--ssh-tunnel-command (ssh dir remote-port local-port)
-  "Command string to open SSH tunnel to the host associated with DIR's PORT."
-  (with-parsed-tramp-file-name dir v
-     ;; this abuses the -v option for ssh to get output when the port
-    ;; forwarding is set up, which is used to synchronise on, so that
-    ;; the port forwarding is up when we try to connect.
-    (format-spec
-     "%s -v -N -L %l:localhost:%p %u'%h'"
-     `((?s . ,ssh)
-       (?l . ,local-port)
-       (?p . ,remote-port)
-       (?h . ,v-host)
-       (?u . ,(if v-user (format "-l '%s' " v-user) ""))))))
+;; (defun nrepl--ssh-tunnel-command (ssh dir remote-port local-port)
+;;   "Command string to open SSH tunnel to the host associated with DIR's PORT."
+;;   (with-parsed-tramp-file-name dir v
+;;      ;; this abuses the -v option for ssh to get output when the port
+;;     ;; forwarding is set up, which is used to synchronise on, so that
+;;     ;; the port forwarding is up when we try to connect.
+;;     (format-spec
+;;      "%s -v -N -L %l:localhost:%p %u'%h'"
+;;      `((?s . ,ssh)
+;;        (?l . ,local-port)
+;;        (?p . ,remote-port)
+;;        (?h . ,v-host)
+;;        (?u . ,(if v-user (format "-l '%s' " v-user) ""))))))
 
 (use-package! clipetty
   :config
