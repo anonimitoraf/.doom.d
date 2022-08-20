@@ -215,6 +215,10 @@ output as a string."
     '(avy-lead-face :foreground "red" :background nil :weight bold)
     `(avy-lead-face-0 :foreground ,(doom-color 'yellow) :background nil)))
 
+(use-package! evil-matchit
+  :config
+  (global-evil-matchit-mode +1))
+
 (use-package! elfeed
   :config
   (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org"))

@@ -213,7 +213,7 @@
 
 (package! prettier)
 
-;; (package! evil-matchit)
+(package! evil-matchit)
 
 (package! keycast
   :recipe (:host github :repo "tarsius/keycast"))

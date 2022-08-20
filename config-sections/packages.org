@@ -211,6 +211,12 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
     '(avy-lead-face :foreground "red" :background nil :weight bold)
     `(avy-lead-face-0 :foreground ,(doom-color 'yellow) :background nil)))
 #+end_src
+** =evil-matchit=
+#+begin_src emacs-lisp :tangle yes :results none
+(use-package! evil-matchit
+  :config
+  (global-evil-matchit-mode +1))
+#+end_src
 * =elfeed=
 #+begin_src elisp :results none
 (use-package! elfeed
