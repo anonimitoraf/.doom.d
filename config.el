@@ -468,6 +468,49 @@ output as a string."
 
 (display-time-mode +1)
 
+(use-package! doom-modeline
+  :config
+  (doom-modeline-def-segment matches
+    (let ((meta (concat (doom-modeline--macro-recording)
+                  (doom-modeline--anzu))))
+      (or meta "")))
+  (doom-modeline-def-modeline 'main
+    '(bar matches buffer-info repl lsp checker)
+    '(buffer-position selection-info major-mode))
+  (doom-modeline-def-modeline 'minimal
+    '(bar matches buffer-info-simple)
+    '(major-mode))
+  (doom-modeline-def-modeline 'special
+    '(bar matches buffer-info)
+    '(window-number buffer-position selection-info major-mode))
+  (doom-modeline-def-modeline 'project
+    '(bar matches buffer-default-directory)
+    '(window-number buffer-position selection-info major-mode))
+  (doom-modeline-def-modeline 'dashboard
+    '(bar matches buffer-default-directory-simple)
+    '(window-number buffer-position selection-info major-mode))
+  (doom-modeline-def-modeline 'vcs
+    '(bar matches buffer-info-simple)
+    '(window-number buffer-position selection-info major-mode))
+  (doom-modeline-def-modeline 'info
+    '(bar matches buffer-info)
+    '(window-number info-nodes buffer-position selection-info major-mode))
+  (doom-modeline-def-modeline 'media
+    '(bar matches buffer-info)
+    '(window-number media-info process major-mode))
+  (doom-modeline-def-modeline 'message
+    '(bar matches buffer-info-simple)
+    '(window-number buffer-position selection-info major-mode))
+  (doom-modeline-def-modeline 'pdf
+    '(bar matches buffer-info)
+    '(window-number pdf-pages process major-mode))
+  (doom-modeline-def-modeline 'org-src
+    '(bar matches buffer-info-simple lsp checker)
+    '(buffer-position selection-info major-mode))
+  (doom-modeline-def-modeline 'timemachine
+    '(bar matches git-timemachine)
+    '(buffer-position selection-info major-mode)))
+
 (after! org
   (setq org-directory (concat ++sync-folder-path "/org")
         org-default-notes-file (concat org-directory "/notes/default.org")
