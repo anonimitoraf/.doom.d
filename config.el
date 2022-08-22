@@ -965,11 +965,21 @@ not appropriate in some cases like terminals."
 (use-package apheleia
   :config
   (setf (alist-get 'zprint apheleia-formatters)
-        '("zprint"
-          ,(format "{:style [:community :justified]"
-                   " :map {:comma? false"
-                   "       :indent-only? true}}")))
-  (add-to-list 'apheleia-mode-alist '(clojure-mode . zprint)))
+        `("zprint"
+          ,(concat
+             "{:style [:respect-nl :justified]"
+             " :map {:comma? false "
+             "       :justify {:max-variance 48, :no-justify nil}"
+             " }"
+             " :binding {:justify {:max-variance 64}"
+             " }"
+             " :pair {:justify {:max-variance 24}"
+             " }"
+             "}"
+             )))
+  (add-to-list 'apheleia-mode-alist '(clojure-mode . zprint))
+  (add-to-list 'apheleia-mode-alist '(clojurescript-mode . zprint))
+  (add-to-list 'apheleia-mode-alist '(clojurec-mode . zprint)))
 
 (add-to-list 'dash-docs-docsets "Clojure")
 

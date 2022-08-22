@@ -9,15 +9,25 @@ Auto-insert ns in new files
 #+end_src
 
 Formatting
-#+begin_src elisp
+#+begin_src elisp :results none
 (use-package apheleia
   :config
   (setf (alist-get 'zprint apheleia-formatters)
-        '("zprint"
-          ,(format "{:style [:community :justified]"
-                   " :map {:comma? false"
-                   "       :indent-only? true}}")))
-  (add-to-list 'apheleia-mode-alist '(clojure-mode . zprint)))
+        `("zprint"
+          ,(concat
+             "{:style [:respect-nl :justified]"
+             " :map {:comma? false "
+             "       :justify {:max-variance 48, :no-justify nil}"
+             " }"
+             " :binding {:justify {:max-variance 64}"
+             " }"
+             " :pair {:justify {:max-variance 24}"
+             " }"
+             "}"
+             )))
+  (add-to-list 'apheleia-mode-alist '(clojure-mode . zprint))
+  (add-to-list 'apheleia-mode-alist '(clojurescript-mode . zprint))
+  (add-to-list 'apheleia-mode-alist '(clojurec-mode . zprint)))
 #+end_src
 
 Nice offline docs
