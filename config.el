@@ -156,6 +156,20 @@ output as a string."
 ;;        (?h . ,v-host)
 ;;        (?u . ,(if v-user (format "-l '%s' " v-user) ""))))))
 
+(add-to-list 'auto-mode-alist '("\\*cider-error\\*" . cider-stacktrace-mode))
+
+(defun cider--client-tramp-filename (name &optional buffer)
+  "Return the tramp filename for path NAME relative to BUFFER.
+If BUFFER has a tramp prefix, it will be added as a prefix to NAME.
+If the resulting path is an existing tramp file, it returns the path,
+otherwise, nil."
+  (let* ((buffer (or buffer (current-buffer)))
+         (name (replace-regexp-in-string "^file:" "" name))
+         (name (concat (cider-tramp-prefix buffer) name)))
+    (if (and (tramp-tramp-file-p name)
+             (tramp-handle-file-exists-p name))
+        name)))
+
 (use-package! clipetty
   :config
   (unless (display-graphic-p)

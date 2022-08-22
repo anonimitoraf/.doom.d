@@ -122,6 +122,24 @@ Patch for being able to connect to multiple nREPL instances by using a random lo
 ;;        (?h . ,v-host)
 ;;        (?u . ,(if v-user (format "-l '%s' " v-user) ""))))))
 #+end_src
+
+#+begin_src elisp :results none
+(add-to-list 'auto-mode-alist '("\\*cider-error\\*" . cider-stacktrace-mode))
+#+end_src
+
+#+begin_src elisp :results none
+(defun cider--client-tramp-filename (name &optional buffer)
+  "Return the tramp filename for path NAME relative to BUFFER.
+If BUFFER has a tramp prefix, it will be added as a prefix to NAME.
+If the resulting path is an existing tramp file, it returns the path,
+otherwise, nil."
+  (let* ((buffer (or buffer (current-buffer)))
+         (name (replace-regexp-in-string "^file:" "" name))
+         (name (concat (cider-tramp-prefix buffer) name)))
+    (if (and (tramp-tramp-file-p name)
+             (tramp-handle-file-exists-p name))
+        name)))
+#+end_src
 * =clipetty=
 #+begin_src elisp
 (use-package! clipetty
