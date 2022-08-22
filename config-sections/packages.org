@@ -865,24 +865,6 @@ For remote files, make it a bit longer
   :config
   (add-hook 'find-file-hook #'++set-projectile-cache-duration))
 #+end_src
-* =prettier=
-#+begin_src emacs-lisp :tangle yes :results none
-(defun ++maybe-enable-prettier ()
-  (when (locate-dominating-file default-directory ".prettierrc")
-    (prettier-mode +1)))
-
-(use-package! prettier
-  :config
-  (add-hook! '(typescript-tsx-mode-hook
-               typescript-mode-hook
-               web-mode-hook
-               js-mode-hook
-               js2-mode-hook
-               css-mode-hook
-               scss-mode-hook
-               sass-mode-hook)
-             #'++maybe-enable-prettier))
-#+end_src
 * =pulsar=
 #+begin_src elisp :results none
 (use-package! pulsar

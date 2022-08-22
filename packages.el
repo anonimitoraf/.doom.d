@@ -211,7 +211,7 @@
 (package! hackernews
   :recipe (:host github :repo "clarete/hackernews.el"))
 
-(package! prettier)
+;; (package! prettier)
 
 (package! evil-matchit)
 
