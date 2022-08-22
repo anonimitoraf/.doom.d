@@ -1,10 +1,23 @@
 #+TITLE: Languages
 
 * Clojure/script
-#+begin_src elisp
-(use-package! clojure-mode
+Auto-insert ns in new files
+#+begin_src elisp :results none
+(use-package clojure-mode
   :config
-  (setq clojure-align-forms-automatically t))
+  (setq cljr-add-ns-to-blank-clj-files t))
+#+end_src
+
+Formatting
+#+begin_src elisp
+(use-package apheleia
+  :config
+  (setf (alist-get 'zprint apheleia-formatters)
+        '("zprint"
+          ,(format "{:style [:community :justified]"
+                   " :map {:comma? false"
+                   "       :indent-only? true}}")))
+  (add-to-list 'apheleia-mode-alist '(clojure-mode . zprint)))
 #+end_src
 
 Nice offline docs

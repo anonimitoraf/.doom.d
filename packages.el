@@ -231,3 +231,6 @@
 
 (package!  pulsar
   :recipe (:host gitlab :repo "protesilaos/pulsar"))
+
+(package! apheleia
+  :recipe (:host github :repo "raxod502/apheleia"))

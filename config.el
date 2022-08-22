@@ -81,6 +81,10 @@ output as a string."
 (use-package! all-the-icons
   :config (setq all-the-icons-scale-factor 0.90))
 
+(use-package apheleia
+  :config
+  (apheleia-global-mode t))
+
 (setq avy-timeout-seconds 0.1)
 
 (setq bookmark-default-file (concat ++sync-folder-path "/bookmarks"))
@@ -970,9 +974,18 @@ not appropriate in some cases like terminals."
 
 (map! :leader :desc "Lookup doc" :n "e" #'+lookup/documentation)
 
-(use-package! clojure-mode
+(use-package clojure-mode
   :config
-  (setq clojure-align-forms-automatically t))
+  (setq cljr-add-ns-to-blank-clj-files t))
+
+(use-package apheleia
+  :config
+  (setf (alist-get 'zprint apheleia-formatters)
+        '("zprint"
+          ,(format "{:style [:community :justified]"
+                   " :map {:comma? false"
+                   "       :indent-only? true}}")))
+  (add-to-list 'apheleia-mode-alist '(clojure-mode . zprint)))
 
 (add-to-list 'dash-docs-docsets "Clojure")
 
