@@ -969,11 +969,11 @@ not appropriate in some cases like terminals."
           ,(concat
              "{:style [:respect-nl :justified]"
              " :map {:comma? false "
-             "       :justify {:max-variance 48, :no-justify nil}"
+             "       :justify {:max-variance 64, :no-justify nil}"
              " }"
              " :binding {:justify {:max-variance 64}"
              " }"
-             " :pair {:justify {:max-variance 24}"
+             " :pair {:justify {:max-variance 32}"
              " }"
              "}"
              )))
