@@ -889,7 +889,7 @@ otherwise, nil."
             (find-file posframe)
             (projectile-find-file posframe)
             (doom/find-file-in-private-config posframe)
-            (projectile-switch-project grid)
+            (projectile-switch-project posframe)
             (consult-recent-file posframe)
             (consult-bookmark buffer)
             (consult-imenu buffer)
