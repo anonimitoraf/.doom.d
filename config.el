@@ -960,7 +960,7 @@ not appropriate in some cases like terminals."
 
 (use-package clojure-mode
   :config
-  (setq cljr-add-ns-to-blank-clj-files t))
+  (setq cljr-add-ns-to-blank-clj-files nil))
 
 (use-package apheleia
   :config

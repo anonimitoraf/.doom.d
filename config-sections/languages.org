@@ -1,11 +1,11 @@
 #+TITLE: Languages
 
 * Clojure/script
-Auto-insert ns in new files
+Allow LSP to auto-insert namespaces
 #+begin_src elisp :results none
 (use-package clojure-mode
   :config
-  (setq cljr-add-ns-to-blank-clj-files t))
+  (setq cljr-add-ns-to-blank-clj-files nil))
 #+end_src
 
 Formatting
