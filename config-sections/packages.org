@@ -146,6 +146,15 @@ otherwise, nil."
              (tramp-handle-file-exists-p name))
         name)))
 #+end_src
+
+Auto-kill bufffer when CIDER disconnects
+#+begin_src elisp :results none
+(defun ++kill-disconnected-cider-buffer (process _message)
+  (when-let* ((client-buffer (process-buffer process)))
+    (kill-buffer client-buffer)))
+
+(advice-add #'nrepl-client-sentinel :after #'++kill-disconnected-cider-buffer)
+#+end_src
 * =clipetty=
 #+begin_src elisp
 (use-package! clipetty

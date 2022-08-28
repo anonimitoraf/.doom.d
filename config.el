@@ -174,6 +174,12 @@ otherwise, nil."
              (tramp-handle-file-exists-p name))
         name)))
 
+(defun ++kill-disconnected-cider-buffer (process _message)
+  (when-let* ((client-buffer (process-buffer process)))
+    (kill-buffer client-buffer)))
+
+(advice-add #'nrepl-client-sentinel :after #'++kill-disconnected-cider-buffer)
+
 (use-package! clipetty
   :config
   (unless (display-graphic-p)
