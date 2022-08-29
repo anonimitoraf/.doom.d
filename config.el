@@ -1818,6 +1818,14 @@ message listing the hooks."
 
   (define-key magit-status-mode-map (kbd "#") #'th/magit-aux-commands))
 
+(use-package! detached
+  :init (detached-init)
+  :bind (;; Replace built in completion of sessions with `consult'
+         ([remap detached-open-session] . detached-consult-session))
+  :config
+  (setq detached-show-output-on-attach t
+        detached-terminal-data-command system-type))
+
 (defvar ++vscode-search-occ-bg "#470000")
 (defvar ++vscode-search-occ-fg "#cccccc")
 
