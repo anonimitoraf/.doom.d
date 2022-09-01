@@ -916,7 +916,7 @@ otherwise, nil."
 
 (setq vertico-buffer-display-action '(display-buffer-in-side-window
                                        (side . right)
-                                       (window-width . 0.3)))
+                                       (window-width . 0.4)))
 
 (setq vi-tilde-fringe-bitmap-array [#b00000000
                                     #b00000000

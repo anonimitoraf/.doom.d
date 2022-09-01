@@ -1059,7 +1059,7 @@ buffer setup
 #+begin_src elisp :results none
 (setq vertico-buffer-display-action '(display-buffer-in-side-window
                                        (side . right)
-                                       (window-width . 0.3)))
+                                       (window-width . 0.4)))
 #+end_src
 
 * =vi-tilde-fringe=
