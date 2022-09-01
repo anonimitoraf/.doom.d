@@ -914,6 +914,10 @@ otherwise, nil."
         vertico-posframe-parameters '((left-fringe . 10)
                                       (right-fringe . 10))))
 
+(setq vertico-buffer-display-action '(display-buffer-in-side-window
+                                       (side . right)
+                                       (window-width . 0.3)))
+
 (setq vi-tilde-fringe-bitmap-array [#b00000000
                                     #b00000000
                                     #b00000000

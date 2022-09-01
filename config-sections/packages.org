@@ -1054,6 +1054,14 @@ posframe setup
         vertico-posframe-parameters '((left-fringe . 10)
                                       (right-fringe . 10))))
 #+end_src
+
+buffer setup
+#+begin_src elisp :results none
+(setq vertico-buffer-display-action '(display-buffer-in-side-window
+                                       (side . right)
+                                       (window-width . 0.3)))
+#+end_src
+
 * =vi-tilde-fringe=
 #+begin_src elisp :results none
 (setq vi-tilde-fringe-bitmap-array [#b00000000
