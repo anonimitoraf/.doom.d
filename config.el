@@ -1238,22 +1238,23 @@ not appropriate in some cases like terminals."
       (let* ((no-sessions (string-match-p "^no server running on.*$" sessions-str))
               (sessions (if no-sessions '() (split-string sessions-str)))
               (selected-session (consult--read sessions
-                                  :prompt "Select tmux session: "
+                                  :prompt (concat "Select tmux session " (if quiet? "(quiet) ") ": ")
                                   ;; TODO What should be here?
                                   :history 'consult--tmux-history)))
         (if (not (member selected-session sessions))
           ;; Create a new session
           (progn
-            (message (concat "Creating new tmux session: " selected-session))
+            (message (concat "New tmux session: " selected-session))
             (if quiet?
               (++tmux--new-session-quiet selected-session)
               (++tmux--new-session selected-session)))
           ;; Switch to an existing session
           (progn
-            (message (concat "Selecting existing session " selected-session))
+            (message (concat "Selecting existing session: " selected-session))
             (if quiet?
               (++tmux--switch-session-quiet selected-session)
               (++tmux--switch-session selected-session))))))))
+
 
 (map! :n "SPC _" (cmd! (++consult-tmux))
       :n "SPC -" (cmd! (++consult-tmux t)))
