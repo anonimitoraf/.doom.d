@@ -254,6 +254,9 @@ otherwise, nil."
 (after! elfeed
   (setq elfeed-search-filter "@5-year-ago +unread"))
 
+(map! :map global-map
+      "C-'" #'embark-act)
+
 (use-package! exec-path-from-shell
   :config
   (exec-path-from-shell-copy-env "SSH_AGENT_PID")
@@ -372,9 +375,9 @@ otherwise, nil."
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
-       :side top
-       :size 10
-       :select nil
+       :side right
+       :size 0.3
+       :select t
        :modeline t))))
 
 (after! lsp-mode
@@ -1364,6 +1367,25 @@ message listing the hooks."
 
 (map! :map doom-leader-map
   "+" #'calc)
+
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+(defun ++pacman-pkg-info ()
+  (interactive)
+  (let* ((completions (->> "pacman -Q"
+                           (shell-command-to-string)
+                           (s-trim)
+                           (s-lines)
+                           (--map (car (s-split " " it :no-nulls)))))
+         (name (completing-read "Package: " completions)))
+    (switch-to-buffer (get-buffer-create "*Package Info*"))
+    (erase-buffer)
+    (-> (format "pacman -Qi %s" name)
+        (shell-command-to-string)
+        (s-trim)
+        (insert))
+    (goto-char 0)
+    (conf-mode)))
 
 (defun ++load-and-continuously-save (file)
   (interactive

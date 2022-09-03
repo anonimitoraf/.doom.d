@@ -263,6 +263,11 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
 (after! elfeed
   (setq elfeed-search-filter "@5-year-ago +unread"))
 #+end_src
+* =embark=
+#+begin_src elisp :results none
+(map! :map global-map
+      "C-'" #'embark-act)
+#+end_src
 * =exec-path-from-shell=
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! exec-path-from-shell
@@ -414,9 +419,9 @@ Fix the ispell dictinoary.
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
-       :side top
-       :size 10
-       :select nil
+       :side right
+       :size 0.3
+       :select t
        :modeline t))))
 
 (after! lsp-mode
