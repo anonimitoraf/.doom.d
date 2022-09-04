@@ -1649,6 +1649,18 @@ If popup is focused, kill it."
         (pop-to-buffer buffer))
       (+shell--send-input buffer command))))
 
+(defun +shell--send-input (buffer input &optional no-newline)
+  (when input
+    (with-current-buffer buffer
+      (unless (number-or-marker-p (cdr comint-last-prompt))
+        (message "Waiting for shell to start up...")
+        (while (not (number-or-marker-p (cdr comint-last-prompt)))
+          (sleep-for 0.1)))
+      (goto-char (cdr comint-last-prompt))
+      (delete-region (cdr comint-last-prompt) (point-max))
+      (insert input)
+      (comint-send-input no-newline))))
+
 (use-package corfu-doc
   :config
   (setq corfu-doc-delay 0.2
