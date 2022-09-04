@@ -147,7 +147,7 @@ Allow convenient word deletion with C-<backspace>. In the terminal, C-<backspace
 * Line spacing similar to VSCode
 #+begin_src elisp :results none
 (setq-default line-spacing 0.25)
-(add-hook 'vterm-mode-hook (lambda () (setq-local line-spacing nil)))
+(add-hook 'shell-mode-hook (lambda () (setq-local line-spacing nil)))
 #+end_src
 * Opening tmux, creating/switching sessions, etc.
 #+begin_src elisp
@@ -298,8 +298,8 @@ message listing the hooks."
 
 (add-hook '+dap-running-session-mode-hook #'doom-modeline-mode)
 
-(remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
-(add-hook 'vterm-mode-hook #'doom-modeline-mode)
+(remove-hook 'shell-mode-hook #'hide-mode-line-mode)
+(add-hook 'shell-mode-hook #'doom-modeline-mode)
 #+end_src
 * Temporary hacks
 Hack for error `(void-function lsp--matching-clients\?)'

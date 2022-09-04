@@ -925,6 +925,24 @@ For remote files, make it a bit longer
   (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
   (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry))
 #+end_src
+* =shell=
+#+begin_src elisp :results none
+(use-package! shell
+  :init
+  (setq shell-font-lock-keywords nil
+    ;; comint-move-point-for-output nil
+    ;; comint-scroll-show-maximum-output nil
+    comint-buffer-maximum-size 8192
+    comint-input-ring-size 1024)
+  :config
+  (defun ++shell-setup ()
+    (setq-local corfu-auto nil
+                line-spacing nil)
+    ;; TODO This doesn't work. How do I enable modeline?
+    (doom-modeline-mode 1))
+  (add-hook 'shell-mode-hook #'++shell-setup)
+  (remove-hook 'shell-mode-hook #'hide-mode-line-mode))
+#+end_src
 * =symex=
 Best structural editing package to date
 #+begin_src elisp
@@ -1077,26 +1095,6 @@ buffer setup
                                     #b00000000
                                     #b00000000
                                     #b00000000])
-#+end_src
-* =vterm=
-#+begin_src emacs-lisp :tangle yes :results none
-(use-package! vterm
-  :config
-  (setq vterm-ignore-blink-cursor nil
-        vterm-timer-delay 0.01)
-  (map! :map vterm-mode-map
-        "C-k" #'vterm-send-up
-        "C-j" #'vterm-send-down
-        "C-l" #'vterm-send-return)
-
-  (defun evil-collection-vterm-escape-stay ()
-    "Go back to normal state but don't move
-cursor backwards. Moving cursor backwards is the default vim behavior but it is
-not appropriate in some cases like terminals."
-    (setq-local evil-move-cursor-back nil))
-
-  (setq vterm-shell "/bin/bash")
-  (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay))
 #+end_src
 * =which-key=
 #+begin_src elisp

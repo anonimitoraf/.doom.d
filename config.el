@@ -804,6 +804,22 @@ otherwise, nil."
   (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
   (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry))
 
+(use-package! shell
+  :init
+  (setq shell-font-lock-keywords nil
+    ;; comint-move-point-for-output nil
+    ;; comint-scroll-show-maximum-output nil
+    comint-buffer-maximum-size 8192
+    comint-input-ring-size 1024)
+  :config
+  (defun ++shell-setup ()
+    (setq-local corfu-auto nil
+                line-spacing nil)
+    ;; TODO This doesn't work. How do I enable modeline?
+    (doom-modeline-mode 1))
+  (add-hook 'shell-mode-hook #'++shell-setup)
+  (remove-hook 'shell-mode-hook #'hide-mode-line-mode))
+
 (use-package! symex
   :config
   (add-hook! '(clojure-mode-hook
@@ -929,24 +945,6 @@ otherwise, nil."
                                     #b00000000
                                     #b00000000
                                     #b00000000])
-
-(use-package! vterm
-  :config
-  (setq vterm-ignore-blink-cursor nil
-        vterm-timer-delay 0.01)
-  (map! :map vterm-mode-map
-        "C-k" #'vterm-send-up
-        "C-j" #'vterm-send-down
-        "C-l" #'vterm-send-return)
-
-  (defun evil-collection-vterm-escape-stay ()
-    "Go back to normal state but don't move
-cursor backwards. Moving cursor backwards is the default vim behavior but it is
-not appropriate in some cases like terminals."
-    (setq-local evil-move-cursor-back nil))
-
-  (setq vterm-shell "/bin/bash")
-  (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay))
 
 (which-key-mode +1)
 
@@ -1204,7 +1202,7 @@ not appropriate in some cases like terminals."
 (setq x-select-enable-clipboard-manager nil)
 
 (setq-default line-spacing 0.25)
-(add-hook 'vterm-mode-hook (lambda () (setq-local line-spacing nil)))
+(add-hook 'shell-mode-hook (lambda () (setq-local line-spacing nil)))
 
 (defun ++tmux--new-session (session-name)
   (++async-shell-command (concat "alacritty --command"
@@ -1334,8 +1332,8 @@ message listing the hooks."
 
 (add-hook '+dap-running-session-mode-hook #'doom-modeline-mode)
 
-(remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
-(add-hook 'vterm-mode-hook #'doom-modeline-mode)
+(remove-hook 'shell-mode-hook #'hide-mode-line-mode)
+(add-hook 'shell-mode-hook #'doom-modeline-mode)
 
 (after! lsp-mode
   (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
@@ -1623,6 +1621,33 @@ message listing the hooks."
                                      #'lsp-completion--get-documentation)
        :exit-function
        (-rpartial #'lsp-completion--exit-fn candidates)))))
+
+(use-package! shell
+  :config
+  (defun +shell/toggle (&optional command)
+    "Toggle a persistent terminal popup window.
+
+If popup is visible but unselected, selected it.
+If popup is focused, kill it."
+    (interactive)
+    (let ((buffer
+           (get-buffer-create
+            (format "*doom:shell-popup:%s*"
+                    (if (bound-and-true-p persp-mode)
+                        (safe-persp-name (get-current-persp))
+                      "main"))))
+          (dir default-directory))
+      (if-let (win (get-buffer-window buffer))
+          (let (confirm-kill-processes)
+            (set-process-query-on-exit-flag (get-buffer-process buffer) nil)
+            (delete-window win))
+        (with-current-buffer buffer
+          (if (not (eq major-mode 'shell-mode))
+              (shell buffer)
+            (cd dir)
+            (run-mode-hooks 'shell-mode-hook)))
+        (pop-to-buffer buffer))
+      (+shell--send-input buffer command))))
 
 (use-package corfu-doc
   :config
