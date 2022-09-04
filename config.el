@@ -1888,7 +1888,10 @@ If popup is focused, kill it."
          ([remap detached-open-session] . detached-consult-session))
   :config
   (setq detached-show-output-on-attach t
-        detached-terminal-data-command system-type))
+        detached-terminal-data-command system-type)
+  (map! :map detached-shell-mode-map
+         :nv "SPC d i" #'detached-shell-send-input
+         :nv "SPC d a" #'detached-attach-session))
 
 (defvar ++vscode-search-occ-bg "#470000")
 (defvar ++vscode-search-occ-fg "#cccccc")
