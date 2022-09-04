@@ -1962,7 +1962,8 @@ If popup is focused, kill it."
     `(vertico-posframe-border :background ,(doom-color 'blue))
     `(minibuffer-prompt :foreground ,(doom-color 'blue))
     `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'base5))
-    `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'base4)))
+    `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'base4))
+    `(comint-highlight-prompt :foreground ,(doom-color 'yellow)))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
