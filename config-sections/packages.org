@@ -946,7 +946,13 @@ For remote files, make it a bit longer
     ;; TODO This doesn't work. How do I enable modeline?
     (doom-modeline-mode 1))
   (add-hook 'shell-mode-hook #'++shell-setup)
-  (remove-hook 'shell-mode-hook #'hide-mode-line-mode))
+  (remove-hook 'shell-mode-hook #'hide-mode-line-mode)
+  ;; Keybinds
+  (map! :map shell-mode-map
+        :nvi "C-r" #'comint-history-isearch-backward
+        :nvi "C-k" #'comint-previous-input
+        :nvi "C-j" #'comint-next-input
+        :nvi "C-l" #'comint-clear-buffer))
 #+end_src
 * =symex=
 Best structural editing package to date

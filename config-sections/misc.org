@@ -52,6 +52,7 @@
       (and buffer-file-name (++remove-from-jump-list buffer-file-name))
     ('error (message (format "Failed to remove buffer %s from jump list: %s" buffer-file-name ex)))))
 
+(advice-add #'kill-this-buffer :before #'++remove-current-buffer-from-jump-list)
 (advice-add #'kill-current-buffer :before #'++remove-current-buffer-from-jump-list)
 #+end_src
 * Performance

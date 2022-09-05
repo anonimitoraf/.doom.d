@@ -65,6 +65,8 @@ output as a string."
 
 (setq savehist-file (concat ++sync-folder-path "/savehist"))
 
+(advice-add #'kill-current-buffer :override #'kill-this-buffer)
+
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
 (custom-set-faces!
@@ -823,7 +825,13 @@ otherwise, nil."
     ;; TODO This doesn't work. How do I enable modeline?
     (doom-modeline-mode 1))
   (add-hook 'shell-mode-hook #'++shell-setup)
-  (remove-hook 'shell-mode-hook #'hide-mode-line-mode))
+  (remove-hook 'shell-mode-hook #'hide-mode-line-mode)
+  ;; Keybinds
+  (map! :map shell-mode-map
+        :nvi "C-r" #'comint-history-isearch-backward
+        :nvi "C-k" #'comint-previous-input
+        :nvi "C-j" #'comint-next-input
+        :nvi "C-l" #'comint-clear-buffer))
 
 (use-package! symex
   :config
@@ -1152,6 +1160,7 @@ otherwise, nil."
       (and buffer-file-name (++remove-from-jump-list buffer-file-name))
     ('error (message (format "Failed to remove buffer %s from jump list: %s" buffer-file-name ex)))))
 
+(advice-add #'kill-this-buffer :before #'++remove-current-buffer-from-jump-list)
 (advice-add #'kill-current-buffer :before #'++remove-current-buffer-from-jump-list)
 
 (setq garbage-collection-messages nil)

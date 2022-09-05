@@ -4,3 +4,7 @@
 #+begin_src elisp
 (setq savehist-file (concat ++sync-folder-path "/savehist"))
 #+end_src
+* Prefer =kill-this-buffer= over =kill-buffer= because the latter doesn't seem to actually kill shell-mode (and maybe other similar modes too)
+#+begin_src elisp :results none
+(advice-add #'kill-current-buffer :override #'kill-this-buffer)
+#+end_src
