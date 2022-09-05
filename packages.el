@@ -236,3 +236,5 @@
   :recipe (:host github :repo "raxod502/apheleia"))
 
 (package! detached)
+
+(package! xterm-color)
