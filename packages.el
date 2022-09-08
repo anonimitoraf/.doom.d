@@ -77,7 +77,7 @@
 ;; (package! kubernetes-el
 ;;   :recipe (:host github :repo "chrisbarrett/kubernetes-el"))
 
-(unpin! org)
+;; (unpin! org)
 
 ;; (package! org-mime
 ;;   :recipe (:host github :repo "org-mime/org-mime"))
