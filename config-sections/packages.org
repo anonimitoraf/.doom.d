@@ -830,6 +830,13 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
     (plist-delete! info :buffer)
     (++dunst+i3-notify info)))
 #+end_src
+* =org-excalidraw=
+#+begin_src elisp :results none
+(use-package! org-excalidraw
+  :config
+  (setq org-excalidraw-directory (concat ++sync-folder-path "/excalidraw")))
+(after! org (org-excalidraw-initialize))
+#+end_src
 * =org-habit=
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! org-habit

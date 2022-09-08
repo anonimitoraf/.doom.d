@@ -728,6 +728,11 @@ otherwise, nil."
     (plist-delete! info :buffer)
     (++dunst+i3-notify info)))
 
+(use-package! org-excalidraw
+  :config
+  (setq org-excalidraw-directory (concat ++sync-folder-path "/excalidraw")))
+(after! org (org-excalidraw-initialize))
+
 (use-package! org-habit
   :config
   (add-to-list 'org-modules 'org-habit)

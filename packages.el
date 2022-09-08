@@ -238,3 +238,6 @@
 (package! detached)
 
 (package! xterm-color)
+
+(package! org-excalidraw
+ :recipe (:host github :repo "wdavew/org-excalidraw"))
