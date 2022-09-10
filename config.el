@@ -364,16 +364,18 @@ otherwise, nil."
                js-mode-hook
                js2-mode-hook)
              ;; Use `tide' for completions and formatting instead since LSP is too laggy
-             (setq-local lsp-completion-enable nil
+             (setq-local lsp-completion-enable t
+                         lsp-completion-show-detail nil
                          lsp-typescript-format-enable nil)
-             (when (-contains? '(typescript-tsx-mode
-                                 typescript-mode
-                                 web-mode
-                                 js-mode
-                                 js2-mode)
-                               major-mode)
-               (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
-                                                                 (list #'company-tide)))))
+             ;; (when (-contains? '(typescript-tsx-mode
+             ;;                     typescript-mode
+             ;;                     web-mode
+             ;;                     js-mode
+             ;;                     js2-mode)
+             ;;                   major-mode)
+             ;;   (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
+             ;;                                                     (list #'company-tide))))
+             )
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
@@ -882,28 +884,28 @@ otherwise, nil."
 
 (use-package! thread-dump)
 
-(defun setup-tide-mode ()
-  (require 'company)
-  (tide-setup)
-  (eldoc-mode -1)
-  (tide-hl-identifier-mode -1)
-  (setq tide-completion-detailed nil
-        tide-completion-ignore-case t
-        tide-save-buffer-after-code-edit nil)
-  (setq-local completion-at-point-functions
-    (mapcar #'cape-company-to-capf
-      (list #'company-tide)))
-  (advice-add #'tide-eldoc-function :around #'ignore))
+;; (defun setup-tide-mode ()
+;;   (require 'company)
+;;   (tide-setup)
+;;   (eldoc-mode -1)
+;;   (tide-hl-identifier-mode -1)
+;;   (setq tide-completion-detailed nil
+;;         tide-completion-ignore-case t
+;;         tide-save-buffer-after-code-edit nil)
+;;   (setq-local completion-at-point-functions
+;;     (mapcar #'cape-company-to-capf
+;;       (list #'company-tide)))
+;;   (advice-add #'tide-eldoc-function :around #'ignore))
 
-(use-package! tide
-  :config
-  (advice-remove 'tide-setup 'eldoc-mode)
-  (add-hook! '(typescript-tsx-mode-hook
-               typescript-mode-hook
-               web-mode-hook
-               js-mode-hook
-               js2-mode-hook)
-             #'setup-tide-mode))
+;; (use-package! tide
+;;   :config
+;;   (advice-remove 'tide-setup 'eldoc-mode)
+;;   (add-hook! '(typescript-tsx-mode-hook
+;;                typescript-mode-hook
+;;                web-mode-hook
+;;                js-mode-hook
+;;                js2-mode-hook)
+;;              #'setup-tide-mode))
 
 (use-package! tree-sitter)
 (use-package! tree-sitter-langs)

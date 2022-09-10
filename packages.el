@@ -162,9 +162,7 @@
 
 (package! speed-type)
 
-(package! tide
-  :recipe (:host github :repo "ananthakumaran/tide"))
-(unpin! tide)
+(package! tide :disable t)
 
 ;; (package! origami
 ;;   :recipe (:host github :repo "elp-revive/origami.el"))
