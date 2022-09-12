@@ -1381,7 +1381,7 @@ message listing the hooks."
 
 (defun ++copy-dir-path ()
   (interactive)
-  (let ((dir-path (concat "\"" default-directory "\"")))
+  (let ((dir-path default-directory))
     (kill-new dir-path)
     (message "Copied dir path: %s into clipboard" dir-path)))
 
