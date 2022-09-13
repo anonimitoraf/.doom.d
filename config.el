@@ -1122,7 +1122,8 @@ otherwise, nil."
               ["/usr/local/opt/groovy/libexec/lib"
                 "~/.gradle/caches/modules-2/files-2.1"]))
 
-(add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
+(defun ++on-focus-lost () (save-some-buffers t))
+(add-function :after after-focus-change-function #'++on-focus-lost)
 
 (defvar ++consult--search-recent-dir-tracked nil)
 (define-advice read-directory-name

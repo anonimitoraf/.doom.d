@@ -2,7 +2,8 @@
 
 * Auto-save when Emacs loses focus
 #+begin_src elisp :results none
-(add-function :after after-focus-change-function (lambda () (save-some-buffers t)))
+(defun ++on-focus-lost () (save-some-buffers t))
+(add-function :after after-focus-change-function #'++on-focus-lost)
 #+end_src
 * Search a recently searched directory
 #+begin_src elisp :results none
