@@ -239,3 +239,5 @@
 
 (package! org-excalidraw
  :recipe (:host github :repo "wdavew/org-excalidraw"))
+
+(package! persist)
