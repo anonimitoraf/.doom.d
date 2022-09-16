@@ -391,6 +391,7 @@ otherwise, nil."
         lsp-completion-no-cache nil
         lsp-completion-use-last-result nil
         lsp-headerline-breadcrumb-enable t
+        lsp-headerline-breadcrumb-icons-enable nil
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-eldoc-enable-hover nil
         lsp-lens-place-position 'end-of-line
@@ -1971,7 +1972,7 @@ If popup is focused, kill it."
                         :background ,(doom-color 'magenta))
     '(hl-line :background "grey8")
     `(header-line :background "black"
-                  :box (:line-width 1 :color "grey30"))
+                  :box (:line-width 1 :color "grey50"))
     `(popup-tip-face :foreground ,(doom-color 'yellow))
     ;; Ivy
     `(ivy-minibuffer-match-face-1 :foreground "white")
@@ -1982,8 +1983,8 @@ If popup is focused, kill it."
     `(corfu-border :background "white")
     `(vertico-posframe-border :background ,(doom-color 'blue))
     `(minibuffer-prompt :foreground ,(doom-color 'blue))
-    `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'base5))
-    `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'base4))
+    `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'yellow))
+    `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'white))
     `(comint-highlight-prompt :foreground ,(doom-color 'yellow)))
   ;; GUI
   (if (display-graphic-p)
