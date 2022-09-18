@@ -238,6 +238,8 @@
 (package! xterm-color)
 
 (package! org-excalidraw
- :recipe (:host github :repo "wdavew/org-excalidraw"))
+  :recipe (:host github :repo "wdavew/org-excalidraw"))
 
 (package! persist)
+(package! promise)
+(package! async-await)
