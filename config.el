@@ -259,6 +259,8 @@ otherwise, nil."
 (map! :map global-map
       "C-'" #'embark-act)
 
+(map! :map global-map :nv "SPC o e" #'exercism)
+
 (use-package! exec-path-from-shell
   :config
   (exec-path-from-shell-copy-env "SSH_AGENT_PID")
