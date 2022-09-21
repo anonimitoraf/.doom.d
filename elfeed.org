@@ -1,6 +1,5 @@
 #+TITLE: Elfeed
 
 * Root                                                                                                          :elfeed:
-** [[https://github.com/jbranchaud/til/commits/master.atom][Tech - TIL]]                                                                                                    :tech:
 ** [[http://www.aaronsw.com/2002/feeds/pgessays.rss][Paul Graham Essays]]                                                                                            :tech:
 ** [[https://lambdaisland.com/feeds/episodes.atom][Lambda Island]]                                                                                            :tech:
