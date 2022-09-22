@@ -1776,6 +1776,9 @@ If popup is focused, kill it."
   (setq cape-dabbrev-min-length 2
         cape-dabbrev-check-other-buffers 'some))
 
+(setq corfu-bar-width 0.5)
+(custom-set-faces! `(corfu-bar :background ,(doom-color 'magenta)))
+
 (defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
 
 (defun ++google-translate-kana->romaji (kana)

@@ -92,6 +92,12 @@
   (setq cape-dabbrev-min-length 2
         cape-dabbrev-check-other-buffers 'some))
 #+end_src
+
+Scroll-bar appearance
+#+begin_src elisp :results none
+(setq corfu-bar-width 0.5)
+(custom-set-faces! `(corfu-bar :background ,(doom-color 'magenta)))
+#+end_src
 * =google-translate=
 Japanese kana -> romaji
 #+begin_src emacs-lisp :tangle yes :results none
