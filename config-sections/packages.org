@@ -181,6 +181,12 @@ Auto-kill bufffer when CIDER disconnects
   (map! :map doom-leader-map
         "y" #'consult-yank-from-kill-ring))
 #+end_src
+* =drag-stuff=
+#+begin_src elisp :results none
+(map! :map global-map
+  "C-S-k" #'drag-stuff-up
+  "C-S-j" #'drag-stuff-down)
+#+end_src
 * =dotenv-mode=
 #+begin_src elisp
 (use-package! dotenv-mode

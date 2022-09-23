@@ -202,6 +202,10 @@ otherwise, nil."
   (map! :map doom-leader-map
         "y" #'consult-yank-from-kill-ring))
 
+(map! :map global-map
+  "C-S-k" #'drag-stuff-up
+  "C-S-j" #'drag-stuff-down)
+
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
 
