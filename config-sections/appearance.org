@@ -83,10 +83,19 @@ There are two ways to load a theme. Both assume the theme is installed and avail
       `(default :background "black")
       `(fill-column-indicator :foreground ,(doom-color 'base1))
       `(window-divider :foreground "grey5")
-      `(flycheck-posframe-error-face :background "firebrick"
-         :foreground "white")
-      `(flycheck-posframe-warning-face :background "dark goldenrod"
-         :foreground "white"))
+      `(flycheck-posframe-error-face
+         :background "dark red"
+         :foreground "white"
+         :box (:line-width 1 :color "grey60"))
+      `(flycheck-posframe-warning-face
+         :background "gold"
+         :foreground "black")
+      `(flycheck-posframe-info-face :background "yellow green"
+         :foreground "black")
+      `(flycheck-posframe-face
+         :background "grey15"
+         :foreground "white"
+         :box (:line-width 1 :color "grey60")))
     ;; TERM
     (custom-set-faces!
       `(default :background "black")

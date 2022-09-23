@@ -289,21 +289,21 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
 Emphasize the error/warning fringe indicators. When I go through a file, I typically rely on the fridge to tell guide me to code that I have to fix.
 #+begin_src elisp
 (define-fringe-bitmap 'flycheck-fringe-bitmap-beam
-  (vector #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111))
+  (vector #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000))
 
 (flycheck-define-error-level 'error
   :severity 30
@@ -319,6 +319,14 @@ Emphasize the error/warning fringe indicators. When I go through a file, I typic
   :overlay-category 'flycheck-warning-overlay
   :fringe-bitmap 'flycheck-fringe-bitmap-beam
   :fringe-face 'flycheck-fringe-warning
+  :error-list-face 'flycheck-error-list-warning)
+
+(flycheck-define-error-level 'info
+  :severity 10
+  :compilation-level 2
+  :overlay-category 'flycheck-info-overlay
+  :fringe-bitmap 'flycheck-fringe-bitmap-beam
+  :fringe-face 'flycheck-fringe-info
   :error-list-face 'flycheck-error-list-warning)
 
 (setq flycheck-display-errors-delay 0.01)
@@ -361,6 +369,14 @@ Make flycheck posframes a bit less obtrusive
 (use-package! flycheck-posframe
   :config
   (setq flycheck-posframe-position 'window-top-right-corner))
+#+end_src
+
+Improve posframe
+#+begin_src elisp :results none
+(setq flycheck-posframe-info-prefix " "
+      flycheck-posframe-warning-prefix " "
+      flycheck-posframe-error-prefix " "
+      flycheck-posframe-prefix " ")
 #+end_src
 
 * =google-translate=

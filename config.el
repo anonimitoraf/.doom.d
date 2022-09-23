@@ -271,21 +271,21 @@ otherwise, nil."
   (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
 
 (define-fringe-bitmap 'flycheck-fringe-bitmap-beam
-  (vector #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111
-          #b11111111))
+  (vector #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000
+          #b11000000))
 
 (flycheck-define-error-level 'error
   :severity 30
@@ -301,6 +301,14 @@ otherwise, nil."
   :overlay-category 'flycheck-warning-overlay
   :fringe-bitmap 'flycheck-fringe-bitmap-beam
   :fringe-face 'flycheck-fringe-warning
+  :error-list-face 'flycheck-error-list-warning)
+
+(flycheck-define-error-level 'info
+  :severity 10
+  :compilation-level 2
+  :overlay-category 'flycheck-info-overlay
+  :fringe-bitmap 'flycheck-fringe-bitmap-beam
+  :fringe-face 'flycheck-fringe-info
   :error-list-face 'flycheck-error-list-warning)
 
 (setq flycheck-display-errors-delay 0.01)
@@ -334,6 +342,11 @@ otherwise, nil."
 (use-package! flycheck-posframe
   :config
   (setq flycheck-posframe-position 'window-top-right-corner))
+
+(setq flycheck-posframe-info-prefix " "
+      flycheck-posframe-warning-prefix " "
+      flycheck-posframe-error-prefix " "
+      flycheck-posframe-prefix " ")
 
 (use-package! google-translate
   :config
@@ -2002,10 +2015,19 @@ If popup is focused, kill it."
       `(default :background "black")
       `(fill-column-indicator :foreground ,(doom-color 'base1))
       `(window-divider :foreground "grey5")
-      `(flycheck-posframe-error-face :background "firebrick"
-         :foreground "white")
-      `(flycheck-posframe-warning-face :background "dark goldenrod"
-         :foreground "white"))
+      `(flycheck-posframe-error-face
+         :background "dark red"
+         :foreground "white"
+         :box (:line-width 1 :color "grey60"))
+      `(flycheck-posframe-warning-face
+         :background "gold"
+         :foreground "black")
+      `(flycheck-posframe-info-face :background "yellow green"
+         :foreground "black")
+      `(flycheck-posframe-face
+         :background "grey15"
+         :foreground "white"
+         :box (:line-width 1 :color "grey60")))
     ;; TERM
     (custom-set-faces!
       `(default :background "black")
