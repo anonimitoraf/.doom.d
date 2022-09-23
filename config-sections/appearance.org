@@ -149,6 +149,11 @@ I want my font to automatically resize based on which screen Emacs is
     '(mode-line-emphasis :inherit mode-line)
     '(doom-modeline-buffer-file :weight normal)))
 #+end_src
+* Dashboard
+Keep dashboard minimal
+#+begin_src elisp :results none
+(setq +doom-dashboard-functions '(doom-dashboard-widget-banner))
+#+end_src
 * Misc
 #+begin_src elisp
 (setq display-time-default-load-average nil

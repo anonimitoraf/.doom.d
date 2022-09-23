@@ -2059,6 +2059,8 @@ If popup is focused, kill it."
     '(mode-line-emphasis :inherit mode-line)
     '(doom-modeline-buffer-file :weight normal)))
 
+(setq +doom-dashboard-functions '(doom-dashboard-widget-banner))
+
 (setq display-time-default-load-average nil
       display-time-24hr-format t)
 
