@@ -365,13 +365,13 @@ Customize the flycheck errors table to have longer columns and sort by error lev
 #+end_src
 
 Make flycheck posframes a bit less obtrusive
-#+begin_src elisp
+#+begin_src elisp :results none
 (use-package! flycheck-posframe
   :config
-  (setq flycheck-posframe-position 'window-top-right-corner))
+  (setq flycheck-posframe-position 'frame-bottom-left-corner))
 #+end_src
 
-Improve posframe
+Improve posframe appearance
 #+begin_src elisp :results none
 (setq flycheck-posframe-info-prefix " "
       flycheck-posframe-warning-prefix " "
