@@ -416,9 +416,10 @@ Set a cool prompt and make it non-noisy (What does this even mean?)
 (require 'itail)
 #+end_src
 * =ispell=
-Fix the ispell dictinoary.
-#+begin_src elisp
-(setq ispell-dictionary "en")
+Fix the ispell dictionary.
+#+begin_src elisp :results none
+(setq ispell-dictionary "en"
+      ispell-personal-dictionary (concat ++sync-folder-path "/spell/personal-dictionary.pws"))
 #+end_src
 * =lsp=
 #+begin_src elisp :results none

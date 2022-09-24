@@ -371,7 +371,8 @@ otherwise, nil."
 
 (require 'itail)
 
-(setq ispell-dictionary "en")
+(setq ispell-dictionary "en"
+      ispell-personal-dictionary (concat ++sync-folder-path "/spell/personal-dictionary.pws"))
 
 (use-package! lsp-mode
   :config
