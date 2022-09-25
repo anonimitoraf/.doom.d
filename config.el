@@ -2030,6 +2030,7 @@ If popup is focused, kill it."
       `(flycheck-posframe-face
          :background "grey15"
          :foreground "white"
+         :height 0.9
          :box (:line-width 1 :color "grey60")))
     ;; TERM
     (custom-set-faces!
