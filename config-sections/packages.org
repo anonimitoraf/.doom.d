@@ -897,11 +897,6 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
 #+end_src
 * =projectile=
-It's convenient to open a file in a different window sometimes.
-#+begin_src elisp
-(map! :nv "SPC f g" #'projectile-find-file-other-window)
-#+end_src
-
 Get rid of annoying projectile staleness without it being too expensive/noticeable for local files.
 For remote files, make it a bit longer
 #+begin_src elisp
@@ -1101,6 +1096,7 @@ Utilize modeline color to tell me if I'm in symex-mode
             (helpful-callable posframe)
             (helpful-variable posframe)
             (find-file posframe)
+            (find-file-other-window posframe)
             (projectile-find-file posframe)
             (doom/find-file-in-private-config posframe)
             (projectile-switch-project posframe)

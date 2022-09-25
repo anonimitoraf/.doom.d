@@ -67,6 +67,9 @@ output as a string."
 
 (advice-add #'kill-current-buffer :override #'kill-this-buffer)
 
+(map! :map doom-leader-map
+      "f g" #'find-file-other-window)
+
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
 (custom-set-faces!
@@ -777,8 +780,6 @@ otherwise, nil."
 
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
 
-(map! :nv "SPC f g" #'projectile-find-file-other-window)
-
 (defun ++set-projectile-cache-duration ()
   (setq projectile-files-cache-expire
         (if (and buffer-file-name
@@ -953,6 +954,7 @@ otherwise, nil."
             (helpful-callable posframe)
             (helpful-variable posframe)
             (find-file posframe)
+            (find-file-other-window posframe)
             (projectile-find-file posframe)
             (doom/find-file-in-private-config posframe)
             (projectile-switch-project posframe)

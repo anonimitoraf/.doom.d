@@ -8,3 +8,8 @@
 #+begin_src elisp :results none
 (advice-add #'kill-current-buffer :override #'kill-this-buffer)
 #+end_src
+* Open a file in another window
+#+begin_src elisp :results none
+(map! :map doom-leader-map
+      "f g" #'find-file-other-window)
+#+end_src
