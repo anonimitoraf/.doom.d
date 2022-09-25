@@ -266,7 +266,9 @@ otherwise, nil."
 (map! :map global-map
       "C-'" #'embark-act)
 
-(map! :map global-map :nv "SPC o e" #'exercism)
+(use-package! exercism
+  :config
+  (map! :map global-map :nv "SPC o e" #'exercism))
 
 (use-package! exec-path-from-shell
   :config

@@ -243,3 +243,7 @@
 (package! persist)
 (package! promise)
 (package! async-await)
+
+(package! exercism
+  :recipe (:host github :repo "anonimitoraf/exercism.el"))
+(unpin! exercism)
