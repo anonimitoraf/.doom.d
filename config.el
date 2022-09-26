@@ -346,7 +346,7 @@ otherwise, nil."
 
 (use-package! flycheck-posframe
   :config
-  (setq flycheck-posframe-position 'frame-bottom-left-corner))
+  (setq flycheck-posframe-position 'window-bottom-left-corner))
 
 (setq flycheck-posframe-info-prefix " "
       flycheck-posframe-warning-prefix " "

@@ -370,7 +370,7 @@ Make flycheck posframes a bit less obtrusive
 #+begin_src elisp :results none
 (use-package! flycheck-posframe
   :config
-  (setq flycheck-posframe-position 'frame-bottom-left-corner))
+  (setq flycheck-posframe-position 'window-bottom-left-corner))
 #+end_src
 
 Improve posframe appearance
