@@ -148,7 +148,8 @@ Auto-configure modes
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
 #+end_src
-** CSS Modules
+* CSS family
+
 #+begin_src elisp :results none
 (use-package! lsp-mode
   :config
@@ -161,6 +162,14 @@ Auto-configure modes
                      :activation-fn (lsp-activate-on "css-modules")
                      :server-id 'css-modules)))
 #+end_src
+
+Use CSS comments for SASS since I'm using CSS tree-sitter for highlighting
+#+begin_src elisp :results none
+(add-hook 'scss-mode-hook (lambda ()
+                            (setq-local comment-start "/* "
+                                        comment-end " */")))
+#+end_src
+
 * Groovy
 #+begin_src elisp
 (use-package! lsp-mode

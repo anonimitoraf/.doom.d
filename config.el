@@ -1139,6 +1139,10 @@ otherwise, nil."
                      :activation-fn (lsp-activate-on "css-modules")
                      :server-id 'css-modules)))
 
+(add-hook 'scss-mode-hook (lambda ()
+                            (setq-local comment-start "/* "
+                                        comment-end " */")))
+
 (use-package! lsp-mode
     :hook (groovy-mode . lsp-deferred)
     :commands (lsp lsp-deferred)
