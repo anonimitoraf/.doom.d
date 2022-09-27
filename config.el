@@ -210,7 +210,7 @@ otherwise, nil."
   "C-S-j" #'drag-stuff-down)
 
 (use-package! dotenv-mode
-  :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
+  :config (add-to-list 'auto-mode-alist '("\\.env\\.?" . dotenv-mode)))
 
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)

@@ -190,7 +190,7 @@ Auto-kill bufffer when CIDER disconnects
 * =dotenv-mode=
 #+begin_src elisp
 (use-package! dotenv-mode
-  :config (add-to-list 'auto-mode-alist '("\\.env\\..*" . dotenv-mode)))
+  :config (add-to-list 'auto-mode-alist '("\\.env\\.?" . dotenv-mode)))
 #+end_src
 * =evil=
 #+begin_src elisp
