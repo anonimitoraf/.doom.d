@@ -943,8 +943,8 @@ otherwise, nil."
 (use-package! vertico
   :config
   (map! :map vertico-map
-        "C-l" #'vertico-insert
-        "C-;" #'vertico-exit)
+        "C-l" #'vertico-exit
+        "C-;" #'vertico-insert)
   (when (display-graphic-p) ; Yabai on Mac sometimes hides posframes
     (require 'vertico-posframe)
     (vertico-multiform-mode)
