@@ -209,3 +209,7 @@
         (with-temp-file tmp
           (insert (with-current-buffer "*Org ORG Export*" (buffer-string))))
         (org-babel-tangle-file tmp)))))
+
+(defadvice! fixed-doom-module-list (fn &rest args)
+  :around #'doom-module-list
+  (nreverse (apply fn args)))
