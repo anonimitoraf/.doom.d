@@ -2024,20 +2024,17 @@ If popup is focused, kill it."
       `(default :background "black")
       `(fill-column-indicator :foreground ,(doom-color 'base1))
       `(window-divider :foreground "grey5")
-      `(flycheck-posframe-error-face
-         :background "dark red"
-         :foreground "white"
-         :box (:line-width 1 :color "grey60"))
-      `(flycheck-posframe-warning-face
-         :background "gold"
-         :foreground "black")
-      `(flycheck-posframe-info-face :background "yellow green"
-         :foreground "black")
-      `(flycheck-posframe-face
-         :background "grey15"
+      '(flycheck-posframe-face
+         :background "grey5"
          :foreground "white"
          :height 0.9
-         :box (:line-width 1 :color "grey60")))
+         :box (:line-width 1 :color "white"))
+      `(flycheck-posframe-error-face
+         :foreground ,(doom-color 'red))
+      `(flycheck-posframe-warning-face
+         :foreground ,(doom-color 'yellow))
+      `(flycheck-posframe-info-face
+         :foreground ,(doom-color 'green)))
     ;; TERM
     (custom-set-faces!
       `(default :background "black")
