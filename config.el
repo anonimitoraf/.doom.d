@@ -2030,11 +2030,14 @@ If popup is focused, kill it."
          :height 0.9
          :box (:line-width 1 :color "white"))
       `(flycheck-posframe-error-face
-         :foreground ,(doom-color 'red))
+         :foreground ,(doom-color 'red)
+         :box (:line-width 1 :color ,(doom-color 'red)))
       `(flycheck-posframe-warning-face
-         :foreground ,(doom-color 'yellow))
+         :foreground ,(doom-color 'yellow)
+         :box (:line-width 1 :color ,(doom-color 'yellow)))
       `(flycheck-posframe-info-face
-         :foreground ,(doom-color 'green)))
+         :foreground ,(doom-color 'green)
+         :box (:line-width 1 :color ,(doom-color 'green))))
     ;; TERM
     (custom-set-faces!
       `(default :background "black")
