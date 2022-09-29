@@ -1147,7 +1147,7 @@ buffer setup
 (use-package! vundo
   :config
   (map! :map global-map
-        :nv "S-u" #'vundo))
+        :nv "U" #'vundo))
 #+end_src
 * =which-key=
 #+begin_src elisp
