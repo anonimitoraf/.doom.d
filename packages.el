@@ -247,3 +247,5 @@
 (package! exercism
   :recipe (:host github :repo "anonimitoraf/exercism.el"))
 (unpin! exercism)
+
+(package! vundo)

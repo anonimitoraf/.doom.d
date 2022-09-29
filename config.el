@@ -991,6 +991,11 @@ otherwise, nil."
                                     #b00000000
                                     #b00000000])
 
+(use-package! vundo
+  :config
+  (map! :map global-map
+        :nv "S-u" #'vundo))
+
 (which-key-mode +1)
 
 (use-package! whitespace

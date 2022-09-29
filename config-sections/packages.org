@@ -1142,6 +1142,13 @@ buffer setup
                                     #b00000000
                                     #b00000000])
 #+end_src
+* =vundo=
+#+begin_src elisp :results none
+(use-package! vundo
+  :config
+  (map! :map global-map
+        :nv "S-u" #'vundo))
+#+end_src
 * =which-key=
 #+begin_src elisp
 (which-key-mode +1)
