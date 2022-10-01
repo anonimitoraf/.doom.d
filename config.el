@@ -994,7 +994,7 @@ otherwise, nil."
 (use-package! vundo
   :config
   (map! :map global-map
-        :nv "S-u" #'vundo))
+        :nv "U" #'vundo))
 
 (which-key-mode +1)
 
