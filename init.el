@@ -14,6 +14,10 @@
 ;;      Alternatively, press 'gd' (or 'C-c g d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+;; Remove title bar. See https://github.com/d12frosted/homebrew-emacs-plus#emacs-29-1
+(when (string> emacs-version "29")
+  (add-to-list 'default-frame-alist '(undecorated . t)))
+
 (doom! :input
        ;;chinese
        ;;japanese
