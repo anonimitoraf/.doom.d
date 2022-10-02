@@ -988,6 +988,18 @@ For remote files, make it a bit longer
         :nvi "C-j" #'comint-next-input
         :nvi "C-l" #'comint-clear-buffer))
 #+end_src
+* =sidecar-locals=
+#+begin_src elisp :results none
+(use-package! sidecar-locals
+  :init
+  (setq sidecar-locals-dir-name ".emacs"
+        ;; Add to this as necessary
+        sidecar-locals-paths-allow '("~/work"
+                                     "~/personal"))
+  :config
+  (sidecar-locals-mode))
+#+end_src
+
 * =symex=
 Best structural editing package to date
 #+begin_src elisp

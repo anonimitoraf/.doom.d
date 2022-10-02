@@ -249,3 +249,5 @@
 (unpin! exercism)
 
 (package! vundo)
+
+(package! sidecar-locals)

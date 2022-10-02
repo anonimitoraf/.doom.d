@@ -864,6 +864,15 @@ otherwise, nil."
         :nvi "C-j" #'comint-next-input
         :nvi "C-l" #'comint-clear-buffer))
 
+(use-package! sidecar-locals
+  :init
+  (setq sidecar-locals-dir-name ".emacs"
+        ;; Add to this as necessary
+        sidecar-locals-paths-allow '("~/work"
+                                     "~/personal"))
+  :config
+  (sidecar-locals-mode))
+
 (use-package! symex
   :config
   (add-hook! '(clojure-mode-hook
