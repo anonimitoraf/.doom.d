@@ -868,8 +868,8 @@ otherwise, nil."
   :init
   (setq sidecar-locals-dir-name ".emacs"
         ;; Add to this as necessary
-        sidecar-locals-paths-allow '("~/work"
-                                     "~/personal"))
+        sidecar-locals-paths-allow (-map (lambda (dir) (expand-file-name dir))
+                                         '("~/personal/lc/")))
   :config
   (sidecar-locals-mode))
 
