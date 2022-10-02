@@ -1,5 +1,13 @@
 #+TITLE: Misc
 
+* Auto-close buffers when deleting a file
+#+begin_src elisp :results none
+(defun ++close-buffers (filename &optional _trash)
+  (-each (buffer-list) (lambda (b)
+                         (when (equal (buffer-file-name b) (expand-file-name filename))
+                           (kill-buffer b)))))
+(advice-add #'delete-file :before #'++close-buffers)
+#+end_src
 * Auto-save when Emacs loses focus
 #+begin_src elisp :results none
 (defun ++on-focus-lost () (save-some-buffers t))

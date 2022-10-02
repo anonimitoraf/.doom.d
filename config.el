@@ -1155,6 +1155,12 @@ otherwise, nil."
               ["/usr/local/opt/groovy/libexec/lib"
                 "~/.gradle/caches/modules-2/files-2.1"]))
 
+(defun ++close-buffers (filename &optional _trash)
+  (-each (buffer-list) (lambda (b)
+                         (when (equal (buffer-file-name b) (expand-file-name filename))
+                           (kill-buffer b)))))
+(advice-add #'delete-file :before #'++close-buffers)
+
 (defun ++on-focus-lost () (save-some-buffers t))
 (add-function :after after-focus-change-function #'++on-focus-lost)
 
