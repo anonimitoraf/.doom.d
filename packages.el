@@ -251,3 +251,7 @@
 (package! vundo)
 
 (package! sidecar-locals)
+
+(package! el-easydraw
+  :recipe (:host github :repo "misohena/el-easydraw"
+           :files ("*.el")))

@@ -212,6 +212,10 @@ otherwise, nil."
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\.?" . dotenv-mode)))
 
+(with-eval-after-load 'org
+  (require 'edraw-org)
+  (edraw-org-setup-default))
+
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
 (define-key evil-motion-state-map (kbd "<tab>") nil)

@@ -192,6 +192,12 @@ Auto-kill bufffer when CIDER disconnects
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\.?" . dotenv-mode)))
 #+end_src
+* =edraw=
+#+begin_src elisp :results none
+(with-eval-after-load 'org
+  (require 'edraw-org)
+  (edraw-org-setup-default))
+#+end_src
 * =evil=
 #+begin_src elisp
 (define-key evil-insert-state-map (kbd "C-j") nil)
