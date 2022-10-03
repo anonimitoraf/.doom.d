@@ -1763,12 +1763,12 @@ If popup is focused, kill it."
   (map! :map global-map
         :nvi "C-SPC" #'completion-at-point)
   (map! :map corfu-map
-        "C-j" #'corfu-next
-        "C-k" #'corfu-previous
-        "C-l" #'corfu-insert
-        "C-;" #'corfu-insert
-        "TAB" #'corfu-insert
-        "<tab>" #'corfu-insert
+        :nvi "C-j" #'corfu-next
+        :nvi "C-k" #'corfu-previous
+        :nvi "C-l" #'corfu-insert
+        :nvi "C-;" #'corfu-insert
+        :nvi "TAB" #'corfu-insert
+        :nvi "<tab>" #'corfu-insert
         :nvi "<escape>" #'++corfu-quit
         :nvi "ESC" #'++corfu-quit)
   (global-corfu-mode +1)
