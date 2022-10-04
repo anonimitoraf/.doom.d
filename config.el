@@ -1177,6 +1177,24 @@ otherwise, nil."
               ["/usr/local/opt/groovy/libexec/lib"
                 "~/.gradle/caches/modules-2/files-2.1"]))
 
+(add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
+
+(use-package! lsp-mode
+  :hook (prolog-mode . lsp)
+  :config
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection
+    (lsp-stdio-connection (list "swipl"
+                                "-g" "use_module(library(lsp_server))."
+                                "-g" "lsp_server:main"
+                                "-t" "halt"
+                                "--" "stdio"))
+    :major-modes '(prolog-mode)
+    :priority 1
+    :multi-root t
+    :server-id 'prolog-ls)))
+
 (defun ++close-buffers (filename &optional _trash)
   (-each (buffer-list) (lambda (b)
                          (when (equal (buffer-file-name b) (expand-file-name filename))
