@@ -222,6 +222,9 @@ otherwise, nil."
         (link-desc (read-string "Link description: " )))
     (insert (format "[[edraw:file=%s][%s]]" filepath link-desc))))
 
+(autoload 'edraw-mode "edraw-mode")
+(add-to-list 'auto-mode-alist '("\\.edraw\\.svg$" . edraw-mode))
+
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
 (define-key evil-motion-state-map (kbd "<tab>") nil)

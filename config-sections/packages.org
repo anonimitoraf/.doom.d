@@ -208,6 +208,11 @@ Create an edraw link within sync'd dir so all my machines have the drawn image
     (insert (format "[[edraw:file=%s][%s]]" filepath link-desc))))
 #+end_src
 
+Auto-detect edraw files
+#+begin_src elisp :results none
+(autoload 'edraw-mode "edraw-mode")
+(add-to-list 'auto-mode-alist '("\\.edraw\\.svg$" . edraw-mode))
+#+end_src
 * =evil=
 #+begin_src elisp
 (define-key evil-insert-state-map (kbd "C-j") nil)
