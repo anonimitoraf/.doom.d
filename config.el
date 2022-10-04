@@ -216,6 +216,12 @@ otherwise, nil."
   (require 'edraw-org)
   (edraw-org-setup-default))
 
+(defun ++edraw-new ()
+  (interactive)
+  (let ((filepath (concat ++sync-folder-path "/edraw/" (file-name-nondirectory buffer-file-name) "_" (org-id-uuid) ".edraw.svg"))
+        (link-desc (read-string "Link description: " )))
+    (insert (format "[[edraw:file=%s][%s]]" filepath link-desc))))
+
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
 (define-key evil-motion-state-map (kbd "<tab>") nil)

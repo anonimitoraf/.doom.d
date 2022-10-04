@@ -198,6 +198,16 @@ Auto-kill bufffer when CIDER disconnects
   (require 'edraw-org)
   (edraw-org-setup-default))
 #+end_src
+
+Create an edraw link within sync'd dir so all my machines have the drawn image
+#+begin_src elisp :results none
+(defun ++edraw-new ()
+  (interactive)
+  (let ((filepath (concat ++sync-folder-path "/edraw/" (file-name-nondirectory buffer-file-name) "_" (org-id-uuid) ".edraw.svg"))
+        (link-desc (read-string "Link description: " )))
+    (insert (format "[[edraw:file=%s][%s]]" filepath link-desc))))
+#+end_src
+
 * =evil=
 #+begin_src elisp
 (define-key evil-insert-state-map (kbd "C-j") nil)
