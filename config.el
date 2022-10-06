@@ -824,7 +824,15 @@ otherwise, nil."
           outline-forward-same-level
           outline-next-visible-heading
           outline-previous-visible-heading
-          outline-up-heading))
+          outline-up-heading
+          evil-window-vsplit
+          evil-window-split
+          evil-window-left
+          evil-window-right
+          evil-window-up
+          evil-window-down
+          +workspace/close-window-or-workspace
+          +shell/toggle))
   (setq pulsar-pulse-on-window-change t)
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.05)
