@@ -995,7 +995,8 @@ otherwise, nil."
             (consult-imenu buffer)
             (+default/search-buffer buffer)
             (yas-insert-snippet posframe)
-            (lsp-execute-code-action posframe)))
+            (lsp-execute-code-action posframe)
+            (vertico-repeat-select posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
@@ -1011,6 +1012,9 @@ otherwise, nil."
 (setq vertico-buffer-display-action '(display-buffer-in-side-window
                                        (side . right)
                                        (window-width . 0.4)))
+
+(map! :map doom-leader-map
+      "\"" #'vertico-repeat-select)
 
 (setq vi-tilde-fringe-bitmap-array [#b00000000
                                     #b00000000

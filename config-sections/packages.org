@@ -1148,7 +1148,8 @@ Utilize modeline color to tell me if I'm in symex-mode
             (consult-imenu buffer)
             (+default/search-buffer buffer)
             (yas-insert-snippet posframe)
-            (lsp-execute-code-action posframe)))
+            (lsp-execute-code-action posframe)
+            (vertico-repeat-select posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
@@ -1170,6 +1171,12 @@ buffer setup
 (setq vertico-buffer-display-action '(display-buffer-in-side-window
                                        (side . right)
                                        (window-width . 0.4)))
+#+end_src
+
+Repeat a previous vertico command
+#+begin_src elisp :results none
+(map! :map doom-leader-map
+      "\"" #'vertico-repeat-select)
 #+end_src
 
 * =vi-tilde-fringe=
