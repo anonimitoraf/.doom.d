@@ -253,6 +253,8 @@ otherwise, nil."
   :config
   (setq evil-collection-setup-minibuffer t))
 
+(setq evil-kill-on-visual-paste nil)
+
 (use-package! evil-easymotion
   :config
   (unbind-key "s" evil-normal-state-map)

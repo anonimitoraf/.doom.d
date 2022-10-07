@@ -261,6 +261,12 @@ evil-collection with workaround for =slime= specifically (and evaluation of the 
   :config
   (setq evil-collection-setup-minibuffer t))
 #+end_src
+
+Don't yank replaced lines
+#+begin_src elisp :results none
+(setq evil-kill-on-visual-paste nil)
+#+end_src
+
 ** =evil-easymotion=
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! evil-easymotion
