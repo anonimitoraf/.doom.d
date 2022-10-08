@@ -1313,7 +1313,14 @@ otherwise, nil."
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
   (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
 
-(map! :map global-map "C-h" #'backward-kill-word)
+(defun ++backward-delete-word ()
+  "Like `backward-kill-word' but doesn't copy the deleted word"
+  (interactive)
+  (delete-region
+    (point)
+    (progn (forward-word -1) (point))))
+
+(map! :map global-map "C-h" #'++backward-delete-word)
 
 (setq x-select-enable-clipboard-manager nil)
 
