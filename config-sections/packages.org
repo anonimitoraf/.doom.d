@@ -31,6 +31,14 @@ They're too big (by default) for my taste
   :config
   (apheleia-global-mode t))
 #+end_src
+* =auto-dim-other-buffers=
+#+begin_src elisp :results none
+(use-package! auto-dim-other-buffers
+  :config
+  (auto-dim-other-buffers-mode +1)
+  (custom-set-faces!
+    '(auto-dim-other-buffers-face :background "grey10")))
+#+end_src
 * =avy=
 This package is used for jumping around efficiently within a file. I really ought to use it more.
 

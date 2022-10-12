@@ -90,6 +90,12 @@ output as a string."
   :config
   (apheleia-global-mode t))
 
+(use-package! auto-dim-other-buffers
+  :config
+  (auto-dim-other-buffers-mode +1)
+  (custom-set-faces!
+    '(auto-dim-other-buffers-face :background "grey10")))
+
 (setq avy-timeout-seconds 0.1)
 
 (setq bookmark-default-file (concat ++sync-folder-path "/bookmarks"))
