@@ -94,7 +94,7 @@ output as a string."
   :config
   (auto-dim-other-buffers-mode +1)
   (custom-set-faces!
-    '(auto-dim-other-buffers-face :background "grey10")))
+    '(auto-dim-other-buffers-face :background "grey5")))
 
 (setq avy-timeout-seconds 0.1)
 

@@ -37,7 +37,7 @@ They're too big (by default) for my taste
   :config
   (auto-dim-other-buffers-mode +1)
   (custom-set-faces!
-    '(auto-dim-other-buffers-face :background "grey10")))
+    '(auto-dim-other-buffers-face :background "grey5")))
 #+end_src
 * =avy=
 This package is used for jumping around efficiently within a file. I really ought to use it more.
