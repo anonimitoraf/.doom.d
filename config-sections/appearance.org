@@ -82,7 +82,7 @@ There are two ways to load a theme. Both assume the theme is installed and avail
     (custom-set-faces!
       `(default :background "black")
       `(fill-column-indicator :foreground ,(doom-color 'base1))
-      `(window-divider :foreground "grey5")
+      `(window-divider :foreground "black")
       '(flycheck-posframe-face
          :background "grey5"
          :foreground "white"

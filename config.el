@@ -2117,7 +2117,7 @@ If popup is focused, kill it."
     (custom-set-faces!
       `(default :background "black")
       `(fill-column-indicator :foreground ,(doom-color 'base1))
-      `(window-divider :foreground "grey5")
+      `(window-divider :foreground "black")
       '(flycheck-posframe-face
          :background "grey5"
          :foreground "white"
