@@ -91,6 +91,15 @@ output as a string."
   (apheleia-global-mode t))
 
 (use-package! auto-dim-other-buffers
+  :init
+  (defun ++adob-never-dim (buffer)
+    ;; For some reason, some vertico bufferes still get dimmed
+    ;; so we manually exclude them
+    (-some (lambda (buffer-name-pattern)
+             (string-match buffer-name-pattern (buffer-name buffer)))
+           '("\\*Minibuf-[0-9]+\\*")))
+  (setq auto-dim-other-buffers-dim-on-switch-to-minibuffer nil
+        auto-dim-other-buffers-never-dim-buffer-functions '(++adob-never-dim))
   :config
   (auto-dim-other-buffers-mode +1)
   (custom-set-faces!
