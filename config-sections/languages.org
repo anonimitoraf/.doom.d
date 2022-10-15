@@ -58,6 +58,14 @@ Font lock "hacks". TODO Find out how to do these properly
              (put '>defn 'clojure-doc-string-elt 2)))
 #+end_src
 
+Make comments easily-distinguishable from regular code
+#+begin_src elisp :results none
+(font-lock-add-keywords 'clojure-mode
+                        `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
+                                    "\\(comment\\)")
+                           1 font-lock-comment-face)))
+#+end_src
+
 Popup rules
 #+begin_src elisp
 (set-popup-rules!

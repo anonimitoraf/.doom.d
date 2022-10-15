@@ -1117,6 +1117,11 @@ otherwise, nil."
                                         (2 font-lock-function-name-face))))
              (put '>defn 'clojure-doc-string-elt 2)))
 
+(font-lock-add-keywords 'clojure-mode
+                        `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
+                                    "\\(comment\\)")
+                           1 font-lock-comment-face)))
+
 (set-popup-rules!
   '(("^\\*cider-repl"
      :quit nil
