@@ -1093,6 +1093,10 @@ otherwise, nil."
              " }"
              " :pair {:justify {:max-variance 32}"
              " }"
+             " :fn-map {"
+             "   \"->\" :none"
+             "   \"->>\" :none"
+             " }"
              "}"
              )))
   (add-to-list 'apheleia-mode-alist '(clojure-mode . zprint))
