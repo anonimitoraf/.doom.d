@@ -132,7 +132,8 @@ output as a string."
         :nv "C-h" #'cider-inspector-pop
         :nv [mouse-3] #'cider-inspector-pop
         :nv "C-l" #'cider-inspector-operate-on-point)
-  (add-hook 'cider-mode-hook (lambda () (setq-local completion-styles '(cider)))))
+  (add-hook 'cider-mode-hook (lambda () (setq-local completion-styles '(cider))))
+  (add-hook 'cider-repl-mode-hook (lambda () (symex-mode +1))))
 
 (advice-add 'cider-eldoc :around #'ignore)
 
