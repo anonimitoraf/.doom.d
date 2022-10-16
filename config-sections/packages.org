@@ -82,6 +82,9 @@ Save bookmarks immediately (rather than just when Emacs is killed).
         cider-font-lock-dynamically nil
         cider-font-lock-reader-conditionals nil
         nrepl-force-ssh-for-remote-hosts t)
+  (map! :map cider-repl-mode-map
+        :nvi "C-k" #'cider-repl-previous-input
+        :nvi "C-j" #'cider-repl-next-input)
   (map! :map cider-inspector-mode-map
         :nv "C-k" #'cider-inspector-previous-inspectable-object
         :nv "C-j" #'cider-inspector-next-inspectable-object
