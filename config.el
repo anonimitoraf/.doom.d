@@ -1019,7 +1019,8 @@ otherwise, nil."
             (lsp-execute-code-action posframe)
             (vertico-repeat-select posframe)
             (cider-connect-clj posframe)
-            (cider-connect-cljs posframe)))
+            (cider-connect-cljs posframe)
+            (org-roam-node-find posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
