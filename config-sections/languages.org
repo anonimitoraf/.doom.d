@@ -161,55 +161,13 @@ Auto-configure modes
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
 #+end_src
 * CSS family
-
-#+begin_src elisp :results none
-(use-package! lsp-mode
-  :config
-  (add-to-list 'lsp-language-id-configuration
-    '(typescript-tsx-mode . "css-modules"))
-  (lsp-register-client
-    (make-lsp-client :new-connection (lsp-stdio-connection "cssmodules-language-server")
-                     :priority -1
-                     :add-on? t
-                     :activation-fn (lsp-activate-on "css-modules")
-                     :server-id 'css-modules)))
-#+end_src
-
 Use CSS comments for SASS since I'm using CSS tree-sitter for highlighting
 #+begin_src elisp :results none
 (add-hook 'scss-mode-hook (lambda ()
                             (setq-local comment-start "/* "
                                         comment-end " */")))
 #+end_src
-
-* Groovy
-#+begin_src elisp
-(use-package! lsp-mode
-    :hook (groovy-mode . lsp-deferred)
-    :commands (lsp lsp-deferred)
-    :config (setq lsp-groovy-classpath
-              ["/usr/local/opt/groovy/libexec/lib"
-                "~/.gradle/caches/modules-2/files-2.1"]))
-#+end_src
 * Prolog
 #+begin_src elisp :results none
 (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
-#+end_src
-
-#+begin_src elisp :results none
-(use-package! lsp-mode
-  :hook (prolog-mode . lsp)
-  :config
-  (lsp-register-client
-   (make-lsp-client
-    :new-connection
-    (lsp-stdio-connection (list "swipl"
-                                "-g" "use_module(library(lsp_server))."
-                                "-g" "lsp_server:main"
-                                "-t" "halt"
-                                "--" "stdio"))
-    :major-modes '(prolog-mode)
-    :priority 1
-    :multi-root t
-    :server-id 'prolog-ls)))
 #+end_src

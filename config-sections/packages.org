@@ -260,9 +260,11 @@ Disable the annoying auto-comment on newline.
 
 Unbind annoying key that I press a lot accidentally.
 #+begin_src elisp
-(unbind-key "K" evil-normal-state-map)
-(unbind-key "K" evil-visual-state-map)
-(unbind-key "K" evil-motion-state-map)
+(use-package! evil
+  :config
+  (unbind-key "K" evil-normal-state-map)
+  (unbind-key "K" evil-visual-state-map)
+  (unbind-key "K" evil-motion-state-map))
 #+end_src
 
 I've always found evil's undo to undo more than I want it to
@@ -470,154 +472,6 @@ Fix the ispell dictionary.
 #+begin_src elisp :results none
 (setq ispell-dictionary "en"
       ispell-personal-dictionary (concat ++sync-folder-path "/spell/personal-dictionary.pws"))
-#+end_src
-* =lsp=
-#+begin_src elisp :results none
-(use-package! lsp-mode
-  :config
-  (setq lsp-completion-enable t
-        lsp-idle-delay 0.1)
-  (add-hook! '(typescript-tsx-mode-hook
-               typescript-mode-hook
-               web-mode-hook
-               js-mode-hook
-               js2-mode-hook)
-             ;; Use `tide' for completions and formatting instead since LSP is too laggy
-             (setq-local lsp-completion-enable t
-                         lsp-completion-show-detail nil
-                         lsp-typescript-format-enable nil)
-             ;; (when (-contains? '(typescript-tsx-mode
-             ;;                     typescript-mode
-             ;;                     web-mode
-             ;;                     js-mode
-             ;;                     js2-mode)
-             ;;                   major-mode)
-             ;;   (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
-             ;;                                                     (list #'company-tide))))
-             )
-  (set-popup-rules!
-    '(("*lsp-help*"
-       :quit t
-       :side right
-       :size 0.3
-       :select t
-       :modeline t))))
-
-(after! lsp-mode
-  (setq lsp-lens-enable t
-        lsp-log-io nil
-        lsp-use-plists t
-        lsp-completion-no-cache nil
-        lsp-completion-use-last-result nil
-        lsp-headerline-breadcrumb-enable t
-        lsp-headerline-breadcrumb-icons-enable nil
-        lsp-headerline-breadcrumb-enable-diagnostics nil
-        lsp-eldoc-enable-hover nil
-        lsp-lens-place-position 'end-of-line
-        lsp-enable-indentation t
-        lsp-signature-auto-activate t
-        lsp-signature-function 'lsp-signature-posframe
-        lsp-signature-posframe-params '(:poshandler posframe-poshandler-point-bottom-left-corner-upward
-                                        :height 10
-                                        :width 120
-                                        :border-width 1
-                                        :min-width 120))
-  (map! :map evil-normal-state-map
-        "g t" #'lsp-find-type-definition
-        "g D" #'lsp-find-implementation)
-
-  (map! :map lsp-signature-mode-map
-        "C-j" #'lsp-signature-next
-        "C-k" #'lsp-signature-previous))
-#+end_src
-Directories to ignore for specific languages
-#+begin_src elisp
-(after! lsp-mode
-  ;; Clojure(Script)
-  (dolist (to-ignore '("[/\\\\]\\.clj-kondo$"
-                       "[/\\\\]\\.shadow-cljs$"
-                       "[/\\\\]resources$"))
-    (add-to-list 'lsp-file-watch-ignored to-ignore)))
-#+end_src
-Typescript
-#+begin_src elisp
-(use-package! lsp-mode
-  :config
-  (setq lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr")))
-#+end_src
-=(lsp)= seems to make opening files a lot more responsive than =(lsp-deferred)=
-#+begin_src elisp :results none
-(advice-add 'lsp-deferred :override #'lsp)
-#+end_src
-
-** =lsp-ui=
-TODO Convert the `define-key` statements to use `map!`
-#+begin_src elisp
-(after! lsp-ui
-  (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
-  (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
-  (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
-  (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
-  (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
-  (map! :map lsp-mode-map
-        :nv "SPC c m" #'lsp-ui-imenu
-        :nv "SPC d" #'lsp-ui-doc-glance)
-  (map! :map lsp-ui-peek-mode-map
-        "l" #'lsp-ui-peek--goto-xref
-        "C-l" #'lsp-ui-peek--goto-xref-other-window)
-  (setq lsp-ui-peek-fontify 'always
-        lsp-ui-peek-list-width 100
-        lsp-ui-peek-peek-height 40
-        lsp-ui-peek-always-show nil
-
-        ;; These can be brought up on-demand with SPC d
-        lsp-ui-doc-enable nil
-        ;; Prevents LSP peek to disappear when mouse touches it
-        lsp-ui-doc-show-with-mouse nil
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-delay 0
-        lsp-ui-doc-position (if (display-graphic-p) 'at-point 'top)
-        lsp-ui-doc-max-width 120
-        lsp-ui-doc-max-height 120
-        lsp-ui-doc-header nil
-
-
-        lsp-ui-imenu-enable t
-
-        ;; This is just annoying, really
-        lsp-ui-sideline-enable nil))
-#+end_src
-Display lsp-ui-peek in a childframe so that the whole screen is used despite multiple windows.
-
-Only on GUI though since TTY doesn't support posframes :^(.
-
-Copied from https://github.com/emacs-lsp/lsp-ui/issues/441.
-#+begin_src elisp
-(when (display-graphic-p)
-  (defun lsp-ui-peek--peek-display (src1 src2)
-    (-let* ((win-width (frame-width))
-            (lsp-ui-peek-list-width (/ (frame-width) 2))
-            (string (-some--> (-zip-fill "" src1 src2)
-                      (--map (lsp-ui-peek--adjust win-width it) it)
-                      (-map-indexed 'lsp-ui-peek--make-line it)
-                      (-concat it (lsp-ui-peek--make-footer)))))
-      (setq lsp-ui-peek--buffer (get-buffer-create " *lsp-peek--buffer*"))
-      (posframe-show lsp-ui-peek--buffer
-                     :string (mapconcat 'identity string "")
-                     :min-width (truncate (/ (frame-width) 1.1))
-                     :poshandler #'posframe-poshandler-frame-center
-                     :border-color "white"
-                     :border-width 1)))
-
-  (defun lsp-ui-peek--peek-destroy ()
-    (when (bufferp lsp-ui-peek--buffer)
-      (posframe-delete lsp-ui-peek--buffer))
-    (setq lsp-ui-peek--buffer nil
-          lsp-ui-peek--last-xref nil)
-    (set-window-start (get-buffer-window) lsp-ui-peek--win-start))
-
-  (advice-add #'lsp-ui-peek--peek-new :override #'lsp-ui-peek--peek-display)
-  (advice-add #'lsp-ui-peek--peek-hide :override #'lsp-ui-peek--peek-destroy))
 #+end_src
 * =modeline=
 #+begin_src elisp
@@ -1175,7 +1029,6 @@ Utilize modeline color to tell me if I'm in symex-mode
             (consult-imenu buffer)
             (+default/search-buffer buffer)
             (yas-insert-snippet posframe)
-            (lsp-execute-code-action posframe)
             (vertico-repeat-select posframe)
             (cider-connect-clj posframe)
             (cider-connect-cljs posframe)

@@ -259,9 +259,11 @@ otherwise, nil."
 
 (setq +evil-want-o/O-to-continue-comments nil)
 
-(unbind-key "K" evil-normal-state-map)
-(unbind-key "K" evil-visual-state-map)
-(unbind-key "K" evil-motion-state-map)
+(use-package! evil
+  :config
+  (unbind-key "K" evil-normal-state-map)
+  (unbind-key "K" evil-visual-state-map)
+  (unbind-key "K" evil-motion-state-map))
 
 (setq evil-want-fine-undo t)
 
@@ -412,136 +414,6 @@ otherwise, nil."
 
 (setq ispell-dictionary "en"
       ispell-personal-dictionary (concat ++sync-folder-path "/spell/personal-dictionary.pws"))
-
-(use-package! lsp-mode
-  :config
-  (setq lsp-completion-enable t
-        lsp-idle-delay 0.1)
-  (add-hook! '(typescript-tsx-mode-hook
-               typescript-mode-hook
-               web-mode-hook
-               js-mode-hook
-               js2-mode-hook)
-             ;; Use `tide' for completions and formatting instead since LSP is too laggy
-             (setq-local lsp-completion-enable t
-                         lsp-completion-show-detail nil
-                         lsp-typescript-format-enable nil)
-             ;; (when (-contains? '(typescript-tsx-mode
-             ;;                     typescript-mode
-             ;;                     web-mode
-             ;;                     js-mode
-             ;;                     js2-mode)
-             ;;                   major-mode)
-             ;;   (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
-             ;;                                                     (list #'company-tide))))
-             )
-  (set-popup-rules!
-    '(("*lsp-help*"
-       :quit t
-       :side right
-       :size 0.3
-       :select t
-       :modeline t))))
-
-(after! lsp-mode
-  (setq lsp-lens-enable t
-        lsp-log-io nil
-        lsp-use-plists t
-        lsp-completion-no-cache nil
-        lsp-completion-use-last-result nil
-        lsp-headerline-breadcrumb-enable t
-        lsp-headerline-breadcrumb-icons-enable nil
-        lsp-headerline-breadcrumb-enable-diagnostics nil
-        lsp-eldoc-enable-hover nil
-        lsp-lens-place-position 'end-of-line
-        lsp-enable-indentation t
-        lsp-signature-auto-activate t
-        lsp-signature-function 'lsp-signature-posframe
-        lsp-signature-posframe-params '(:poshandler posframe-poshandler-point-bottom-left-corner-upward
-                                        :height 10
-                                        :width 120
-                                        :border-width 1
-                                        :min-width 120))
-  (map! :map evil-normal-state-map
-        "g t" #'lsp-find-type-definition
-        "g D" #'lsp-find-implementation)
-
-  (map! :map lsp-signature-mode-map
-        "C-j" #'lsp-signature-next
-        "C-k" #'lsp-signature-previous))
-
-(after! lsp-mode
-  ;; Clojure(Script)
-  (dolist (to-ignore '("[/\\\\]\\.clj-kondo$"
-                       "[/\\\\]\\.shadow-cljs$"
-                       "[/\\\\]resources$"))
-    (add-to-list 'lsp-file-watch-ignored to-ignore)))
-
-(use-package! lsp-mode
-  :config
-  (setq lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr")))
-
-(advice-add 'lsp-deferred :override #'lsp)
-
-(after! lsp-ui
-  (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
-  (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
-  (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
-  (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
-  (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
-  (map! :map lsp-mode-map
-        :nv "SPC c m" #'lsp-ui-imenu
-        :nv "SPC d" #'lsp-ui-doc-glance)
-  (map! :map lsp-ui-peek-mode-map
-        "l" #'lsp-ui-peek--goto-xref
-        "C-l" #'lsp-ui-peek--goto-xref-other-window)
-  (setq lsp-ui-peek-fontify 'always
-        lsp-ui-peek-list-width 100
-        lsp-ui-peek-peek-height 40
-        lsp-ui-peek-always-show nil
-
-        ;; These can be brought up on-demand with SPC d
-        lsp-ui-doc-enable nil
-        ;; Prevents LSP peek to disappear when mouse touches it
-        lsp-ui-doc-show-with-mouse nil
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-delay 0
-        lsp-ui-doc-position (if (display-graphic-p) 'at-point 'top)
-        lsp-ui-doc-max-width 120
-        lsp-ui-doc-max-height 120
-        lsp-ui-doc-header nil
-
-
-        lsp-ui-imenu-enable t
-
-        ;; This is just annoying, really
-        lsp-ui-sideline-enable nil))
-
-(when (display-graphic-p)
-  (defun lsp-ui-peek--peek-display (src1 src2)
-    (-let* ((win-width (frame-width))
-            (lsp-ui-peek-list-width (/ (frame-width) 2))
-            (string (-some--> (-zip-fill "" src1 src2)
-                      (--map (lsp-ui-peek--adjust win-width it) it)
-                      (-map-indexed 'lsp-ui-peek--make-line it)
-                      (-concat it (lsp-ui-peek--make-footer)))))
-      (setq lsp-ui-peek--buffer (get-buffer-create " *lsp-peek--buffer*"))
-      (posframe-show lsp-ui-peek--buffer
-                     :string (mapconcat 'identity string "")
-                     :min-width (truncate (/ (frame-width) 1.1))
-                     :poshandler #'posframe-poshandler-frame-center
-                     :border-color "white"
-                     :border-width 1)))
-
-  (defun lsp-ui-peek--peek-destroy ()
-    (when (bufferp lsp-ui-peek--buffer)
-      (posframe-delete lsp-ui-peek--buffer))
-    (setq lsp-ui-peek--buffer nil
-          lsp-ui-peek--last-xref nil)
-    (set-window-start (get-buffer-window) lsp-ui-peek--win-start))
-
-  (advice-add #'lsp-ui-peek--peek-new :override #'lsp-ui-peek--peek-display)
-  (advice-add #'lsp-ui-peek--peek-hide :override #'lsp-ui-peek--peek-destroy))
 
 (after! doom-modeline
   (setq doom-modeline-buffer-file-name-style 'auto
@@ -1016,7 +888,6 @@ otherwise, nil."
             (consult-imenu buffer)
             (+default/search-buffer buffer)
             (yas-insert-snippet posframe)
-            (lsp-execute-code-action posframe)
             (vertico-repeat-select posframe)
             (cider-connect-clj posframe)
             (cider-connect-cljs posframe)
@@ -1200,45 +1071,11 @@ otherwise, nil."
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
 
-(use-package! lsp-mode
-  :config
-  (add-to-list 'lsp-language-id-configuration
-    '(typescript-tsx-mode . "css-modules"))
-  (lsp-register-client
-    (make-lsp-client :new-connection (lsp-stdio-connection "cssmodules-language-server")
-                     :priority -1
-                     :add-on? t
-                     :activation-fn (lsp-activate-on "css-modules")
-                     :server-id 'css-modules)))
-
 (add-hook 'scss-mode-hook (lambda ()
                             (setq-local comment-start "/* "
                                         comment-end " */")))
 
-(use-package! lsp-mode
-    :hook (groovy-mode . lsp-deferred)
-    :commands (lsp lsp-deferred)
-    :config (setq lsp-groovy-classpath
-              ["/usr/local/opt/groovy/libexec/lib"
-                "~/.gradle/caches/modules-2/files-2.1"]))
-
 (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
-
-(use-package! lsp-mode
-  :hook (prolog-mode . lsp)
-  :config
-  (lsp-register-client
-   (make-lsp-client
-    :new-connection
-    (lsp-stdio-connection (list "swipl"
-                                "-g" "use_module(library(lsp_server))."
-                                "-g" "lsp_server:main"
-                                "-t" "halt"
-                                "--" "stdio"))
-    :major-modes '(prolog-mode)
-    :priority 1
-    :multi-root t
-    :server-id 'prolog-ls)))
 
 (defun ++close-buffers (filename &optional _trash)
   (-each (buffer-list) (lambda (b)
@@ -1489,9 +1326,6 @@ message listing the hooks."
 (remove-hook 'shell-mode-hook #'hide-mode-line-mode)
 (add-hook 'shell-mode-hook #'doom-modeline-mode)
 
-(after! lsp-mode
-  (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
-
 (if (fboundp 'pixel-scroll-precision-mode)
   (pixel-scroll-precision-mode +1)
   (setq scroll-margin 1
@@ -1664,118 +1498,6 @@ message listing the hooks."
   (hide-mode-line-mode +1)
   (display-line-numbers-mode -1))
 
-;;;###autoload
-(defun lsp-completion-at-point ()
-  "Get lsp completions."
-  (message "HERE!")
-  (when (or (--some (lsp--client-completion-in-comments? (lsp--workspace-client it))
-                    (lsp-workspaces))
-            (not (nth 4 (syntax-ppss))))
-    (let* ((trigger-chars (->> (lsp--server-capabilities)
-                               (lsp:server-capabilities-completion-provider?)
-                               (lsp:completion-options-trigger-characters?)))
-           (bounds-start (or (-some--> (cl-first (bounds-of-thing-at-point 'symbol))
-                               (save-excursion
-                                 (ignore-errors
-                                   (goto-char (+ it 1))
-                                   (while (lsp-completion--looking-back-trigger-characterp
-                                           trigger-chars)
-                                     (cl-incf it)
-                                     (forward-char))
-                                   it)))
-                             (point)))
-           result done?
-           (candidates
-            (lambda ()
-              (lsp--catch 'input
-                  (let ((lsp--throw-on-input lsp-completion-use-last-result)
-                        (same-session? (and lsp-completion--cache
-                                            ;; Special case for empty prefix and empty result
-                                            (or (cl-second lsp-completion--cache)
-                                                (not (string-empty-p
-                                                      (plist-get (cddr lsp-completion--cache) :prefix))))
-                                            (equal (cl-first lsp-completion--cache) bounds-start)
-                                            (s-prefix?
-                                             (plist-get (cddr lsp-completion--cache) :prefix)
-                                             (buffer-substring-no-properties bounds-start (point))))))
-                    (cond
-                     ((or done? result) result)
-                     ((and (not lsp-completion-no-cache)
-                           same-session?
-                           (listp (cl-second lsp-completion--cache)))
-                      (setf result (apply #'lsp-completion--filter-candidates
-                                          (cdr lsp-completion--cache))))
-                     (t
-                      (-let* ((resp (lsp-request-while-no-input
-                                     "textDocument/completion"
-                                     (plist-put (lsp--text-document-position-params)
-                                                :context (lsp-completion--get-context trigger-chars))))
-                              (completed (and resp
-                                              (not (and (lsp-completion-list? resp)
-                                                        (lsp:completion-list-is-incomplete resp)))))
-                              (items (lsp--while-no-input
-                                       (--> (cond
-                                             ((lsp-completion-list? resp)
-                                              (lsp:completion-list-items resp))
-                                             (t resp))
-                                         (if (or completed
-                                                 (seq-some #'lsp:completion-item-sort-text? it))
-                                             (lsp-completion--sort-completions it)
-                                           it)
-                                         (-map (lambda (item)
-                                                 (lsp-put item
-                                                          :_emacsStartPoint
-                                                          (or (lsp-completion--guess-prefix item)
-                                                              bounds-start)))
-                                               it))))
-                              (markers (list bounds-start (copy-marker (point) t)))
-                              (prefix (buffer-substring-no-properties bounds-start (point)))
-                              (lsp-completion--no-reordering (not lsp-completion-sort-initial-results)))
-                        (lsp-completion--clear-cache same-session?)
-                        (setf done? completed
-                              lsp-completion--cache (list bounds-start
-                                                          (cond
-                                                           ((and done? (not (seq-empty-p items)))
-                                                            (lsp-completion--to-internal items))
-                                                           ((not done?) :incomplete))
-                                                          :lsp-items nil
-                                                          :markers markers
-                                                          :prefix prefix)
-                              result (lsp-completion--filter-candidates
-                                      (cond (done?
-                                             (cl-second lsp-completion--cache))
-                                            (lsp-completion-filter-on-incomplete
-                                             (lsp-completion--to-internal items)))
-                                      :lsp-items items
-                                      :markers markers
-                                      :prefix prefix))))))
-                (:interrupted lsp-completion--last-result)
-                (`,res (setq lsp-completion--last-result res))))))
-      (list
-       bounds-start
-       (point)
-;; changed completion table
-       (lambda (probe pred action &rest rest)
-         (if (eq action 'metadata)
-             '(metadata (category . lsp-capf)
-                        (display-sort-function . identity)
-                        (cycle-sort-function . identity))
-           (complete-with-action action (funcall candidates) probe pred)))
-;; end of changed completion table
-       :annotation-function #'lsp-completion--annotate
-       :company-kind #'lsp-completion--candidate-kind
-       :company-deprecated #'lsp-completion--candidate-deprecated
-       :company-require-match 'never
-       :company-prefix-length
-       (save-excursion
-         (goto-char bounds-start)
-         (and (lsp-completion--looking-back-trigger-characterp trigger-chars) t))
-       :company-match #'lsp-completion--company-match
-       :company-doc-buffer (-compose #'lsp-doc-buffer
-                                     #'lsp-completion--get-documentation)
-       :exit-function
-       (-rpartial #'lsp-completion--exit-fn candidates)))))
-
 (use-package! shell
   :config
   (defun +shell/toggle (&optional command)
@@ -1875,16 +1597,6 @@ If popup is focused, kill it."
   (setq completion-styles '(orderless partial-completion basic)
         completion-category-defaults nil
         completion-category-overrides nil))
-
-(use-package lsp-mode
-  :custom
-  (lsp-completion-provider :none) ;; we use Corfu!
-  :init
-  (defun my/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless))) ;; Configure orderless
-  :hook
-  (lsp-completion-mode . my/lsp-mode-setup-completion))
 
 ;; Add extensions
 (use-package cape
