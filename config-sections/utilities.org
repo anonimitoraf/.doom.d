@@ -68,6 +68,16 @@ output as a string."
       (advice-remove 'message #'silence))))
 #+end_src
 
+Or alternatively
+#+begin_src elisp :results none
+(defun ++silence-messages (orig-fun &rest args)
+  "Advice function that silences all messages in ORIG-FUN."
+  (let ((inhibit-message t)      ;Don't show the messages in Echo area
+        (message-log-max nil))   ;Don't show the messages in the *Messages* buffer
+    (apply orig-fun args)))
+#+end_src
+
+
 * Useful general variables
 #+begin_src emacs-lisp :tangle yes :results none
 (defvar ++window-id (shell-command-to-string "xdotool getwindowfocus getactivewindow | tr -d '\n'"))

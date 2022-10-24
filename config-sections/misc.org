@@ -394,27 +394,8 @@ Copy dir path of curr buffer
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp
-(defun ++load-and-continuously-save (file)
-  (interactive
-   (let ((session-file (doom-session-file)))
-     (list (or (read-file-name "Regularly saving session to: "
-                               (file-name-directory session-file)
-                               (file-name-nondirectory session-file))
-               (user-error "No session selected. Aborting")))))
-  (unless file
-    (error "No session file selected"))
-  ;; Load the session
-  (doom/load-session file)
-  ;; Clear any previous calls to this fn
-  (when (boundp '++continuous-saving-timer)
-    (cancel-timer ++continuous-saving-timer))
-  ;; Save the session every 10 seconds
-  (setq ++continuous-saving-timer
-        (run-with-idle-timer 5 t (cmd!
-                                  (let ((inhibit-message t))
-                                    (advice-add #'doom-save-session :around #'++suppress-messages)
-                                    (doom-save-session file))))))
-(map! :map doom-leader-map "q N" '++load-and-continuously-save)
+(advice-add #'doom-save-session :around #'++silence-messages)
+(run-with-idle-timer 5 t #'doom-save-session)
 #+end_src
 
 Open external terminal

@@ -59,6 +59,12 @@ output as a string."
          (apply old-fun args)
       (advice-remove 'message #'silence))))
 
+(defun ++silence-messages (orig-fun &rest args)
+  "Advice function that silences all messages in ORIG-FUN."
+  (let ((inhibit-message t)      ;Don't show the messages in Echo area
+        (message-log-max nil))   ;Don't show the messages in the *Messages* buffer
+    (apply orig-fun args)))
+
 (defvar ++window-id (shell-command-to-string "xdotool getwindowfocus getactivewindow | tr -d '\n'"))
 
 (defvar ++sync-folder-path "~/Dropbox/emacs")
@@ -1540,27 +1546,8 @@ message listing the hooks."
     (goto-char 0)
     (conf-mode)))
 
-(defun ++load-and-continuously-save (file)
-  (interactive
-   (let ((session-file (doom-session-file)))
-     (list (or (read-file-name "Regularly saving session to: "
-                               (file-name-directory session-file)
-                               (file-name-nondirectory session-file))
-               (user-error "No session selected. Aborting")))))
-  (unless file
-    (error "No session file selected"))
-  ;; Load the session
-  (doom/load-session file)
-  ;; Clear any previous calls to this fn
-  (when (boundp '++continuous-saving-timer)
-    (cancel-timer ++continuous-saving-timer))
-  ;; Save the session every 10 seconds
-  (setq ++continuous-saving-timer
-        (run-with-idle-timer 5 t (cmd!
-                                  (let ((inhibit-message t))
-                                    (advice-add #'doom-save-session :around #'++suppress-messages)
-                                    (doom-save-session file))))))
-(map! :map doom-leader-map "q N" '++load-and-continuously-save)
+(advice-add #'doom-save-session :around #'++silence-messages)
+(run-with-idle-timer 5 t #'doom-save-session)
 
 (defun external-terminal ()
   (interactive "@")
