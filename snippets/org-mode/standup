@@ -1,0 +1,10 @@
+# -*- mode: snippet; -*-
+# name: Standup
+# --
+* `(format-time-string "%Y-%m-%d")`
+ * Previous
+   - $1
+ * Today
+   - $0
+ * Blockers
+   N/A
