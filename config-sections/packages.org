@@ -543,7 +543,7 @@ Typescript
 #+begin_src elisp
 (use-package! lsp-mode
   :config
-  (setq lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr")))
+  (setq lsp-clients-typescript-server-args '("--stdio")))
 #+end_src
 =(lsp)= seems to make opening files a lot more responsive than =(lsp-deferred)=
 #+begin_src elisp :results none

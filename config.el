@@ -485,7 +485,7 @@ otherwise, nil."
 
 (use-package! lsp-mode
   :config
-  (setq lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr")))
+  (setq lsp-clients-typescript-server-args '("--stdio")))
 
 (advice-add 'lsp-deferred :override #'lsp)
 
