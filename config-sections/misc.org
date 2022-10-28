@@ -1,5 +1,45 @@
 #+TITLE: Misc
 
+* Toggle shell per-project instead of per-workspace
+#+begin_src elisp :results none
+(defun ++shell/toggle
+    (&optional command)
+  "Toggle a persistent terminal popup window.\n\nIf popup is visible but unselected, selected it.\nIf popup is focused, kill it."
+  (interactive)
+  (let*
+    ((workspace-name (if (and (boundp 'persp-mode) persp-mode)
+                     (safe-persp-name (get-current-persp))
+                   "main"))
+      (buf-name (format "*doom:shell-popup:%s*" (or (projectile-project-name) workspace-name)))
+     (buffer (get-buffer-create buf-name))
+     (dir default-directory))
+    (let*
+        ((win
+          (and t
+               (get-buffer-window buffer))))
+      (if win
+          (let
+              (confirm-kill-processes)
+            (set-process-query-on-exit-flag
+             (get-buffer-process buffer)
+             nil)
+            (delete-window win))
+        (progn
+          (save-current-buffer
+            (set-buffer buffer)
+            (if
+                (not
+                 (eq major-mode 'shell-mode))
+                (shell buffer)
+              (cd dir)
+              (run-mode-hooks 'shell-mode-hook)))
+          (pop-to-buffer buffer))))
+    (+shell--send-input buffer command)))
+
+(map! :map doom-leader-map
+  "o t" #'++shell/toggle)
+#+end_src
+
 * Auto-close buffers when deleting a file
 #+begin_src elisp :results none
 (defun ++close-buffers (filename &optional _trash)
