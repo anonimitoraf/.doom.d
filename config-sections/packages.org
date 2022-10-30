@@ -322,6 +322,11 @@ Don't yank replaced lines
 (map! :map global-map
       "C-'" #'embark-act)
 #+end_src
+
+#+begin_src elisp :results none
+(setq embark-quit-after-action nil)
+#+end_src
+
 * =exercism=
 #+begin_src elisp :results none
 (use-package! exercism

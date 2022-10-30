@@ -306,6 +306,8 @@ otherwise, nil."
 (map! :map global-map
       "C-'" #'embark-act)
 
+(setq embark-quit-after-action nil)
+
 (use-package! exercism
   :config
   (map! :map global-map :nv "SPC o e" #'exercism))
