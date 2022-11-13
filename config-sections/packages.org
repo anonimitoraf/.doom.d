@@ -951,7 +951,7 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
 * =org-remark=
 #+begin_src elisp :results none
 (defun ++org-remark-notes-file-name ()
-  (concat ++sync-folder-path "/org-remark.org"))
+  (concat ++sync-folder-path "/org-remark/" (projectile-project-name) "/org-remark.org"))
 
 (use-package! org-remark
   :init

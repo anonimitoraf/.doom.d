@@ -824,7 +824,7 @@ otherwise, nil."
   (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 
 (defun ++org-remark-notes-file-name ()
-  (concat ++sync-folder-path "/org-remark.org"))
+  (concat ++sync-folder-path "/org-remark/" (projectile-project-name) "/org-remark.org"))
 
 (use-package! org-remark
   :init
