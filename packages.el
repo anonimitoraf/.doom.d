@@ -260,3 +260,6 @@
   :recipe (:host github :repo "mina86/auto-dim-other-buffers.el"))
 
 (package! undohist)
+
+(package! org-remark
+  :recipe (:host github :repo "nobiot/org-remark"))

@@ -948,6 +948,17 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
   :config
   (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 #+end_src
+* =org-remark=
+#+begin_src elisp :results none
+(defun ++org-remark-notes-file-name ()
+  (concat ++sync-folder-path "/org-remark.org"))
+
+(use-package! org-remark
+  :init
+  (setq org-remark-notes-file-name #'++org-remark-notes-file-name)
+  :config
+  (org-remark-mode +1))
+#+end_src
 * =persp=
 #+begin_src elisp
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
