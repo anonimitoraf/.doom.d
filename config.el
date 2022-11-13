@@ -1000,6 +1000,10 @@ otherwise, nil."
 (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
 (add-to-list 'tree-sitter-major-mode-language-alist '(scss-mode . css))
 
+(use-package! undohist
+  :config
+  (undohist-initialize))
+
 (use-package! vertico
   :config
   (map! :map vertico-map
@@ -1248,6 +1252,8 @@ otherwise, nil."
     :priority 1
     :multi-root t
     :server-id 'prolog-ls)))
+
+(setq warning-minimum-level :error)
 
 (defun ++shell/toggle
     (&optional command)

@@ -258,3 +258,5 @@
 
 (package! auto-dim-other-buffers
   :recipe (:host github :repo "mina86/auto-dim-other-buffers.el"))
+
+(package! undohist)

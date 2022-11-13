@@ -1154,6 +1154,12 @@ Utilize modeline color to tell me if I'm in symex-mode
 (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
 (add-to-list 'tree-sitter-major-mode-language-alist '(scss-mode . css))
 #+end_src
+* =undohist=
+#+begin_src elisp :results none
+(use-package! undohist
+  :config
+  (undohist-initialize))
+#+end_src
 * =vertico=
 #+begin_src elisp :results none
 (use-package! vertico
