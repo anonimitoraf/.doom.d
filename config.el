@@ -1053,7 +1053,8 @@ otherwise, nil."
   :config
   (setq vertico-posframe-border-width 1
         vertico-posframe-parameters '((left-fringe . 10)
-                                      (right-fringe . 10))))
+                                      (right-fringe . 10))
+        vertico-posframe-poshandler #'posframe-poshandler-frame-top-center))
 
 (setq vertico-buffer-display-action '(display-buffer-in-side-window
                                        (side . right)
