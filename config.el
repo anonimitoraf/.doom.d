@@ -1110,6 +1110,7 @@ otherwise, nil."
         `("zprint"
           ,(concat
              "{:style [:respect-nl :justified]"
+             " :width 120"
              " :map {:comma? false "
              "       :justify {:max-variance 64, :no-justify nil}"
              " }"
