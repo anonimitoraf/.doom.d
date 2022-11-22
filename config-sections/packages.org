@@ -1255,6 +1255,7 @@ Repeat a previous vertico command
 #+begin_src elisp :results none
 (use-package! vundo
   :config
+  (setq undohist-ignored-files '(".git/COMMIT_EDITMSG"))
   (map! :map global-map
         :nv "U" #'vundo))
 #+end_src

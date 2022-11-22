@@ -1081,6 +1081,7 @@ otherwise, nil."
 
 (use-package! vundo
   :config
+  (setq undohist-ignored-files '(".git/COMMIT_EDITMSG"))
   (map! :map global-map
         :nv "U" #'vundo))
 
