@@ -1051,10 +1051,17 @@ otherwise, nil."
 
 (use-package! vertico-posframe
   :config
+  ;; Top center with a bit of space at the top to align with header-line
+  (defun ++posframe-poshandler-top-center-with-padding (info)
+    (cons
+      (/ (- (plist-get info :parent-frame-width)
+           (plist-get info :posframe-width))
+        2)
+      2))
   (setq vertico-posframe-border-width 1
         vertico-posframe-parameters '((left-fringe . 10)
                                       (right-fringe . 10))
-        vertico-posframe-poshandler #'posframe-poshandler-frame-top-center))
+        vertico-posframe-poshandler #'++posframe-poshandler-top-center-with-padding))
 
 (setq vertico-buffer-display-action '(display-buffer-in-side-window
                                        (side . right)
