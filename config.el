@@ -238,6 +238,10 @@ otherwise, nil."
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\.?" . dotenv-mode)))
 
+(use-package! dwim-shell-command
+  :config
+  (require 'dwim-shell-commands))
+
 (with-eval-after-load 'org
   (require 'edraw-org)
   (edraw-org-setup-default))

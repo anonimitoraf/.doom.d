@@ -263,3 +263,6 @@
 
 (package! org-remark
   :recipe (:host github :repo "nobiot/org-remark"))
+
+(package! dwim-shell-command
+  :recipe (:host github :repo "xenodium/dwim-shell-command"))
