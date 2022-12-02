@@ -457,7 +457,7 @@ otherwise, nil."
        :modeline t))))
 
 (after! lsp-mode
-  (setq lsp-lens-enable t
+  (setq lsp-lens-enable nil
         lsp-log-io nil
         lsp-use-plists t
         lsp-completion-no-cache nil
