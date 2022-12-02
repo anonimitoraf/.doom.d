@@ -875,12 +875,14 @@ otherwise, nil."
           evil-window-up
           evil-window-down
           +workspace/close-window-or-workspace
-          +shell/toggle))
+          +shell/toggle
+          better-jumper-jump-backward
+          better-jumper-jump-forward))
   (setq pulsar-pulse-on-window-change t)
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.05)
   (setq pulsar-iterations 10)
-  (setq pulsar-face 'pulsar-red)
+  (setq pulsar-face 'pulsar-yellow)
   (setq pulsar-highlight-face 'pulsar-yellow)
   (pulsar-global-mode +1)
   ;; For some reason, some commands don't work despite being in pulsar-pulse-functions
