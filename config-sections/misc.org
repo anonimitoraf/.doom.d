@@ -1,5 +1,15 @@
 #+TITLE: Misc
 
+* Conveniently opening notes I take on my iPad
+#+begin_src elisp :results none
+(defun ++open-ipad-notes ()
+  (interactive)
+  (let ((default-directory (concat "~/Dropbox/Apps/GoodNotes 5/files/")))
+    (call-interactively #'find-file)))
+
+(map! :map doom-leader-map "o i" #'++open-ipad-notes)
+#+end_src
+
 * Disable warnings
 Usually, I don't even know how to resolve them, so they're just annoying, really
 #+begin_src elisp :results none

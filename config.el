@@ -1048,7 +1048,8 @@ otherwise, nil."
             (vertico-repeat-select posframe)
             (cider-connect-clj posframe)
             (cider-connect-cljs posframe)
-            (org-roam-node-find posframe)))
+            (org-roam-node-find posframe)
+            (++open-ipad-notes posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
@@ -1277,6 +1278,13 @@ otherwise, nil."
     :priority 1
     :multi-root t
     :server-id 'prolog-ls)))
+
+(defun ++open-ipad-notes ()
+  (interactive)
+  (let ((default-directory (concat "~/Dropbox/Apps/GoodNotes 5/files/")))
+    (call-interactively #'find-file)))
+
+(map! :map doom-leader-map "o i" #'++open-ipad-notes)
 
 (setq warning-minimum-level :error)
 
