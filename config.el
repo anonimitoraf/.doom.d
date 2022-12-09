@@ -1121,24 +1121,7 @@ otherwise, nil."
 
 (use-package apheleia
   :config
-  (setf (alist-get 'zprint apheleia-formatters)
-        `("zprint"
-          ,(concat
-             "{:style [:respect-nl :justified]"
-             " :width 120"
-             " :map {:comma? false "
-             "       :justify {:max-variance 64, :no-justify nil}"
-             " }"
-             " :binding {:justify {:max-variance 64}"
-             " }"
-             " :pair {:justify {:max-variance 32}"
-             " }"
-             " :fn-map {"
-             "   \"->\" :none"
-             "   \"->>\" :none"
-             " }"
-             "}"
-             )))
+  (setf (alist-get 'zprint apheleia-formatters) `("zprint"))
   (add-to-list 'apheleia-mode-alist '(clojure-mode . zprint))
   (add-to-list 'apheleia-mode-alist '(clojurescript-mode . zprint))
   (add-to-list 'apheleia-mode-alist '(clojurec-mode . zprint)))
