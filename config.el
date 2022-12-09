@@ -1128,25 +1128,10 @@ otherwise, nil."
 
 (add-to-list 'dash-docs-docsets "Clojure")
 
-(add-hook 'clojure-mode-hook
-          '(lambda ()
-             ;; Set some new syntax-highlighting rules.
-             ;; Guardrail's >defn
-             ;; Highlight particular macros similar to built-in stuff
-             ;; For example, highlight ghostwheel's `>defn' similar
-             ;; the same way as built-in `defn'
-             (font-lock-add-keywords nil
-                                     ;; So many escape codes! But we're really just saying:
-                                     ;; Match the '(' character.
-                                     ;; Match and group the string '>defn'.
-                                     ;; Match some whitespace. \\s-+
-                                     ;; Match and group some word characters. \\w+
-                                     '(("(\\(>defn\\)\\s-+\\(\\w+\\)"
-                                        ;; The first regexp group is a keyword.
-                                        (1 font-lock-keyword-face)
-                                        ;; The second regexp group is a name.
-                                        (2 font-lock-function-name-face))))
-             (put '>defn 'clojure-doc-string-elt 2)))
+(font-lock-add-keywords 'clojure-mode
+                        `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
+                                    "\\(defjob\\|>defn)\\>")
+                           1 font-lock-keyword-face)))
 
 (font-lock-add-keywords 'clojure-mode
                         `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
