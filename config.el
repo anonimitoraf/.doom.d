@@ -838,6 +838,24 @@ otherwise, nil."
 
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
 
+(use-package! prescient
+  :init
+  (setq prescient-save-file (concat ++sync-folder-path "/prescient-save.el"))
+  :config
+  (prescient-persist-mode +1))
+(use-package! corfu-prescient
+  :init
+  (setq corfu-prescient-override-sorting t
+        corfu-prescient-enable-filtering nil)
+  :config
+  (corfu-prescient-mode +1))
+(use-package! vertico-prescient
+  :init
+  (setq vertico-prescient-override-sorting t
+        vertico-prescient-enable-filtering nil)
+  :config
+  (vertico-prescient-mode +1))
+
 (defun ++set-projectile-cache-duration ()
   (setq projectile-files-cache-expire
         (if (and buffer-file-name

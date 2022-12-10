@@ -266,3 +266,7 @@
 
 (package! dwim-shell-command
   :recipe (:host github :repo "xenodium/dwim-shell-command"))
+
+(package! prescient
+  :recipe (:host github :repo "radian-software/prescient.el"
+           :files ("*.el")))

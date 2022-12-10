@@ -969,6 +969,26 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
 #+begin_src elisp
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
 #+end_src
+* =prescient=
+#+begin_src elisp :results none
+(use-package! prescient
+  :init
+  (setq prescient-save-file (concat ++sync-folder-path "/prescient-save.el"))
+  :config
+  (prescient-persist-mode +1))
+(use-package! corfu-prescient
+  :init
+  (setq corfu-prescient-override-sorting t
+        corfu-prescient-enable-filtering nil)
+  :config
+  (corfu-prescient-mode +1))
+(use-package! vertico-prescient
+  :init
+  (setq vertico-prescient-override-sorting t
+        vertico-prescient-enable-filtering nil)
+  :config
+  (vertico-prescient-mode +1))
+#+end_src
 * =projectile=
 Get rid of annoying projectile staleness without it being too expensive/noticeable for local files.
 For remote files, make it a bit longer
