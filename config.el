@@ -1128,9 +1128,11 @@ otherwise, nil."
 
 (add-to-list 'dash-docs-docsets "Clojure")
 
+(put-clojure-indent 'defjob :defn)
+(put 'defjob 'clojure-doc-string-elt 2)
 (font-lock-add-keywords 'clojure-mode
                         `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
-                                    "\\(defjob\\|>defn)\\>")
+                                    "\\(defjob\\)\\>")
                            1 font-lock-keyword-face)))
 
 (font-lock-add-keywords 'clojure-mode
