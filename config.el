@@ -953,7 +953,8 @@ otherwise, nil."
   (setq sidecar-locals-dir-name ".emacs"
         ;; Add to this as necessary
         sidecar-locals-paths-allow (-map (lambda (dir) (expand-file-name dir))
-                                         '("~/personal/lc/")))
+                                         '("~/personal/lc/"
+                                           "~/personal/supa-sales/")))
   :config
   (sidecar-locals-mode))
 

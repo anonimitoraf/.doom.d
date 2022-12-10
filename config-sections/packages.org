@@ -1096,7 +1096,8 @@ For remote files, make it a bit longer
   (setq sidecar-locals-dir-name ".emacs"
         ;; Add to this as necessary
         sidecar-locals-paths-allow (-map (lambda (dir) (expand-file-name dir))
-                                         '("~/personal/lc/")))
+                                         '("~/personal/lc/"
+                                           "~/personal/supa-sales/")))
   :config
   (sidecar-locals-mode))
 #+end_src
