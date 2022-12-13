@@ -474,7 +474,9 @@ otherwise, nil."
                                         :height 10
                                         :width 120
                                         :border-width 1
-                                        :min-width 120))
+                                        :min-width 120)
+        lsp-auto-execute-action nil
+        lsp-auto-touch-files nil)
   (map! :map evil-normal-state-map
         "g t" #'lsp-find-type-definition
         "g D" #'lsp-find-implementation)
