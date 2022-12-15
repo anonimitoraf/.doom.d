@@ -842,7 +842,9 @@ otherwise, nil."
 
 (use-package! prescient
   :init
-  (setq prescient-save-file (concat ++sync-folder-path "/prescient-save.el"))
+  (setq prescient-save-file (concat ++sync-folder-path "/prescient-save.el")
+        prescient-sort-full-matches-first t
+        prescient-sort-length-enable nil)
   :config
   (prescient-persist-mode +1))
 (use-package! corfu-prescient
