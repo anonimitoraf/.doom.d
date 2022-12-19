@@ -114,6 +114,8 @@ output as a string."
 
 (setq avy-timeout-seconds 0.1)
 
+(setq avy-keys (number-sequence ?a ?z))
+
 (setq bookmark-default-file (concat ++sync-folder-path "/bookmarks"))
 
 (setq bookmark-save-flag 1)
@@ -494,7 +496,9 @@ otherwise, nil."
 
 (use-package! lsp-mode
   :config
-  (setq lsp-clients-typescript-server-args '("--stdio")))
+  (setq lsp-clients-typescript-server-args '("--stdio")
+        lsp-javascript-preferences-rename-shorthand-properties nil
+        lsp-typescript-preferences-rename-shorthand-properties nil))
 
 (advice-add 'lsp-deferred :override #'lsp)
 

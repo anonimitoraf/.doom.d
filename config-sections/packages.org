@@ -56,6 +56,11 @@ Searching should be done using 2 chars almost all the time hence we use a very s
 #+begin_src elisp
 (setq avy-timeout-seconds 0.1)
 #+end_src
+
+#+begin_src elisp :results none
+(setq avy-keys (number-sequence ?a ?z))
+#+end_src
+
 * =built-ins=
 ** bookmarks
 I want to sync bookmarks across my devices.
@@ -557,7 +562,9 @@ Typescript
 #+begin_src elisp
 (use-package! lsp-mode
   :config
-  (setq lsp-clients-typescript-server-args '("--stdio")))
+  (setq lsp-clients-typescript-server-args '("--stdio")
+        lsp-javascript-preferences-rename-shorthand-properties nil
+        lsp-typescript-preferences-rename-shorthand-properties nil))
 #+end_src
 =(lsp)= seems to make opening files a lot more responsive than =(lsp-deferred)=
 #+begin_src elisp :results none
