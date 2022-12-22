@@ -478,10 +478,15 @@ otherwise, nil."
                                         :border-width 1
                                         :min-width 120)
         lsp-auto-execute-action nil
-        lsp-auto-touch-files nil)
+        lsp-auto-touch-files nil
+        xref-prompt-for-identifier '(not xref-find-references
+                                        xref-find-definitions
+                                        xref-find-definitions-other-window
+                                        xref-find-definitions-other-frame))
   (map! :map evil-normal-state-map
         "g t" #'lsp-find-type-definition
-        "g D" #'lsp-find-implementation)
+        "g D" #'lsp-find-implementation
+        "g f" #'xref-find-references)
 
   (map! :map lsp-signature-mode-map
         "C-j" #'lsp-signature-next
@@ -507,18 +512,16 @@ otherwise, nil."
   (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
   (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
   (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
-  (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
   (map! :map lsp-mode-map
         :nv "SPC c m" #'lsp-ui-imenu
         :nv "SPC d" #'lsp-ui-doc-glance)
-  (map! :map lsp-ui-peek-mode-map
-        "l" #'lsp-ui-peek--goto-xref
-        "C-l" #'lsp-ui-peek--goto-xref-other-window)
   (setq lsp-ui-peek-fontify 'always
         lsp-ui-peek-list-width 100
         lsp-ui-peek-peek-height 40
         lsp-ui-peek-always-show nil
 
+        ;; I prefer xref now
+        lsp-ui-peek-enable nil
         ;; These can be brought up on-demand with SPC d
         lsp-ui-doc-enable nil
         ;; Prevents LSP peek to disappear when mouse touches it
@@ -1076,7 +1079,8 @@ otherwise, nil."
             (cider-connect-clj posframe)
             (cider-connect-cljs posframe)
             (org-roam-node-find posframe)
-            (++open-ipad-notes posframe)))
+            (++open-ipad-notes posframe)
+            (+lookup/references buffer)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.

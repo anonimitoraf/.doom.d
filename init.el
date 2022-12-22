@@ -105,7 +105,7 @@
        (lookup +docsets
                +dictionary
                +offline)              ; navigate your code and its documentation
-       (lsp +peek)
+       (lsp)
        ;;macos             ; MacOS-specific commands
        (magit +forge)             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
