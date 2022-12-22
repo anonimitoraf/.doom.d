@@ -2199,7 +2199,8 @@ If popup is focused, kill it."
     `(minibuffer-prompt :foreground ,(doom-color 'blue))
     `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'yellow))
     `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'white))
-    `(comint-highlight-prompt :foreground ,(doom-color 'yellow)))
+    `(comint-highlight-prompt :foreground ,(doom-color 'yellow))
+    `(highlight :background "#5a1111"))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
