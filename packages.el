@@ -270,3 +270,6 @@
 (package! prescient
   :recipe (:host github :repo "radian-software/prescient.el"
            :files ("*.el")))
+
+(unpin! magit)
+(unpin! forge)
