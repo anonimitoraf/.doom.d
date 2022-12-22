@@ -413,7 +413,7 @@ Perpetual quest to make scrolling feel alright (if not supported)
 * Personal projects
 * Emacs as a clipboard manager
 #+begin_src elisp :results none
-(setq kill-ring-max 10000)
+(setq kill-ring-max (* 100 1000 ))
 #+end_src
 * Increase recent file list
 #+begin_src elisp :results none
@@ -599,5 +599,4 @@ Demo-recording
   (hide-mode-line-mode +1)
   (display-line-numbers-mode -1))
 #+end_src
-** TODO Automatically kill CIDER buffers with dead connections
 ** TODO CIDER headerline/modeline to make it obvious which server and which port

@@ -454,7 +454,7 @@ otherwise, nil."
     '(("*lsp-help*"
        :quit t
        :side right
-       :size 0.3
+       :size 0.5
        :select t
        :modeline t))))
 
@@ -1597,7 +1597,7 @@ message listing the hooks."
         scroll-conservatively 10000
         scroll-preserve-screen-position 1))
 
-(setq kill-ring-max 10000)
+(setq kill-ring-max (* 100 1000 ))
 
 (setq recentf-max-menu-items 20
       recentf-max-saved-items 400)
