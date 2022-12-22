@@ -860,12 +860,6 @@ otherwise, nil."
         corfu-prescient-enable-filtering nil)
   :config
   (corfu-prescient-mode +1))
-(use-package! vertico-prescient
-  :init
-  (setq vertico-prescient-override-sorting t
-        vertico-prescient-enable-filtering nil)
-  :config
-  (vertico-prescient-mode +1))
 
 (defun ++set-projectile-cache-duration ()
   (setq projectile-files-cache-expire

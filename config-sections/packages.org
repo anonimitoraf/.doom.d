@@ -996,12 +996,6 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
         corfu-prescient-enable-filtering nil)
   :config
   (corfu-prescient-mode +1))
-(use-package! vertico-prescient
-  :init
-  (setq vertico-prescient-override-sorting t
-        vertico-prescient-enable-filtering nil)
-  :config
-  (vertico-prescient-mode +1))
 #+end_src
 * =projectile=
 Get rid of annoying projectile staleness without it being too expensive/noticeable for local files.
