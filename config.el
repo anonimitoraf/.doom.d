@@ -1313,26 +1313,22 @@ otherwise, nil."
      (buffer (get-buffer-create buf-name))
      (dir default-directory))
     (let*
-        ((win
-          (and t
-               (get-buffer-window buffer))))
+        ((win (and t (get-buffer-window buffer))))
       (if win
-          (let
-              (confirm-kill-processes)
-            (set-process-query-on-exit-flag
-             (get-buffer-process buffer)
-             nil)
-            (delete-window win))
+        (let (confirm-kill-processes)
+          (set-process-query-on-exit-flag (get-buffer-process buffer) nil)
+          (delete-window win))
         (progn
           (save-current-buffer
             (set-buffer buffer)
-            (if
-                (not
-                 (eq major-mode 'shell-mode))
-                (shell buffer)
+            (if (not (eq major-mode 'shell-mode))
+              (shell buffer)
               (cd dir)
               (run-mode-hooks 'shell-mode-hook)))
-          (pop-to-buffer buffer))))
+          (pop-to-buffer buffer)
+          (shell-cd dir)
+          (let ((cmd (concat "cd " (shell-quote-argument dir) "\n")))
+    (comint-send-string nil cmd)))))
     (+shell--send-input buffer command)))
 
 (map! :map doom-leader-map
