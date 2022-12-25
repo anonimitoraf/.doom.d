@@ -539,32 +539,6 @@ otherwise, nil."
         ;; This is just annoying, really
         lsp-ui-sideline-enable nil))
 
-(when (display-graphic-p)
-  (defun lsp-ui-peek--peek-display (src1 src2)
-    (-let* ((win-width (frame-width))
-            (lsp-ui-peek-list-width (/ (frame-width) 2))
-            (string (-some--> (-zip-fill "" src1 src2)
-                      (--map (lsp-ui-peek--adjust win-width it) it)
-                      (-map-indexed 'lsp-ui-peek--make-line it)
-                      (-concat it (lsp-ui-peek--make-footer)))))
-      (setq lsp-ui-peek--buffer (get-buffer-create " *lsp-peek--buffer*"))
-      (posframe-show lsp-ui-peek--buffer
-                     :string (mapconcat 'identity string "")
-                     :min-width (truncate (/ (frame-width) 1.1))
-                     :poshandler #'posframe-poshandler-frame-center
-                     :border-color "white"
-                     :border-width 1)))
-
-  (defun lsp-ui-peek--peek-destroy ()
-    (when (bufferp lsp-ui-peek--buffer)
-      (posframe-delete lsp-ui-peek--buffer))
-    (setq lsp-ui-peek--buffer nil
-          lsp-ui-peek--last-xref nil)
-    (set-window-start (get-buffer-window) lsp-ui-peek--win-start))
-
-  (advice-add #'lsp-ui-peek--peek-new :override #'lsp-ui-peek--peek-display)
-  (advice-add #'lsp-ui-peek--peek-hide :override #'lsp-ui-peek--peek-destroy))
-
 (after! doom-modeline
   (setq doom-modeline-buffer-file-name-style 'auto
         doom-modeline-height 0
