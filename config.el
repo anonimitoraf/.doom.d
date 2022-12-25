@@ -1041,7 +1041,14 @@ otherwise, nil."
 
 (use-package! undohist
   :config
-  (undohist-initialize))
+  (undohist-initialize)
+  ;; Automatically recover undohist
+  (defun ++yes (_) t)
+  (defun ++yes-recover-undohist (orig-fn &rest args)
+    (advice-add #'yes-or-no-p :override #'++yes)
+    (ignore-errors (apply orig-fn args))
+    (advice-remove #'yes-or-no-p #'++yes))
+  (advice-add #'undohist-recover-1 :around #'++yes-recover-undohist))
 
 (use-package! vertico
   :config
