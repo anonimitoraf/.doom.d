@@ -291,6 +291,9 @@ otherwise, nil."
   :config
   (unbind-key "s" evil-normal-state-map)
   (evilem-default-keybindings "s")
+  (map! :map evil-normal-state-map
+    "s l" #'evilem-motion-forward-word-begin
+    "s h" #'evilem-motion-backward-word-begin)
   (custom-set-faces!
     '(avy-lead-face :foreground "red" :background nil :weight bold)
     `(avy-lead-face-0 :foreground ,(doom-color 'yellow) :background nil)))
