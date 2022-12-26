@@ -457,7 +457,7 @@ otherwise, nil."
     '(("*lsp-help*"
        :quit t
        :side right
-       :size 0.5
+       :size 0.4
        :select t
        :modeline t))))
 
