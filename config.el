@@ -127,11 +127,17 @@ output as a string."
 
 (use-package! cider
   :config
+  (defun ++cider-pprint-eval-last-sexp-to-repl ()
+    (interactive)
+    (cider-pprint-eval-last-sexp-to-repl t))
   (setq cider-repl-pop-to-buffer-on-connect nil
         cider-dynamic-indentation nil
         cider-font-lock-dynamically nil
         cider-font-lock-reader-conditionals nil
         nrepl-force-ssh-for-remote-hosts t)
+  (map! :map clojure-mode-map
+        :nv "SPC m p p" #'cider-pprint-eval-last-sexp-to-comment
+        :nv "SPC m p P" #'++cider-pprint-eval-last-sexp-to-repl)
   (map! :map cider-repl-mode-map
         :nvi "C-k" #'cider-repl-previous-input
         :nvi "C-j" #'cider-repl-next-input)
@@ -283,7 +289,11 @@ otherwise, nil."
 
 (use-package! evil-collection
   :config
-  (setq evil-collection-setup-minibuffer t))
+  (setq evil-collection-setup-minibuffer t)
+  (advice-add 'cider-pprint-eval-last-sexp-to-comment
+    :around 'evil-collection-cider-last-sexp)
+  (advice-add 'cider-pprint-eval-last-sexp-to-repl
+    :around 'evil-collection-cider-last-sexp))
 
 (setq evil-kill-on-visual-paste nil)
 
