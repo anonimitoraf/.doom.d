@@ -491,6 +491,7 @@ otherwise, nil."
                                         :border-width 1
                                         :min-width 120)
         lsp-auto-execute-action nil
+        lsp-enable-snippet nil
         lsp-auto-touch-files nil
         xref-prompt-for-identifier '(not xref-find-references
                                         xref-find-definitions
