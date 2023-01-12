@@ -1608,7 +1608,8 @@ message listing the hooks."
     (message "Copied dir path: %s into clipboard" dir-path)))
 
 (map! :map doom-leader-map
-  "+" #'calc)
+  "+" #'calc
+  "s d" #'+default/search-other-cwd)
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 

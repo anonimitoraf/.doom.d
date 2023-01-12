@@ -438,7 +438,8 @@ Copy dir path of curr buffer
 * Shortcuts of built-ins
 #+begin_src emacs-lisp :results none
 (map! :map doom-leader-map
-  "+" #'calc)
+  "+" #'calc
+  "s d" #'+default/search-other-cwd)
 #+end_src
 * Make #! files executable automatically
 #+begin_src elisp :results none
