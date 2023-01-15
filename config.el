@@ -125,6 +125,23 @@ output as a string."
 (map! :leader
       :desc "Find-replace (regexp)" "R" #'anzu-query-replace-regexp)
 
+(use-package! chatgpt
+  :config
+  (set-popup-rules!
+    '(("*ChatGPT*"
+       :quit 'current
+       :side right
+       :size 0.4
+       :select nil)))
+  (defun ++chatgpt-restart ()
+    (interactive)
+    (chatgpt-stop)
+    (shell-command-to-string "ps aux | grep playwright | awk '$0=$2' | xargs kill -9")
+    (chatgpt-init))
+  (map! :map doom-leader-map
+        "?" #'chatgpt-query
+        "!" #'++chatgpt-restart))
+
 (use-package! cider
   :config
   (defun ++cider-pprint-eval-last-sexp-to-repl ()

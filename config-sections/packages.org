@@ -79,6 +79,25 @@ Save bookmarks immediately (rather than just when Emacs is killed).
 (map! :leader
       :desc "Find-replace (regexp)" "R" #'anzu-query-replace-regexp)
 #+end_src
+* =chatgpt=
+#+begin_src elisp :results none
+(use-package! chatgpt
+  :config
+  (set-popup-rules!
+    '(("*ChatGPT*"
+       :quit 'current
+       :side right
+       :size 0.4
+       :select nil)))
+  (defun ++chatgpt-restart ()
+    (interactive)
+    (chatgpt-stop)
+    (shell-command-to-string "ps aux | grep playwright | awk '$0=$2' | xargs kill -9")
+    (chatgpt-init))
+  (map! :map doom-leader-map
+        "?" #'chatgpt-query
+        "!" #'++chatgpt-restart))
+#+end_src
 * =cider=
 #+begin_src elisp :results none
 (use-package! cider
