@@ -67,6 +67,12 @@ output as a string."
 
 (defvar ++window-id (shell-command-to-string "xdotool getwindowfocus getactivewindow | tr -d '\n'"))
 
+(defun ++js-root-dir ()
+  (locate-dominating-file (or buffer-file-name default-directory) "package.json"))
+
+(defun ++js-prettier-path ()
+  (expand-file-name (concat (++js-root-dir) "node_modules/.bin/prettier")))
+
 (defvar ++sync-folder-path "~/Dropbox/emacs")
 
 (setq savehist-file (concat ++sync-folder-path "/savehist"))
@@ -94,7 +100,16 @@ output as a string."
 
 (use-package apheleia
   :config
-  (apheleia-global-mode t))
+  (apheleia-global-mode t)
+  (add-hook! '(typescript-tsx-mode-hook
+               typescript-mode-hook
+               web-mode-hook
+               js-mode-hook
+               js2-mode-hook)
+    (setq-local apheleia-formatters
+              `((prettier npx ,(++js-prettier-path) "--stdin-filepath" filepath)
+                (prettier-javascript npx ,(++js-prettier-path) "--stdin-filepath" filepath "--parser=babel-flow")
+                (prettier-typescript npx ,(++js-prettier-path) "--stdin-filepath" filepath "--parser=typescript")))))
 
 (use-package! auto-dim-other-buffers
   :init

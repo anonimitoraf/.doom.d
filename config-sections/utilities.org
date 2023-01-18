@@ -82,3 +82,14 @@ Or alternatively
 #+begin_src emacs-lisp :tangle yes :results none
 (defvar ++window-id (shell-command-to-string "xdotool getwindowfocus getactivewindow | tr -d '\n'"))
 #+end_src
+* Javascript
+#+begin_src elisp :results none
+(defun ++js-root-dir ()
+  (locate-dominating-file (or buffer-file-name default-directory) "package.json"))
+#+end_src
+
+Get prettier path from current buffer
+#+begin_src elisp :results none
+(defun ++js-prettier-path ()
+  (expand-file-name (concat (++js-root-dir) "node_modules/.bin/prettier")))
+#+end_src
