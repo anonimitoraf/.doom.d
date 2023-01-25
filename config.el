@@ -141,7 +141,11 @@ output as a string."
       :desc "Find-replace (regexp)" "R" #'anzu-query-replace-regexp)
 
 (use-package! chatgpt
+  :defer t
   :config
+  (unless (boundp 'python-interpreter)
+    (defvaralias 'python-interpreter 'python-shell-interpreter))
+  (setq chatgpt-repo-path (expand-file-name "straight/repos/ChatGPT.el/" doom-local-dir))
   (set-popup-rules!
     '(("*ChatGPT*"
        :quit 'current
