@@ -276,3 +276,12 @@
 
 (package! chatgpt
   :recipe (:host github :repo "joshcho/ChatGPT.el" :files ("dist" "*.el")))
+
+(package! olivetti
+  :recipe (:host github :repo "rnkn/olivetti"))
+
+(package! sticky-shell
+  :recipe (:host github :repo "andyjda/sticky-shell"))
+
+(package! org-ros
+  :recipe (:host github :repo "LionyxML/ros"))

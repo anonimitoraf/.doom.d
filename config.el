@@ -644,6 +644,13 @@ otherwise, nil."
     '(bar matches git-timemachine)
     '(buffer-position selection-info)))
 
+(use-package! olivetti
+  :init
+  (setq olivetti-body-width 0.6
+        olivetti-minimum-body-width 120
+        olivetti-style t)
+  (add-hook #'org-mode-hook #'olivetti-mode))
+
 (after! org
   (setq org-directory (concat ++sync-folder-path "/org")
         org-default-notes-file (concat org-directory "/notes/default.org")
@@ -865,6 +872,8 @@ otherwise, nil."
   :config
   (org-remark-mode +1))
 
+(use-package! org-ros)
+
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
 
 (use-package! prescient
@@ -1024,6 +1033,8 @@ otherwise, nil."
 (use-package! speed-type
   :config
   (setq speed-type-default-lang 'English))
+
+(use-package! sticky-shell)
 
 (use-package! thread-dump)
 

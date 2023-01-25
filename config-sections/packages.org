@@ -720,6 +720,18 @@ Customize =doom-modeline= more specifically
     '(bar matches git-timemachine)
     '(buffer-position selection-info)))
 #+end_src
+* =olivetti=
+TODO What to do with org-table wrapping?
+#+begin_src elisp :results none
+(use-package! olivetti
+  :init
+  (setq olivetti-body-width 0.6
+        olivetti-minimum-body-width 120
+        olivetti-style t)
+  (add-hook #'org-mode-hook #'olivetti-mode))
+
+#+end_src
+
 * =org=
 #+begin_src elisp :results none
 (after! org
@@ -987,6 +999,11 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
   :config
   (org-remark-mode +1))
 #+end_src
+* =org-ros=
+#+begin_src elisp :results none
+(use-package! org-ros)
+#+end_src
+
 * =persp=
 #+begin_src elisp
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
@@ -1172,6 +1189,11 @@ Utilize modeline color to tell me if I'm in symex-mode
   :config
   (setq speed-type-default-lang 'English))
 #+end_src
+* =sticky-shell=
+#+begin_src elisp :results none
+(use-package! sticky-shell)
+#+end_src
+
 * =thread-dump=
 #+begin_src elisp
 (use-package! thread-dump)
