@@ -653,7 +653,8 @@ otherwise, nil."
   (setq olivetti-body-width 0.6
         olivetti-minimum-body-width 120
         olivetti-style t)
-  (add-hook #'org-mode-hook #'olivetti-mode))
+  (add-hook #'org-mode-hook #'olivetti-mode)
+  (add-hook #'org-mode-hook (lambda () (vi-tilde-fringe-mode -1))))
 
 (after! org
   (setq org-directory (concat ++sync-folder-path "/org")
