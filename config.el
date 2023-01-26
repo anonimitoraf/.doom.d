@@ -650,7 +650,7 @@ otherwise, nil."
 
 (use-package! olivetti
   :init
-  (setq olivetti-body-width 0.6
+  (setq olivetti-body-width 0.5
         olivetti-minimum-body-width 120
         olivetti-style t)
   (add-hook #'org-mode-hook #'olivetti-mode)
