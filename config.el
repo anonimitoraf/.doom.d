@@ -1039,7 +1039,9 @@ otherwise, nil."
   :config
   (setq speed-type-default-lang 'English))
 
-(use-package! sticky-shell)
+(use-package! sticky-shell
+  :config
+  (sticky-shell-global-mode t))
 
 (use-package! thread-dump)
 

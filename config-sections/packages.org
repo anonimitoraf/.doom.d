@@ -1196,7 +1196,9 @@ Utilize modeline color to tell me if I'm in symex-mode
 #+end_src
 * =sticky-shell=
 #+begin_src elisp :results none
-(use-package! sticky-shell)
+(use-package! sticky-shell
+  :config
+  (sticky-shell-global-mode t))
 #+end_src
 
 * =thread-dump=
