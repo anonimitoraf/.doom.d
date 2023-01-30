@@ -843,6 +843,12 @@ Collapse all headings except for this one
 (map! :map org-mode-map
       :nv "SPC m z" #'++org-collapse-all-except-current)
 #+end_src
+
+Disable completions for org-mode. Not helpful, just distracting
+#+begin_src elisp :results none
+(add-hook 'org-mode-hook (lambda () (corfu-mode -1)))
+#+end_src
+
 ** =org-capture=
 #+begin_src elisp
 (after! org

@@ -746,6 +746,8 @@ otherwise, nil."
 (map! :map org-mode-map
       :nv "SPC m z" #'++org-collapse-all-except-current)
 
+(add-hook 'org-mode-hook (lambda () (corfu-mode -1)))
+
 (after! org
   (setq org-capture-templates
     '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")
