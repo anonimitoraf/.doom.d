@@ -1323,6 +1323,10 @@ otherwise, nil."
     :multi-root t
     :server-id 'prolog-ls)))
 
+(defun ++org-src-block-at-point ()
+  (interactive)
+  (kill-new (plist-get (cadr (org-element-at-point)) :value)))
+
 (defun ++browse-file-remote ()
   (interactive)
   (browse-url
