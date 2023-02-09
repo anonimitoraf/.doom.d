@@ -91,5 +91,7 @@ Or alternatively
 Get prettier path from current buffer
 #+begin_src elisp :results none
 (defun ++js-prettier-path ()
-  (expand-file-name (concat (++js-root-dir) "node_modules/.bin/prettier")))
+  (let ((local (expand-file-name (concat (++js-root-dir) "node_modules/.bin/prettier")))
+         (global (executable-find "prettier")))
+    (if (file-exists-p local) local global)))
 #+end_src

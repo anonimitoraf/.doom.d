@@ -71,7 +71,9 @@ output as a string."
   (locate-dominating-file (or buffer-file-name default-directory) "package.json"))
 
 (defun ++js-prettier-path ()
-  (expand-file-name (concat (++js-root-dir) "node_modules/.bin/prettier")))
+  (let ((local (expand-file-name (concat (++js-root-dir) "node_modules/.bin/prettier")))
+         (global (executable-find "prettier")))
+    (if (file-exists-p local) local global)))
 
 (defvar ++sync-folder-path "~/Dropbox/emacs")
 
