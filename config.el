@@ -591,6 +591,10 @@ otherwise, nil."
         ;; This is just annoying, really
         lsp-ui-sideline-enable nil))
 
+(use-package! magit-filenotify
+  :config
+  (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
+
 (after! doom-modeline
   (setq doom-modeline-buffer-file-name-style 'auto
         doom-modeline-height 0

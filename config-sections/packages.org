@@ -657,6 +657,13 @@ TODO Convert the `define-key` statements to use `map!`
         ;; This is just annoying, really
         lsp-ui-sideline-enable nil))
 #+end_src
+* =magit-filenotify=
+#+begin_src elisp :results none
+(use-package! magit-filenotify
+  :config
+  (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
+#+end_src
+
 * =modeline=
 #+begin_src elisp
 (after! doom-modeline

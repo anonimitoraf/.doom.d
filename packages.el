@@ -285,3 +285,5 @@
 
 (package! org-ros
   :recipe (:host github :repo "LionyxML/ros"))
+
+(package! magit-filenotify)
