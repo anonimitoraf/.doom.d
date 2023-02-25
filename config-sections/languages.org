@@ -12,23 +12,7 @@ Formatting
 #+begin_src elisp :results none
 (use-package apheleia
   :config
-  (setf (alist-get 'zprint apheleia-formatters)
-        `("zprint"
-          ,(concat
-             "{:style [:respect-nl :justified]"
-             " :map {:comma? false "
-             "       :justify {:max-variance 64, :no-justify nil}"
-             " }"
-             " :binding {:justify {:max-variance 64}"
-             " }"
-             " :pair {:justify {:max-variance 32}"
-             " }"
-             " :fn-map {"
-             "   \"->\" :none"
-             "   \"->>\" :none"
-             " }"
-             "}"
-             )))
+  (setf (alist-get 'zprint apheleia-formatters) `("zprint"))
   (add-to-list 'apheleia-mode-alist '(clojure-mode . zprint))
   (add-to-list 'apheleia-mode-alist '(clojurescript-mode . zprint))
   (add-to-list 'apheleia-mode-alist '(clojurec-mode . zprint)))
@@ -39,27 +23,14 @@ Nice offline docs
 (add-to-list 'dash-docs-docsets "Clojure")
 #+end_src
 
-Font lock "hacks". TODO Find out how to do these properly
+Font lock "hacks"
 #+begin_src elisp
-(add-hook 'clojure-mode-hook
-          '(lambda ()
-             ;; Set some new syntax-highlighting rules.
-             ;; Guardrail's >defn
-             ;; Highlight particular macros similar to built-in stuff
-             ;; For example, highlight ghostwheel's `>defn' similar
-             ;; the same way as built-in `defn'
-             (font-lock-add-keywords nil
-                                     ;; So many escape codes! But we're really just saying:
-                                     ;; Match the '(' character.
-                                     ;; Match and group the string '>defn'.
-                                     ;; Match some whitespace. \\s-+
-                                     ;; Match and group some word characters. \\w+
-                                     '(("(\\(>defn\\)\\s-+\\(\\w+\\)"
-                                        ;; The first regexp group is a keyword.
-                                        (1 font-lock-keyword-face)
-                                        ;; The second regexp group is a name.
-                                        (2 font-lock-function-name-face))))
-             (put '>defn 'clojure-doc-string-elt 2)))
+(put-clojure-indent 'defjob :defn)
+(put 'defjob 'clojure-doc-string-elt 2)
+(font-lock-add-keywords 'clojure-mode
+                        `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
+                                    "\\(defjob\\)\\>")
+                           1 font-lock-keyword-face)))
 #+end_src
 
 Make comments easily-distinguishable from regular code

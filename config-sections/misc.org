@@ -1,5 +1,77 @@
 #+TITLE: Misc
 
+* Open file in remote repo
+#+begin_src elisp :results none
+(defun ++browse-file-remote ()
+  (interactive)
+  (browse-url
+   (let
+       ((rev (magit-rev-abbrev "HEAD"))
+        (repo (forge-get-repository 'stub))
+        (file (magit-file-relative-name buffer-file-name))
+        (highlight
+         (if
+             (use-region-p)
+             (let ((l1 (line-number-at-pos (region-beginning)))
+                   (l2 (line-number-at-pos (- (region-end) 1))))
+               (format "#L%d-L%d" l1 l2))
+           ""
+           )))
+     (forge--format repo "https://%h/%o/%n/blob/%r/%f%L"
+                    `((?r . ,rev) (?f . ,file) (?L . ,highlight))))))
+#+end_src
+* Conveniently opening notes I take on my iPad
+#+begin_src elisp :results none
+(defun ++open-ipad-notes ()
+  (interactive)
+  (let ((default-directory (concat "~/Dropbox/Apps/GoodNotes 5/files/")))
+    (call-interactively #'find-file)))
+
+(map! :map doom-leader-map "o i" #'++open-ipad-notes)
+#+end_src
+
+* Disable warnings
+Usually, I don't even know how to resolve them, so they're just annoying, really
+#+begin_src elisp :results none
+(setq warning-minimum-level :error)
+#+end_src
+
+* Toggle shell per-project instead of per-workspace
+#+begin_src elisp :results none
+(defun ++shell/toggle
+    (&optional command)
+  "Toggle a persistent terminal popup window.\n\nIf popup is visible but unselected, selected it.\nIf popup is focused, kill it."
+  (interactive)
+  (let*
+    ((workspace-name (if (and (boundp 'persp-mode) persp-mode)
+                     (safe-persp-name (get-current-persp))
+                   "main"))
+      (buf-name (format "*doom:shell-popup:%s*" (or (projectile-project-name) workspace-name)))
+     (buffer (get-buffer-create buf-name))
+     (dir default-directory))
+    (let*
+        ((win (and t (get-buffer-window buffer))))
+      (if win
+        (let (confirm-kill-processes)
+          (set-process-query-on-exit-flag (get-buffer-process buffer) nil)
+          (delete-window win))
+        (progn
+          (save-current-buffer
+            (set-buffer buffer)
+            (if (not (eq major-mode 'shell-mode))
+              (shell buffer)
+              (cd dir)
+              (run-mode-hooks 'shell-mode-hook)))
+          (pop-to-buffer buffer)
+          (shell-cd dir)
+          (let ((cmd (concat "cd " (shell-quote-argument dir) "\n")))
+    (comint-send-string nil cmd)))))
+    (+shell--send-input buffer command)))
+
+(map! :map doom-leader-map
+  "o t" #'++shell/toggle)
+#+end_src
+
 * Auto-close buffers when deleting a file
 #+begin_src elisp :results none
 (defun ++close-buffers (filename &optional _trash)
@@ -332,7 +404,7 @@ Perpetual quest to make scrolling feel alright (if not supported)
 * Personal projects
 * Emacs as a clipboard manager
 #+begin_src elisp :results none
-(setq kill-ring-max 10000)
+(setq kill-ring-max (* 100 1000 ))
 #+end_src
 * Increase recent file list
 #+begin_src elisp :results none
@@ -361,7 +433,8 @@ Copy dir path of curr buffer
 * Shortcuts of built-ins
 #+begin_src emacs-lisp :results none
 (map! :map doom-leader-map
-  "+" #'calc)
+  "+" #'calc
+  "s d" #'+default/search-other-cwd)
 #+end_src
 * Make #! files executable automatically
 #+begin_src elisp :results none
@@ -389,27 +462,8 @@ Copy dir path of curr buffer
 * Other custom functionality
 Regularly save to a session file. I use this a lot because I can't be bothered constantly saving my session!
 #+begin_src elisp
-(defun ++load-and-continuously-save (file)
-  (interactive
-   (let ((session-file (doom-session-file)))
-     (list (or (read-file-name "Regularly saving session to: "
-                               (file-name-directory session-file)
-                               (file-name-nondirectory session-file))
-               (user-error "No session selected. Aborting")))))
-  (unless file
-    (error "No session file selected"))
-  ;; Load the session
-  (doom/load-session file)
-  ;; Clear any previous calls to this fn
-  (when (boundp '++continuous-saving-timer)
-    (cancel-timer ++continuous-saving-timer))
-  ;; Save the session every 10 seconds
-  (setq ++continuous-saving-timer
-        (run-with-idle-timer 5 t (cmd!
-                                  (let ((inhibit-message t))
-                                    (advice-add #'doom-save-session :around #'++suppress-messages)
-                                    (doom-save-session file))))))
-(map! :map doom-leader-map "q N" '++load-and-continuously-save)
+(advice-add #'doom-save-session :around #'++silence-messages)
+(run-with-idle-timer 5 t #'doom-save-session)
 #+end_src
 
 Open external terminal
@@ -537,5 +591,4 @@ Demo-recording
   (hide-mode-line-mode +1)
   (display-line-numbers-mode -1))
 #+end_src
-** TODO Automatically kill CIDER buffers with dead connections
 ** TODO CIDER headerline/modeline to make it obvious which server and which port

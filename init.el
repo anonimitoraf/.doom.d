@@ -51,7 +51,7 @@
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
        ;; (pretty-code +fira)       ; ligatures or substitute text with pretty symbols
        ;; tabs              ; an tab bar for Emacs
-       ;; (treemacs +lsp)
+       (treemacs +lsp)
                                         ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
        ;;vc-gutter         ; vcs diff in the fringe
@@ -101,19 +101,19 @@
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
-       ;; gist              ; interacting with github gists
+       gist              ; interacting with github gists
        (lookup +docsets
                +dictionary
                +offline)              ; navigate your code and its documentation
        (lsp +eglot)
        ;;macos             ; MacOS-specific commands
-       magit             ; a git porcelain for Emacs
+       (magit +forge)             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        rgb               ; creating color strings
-       ;;terraform         ; infrastructure as code
+       (terraform +lsp)         ; infrastructure as code
        tmux              ; an API for interacting with tmux
        ;;upload            ; map local to remote projects via ssh/ftp
 
@@ -183,7 +183,7 @@
        (sh +lsp)                ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
        ;;solidity          ; do you need a blockchain? No.
-       ;;swift             ; who asked for emoji variables?
+       (swift +lsp)             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        (web +lsp)               ; the tubes
        (yaml +lsp)

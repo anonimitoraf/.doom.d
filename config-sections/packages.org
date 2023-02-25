@@ -29,7 +29,16 @@ They're too big (by default) for my taste
 #+begin_src elisp :results none
 (use-package apheleia
   :config
-  (apheleia-global-mode t))
+  (apheleia-global-mode t)
+  (add-hook! '(typescript-tsx-mode-hook
+               typescript-mode-hook
+               web-mode-hook
+               js-mode-hook
+               js2-mode-hook)
+    (setq-local apheleia-formatters
+              `((prettier npx ,(++js-prettier-path) "--stdin-filepath" filepath)
+                (prettier-javascript npx ,(++js-prettier-path) "--stdin-filepath" filepath "--parser=babel-flow")
+                (prettier-typescript npx ,(++js-prettier-path) "--stdin-filepath" filepath "--parser=typescript")))))
 #+end_src
 * =auto-dim-other-buffers=
 #+begin_src elisp :results none
@@ -46,7 +55,8 @@ They're too big (by default) for my taste
   :config
   (auto-dim-other-buffers-mode +1)
   (custom-set-faces!
-    '(auto-dim-other-buffers-face :background "grey5")))
+    '(auto-dim-other-buffers-face :background "grey5")
+    '(auto-dim-other-buffers-hide-face :background "grey5")))
 #+end_src
 * =avy=
 This package is used for jumping around efficiently within a file. I really ought to use it more.
@@ -55,6 +65,11 @@ Searching should be done using 2 chars almost all the time hence we use a very s
 #+begin_src elisp
 (setq avy-timeout-seconds 0.1)
 #+end_src
+
+#+begin_src elisp :results none
+(setq avy-keys (number-sequence ?a ?z))
+#+end_src
+
 * =built-ins=
 ** bookmarks
 I want to sync bookmarks across my devices.
@@ -73,15 +88,44 @@ Save bookmarks immediately (rather than just when Emacs is killed).
 (map! :leader
       :desc "Find-replace (regexp)" "R" #'anzu-query-replace-regexp)
 #+end_src
+* =chatgpt=
+#+begin_src elisp :results none
+(use-package! chatgpt
+  :defer t
+  :config
+  (unless (boundp 'python-interpreter)
+    (defvaralias 'python-interpreter 'python-shell-interpreter))
+  (setq chatgpt-repo-path (expand-file-name "straight/repos/ChatGPT.el/" doom-local-dir))
+  (set-popup-rules!
+    '(("*ChatGPT*"
+       :quit 'current
+       :side right
+       :size 0.4
+       :select nil)))
+  (defun ++chatgpt-restart ()
+    (interactive)
+    (chatgpt-stop)
+    (shell-command-to-string "ps aux | grep playwright | awk '$0=$2' | xargs kill -9")
+    (chatgpt-init))
+  (map! :map doom-leader-map
+        "?" #'chatgpt-query
+        "!" #'++chatgpt-restart))
+#+end_src
 * =cider=
-#+begin_src elisp
+#+begin_src elisp :results none
 (use-package! cider
   :config
+  (defun ++cider-pprint-eval-last-sexp-to-repl ()
+    (interactive)
+    (cider-pprint-eval-last-sexp-to-repl t))
   (setq cider-repl-pop-to-buffer-on-connect nil
         cider-dynamic-indentation nil
         cider-font-lock-dynamically nil
         cider-font-lock-reader-conditionals nil
         nrepl-force-ssh-for-remote-hosts t)
+  (map! :map clojure-mode-map
+        :nv "SPC m p p" #'cider-pprint-eval-last-sexp-to-comment
+        :nv "SPC m p P" #'++cider-pprint-eval-last-sexp-to-repl)
   (map! :map cider-repl-mode-map
         :nvi "C-k" #'cider-repl-previous-input
         :nvi "C-j" #'cider-repl-next-input)
@@ -213,6 +257,12 @@ Auto-kill bufffer when CIDER disconnects
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\.?" . dotenv-mode)))
 #+end_src
+* =dwim-shell-command=
+#+begin_src elisp :results none
+(use-package! dwim-shell-command
+  :config
+  (require 'dwim-shell-commands))
+#+end_src
 * =edraw=
 #+begin_src elisp :results none
 (with-eval-after-load 'org
@@ -285,10 +335,14 @@ I keep changing my mind about this, but for now, I think splitting and selecting
 #+end_src
 
 evil-collection with workaround for =slime= specifically (and evaluation of the last sexp)
-#+begin_src elisp
+#+begin_src elisp :results none
 (use-package! evil-collection
   :config
-  (setq evil-collection-setup-minibuffer t))
+  (setq evil-collection-setup-minibuffer t)
+  (advice-add 'cider-pprint-eval-last-sexp-to-comment
+    :around 'evil-collection-cider-last-sexp)
+  (advice-add 'cider-pprint-eval-last-sexp-to-repl
+    :around 'evil-collection-cider-last-sexp))
 #+end_src
 
 Don't yank replaced lines
@@ -302,6 +356,9 @@ Don't yank replaced lines
   :config
   (unbind-key "s" evil-normal-state-map)
   (evilem-default-keybindings "s")
+  (map! :map evil-normal-state-map
+    "s l" #'evilem-motion-forward-word-begin
+    "s h" #'evilem-motion-backward-word-begin)
   (custom-set-faces!
     '(avy-lead-face :foreground "red" :background nil :weight bold)
     `(avy-lead-face-0 :foreground ,(doom-color 'yellow) :background nil)))
@@ -330,6 +387,11 @@ Don't yank replaced lines
 (map! :map global-map
       "C-'" #'embark-act)
 #+end_src
+
+#+begin_src elisp :results none
+(setq embark-quit-after-action nil)
+#+end_src
+
 * =exercism=
 #+begin_src elisp :results none
 (use-package! exercism
@@ -546,6 +608,19 @@ Customize =doom-modeline= more specifically
     '(bar matches git-timemachine)
     '(buffer-position selection-info)))
 #+end_src
+* =olivetti=
+TODO What to do with org-table wrapping?
+#+begin_src elisp :results none
+(use-package! olivetti
+  :init
+  (setq olivetti-body-width 0.5
+        olivetti-minimum-body-width 120
+        olivetti-style t)
+  (add-hook #'org-mode-hook #'olivetti-mode)
+  (add-hook #'org-mode-hook (lambda () (vi-tilde-fringe-mode -1))))
+
+#+end_src
+
 * =org=
 #+begin_src elisp :results none
 (after! org
@@ -802,9 +877,41 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
   :config
   (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 #+end_src
+* =org-remark=
+#+begin_src elisp :results none
+(defun ++org-remark-notes-file-name ()
+  (concat ++sync-folder-path "/org-remark/" (projectile-project-name) "/org-remark.org"))
+
+(use-package! org-remark
+  :init
+  (setq org-remark-notes-file-name #'++org-remark-notes-file-name)
+  :config
+  (org-remark-mode +1))
+#+end_src
+* =org-ros=
+#+begin_src elisp :results none
+(use-package! org-ros)
+#+end_src
+
 * =persp=
 #+begin_src elisp
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
+#+end_src
+* =prescient=
+#+begin_src elisp :results none
+(use-package! prescient
+  :init
+  (setq prescient-save-file (concat ++sync-folder-path "/prescient-save.el")
+        prescient-sort-full-matches-first t
+        prescient-sort-length-enable nil)
+  :config
+  (prescient-persist-mode +1))
+(use-package! corfu-prescient
+  :init
+  (setq corfu-prescient-override-sorting t
+        corfu-prescient-enable-filtering nil)
+  :config
+  (corfu-prescient-mode +1))
 #+end_src
 * =projectile=
 Get rid of annoying projectile staleness without it being too expensive/noticeable for local files.
@@ -849,13 +956,15 @@ For remote files, make it a bit longer
           evil-window-up
           evil-window-down
           +workspace/close-window-or-workspace
-          +shell/toggle))
+          +shell/toggle
+          better-jumper-jump-backward
+          better-jumper-jump-forward))
   (setq pulsar-pulse-on-window-change t)
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.05)
   (setq pulsar-iterations 10)
-  (setq pulsar-face 'pulsar-red)
-  (setq pulsar-highlight-face 'pulsar-yellow)
+  (setq pulsar-face 'pulsar-generic)
+  (setq pulsar-highlight-face 'pulsar-generic)
   (pulsar-global-mode +1)
   ;; For some reason, some commands don't work despite being in pulsar-pulse-functions
   (setq ++pulsar-pulse-line-cmds
@@ -911,7 +1020,8 @@ For remote files, make it a bit longer
   (setq sidecar-locals-dir-name ".emacs"
         ;; Add to this as necessary
         sidecar-locals-paths-allow (-map (lambda (dir) (expand-file-name dir))
-                                         '("~/personal/lc/")))
+                                         '("~/personal/lc/"
+                                           "~/personal/supa-sales/")))
   :config
   (sidecar-locals-mode))
 #+end_src
@@ -968,6 +1078,13 @@ Utilize modeline color to tell me if I'm in symex-mode
   :config
   (setq speed-type-default-lang 'English))
 #+end_src
+* =sticky-shell=
+#+begin_src elisp :results none
+(use-package! sticky-shell
+  :config
+  (sticky-shell-global-mode t))
+#+end_src
+
 * =thread-dump=
 #+begin_src elisp
 (use-package! thread-dump)
@@ -1008,6 +1125,19 @@ Utilize modeline color to tell me if I'm in symex-mode
 (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
 (add-to-list 'tree-sitter-major-mode-language-alist '(scss-mode . css))
 #+end_src
+* =undohist=
+#+begin_src elisp :results none
+(use-package! undohist
+  :config
+  (undohist-initialize)
+  ;; Automatically recover undohist
+  (defun ++yes (_) t)
+  (defun ++yes-recover-undohist (orig-fn &rest args)
+    (advice-add #'yes-or-no-p :override #'++yes)
+    (ignore-errors (apply orig-fn args))
+    (advice-remove #'yes-or-no-p #'++yes))
+  (advice-add #'undohist-recover-1 :around #'++yes-recover-undohist))
+#+end_src
 * =vertico=
 #+begin_src elisp :results none
 (use-package! vertico
@@ -1038,7 +1168,9 @@ Utilize modeline color to tell me if I'm in symex-mode
             (vertico-repeat-select posframe)
             (cider-connect-clj posframe)
             (cider-connect-cljs posframe)
-            (org-roam-node-find posframe)))
+            (org-roam-node-find posframe)
+            (++open-ipad-notes posframe)
+            (+lookup/references buffer)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
@@ -1050,9 +1182,17 @@ posframe setup
 #+begin_src emacs-lisp :tangle yes :results none
 (use-package! vertico-posframe
   :config
+  ;; Top center with a bit of space at the top to align with header-line
+  (defun ++posframe-poshandler-top-center-with-padding (info)
+    (cons
+      (/ (- (plist-get info :parent-frame-width)
+           (plist-get info :posframe-width))
+        2)
+      2))
   (setq vertico-posframe-border-width 1
         vertico-posframe-parameters '((left-fringe . 10)
-                                      (right-fringe . 10))))
+                                      (right-fringe . 10))
+        vertico-posframe-poshandler #'++posframe-poshandler-top-center-with-padding))
 #+end_src
 
 buffer setup
@@ -1083,6 +1223,7 @@ Repeat a previous vertico command
 #+begin_src elisp :results none
 (use-package! vundo
   :config
+  (setq undohist-ignored-files '(".git/COMMIT_EDITMSG"))
   (map! :map global-map
         :nv "U" #'vundo))
 #+end_src

@@ -256,3 +256,30 @@
 
 (package! auto-dim-other-buffers
   :recipe (:host github :repo "mina86/auto-dim-other-buffers.el"))
+
+(package! undohist)
+
+(package! org-remark
+  :recipe (:host github :repo "nobiot/org-remark"))
+
+(package! dwim-shell-command
+  :recipe (:host github :repo "xenodium/dwim-shell-command"))
+
+(package! prescient
+  :recipe (:host github :repo "radian-software/prescient.el"
+           :files ("*.el")))
+
+(unpin! magit)
+(unpin! forge)
+
+(package! chatgpt
+  :recipe (:host github :repo "joshcho/ChatGPT.el" :files ("dist" "*.el")))
+
+(package! olivetti
+  :recipe (:host github :repo "rnkn/olivetti"))
+
+(package! sticky-shell
+  :recipe (:host github :repo "andyjda/sticky-shell"))
+
+(package! org-ros
+  :recipe (:host github :repo "LionyxML/ros"))

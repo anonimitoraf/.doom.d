@@ -59,7 +59,19 @@ output as a string."
          (apply old-fun args)
       (advice-remove 'message #'silence))))
 
+(defun ++silence-messages (orig-fun &rest args)
+  "Advice function that silences all messages in ORIG-FUN."
+  (let ((inhibit-message t)      ;Don't show the messages in Echo area
+        (message-log-max nil))   ;Don't show the messages in the *Messages* buffer
+    (apply orig-fun args)))
+
 (defvar ++window-id (shell-command-to-string "xdotool getwindowfocus getactivewindow | tr -d '\n'"))
+
+(defun ++js-root-dir ()
+  (locate-dominating-file (or buffer-file-name default-directory) "package.json"))
+
+(defun ++js-prettier-path ()
+  (expand-file-name (concat (++js-root-dir) "node_modules/.bin/prettier")))
 
 (defvar ++sync-folder-path "~/Dropbox/emacs")
 
@@ -88,7 +100,16 @@ output as a string."
 
 (use-package apheleia
   :config
-  (apheleia-global-mode t))
+  (apheleia-global-mode t)
+  (add-hook! '(typescript-tsx-mode-hook
+               typescript-mode-hook
+               web-mode-hook
+               js-mode-hook
+               js2-mode-hook)
+    (setq-local apheleia-formatters
+              `((prettier npx ,(++js-prettier-path) "--stdin-filepath" filepath)
+                (prettier-javascript npx ,(++js-prettier-path) "--stdin-filepath" filepath "--parser=babel-flow")
+                (prettier-typescript npx ,(++js-prettier-path) "--stdin-filepath" filepath "--parser=typescript")))))
 
 (use-package! auto-dim-other-buffers
   :init
@@ -103,9 +124,12 @@ output as a string."
   :config
   (auto-dim-other-buffers-mode +1)
   (custom-set-faces!
-    '(auto-dim-other-buffers-face :background "grey5")))
+    '(auto-dim-other-buffers-face :background "grey5")
+    '(auto-dim-other-buffers-hide-face :background "grey5")))
 
 (setq avy-timeout-seconds 0.1)
+
+(setq avy-keys (number-sequence ?a ?z))
 
 (setq bookmark-default-file (concat ++sync-folder-path "/bookmarks"))
 
@@ -116,13 +140,40 @@ output as a string."
 (map! :leader
       :desc "Find-replace (regexp)" "R" #'anzu-query-replace-regexp)
 
+(use-package! chatgpt
+  :defer t
+  :config
+  (unless (boundp 'python-interpreter)
+    (defvaralias 'python-interpreter 'python-shell-interpreter))
+  (setq chatgpt-repo-path (expand-file-name "straight/repos/ChatGPT.el/" doom-local-dir))
+  (set-popup-rules!
+    '(("*ChatGPT*"
+       :quit 'current
+       :side right
+       :size 0.4
+       :select nil)))
+  (defun ++chatgpt-restart ()
+    (interactive)
+    (chatgpt-stop)
+    (shell-command-to-string "ps aux | grep playwright | awk '$0=$2' | xargs kill -9")
+    (chatgpt-init))
+  (map! :map doom-leader-map
+        "?" #'chatgpt-query
+        "!" #'++chatgpt-restart))
+
 (use-package! cider
   :config
+  (defun ++cider-pprint-eval-last-sexp-to-repl ()
+    (interactive)
+    (cider-pprint-eval-last-sexp-to-repl t))
   (setq cider-repl-pop-to-buffer-on-connect nil
         cider-dynamic-indentation nil
         cider-font-lock-dynamically nil
         cider-font-lock-reader-conditionals nil
         nrepl-force-ssh-for-remote-hosts t)
+  (map! :map clojure-mode-map
+        :nv "SPC m p p" #'cider-pprint-eval-last-sexp-to-comment
+        :nv "SPC m p P" #'++cider-pprint-eval-last-sexp-to-repl)
   (map! :map cider-repl-mode-map
         :nvi "C-k" #'cider-repl-previous-input
         :nvi "C-j" #'cider-repl-next-input)
@@ -231,6 +282,10 @@ otherwise, nil."
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\.?" . dotenv-mode)))
 
+(use-package! dwim-shell-command
+  :config
+  (require 'dwim-shell-commands))
+
 (with-eval-after-load 'org
   (require 'edraw-org)
   (edraw-org-setup-default))
@@ -274,7 +329,11 @@ otherwise, nil."
 
 (use-package! evil-collection
   :config
-  (setq evil-collection-setup-minibuffer t))
+  (setq evil-collection-setup-minibuffer t)
+  (advice-add 'cider-pprint-eval-last-sexp-to-comment
+    :around 'evil-collection-cider-last-sexp)
+  (advice-add 'cider-pprint-eval-last-sexp-to-repl
+    :around 'evil-collection-cider-last-sexp))
 
 (setq evil-kill-on-visual-paste nil)
 
@@ -282,6 +341,9 @@ otherwise, nil."
   :config
   (unbind-key "s" evil-normal-state-map)
   (evilem-default-keybindings "s")
+  (map! :map evil-normal-state-map
+    "s l" #'evilem-motion-forward-word-begin
+    "s h" #'evilem-motion-backward-word-begin)
   (custom-set-faces!
     '(avy-lead-face :foreground "red" :background nil :weight bold)
     `(avy-lead-face-0 :foreground ,(doom-color 'yellow) :background nil)))
@@ -303,6 +365,8 @@ otherwise, nil."
 
 (map! :map global-map
       "C-'" #'embark-act)
+
+(setq embark-quit-after-action nil)
 
 (use-package! exercism
   :config
@@ -475,6 +539,14 @@ otherwise, nil."
   (doom-modeline-def-modeline 'timemachine
     '(bar matches git-timemachine)
     '(buffer-position selection-info)))
+
+(use-package! olivetti
+  :init
+  (setq olivetti-body-width 0.5
+        olivetti-minimum-body-width 120
+        olivetti-style t)
+  (add-hook #'org-mode-hook #'olivetti-mode)
+  (add-hook #'org-mode-hook (lambda () (vi-tilde-fringe-mode -1))))
 
 (after! org
   (setq org-directory (concat ++sync-folder-path "/org")
@@ -688,7 +760,32 @@ otherwise, nil."
   :config
   (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 
+(defun ++org-remark-notes-file-name ()
+  (concat ++sync-folder-path "/org-remark/" (projectile-project-name) "/org-remark.org"))
+
+(use-package! org-remark
+  :init
+  (setq org-remark-notes-file-name #'++org-remark-notes-file-name)
+  :config
+  (org-remark-mode +1))
+
+(use-package! org-ros)
+
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
+
+(use-package! prescient
+  :init
+  (setq prescient-save-file (concat ++sync-folder-path "/prescient-save.el")
+        prescient-sort-full-matches-first t
+        prescient-sort-length-enable nil)
+  :config
+  (prescient-persist-mode +1))
+(use-package! corfu-prescient
+  :init
+  (setq corfu-prescient-override-sorting t
+        corfu-prescient-enable-filtering nil)
+  :config
+  (corfu-prescient-mode +1))
 
 (defun ++set-projectile-cache-duration ()
   (setq projectile-files-cache-expire
@@ -727,13 +824,15 @@ otherwise, nil."
           evil-window-up
           evil-window-down
           +workspace/close-window-or-workspace
-          +shell/toggle))
+          +shell/toggle
+          better-jumper-jump-backward
+          better-jumper-jump-forward))
   (setq pulsar-pulse-on-window-change t)
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.05)
   (setq pulsar-iterations 10)
-  (setq pulsar-face 'pulsar-red)
-  (setq pulsar-highlight-face 'pulsar-yellow)
+  (setq pulsar-face 'pulsar-generic)
+  (setq pulsar-highlight-face 'pulsar-generic)
   (pulsar-global-mode +1)
   ;; For some reason, some commands don't work despite being in pulsar-pulse-functions
   (setq ++pulsar-pulse-line-cmds
@@ -785,7 +884,8 @@ otherwise, nil."
   (setq sidecar-locals-dir-name ".emacs"
         ;; Add to this as necessary
         sidecar-locals-paths-allow (-map (lambda (dir) (expand-file-name dir))
-                                         '("~/personal/lc/")))
+                                         '("~/personal/lc/"
+                                           "~/personal/supa-sales/")))
   :config
   (sidecar-locals-mode))
 
@@ -831,6 +931,10 @@ otherwise, nil."
   :config
   (setq speed-type-default-lang 'English))
 
+(use-package! sticky-shell
+  :config
+  (sticky-shell-global-mode t))
+
 (use-package! thread-dump)
 
 ;; (defun setup-tide-mode ()
@@ -865,6 +969,17 @@ otherwise, nil."
 (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
 (add-to-list 'tree-sitter-major-mode-language-alist '(scss-mode . css))
 
+(use-package! undohist
+  :config
+  (undohist-initialize)
+  ;; Automatically recover undohist
+  (defun ++yes (_) t)
+  (defun ++yes-recover-undohist (orig-fn &rest args)
+    (advice-add #'yes-or-no-p :override #'++yes)
+    (ignore-errors (apply orig-fn args))
+    (advice-remove #'yes-or-no-p #'++yes))
+  (advice-add #'undohist-recover-1 :around #'++yes-recover-undohist))
+
 (use-package! vertico
   :config
   (map! :map vertico-map
@@ -893,7 +1008,9 @@ otherwise, nil."
             (vertico-repeat-select posframe)
             (cider-connect-clj posframe)
             (cider-connect-cljs posframe)
-            (org-roam-node-find posframe)))
+            (org-roam-node-find posframe)
+            (++open-ipad-notes posframe)
+            (+lookup/references buffer)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
@@ -902,9 +1019,17 @@ otherwise, nil."
 
 (use-package! vertico-posframe
   :config
+  ;; Top center with a bit of space at the top to align with header-line
+  (defun ++posframe-poshandler-top-center-with-padding (info)
+    (cons
+      (/ (- (plist-get info :parent-frame-width)
+           (plist-get info :posframe-width))
+        2)
+      2))
   (setq vertico-posframe-border-width 1
         vertico-posframe-parameters '((left-fringe . 10)
-                                      (right-fringe . 10))))
+                                      (right-fringe . 10))
+        vertico-posframe-poshandler #'++posframe-poshandler-top-center-with-padding))
 
 (setq vertico-buffer-display-action '(display-buffer-in-side-window
                                        (side . right)
@@ -924,6 +1049,7 @@ otherwise, nil."
 
 (use-package! vundo
   :config
+  (setq undohist-ignored-files '(".git/COMMIT_EDITMSG"))
   (map! :map global-map
         :nv "U" #'vundo))
 
@@ -956,48 +1082,19 @@ otherwise, nil."
 
 (use-package apheleia
   :config
-  (setf (alist-get 'zprint apheleia-formatters)
-        `("zprint"
-          ,(concat
-             "{:style [:respect-nl :justified]"
-             " :map {:comma? false "
-             "       :justify {:max-variance 64, :no-justify nil}"
-             " }"
-             " :binding {:justify {:max-variance 64}"
-             " }"
-             " :pair {:justify {:max-variance 32}"
-             " }"
-             " :fn-map {"
-             "   \"->\" :none"
-             "   \"->>\" :none"
-             " }"
-             "}"
-             )))
+  (setf (alist-get 'zprint apheleia-formatters) `("zprint"))
   (add-to-list 'apheleia-mode-alist '(clojure-mode . zprint))
   (add-to-list 'apheleia-mode-alist '(clojurescript-mode . zprint))
   (add-to-list 'apheleia-mode-alist '(clojurec-mode . zprint)))
 
 (add-to-list 'dash-docs-docsets "Clojure")
 
-(add-hook 'clojure-mode-hook
-          '(lambda ()
-             ;; Set some new syntax-highlighting rules.
-             ;; Guardrail's >defn
-             ;; Highlight particular macros similar to built-in stuff
-             ;; For example, highlight ghostwheel's `>defn' similar
-             ;; the same way as built-in `defn'
-             (font-lock-add-keywords nil
-                                     ;; So many escape codes! But we're really just saying:
-                                     ;; Match the '(' character.
-                                     ;; Match and group the string '>defn'.
-                                     ;; Match some whitespace. \\s-+
-                                     ;; Match and group some word characters. \\w+
-                                     '(("(\\(>defn\\)\\s-+\\(\\w+\\)"
-                                        ;; The first regexp group is a keyword.
-                                        (1 font-lock-keyword-face)
-                                        ;; The second regexp group is a name.
-                                        (2 font-lock-function-name-face))))
-             (put '>defn 'clojure-doc-string-elt 2)))
+(put-clojure-indent 'defjob :defn)
+(put 'defjob 'clojure-doc-string-elt 2)
+(font-lock-add-keywords 'clojure-mode
+                        `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
+                                    "\\(defjob\\)\\>")
+                           1 font-lock-keyword-face)))
 
 (font-lock-add-keywords 'clojure-mode
                         `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
@@ -1078,6 +1175,66 @@ otherwise, nil."
                                         comment-end " */")))
 
 (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
+
+(defun ++browse-file-remote ()
+  (interactive)
+  (browse-url
+   (let
+       ((rev (magit-rev-abbrev "HEAD"))
+        (repo (forge-get-repository 'stub))
+        (file (magit-file-relative-name buffer-file-name))
+        (highlight
+         (if
+             (use-region-p)
+             (let ((l1 (line-number-at-pos (region-beginning)))
+                   (l2 (line-number-at-pos (- (region-end) 1))))
+               (format "#L%d-L%d" l1 l2))
+           ""
+           )))
+     (forge--format repo "https://%h/%o/%n/blob/%r/%f%L"
+                    `((?r . ,rev) (?f . ,file) (?L . ,highlight))))))
+
+(defun ++open-ipad-notes ()
+  (interactive)
+  (let ((default-directory (concat "~/Dropbox/Apps/GoodNotes 5/files/")))
+    (call-interactively #'find-file)))
+
+(map! :map doom-leader-map "o i" #'++open-ipad-notes)
+
+(setq warning-minimum-level :error)
+
+(defun ++shell/toggle
+    (&optional command)
+  "Toggle a persistent terminal popup window.\n\nIf popup is visible but unselected, selected it.\nIf popup is focused, kill it."
+  (interactive)
+  (let*
+    ((workspace-name (if (and (boundp 'persp-mode) persp-mode)
+                     (safe-persp-name (get-current-persp))
+                   "main"))
+      (buf-name (format "*doom:shell-popup:%s*" (or (projectile-project-name) workspace-name)))
+     (buffer (get-buffer-create buf-name))
+     (dir default-directory))
+    (let*
+        ((win (and t (get-buffer-window buffer))))
+      (if win
+        (let (confirm-kill-processes)
+          (set-process-query-on-exit-flag (get-buffer-process buffer) nil)
+          (delete-window win))
+        (progn
+          (save-current-buffer
+            (set-buffer buffer)
+            (if (not (eq major-mode 'shell-mode))
+              (shell buffer)
+              (cd dir)
+              (run-mode-hooks 'shell-mode-hook)))
+          (pop-to-buffer buffer)
+          (shell-cd dir)
+          (let ((cmd (concat "cd " (shell-quote-argument dir) "\n")))
+    (comint-send-string nil cmd)))))
+    (+shell--send-input buffer command)))
+
+(map! :map doom-leader-map
+  "o t" #'++shell/toggle)
 
 (defun ++close-buffers (filename &optional _trash)
   (-each (buffer-list) (lambda (b)
@@ -1335,7 +1492,7 @@ message listing the hooks."
         scroll-conservatively 10000
         scroll-preserve-screen-position 1))
 
-(setq kill-ring-max 10000)
+(setq kill-ring-max (* 100 1000 ))
 
 (setq recentf-max-menu-items 20
       recentf-max-saved-items 400)
@@ -1355,7 +1512,8 @@ message listing the hooks."
     (message "Copied dir path: %s into clipboard" dir-path)))
 
 (map! :map doom-leader-map
-  "+" #'calc)
+  "+" #'calc
+  "s d" #'+default/search-other-cwd)
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
@@ -1376,27 +1534,8 @@ message listing the hooks."
     (goto-char 0)
     (conf-mode)))
 
-(defun ++load-and-continuously-save (file)
-  (interactive
-   (let ((session-file (doom-session-file)))
-     (list (or (read-file-name "Regularly saving session to: "
-                               (file-name-directory session-file)
-                               (file-name-nondirectory session-file))
-               (user-error "No session selected. Aborting")))))
-  (unless file
-    (error "No session file selected"))
-  ;; Load the session
-  (doom/load-session file)
-  ;; Clear any previous calls to this fn
-  (when (boundp '++continuous-saving-timer)
-    (cancel-timer ++continuous-saving-timer))
-  ;; Save the session every 10 seconds
-  (setq ++continuous-saving-timer
-        (run-with-idle-timer 5 t (cmd!
-                                  (let ((inhibit-message t))
-                                    (advice-add #'doom-save-session :around #'++suppress-messages)
-                                    (doom-save-session file))))))
-(map! :map doom-leader-map "q N" '++load-and-continuously-save)
+(advice-add #'doom-save-session :around #'++silence-messages)
+(run-with-idle-timer 5 t #'doom-save-session)
 
 (defun external-terminal ()
   (interactive "@")
@@ -1834,7 +1973,10 @@ If popup is focused, kill it."
     `(minibuffer-prompt :foreground ,(doom-color 'blue))
     `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'yellow))
     `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'white))
-    `(comint-highlight-prompt :foreground ,(doom-color 'yellow)))
+    `(comint-highlight-prompt :foreground ,(doom-color 'yellow))
+    `(highlight :background "#5a1111")
+    `(doom-modeline-highlight :background ,(doom-color 'blue)
+                              :foreground "black"))
   ;; GUI
   (if (display-graphic-p)
     (custom-set-faces!
