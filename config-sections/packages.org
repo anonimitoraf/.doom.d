@@ -234,6 +234,12 @@ Auto-detect edraw files
 (autoload 'edraw-mode "edraw-mode")
 (add-to-list 'auto-mode-alist '("\\.edraw\\.svg$" . edraw-mode))
 #+end_src
+* =eglot=
+Avoid stutters
+#+begin_src elisp :results none
+(setq eglot-events-buffer-size 0)
+#+end_src
+
 * =evil=
 #+begin_src elisp
 (define-key evil-insert-state-map (kbd "C-j") nil)
