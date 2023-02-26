@@ -102,16 +102,7 @@ output as a string."
 
 (use-package apheleia
   :config
-  (apheleia-global-mode t)
-  (add-hook! '(typescript-tsx-mode-hook
-               typescript-mode-hook
-               web-mode-hook
-               js-mode-hook
-               js2-mode-hook)
-    (setq-local apheleia-formatters
-              `((prettier npx ,(++js-prettier-path) "--stdin-filepath" filepath)
-                (prettier-javascript npx ,(++js-prettier-path) "--stdin-filepath" filepath "--parser=babel-flow")
-                (prettier-typescript npx ,(++js-prettier-path) "--stdin-filepath" filepath "--parser=typescript")))))
+  (apheleia-global-mode t))
 
 (use-package! auto-dim-other-buffers
   :init

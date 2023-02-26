@@ -232,6 +232,7 @@
 
 (package! apheleia
   :recipe (:host github :repo "raxod502/apheleia"))
+(unpin! apheleia)
 
 (package! detached)
 
