@@ -18,11 +18,6 @@ Formatting
   (add-to-list 'apheleia-mode-alist '(clojurec-mode . zprint)))
 #+end_src
 
-Nice offline docs
-#+begin_src elisp
-(add-to-list 'dash-docs-docsets "Clojure")
-#+end_src
-
 Font lock "hacks"
 #+begin_src elisp
 (put-clojure-indent 'defjob :defn)

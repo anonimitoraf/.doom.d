@@ -1204,8 +1204,6 @@ otherwise, nil."
   (add-to-list 'apheleia-mode-alist '(clojurescript-mode . zprint))
   (add-to-list 'apheleia-mode-alist '(clojurec-mode . zprint)))
 
-(add-to-list 'dash-docs-docsets "Clojure")
-
 (put-clojure-indent 'defjob :defn)
 (put 'defjob 'clojure-doc-string-elt 2)
 (font-lock-add-keywords 'clojure-mode
