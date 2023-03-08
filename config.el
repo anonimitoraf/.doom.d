@@ -2245,6 +2245,7 @@ If popup is focused, kill it."
     ;; Ivy
     `(ivy-minibuffer-match-face-1 :foreground "white")
     ;; Tree-sitter
+    '(tree-sitter-hl-face:punctuation :background nil)
     '(tree-sitter-hl-face:property :slant normal)
     `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
     `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
