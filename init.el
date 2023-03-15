@@ -107,7 +107,7 @@
                +offline)              ; navigate your code and its documentation
        (lsp)
        ;;macos             ; MacOS-specific commands
-       (magit +forge)             ; a git porcelain for Emacs
+       (magit)             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        pdf               ; pdf enhancements
