@@ -304,6 +304,7 @@ otherwise, nil."
 (evil-add-command-properties #'consult-recent-file :jump t)
 (evil-add-command-properties #'doom/find-file-in-private-config :jump t)
 (evil-add-command-properties #'+default/search-buffer :jump t)
+(evil-add-command-properties #'+default/search-project :jump t)
 
 (setq +evil-want-o/O-to-continue-comments nil)
 
