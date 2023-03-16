@@ -1,5 +1,11 @@
 #+TITLE: Misc
-
+* Optimize kill-ring by un-highlighting
+#+begin_src elisp :results none
+(defun ++unpropertize-kill-ring (&rest args)
+  (setq kill-ring (mapcar 'substring-no-properties kill-ring))
+(advice-add #'evil-yank :after #'++unpropertize-kill-ring)
+(advice-add #'evil-delete :after #'++unpropertize-kill-ring)
+#+end_src
 * Copy org src block
 #+begin_src elisp :results none
 (defun ++org-src-block-at-point ()
