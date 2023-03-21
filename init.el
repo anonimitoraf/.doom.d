@@ -147,7 +147,8 @@
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;
        (java +lsp)                ; the poster child for carpal tunnel syndrome
-       (javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
+       (javascript +lsp
+                   +tree-sitter)        ; all(hope(abandon(ye(who(enter(here))))))
        (json +lsp)
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
