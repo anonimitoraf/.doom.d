@@ -1318,9 +1318,8 @@ otherwise, nil."
     :server-id 'prolog-ls)))
 
 (defun ++unpropertize-kill-ring (&rest args)
-  (setq kill-ring (mapcar 'substring-no-properties kill-ring))
-(advice-add #'evil-yank :after #'++unpropertize-kill-ring)
-(advice-add #'evil-delete :after #'++unpropertize-kill-ring)
+  (setq kill-ring (mapcar 'substring-no-properties kill-ring)))
+(advice-add #'consult-yank-from-kill-ring :before #'++unpropertize-kill-ring)
 
 (defun ++org-src-block-at-point ()
   (interactive)
