@@ -288,3 +288,6 @@
   :recipe (:host github :repo "LionyxML/ros"))
 
 (package! magit-filenotify)
+
+(package! emacs-jest
+  :recipe (:host github :repo "Emiller88/emacs-jest"))
