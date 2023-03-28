@@ -1199,6 +1199,22 @@ Utilize modeline color to tell me if I'm in symex-mode
   :config
   (setq speed-type-default-lang 'English))
 #+end_src
+* =spookfox=
+#+begin_src elisp :results none
+(use-package! spookfox
+  :init
+  (setq spookfox-enabled-apps '(spookfox-org-tabs
+                                spookfox-tabs
+                                spookfox-js-injection
+                                spookfox-jscl))
+  :config
+  (require 'spookfox-org-tabs)
+  (require 'spookfox-tabs)
+  (require 'spookfox-js-injection)
+  (require 'spookfox-jscl)
+  (spookfox-init))
+#+end_src
+
 * =sticky-shell=
 #+begin_src elisp :results none
 (use-package! sticky-shell

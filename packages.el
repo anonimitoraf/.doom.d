@@ -291,3 +291,8 @@
 
 (package! emacs-jest
   :recipe (:host github :repo "Emiller88/emacs-jest"))
+
+(package! spookfox
+  :recipe (:host github
+           :repo "bitspook/spookfox"
+           :files ("lisp/*.el" "lisp/apps/*.el")))

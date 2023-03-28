@@ -1039,6 +1039,19 @@ otherwise, nil."
   :config
   (setq speed-type-default-lang 'English))
 
+(use-package! spookfox
+  :init
+  (setq spookfox-enabled-apps '(spookfox-org-tabs
+                                spookfox-tabs
+                                spookfox-js-injection
+                                spookfox-jscl))
+  :config
+  (require 'spookfox-org-tabs)
+  (require 'spookfox-tabs)
+  (require 'spookfox-js-injection)
+  (require 'spookfox-jscl)
+  (spookfox-init))
+
 (use-package! sticky-shell
   :config
   (sticky-shell-global-mode t))
