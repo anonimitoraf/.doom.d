@@ -77,6 +77,9 @@ output as a string."
 
 (defvar ++sync-folder-path "~/Dropbox/emacs")
 
+(map! :map global-map
+  :nvi "C-." #'repeat)
+
 (setq savehist-file (concat ++sync-folder-path "/savehist"))
 
 (advice-add #'kill-current-buffer :override #'kill-this-buffer)

@@ -1,5 +1,11 @@
 #+TITLE: Built-ins
 
+* Repeating commands
+#+begin_src elisp :results none
+(map! :map global-map
+  :nvi "C-." #'repeat)
+#+end_src
+
 * Make sure I don't lost my savehist
 #+begin_src elisp
 (setq savehist-file (concat ++sync-folder-path "/savehist"))
