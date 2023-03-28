@@ -86,7 +86,7 @@ There are two ways to load a theme. Both assume the theme is installed and avail
     (custom-set-faces!
       `(default :background "black")
       `(fill-column-indicator :foreground ,(doom-color 'base1))
-      `(window-divider :foreground "black")
+      `(window-divider :foreground ,(doom-color 'magenta))
       '(flycheck-posframe-face
          :background "grey5"
          :foreground "white"
@@ -112,7 +112,8 @@ There are two ways to load a theme. Both assume the theme is installed and avail
       `(flycheck-error :foreground ,(doom-color 'red) :underline t)
       `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
 
-(setq window-divider-default-right-width 10)
+(setq window-divider-default-right-width 1
+      window-divider-default-bottom-width 0)
 #+end_src
 * Font
 I want my font to automatically resize based on which screen Emacs is

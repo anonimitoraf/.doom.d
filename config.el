@@ -2257,7 +2257,7 @@ If popup is focused, kill it."
     (custom-set-faces!
       `(default :background "black")
       `(fill-column-indicator :foreground ,(doom-color 'base1))
-      `(window-divider :foreground "black")
+      `(window-divider :foreground ,(doom-color 'magenta))
       '(flycheck-posframe-face
          :background "grey5"
          :foreground "white"
@@ -2283,7 +2283,8 @@ If popup is focused, kill it."
       `(flycheck-error :foreground ,(doom-color 'red) :underline t)
       `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
 
-(setq window-divider-default-right-width 10)
+(setq window-divider-default-right-width 1
+      window-divider-default-bottom-width 0)
 
 (defvar ++font-size nil)
 (defun ++screen-pixels->font-size (width-x-height)
