@@ -1333,6 +1333,20 @@ otherwise, nil."
     :multi-root t
     :server-id 'prolog-ls)))
 
+(defvar ++ov-date)
+(defvar ++ov-time)
+(defun ++highlight-timestamps ()
+  (setq ++ov-date (ov-regexp "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}T"))
+  (setq ++ov-time (ov-regexp "\\([0-9]\\{2\\}:[0-9]\\{2\\}.[0-9]\\{3\\}\\)Z"))
+  (ov-set ++ov-date 'face `(:foreground ,(doom-color 'yellow)))
+  (ov-set ++ov-time 'face `(:foreground ,(doom-color 'red))))
+
+(use-package! ov
+  :config
+  (add-hook 'after-save-hook (lambda ()
+                               (ov-clear)
+                               (++highlight-timestamps))))
+
 (defun ++unpropertize-kill-ring (&rest args)
   (setq kill-ring (mapcar 'substring-no-properties kill-ring)))
 (advice-add #'consult-yank-from-kill-ring :before #'++unpropertize-kill-ring)

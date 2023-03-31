@@ -296,3 +296,7 @@
   :recipe (:host github
            :repo "bitspook/spookfox"
            :files ("lisp/*.el" "lisp/apps/*.el")))
+
+(package! ejc-sql)
+
+(package! ov)
