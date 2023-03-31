@@ -1333,6 +1333,18 @@ otherwise, nil."
     :multi-root t
     :server-id 'prolog-ls)))
 
+(defvar ++was-in-src-block? nil)
+(defun ++activate-lsp-org ()
+  (when (eq major-mode 'org-mode)
+    (let ((in-src? (and
+                     (org-src--on-datum-p (org-element-at-point))
+                     (org-in-src-block-p t))))
+      (when (and in-src? (not ++was-in-src-block?))
+        (lsp-org))
+      (setq ++was-in-src-block? in-src?))))
+(add-hook 'post-command-hook #'++activate-lsp-org)
+(add-hook 'org-mode-hook (lambda () (setq-local lsp-warn-no-matched-clients nil)))
+
 (defvar ++ov-date)
 (defvar ++ov-time)
 (defun ++highlight-timestamps ()
