@@ -1333,9 +1333,14 @@ otherwise, nil."
     :multi-root t
     :server-id 'prolog-ls)))
 
+(defun ++org-src-lang= (lang)
+  (when (eq major-mode 'org-mode)
+    (let ((src-lang (nth 0 (org-babel-get-src-block-info))))
+      (equal src-lang lang))))
+
 (defvar ++was-in-src-block? nil)
 (defun ++activate-lsp-org ()
-  (when (eq major-mode 'org-mode)
+  (when (++org-src-lang= "sql")
     (let ((in-src? (and
                      (org-src--on-datum-p (org-element-at-point))
                      (org-in-src-block-p t))))
