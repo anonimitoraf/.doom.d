@@ -1354,8 +1354,8 @@ otherwise, nil."
 (defvar ++ov-time)
 (defun ++highlight-timestamps ()
   (setq ++ov-date (ov-regexp "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}T"))
-  (setq ++ov-time (ov-regexp "\\([0-9]\\{2\\}:[0-9]\\{2\\}.[0-9]\\{3\\}\\)Z"))
-  (ov-set ++ov-date 'face `(:foreground ,(doom-color 'yellow)))
+  (setq ++ov-time (ov-regexp "\\([0-9]\\{2\\}:[0-9]\\{2\\}.[0-9]\\{2\\}\\)Z"))
+  (ov-set ++ov-date 'face `(:foreground ,(doom-color 'cyan)))
   (ov-set ++ov-time 'face `(:foreground ,(doom-color 'red))))
 
 (use-package! ov
