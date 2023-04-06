@@ -1135,7 +1135,8 @@ otherwise, nil."
             (cider-connect-cljs posframe)
             (org-roam-node-find posframe)
             (++open-ipad-notes posframe)
-            (+lookup/references buffer)))
+            (+lookup/references buffer)
+            (++lookup/google posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
@@ -1333,6 +1334,14 @@ otherwise, nil."
     :multi-root t
     :server-id 'prolog-ls)))
 
+(defvar ++lookup/google-history nil)
+(defun ++lookup/google ()
+  (interactive)
+  (let ((query (consult--read ++lookup/google-history
+                 :prompt "Search Google: ")))
+    (add-to-list '++lookup/google-history query)
+    (+lookup/online query "Google")))
+
 (defun ++org-src-lang= (lang)
   (when (eq major-mode 'org-mode)
     (let ((src-lang (nth 0 (org-babel-get-src-block-info))))
@@ -1455,11 +1464,6 @@ otherwise, nil."
                               :prompt "Search recent directory: "
                               :history ++consult--search-recent-dir-history)))
     (+default/search-cwd)))
-
-;; Persist them across restarts
-(add-hook 'savehist-mode-hook (lambda ()
-                                (add-to-list 'savehist-additional-variables '++consult--search-recent-dir-tracked)
-                                (add-to-list 'savehist-additional-variables '++consult--search-recent-dir-history)))
 
 (map! :map doom-leader-map "s r" #'++consult--search-recent-dir)
 
@@ -1732,6 +1736,12 @@ message listing the hooks."
         (insert))
     (goto-char 0)
     (conf-mode)))
+
+(add-hook 'savehist-mode-hook (lambda ()
+                                (-each '(++consult--search-recent-dir-tracked
+                                          ++consult--search-recent-dir-history
+                                          ++lookup/google-history)
+                                  (lambda (v) (add-to-list 'savehist-additional-variables v)))))
 
 (advice-add #'doom-save-session :around #'++silence-messages)
 (run-with-idle-timer 5 t #'doom-save-session)

@@ -1308,7 +1308,8 @@ Utilize modeline color to tell me if I'm in symex-mode
             (cider-connect-cljs posframe)
             (org-roam-node-find posframe)
             (++open-ipad-notes posframe)
-            (+lookup/references buffer)))
+            (+lookup/references buffer)
+            (++lookup/google posframe)))
     ;; Configure the display per completion category.
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
