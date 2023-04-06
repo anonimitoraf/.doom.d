@@ -1227,9 +1227,20 @@ Optionally executes CALLBACK afterwards"
                                      (undecorated . nil)))))
         (select-frame new-frame)
         (raise-frame new-frame)
-        (spookfox-switch-tab))
+        (spookfox-switch-tab)
+        (delete-frame))
     ;; Cancelled
     (quit (delete-frame))))
+#+end_src
+
+Cleanup, just in case
+#+begin_src elisp :results none
+(defun ++cleanup-firefox-tab-switchers ()
+  (let ((frames (--filter (equal (frame-parameter it 'name)
+                            "firefox-tab-switcher")
+                  (frame-list))))
+    (message "Deleting firefox-tab-switcher frames: %s" frames)
+    (--each frames (delete-frame it))))
 #+end_src
 
 * =sticky-shell=

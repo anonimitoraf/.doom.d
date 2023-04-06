@@ -1065,9 +1065,17 @@ Optionally executes CALLBACK afterwards"
                                      (undecorated . nil)))))
         (select-frame new-frame)
         (raise-frame new-frame)
-        (spookfox-switch-tab))
+        (spookfox-switch-tab)
+        (delete-frame))
     ;; Cancelled
     (quit (delete-frame))))
+
+(defun ++cleanup-firefox-tab-switchers ()
+  (let ((frames (--filter (equal (frame-parameter it 'name)
+                            "firefox-tab-switcher")
+                  (frame-list))))
+    (message "Deleting firefox-tab-switcher frames: %s" frames)
+    (--each frames (delete-frame it))))
 
 (use-package! sticky-shell
   :config
