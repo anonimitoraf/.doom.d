@@ -1055,6 +1055,20 @@ otherwise, nil."
   (require 'spookfox-jscl)
   (spookfox-init))
 
+(defun ++switch-firefox-tabs (&optional callback)
+  "Pops out the spookfox-tab-switcher.
+Optionally executes CALLBACK afterwards"
+  (condition-case nil
+      (let ((new-frame (make-frame '((name . "firefox-tab-switcher")
+                                     (minibuffer . only)
+                                     (width . 0.5)
+                                     (undecorated . nil)))))
+        (select-frame new-frame)
+        (raise-frame new-frame)
+        (spookfox-switch-tab))
+    ;; Cancelled
+    (quit (delete-frame))))
+
 (use-package! sticky-shell
   :config
   (sticky-shell-global-mode t))

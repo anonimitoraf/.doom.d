@@ -1215,6 +1215,23 @@ Utilize modeline color to tell me if I'm in symex-mode
   (spookfox-init))
 #+end_src
 
+Firefox tab switcher via emacsclient
+#+begin_src elisp :results none
+(defun ++switch-firefox-tabs (&optional callback)
+  "Pops out the spookfox-tab-switcher.
+Optionally executes CALLBACK afterwards"
+  (condition-case nil
+      (let ((new-frame (make-frame '((name . "firefox-tab-switcher")
+                                     (minibuffer . only)
+                                     (width . 0.5)
+                                     (undecorated . nil)))))
+        (select-frame new-frame)
+        (raise-frame new-frame)
+        (spookfox-switch-tab))
+    ;; Cancelled
+    (quit (delete-frame))))
+#+end_src
+
 * =sticky-shell=
 #+begin_src elisp :results none
 (use-package! sticky-shell
