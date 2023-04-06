@@ -8,6 +8,8 @@
                  :prompt "Search Google: ")))
     (add-to-list '++lookup/google-history query)
     (+lookup/online query "Google")))
+
+(map! :map doom-leader-map "s o" #'++lookup/google)
 #+end_src
 * Auto-activate =lsp-org=
 #+begin_src elisp :results none

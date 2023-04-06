@@ -1342,6 +1342,8 @@ otherwise, nil."
     (add-to-list '++lookup/google-history query)
     (+lookup/online query "Google")))
 
+(map! :map doom-leader-map "s o" #'++lookup/google)
+
 (defun ++org-src-lang= (lang)
   (when (eq major-mode 'org-mode)
     (let ((src-lang (nth 0 (org-babel-get-src-block-info))))
