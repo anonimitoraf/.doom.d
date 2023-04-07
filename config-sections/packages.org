@@ -211,6 +211,18 @@ Auto-kill bufffer when CIDER disconnects
 
 (advice-add #'nrepl-client-sentinel :after #'++kill-disconnected-cider-buffer)
 #+end_src
+
+Make it easy to close =*cider-error*= buffer
+#+begin_src elisp :results none
+(set-popup-rules!
+  '(("*cider-error*"
+      :quit t
+      :side right
+      :size 0.5
+      :select nil)))
+#+end_src
+
+
 * =clipetty=
 #+begin_src elisp
 (use-package! clipetty

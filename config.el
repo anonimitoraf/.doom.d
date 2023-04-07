@@ -251,6 +251,13 @@ otherwise, nil."
 
 (advice-add #'nrepl-client-sentinel :after #'++kill-disconnected-cider-buffer)
 
+(set-popup-rules!
+  '(("*cider-error*"
+      :quit t
+      :side right
+      :size 0.5
+      :select nil)))
+
 (use-package! clipetty
   :config
   (unless (display-graphic-p)
