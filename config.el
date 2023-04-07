@@ -1233,7 +1233,12 @@ Optionally executes CALLBACK afterwards"
 
 (use-package clojure-mode
   :config
-  (setq cljr-add-ns-to-blank-clj-files nil))
+  ;; Allow LSP to auto-insert namespaces
+  (setq cljr-add-ns-to-blank-clj-files nil)
+  ;; Keybinds
+  (map! :map clojure-mode-map
+        :nv "SPC m n r" #'cljr-add-require-to-ns
+        :nv "SPC m n i" #'cljr-add-import-to-ns))
 
 (use-package apheleia
   :config

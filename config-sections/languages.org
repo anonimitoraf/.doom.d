@@ -1,11 +1,15 @@
 #+TITLE: Languages
 
 * Clojure/script
-Allow LSP to auto-insert namespaces
 #+begin_src elisp :results none
 (use-package clojure-mode
   :config
-  (setq cljr-add-ns-to-blank-clj-files nil))
+  ;; Allow LSP to auto-insert namespaces
+  (setq cljr-add-ns-to-blank-clj-files nil)
+  ;; Keybinds
+  (map! :map clojure-mode-map
+        :nv "SPC m n r" #'cljr-add-require-to-ns
+        :nv "SPC m n i" #'cljr-add-import-to-ns))
 #+end_src
 
 Formatting
