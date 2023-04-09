@@ -1247,11 +1247,13 @@ Optionally executes CALLBACK afterwards"
   (add-to-list 'apheleia-mode-alist '(clojurescript-mode . zprint))
   (add-to-list 'apheleia-mode-alist '(clojurec-mode . zprint)))
 
-(put-clojure-indent 'defjob :defn)
-(put 'defjob 'clojure-doc-string-elt 2)
+(--each '(defjob defn*)
+  (progn
+    (put-clojure-indent it :defn)
+    (put it 'clojure-doc-string-elt 2)))
 (font-lock-add-keywords 'clojure-mode
                         `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
-                                    "\\(defjob\\)\\>")
+                                    "\\(defjob\\|defn\\*\\|defmethod\\*\\)\\>")
                            1 font-lock-keyword-face)))
 
 (font-lock-add-keywords 'clojure-mode
