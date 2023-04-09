@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: zprint indent-only
+# key: zpi
+# --
+;!zprint {:style [:indent-only]}
+$0
