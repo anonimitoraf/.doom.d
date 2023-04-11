@@ -278,6 +278,13 @@ otherwise, nil."
   (map! :map doom-leader-map
         "y" #'consult-yank-from-kill-ring))
 
+(use-package! copilot
+  :config
+  (global-copilot-mode t)
+  (map! :map copilot-completion-map
+    :nvi "<tab>" #'copilot-accept-completion
+    :nvi "TAB" #'copilot-accept-completion))
+
 (map! :map global-map
   "C-S-k" #'drag-stuff-up
   "C-S-j" #'drag-stuff-down)

@@ -300,3 +300,6 @@
 (package! ejc-sql)
 
 (package! ov)
+
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))

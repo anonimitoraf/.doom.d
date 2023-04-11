@@ -249,6 +249,15 @@ Make it easy to close =*cider-error*= buffer
   (map! :map doom-leader-map
         "y" #'consult-yank-from-kill-ring))
 #+end_src
+* =copilot=
+#+begin_src elisp
+(use-package! copilot
+  :config
+  (global-copilot-mode t)
+  (map! :map copilot-completion-map
+    :nvi "<tab>" #'copilot-accept-completion
+    :nvi "TAB" #'copilot-accept-completion))
+#+end_src
 * =drag-stuff=
 #+begin_src elisp :results none
 (map! :map global-map
