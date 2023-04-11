@@ -1893,6 +1893,8 @@ message listing the hooks."
   (hide-mode-line-mode +1)
   (display-line-numbers-mode -1))
 
+(load (concat doom-private-dir "sandbox.el") t)
+
 ;;;###autoload
 (defun lsp-completion-at-point ()
   "Get lsp completions."

@@ -663,3 +663,7 @@ Demo-recording
   (display-line-numbers-mode -1))
 #+end_src
 ** TODO CIDER headerline/modeline to make it obvious which server and which port
+* Load custom (staging) config
+#+begin_src elisp :results none
+(load (concat doom-private-dir "sandbox.el") t)
+#+end_src
