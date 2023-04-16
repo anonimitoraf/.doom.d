@@ -663,9 +663,9 @@ TODO Convert the `define-key` statements to use `map!`
 #+end_src
 * =magit-filenotify=
 #+begin_src elisp :results none
-(use-package! magit-filenotify
-  :config
-  (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
+;; (use-package! magit-filenotify
+;;   :config
+;;   (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 #+end_src
 
 * =modeline=
