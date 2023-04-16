@@ -1045,7 +1045,11 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
   (setq corfu-prescient-override-sorting t
         corfu-prescient-enable-filtering nil)
   :config
-  (corfu-prescient-mode +1))
+  (add-hook! '(prog-mode-hook)
+    (corfu-prescient-mode -1))
+  (add-hook! '(text-mode-hook
+               clojure-mode-hook)
+    (corfu-prescient-mode +1)))
 #+end_src
 * =projectile=
 Get rid of annoying projectile staleness without it being too expensive/noticeable for local files.

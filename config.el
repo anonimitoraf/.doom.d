@@ -904,7 +904,10 @@ otherwise, nil."
   (setq corfu-prescient-override-sorting t
         corfu-prescient-enable-filtering nil)
   :config
-  (corfu-prescient-mode +1))
+  (add-hook! '(prog-mode-hook)
+    (corfu-prescient-mode -1))
+  (add-hook! '(clojure-mode-hook)
+    (corfu-prescient-mode +1)))
 
 (defun ++set-projectile-cache-duration ()
   (setq projectile-files-cache-expire
