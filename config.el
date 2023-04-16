@@ -533,6 +533,7 @@ otherwise, nil."
         lsp-auto-execute-action nil
         lsp-enable-snippet nil
         lsp-auto-touch-files nil
+        lsp-completion-sort-initial-results nil
         xref-prompt-for-identifier '(not xref-find-references
                                         xref-find-definitions
                                         xref-find-definitions-other-window
