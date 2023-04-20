@@ -26,3 +26,10 @@
   "g t" #'git-timemachine
   "g T" #'git-timemachine-switch-branch)
 
+(defun ++open-or-close-scratch-buffer ()
+  (interactive)
+  (if-let ((window (get-buffer-window "*doom:scratch*")))
+    (quit-window nil window)
+    (doom/open-scratch-buffer)))
+(map! :map doom-leader-map
+  "x" #'++open-or-close-scratch-buffer)
