@@ -523,7 +523,7 @@ otherwise, nil."
         lsp-eldoc-enable-hover nil
         lsp-lens-place-position 'end-of-line
         lsp-enable-indentation t
-        lsp-signature-auto-activate t
+        lsp-signature-auto-activate nil
         lsp-signature-function 'lsp-signature-posframe
         lsp-signature-posframe-params '(:poshandler posframe-poshandler-point-bottom-left-corner-upward
                                         :height 10
@@ -906,7 +906,8 @@ otherwise, nil."
   :config
   (add-hook! '(prog-mode-hook)
     (corfu-prescient-mode -1))
-  (add-hook! '(clojure-mode-hook)
+  (add-hook! '(text-mode-hook
+               clojure-mode-hook)
     (corfu-prescient-mode +1)))
 
 (defun ++set-projectile-cache-duration ()
