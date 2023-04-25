@@ -2238,6 +2238,8 @@ If popup is focused, kill it."
     `(minibuffer-prompt :foreground ,(doom-color 'blue))
     `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'yellow))
     `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'white))
+    `(markdown-code-face :background "grey5"
+                         :box (:line-width (6 . 2) :color "grey5"))
     `(comint-highlight-prompt :foreground ,(doom-color 'yellow))
     `(highlight :background "#5a1111")
     `(doom-modeline-highlight :background ,(doom-color 'blue)
