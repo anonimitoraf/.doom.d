@@ -32,4 +32,15 @@
     (quit-window nil window)
     (doom/open-scratch-buffer)))
 (map! :map doom-leader-map
-  "x" #'++open-or-close-scratch-buffer)
+  "p x" #'++open-or-close-scratch-buffer)
+
+(defun ++get-dir-name (path)
+  (file-name-nondirectory (directory-file-name (file-name-directory path))))
+
+(defun ++open-or-close-project-scratch-buffer ()
+  (interactive)
+  (if-let ((window (get-buffer-window (format "*doom:scratch (%s)*" (++get-dir-name (projectile-project-root))))))
+    (quit-window nil window)
+    (doom/open-project-scratch-buffer)))
+(map! :map doom-leader-map
+  "x" #'++open-or-close-project-scratch-buffer)
