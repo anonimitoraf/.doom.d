@@ -44,3 +44,7 @@
     (doom/open-project-scratch-buffer)))
 (map! :map doom-leader-map
   "x" #'++open-or-close-project-scratch-buffer)
+
+(map! :map org-mode-map
+  "C-k" #'+org/insert-item-above
+  "C-j" #'+org/insert-item-below)
