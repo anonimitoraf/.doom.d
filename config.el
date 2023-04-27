@@ -2186,45 +2186,45 @@ If popup is focused, kill it."
   ;; for the doom-colors
   (custom-set-faces!
     `(popup-tip-face :inherit popup-face
-                     :foreground ,(doom-color 'yellow)
-                     :box t)
+      :foreground ,(doom-color 'yellow)
+      :box t)
     `(swiper-background-match-face-2 :background ,++vscode-search-occ-bg
-                                     :foreground ,++vscode-search-occ-fg)
+      :foreground ,++vscode-search-occ-fg)
     `(swiper-match-face-2 :background ,++vscode-search-occ-bg
-                          :foreground ,++vscode-search-occ-fg)
+      :foreground ,++vscode-search-occ-fg)
     `(swiper-line-face :background "DodgerBlue4"
-                       :foreground ,++vscode-search-occ-fg)
+      :foreground ,++vscode-search-occ-fg)
     ;; TODO Move the LSP faces out of here?
     `(lsp-ui-peek-peek :background "#0a0014")
     `(lsp-ui-peek-selection :background ,++vscode-search-occ-bg
-                            :foreground ,++vscode-search-occ-fg)
+      :foreground ,++vscode-search-occ-fg)
     `(lsp-ui-peek-list :background "grey5"
-                       :height 1.0
-                       :width condensed)
+      :height 1.0
+      :width condensed)
     `(lsp-ui-peek-header :background "#2a0e46"
-                         :foreground "white"
-                         :height 1.0
-                         :width condensed)
+      :foreground "white"
+      :height 1.0
+      :width condensed)
     `(lsp-ui-peek-filename :foreground ,(doom-color 'yellow)
-                           :height 1.0
-                           :width condensed
-                           :box (:line-width (1 . 10)
-                                 :color "grey5"))
+      :height 1.0
+      :width condensed
+      :box (:line-width (1 . 10)
+            :color "grey5"))
     `(lsp-ui-peek-line-number :foreground "grey5")
     `(lsp-ui-peek-highlight :background ,++vscode-search-occ-bg
-                            :foreground "white"
-                            :heght 1.0
-                            :box nil
-                            :inherit nil)
+      :foreground "white"
+      :heght 1.0
+      :box nil
+      :inherit nil)
     '(show-paren-match :foreground nil
-                       :background "#333"
-                       :weight normal)
+      :background "#333"
+      :weight normal)
     `(ac-completion-face :foreground ,(doom-color 'yellow))
     `(ac-selection-face :foreground "black"
-                        :background ,(doom-color 'magenta))
+      :background ,(doom-color 'magenta))
     '(hl-line :background "grey8")
     `(header-line :background "black"
-                  :box (:line-width 1 :color "grey50"))
+      :box (:line-width 1 :color "grey50"))
     `(popup-tip-face :foreground ,(doom-color 'yellow))
     ;; Ivy
     `(ivy-minibuffer-match-face-1 :foreground "white")
@@ -2234,36 +2234,39 @@ If popup is focused, kill it."
     `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
     `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
     `(corfu-border :background "white")
+    `(corfu-default :background "black")
+    `(corfu-current :background "grey7" :foreground ,(doom-color 'yellow))
     `(vertico-posframe-border :background ,(doom-color 'blue))
     `(minibuffer-prompt :foreground ,(doom-color 'blue))
+    `(lsp-ui-doc-background :background "black")
     `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'yellow))
     `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'white))
     `(markdown-code-face :background "grey5"
-                         :box (:line-width (6 . 2) :color "grey5"))
+      :box (:line-width (6 . 2) :color "grey5"))
     `(comint-highlight-prompt :foreground ,(doom-color 'yellow))
     `(highlight :background "#5a1111")
     `(doom-modeline-highlight :background ,(doom-color 'blue)
-                              :foreground "black"))
+      :foreground "black"))
   ;; GUI
   (if (display-graphic-p)
-    (custom-set-faces!
-      `(default :background "black")
-      `(fill-column-indicator :foreground ,(doom-color 'base1))
-      `(window-divider :foreground ,(doom-color 'magenta))
-      '(flycheck-posframe-face
-         :background "grey5"
-         :foreground "white"
-         :height 0.9
-         :box (:line-width 1 :color "white"))
-      `(flycheck-posframe-error-face
-         :foreground ,(doom-color 'red)
-         :box (:line-width 1 :color ,(doom-color 'red)))
-      `(flycheck-posframe-warning-face
-         :foreground ,(doom-color 'yellow)
-         :box (:line-width 1 :color ,(doom-color 'yellow)))
-      `(flycheck-posframe-info-face
-         :foreground ,(doom-color 'green)
-         :box (:line-width 1 :color ,(doom-color 'green))))
+      (custom-set-faces!
+        `(default :background "black")
+        `(fill-column-indicator :foreground ,(doom-color 'base1))
+        `(window-divider :foreground ,(doom-color 'magenta))
+        '(flycheck-posframe-face
+          :background "grey5"
+          :foreground "white"
+          :height 0.9
+          :box (:line-width 1 :color "white"))
+        `(flycheck-posframe-error-face
+          :foreground ,(doom-color 'red)
+          :box (:line-width 1 :color ,(doom-color 'red)))
+        `(flycheck-posframe-warning-face
+          :foreground ,(doom-color 'yellow)
+          :box (:line-width 1 :color ,(doom-color 'yellow)))
+        `(flycheck-posframe-info-face
+          :foreground ,(doom-color 'green)
+          :box (:line-width 1 :color ,(doom-color 'green))))
     ;; TERM
     (custom-set-faces!
       `(default :background "black")
@@ -2338,3 +2341,8 @@ If popup is focused, kill it."
 (setq display-line-numbers-type nil)
 
 (setq-default frame-title-format '("Emacs"))
+
+(use-package! kind-icon
+  :init
+  (setq kind-icon-blend-background nil
+        kind-icon-extra-space t))
