@@ -48,3 +48,5 @@
 (map! :map org-mode-map
   "C-k" #'+org/insert-item-above
   "C-j" #'+org/insert-item-below)
+
+(auto-dim-other-buffers-mode -1)
