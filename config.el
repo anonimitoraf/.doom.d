@@ -1932,12 +1932,6 @@ If popup is focused, kill it."
       (insert input)
       (comint-send-input no-newline))))
 
-(use-package corfu-doc
-  :config
-  (setq corfu-doc-delay 0.2
-        corfu-doc-max-width 80
-        corfu-doc-max-height 40))
-
 (use-package corfu
   :config
   (defun ++corfu-quit ()
@@ -1955,7 +1949,10 @@ If popup is focused, kill it."
         corfu-preselect-first t
         corfu-on-exact-match nil
         corfu-echo-documentation nil
-        corfu-scroll-margin 10)
+        corfu-scroll-margin 10
+        corfu-popupinfo-delay 0.5
+        corfu-popupinfo-max-height 20
+        corfu-popupinfo-max-width 80)
   (map! :map global-map
         :nvi "C-SPC" #'completion-at-point)
   (map! :map corfu-map
@@ -1966,18 +1963,21 @@ If popup is focused, kill it."
         :nvi "TAB" #'corfu-insert
         :nvi "<tab>" #'corfu-insert
         :nvi "<escape>" #'++corfu-quit
-        :nvi "ESC" #'++corfu-quit)
-  (global-corfu-mode +1)
+        :nvi "ESC" #'++corfu-quit
+        :nvi "C-i" #'corfu-popupinfo-toggle
+        :nvi "C-u" #'corfu-popupinfo-scroll-up
+        :nvi "C-d" #'corfu-popupinfo-scroll-down)
+  (global-corfu-mode t)
+  (corfu-popupinfo-mode t)
+  (corfu-history-mode t)
   (global-company-mode -1)
   (add-hook! '(prog-mode-hook
                text-mode-hook)
-    (corfu-doc-mode +1)
     (unless (display-graphic-p)
-      (corfu-terminal-mode +1)
-      (corfu-doc-terminal-mode +1))))
+      (corfu-terminal-mode t)
+      (corfu-doc-terminal-mode t))))
 
 (use-package kind-icon
-  :ensure t
   :after corfu
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly

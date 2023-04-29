@@ -176,9 +176,8 @@
 (package! exec-path-from-shell)
 
 (package! company)
-(package! corfu)
-(package! corfu-doc
-  :recipe (:host github :repo "galeo/corfu-doc"))
+(package! corfu
+  :recipe (:host github :repo "minad/corfu" :files (:defaults "extensions/*.el")))
 (package! popon
   :recipe (:type git
            :repo "https://codeberg.org/akib/emacs-popon.git"))
