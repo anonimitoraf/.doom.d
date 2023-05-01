@@ -17,3 +17,8 @@
 
 * Conventions within these configurations
 - Functions/variables are prefixed with "++" to disambiguate them from built-in emacs or 3rd party functions
+
+* Load sensitive stuff not committed in repo
+#+begin_src elisp :results none
+(load (concat doom-private-dir "private.el") t)
+#+end_src

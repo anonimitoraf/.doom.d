@@ -6,6 +6,8 @@
 (setq user-full-name "Rafael Nicdao"
       user-mail-address "nicdaoraf@gmail.com")
 
+(load (concat doom-private-dir "private.el") t)
+
 (defun ++kb (bytes) (* bytes 1024))
 (defun ++mb (bytes) (* (++kb bytes) 1024))
 
