@@ -2225,8 +2225,7 @@ If popup is focused, kill it."
     `(ac-selection-face :foreground "black"
       :background ,(doom-color 'magenta))
     '(hl-line :background "grey8")
-    `(header-line :background "black"
-      :box (:line-width 1 :color "grey50"))
+    `(header-line :background "black" :height 1.0 :box (:line-width 1 :color "grey50"))
     `(popup-tip-face :foreground ,(doom-color 'yellow))
     ;; Ivy
     `(ivy-minibuffer-match-face-1 :foreground "white")
@@ -2245,8 +2244,9 @@ If popup is focused, kill it."
     `(vertico-posframe-border :background ,(doom-color 'blue))
     `(minibuffer-prompt :foreground ,(doom-color 'blue))
     `(lsp-ui-doc-background :background "black")
-    `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'yellow))
-    `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'white))
+    `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'red))
+    `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'cyan))
+    `(lsp-headerline-breadcrumb-separator-face :foreground "black")
     `(markdown-code-face :background "grey5"
       :box (:line-width (6 . 2) :color "grey5"))
     `(comint-highlight-prompt :foreground ,(doom-color 'yellow))

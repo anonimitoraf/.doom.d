@@ -50,3 +50,5 @@
   "C-j" #'+org/insert-item-below)
 
 (auto-dim-other-buffers-mode -1)
+
+(setq lsp-headerline-arrow "")
