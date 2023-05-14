@@ -55,3 +55,23 @@
   "C-h" #'++backward-delete-word)
 
 (setq lsp-headerline-arrow "")
+(defvar ++killed-file-buffers nil)
+
+(defun ++track-killed-file-buffer ()
+  ;; (message "Tracking kiled file buffer %s" buffer-file-name)
+  (condition-case ex
+    (when buffer-file-name
+      (add-to-list #'++killed-file-buffers buffer-file-name))
+    ('error (message (format "Failed to track killed file buffer %s because %s" buffer-file-name ex)))))
+
+(defun ++reopen-killed-file-buffer ()
+  (interactive)
+  (condition-case ex
+    (when-let ((file-to-reopen (pop ++killed-file-buffers)))
+      ;; (message "Reopening killed buffer %s" file-to-reopen)
+      (find-file file-to-reopen))
+    ('error (message (format "Failed to reopen file buffer %s because %s" buffer-file-name ex)))))
+
+(advice-add #'kill-this-buffer :before #'++track-killed-file-buffer)
+(map! :map doom-leader-map
+  "b o" #'++reopen-killed-file-buffer)
