@@ -51,4 +51,7 @@
 
 (auto-dim-other-buffers-mode -1)
 
+(map! :map vertico-map
+  "C-h" #'++backward-delete-word)
+
 (setq lsp-headerline-arrow "")
