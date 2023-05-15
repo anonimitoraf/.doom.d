@@ -169,7 +169,7 @@ output as a string."
         cider-font-lock-dynamically nil
         cider-font-lock-reader-conditionals nil
         nrepl-force-ssh-for-remote-hosts t)
-  (map! :map clojure-mode-map
+  (map! :map (clojure-mode-map clojurescript-mode-map clojurec-mode-map)
         :nv "SPC m p p" #'cider-pprint-eval-last-sexp-to-comment
         :nv "SPC m p P" #'++cider-pprint-eval-last-sexp-to-repl)
   (map! :map cider-repl-mode-map
