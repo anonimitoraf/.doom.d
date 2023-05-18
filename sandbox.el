@@ -75,3 +75,13 @@
 (advice-add #'kill-this-buffer :before #'++track-killed-file-buffer)
 (map! :map doom-leader-map
   "b o" #'++reopen-killed-file-buffer)
+
+(defun pin-buffer ()
+  "Pin buffer to current window.
+Primarily useful for embark + dired since I want to keep the dired
+window open while opening the files in it."
+  (interactive)
+  (message
+   (if (let (window (get-buffer-window (current-buffer)))
+         (set-window-dedicated-p window (not (window-dedicated-p window))))
+       "pinned buffer" "un-pinned buffer")))
