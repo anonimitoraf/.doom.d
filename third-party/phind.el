@@ -1,66 +1,48 @@
-;;; phind.el --- Integration for phind               -*- lexical-binding: t; -*-
+(require 'webdriver)
 
-;; Copyright (C) 2023  Rafael Nicdao
+(defclass webdriver-service-chrome (webdriver-service)
+  ((executable
+    :initform "chromedriver"
+    :documentation "")
+    (port
+      :initform 9515
+      :documentation ""))
+  "")
 
-;; Author: Rafael Nicdao <nicdaoraf@gmail.com>
+(setq webdriver-default-service 'webdriver-service-chrome)
 
-;;; Commentary:
+(defvar phind--session nil)
+(defun phind--make-session () (make-instance 'webdriver-session))
 
-;;; Code:
+(defun phind--start ()
+  (setq phind--session (phind--make-session))
+  (webdriver-session-start phind--session)
+  (webdriver-goto-url phind--session "https://www.phind.com"))
 
-(require 'shell-maker)
-(require 'dash)
+(defun phind--restart ()
+  (condition-case nil
+    (webdriver-session-stop phind--session)
+    (error nil))
+  (phind--start))
 
-(defvar phind--user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/112.0")
+(phind--restart)
 
-(defun phind--request (query)
-  "Construct request using QUERY."
-  (let* ((curl (string-join
-                 `("curl https://www.phind.com/api/bing/search"
-                    "-X POST"
-                    ,(format "-H 'User-Agent: %s'" phind--user-agent)
-                    "-H 'Accept: */*'"
-                    "-H 'Accept-Language: en-GB,en;q=0.5'"
-                    "-H 'Accept-Encoding: gzip, deflate, br'"
-                    "-H 'Content-Type: application/json'"
-                    "-H 'Pragma: no-cache'"
-                    "-H 'Cache-Control: no-cache'"
-                    ,(format "--data-raw '{\"q\":\"%s\",\"userRankList\":{},\"browserLanguage\":\"en-GB\"}'" query)
-                    "--compressed"
-                    "--silent")
-                 " "))
-          (jq "jq -M .processedBingResults.webPages.value")
-          (cmd (concat curl " | " jq)))
-    (json-parse-string (shell-command-to-string cmd))))
-
-(defun phind--stringify-entry (entry)
-  (format "NAME: %s\nSNIPPET: %s\nURL: %s\n\n"
-    (plist-get entry :name)
-    (plist-get entry :snippet)
-    (plist-get entry :url)))
-
-(defvar phind--config
-  (make-shell-maker-config
-    :name "Phind"
-    :execute-command
-    (lambda (command _history callback _error-callback)
-      (let* ((result (phind--request command))
-              (entries (->> result
-                         (-map (lambda (entry)
-                                 (let ((name (gethash "name" entry))
-                                        (url (gethash "url" entry))
-                                        (snippet (gethash "snippet" entry)))
-                                   `(:name ,name
-                                      :url ,url
-                                      :snippet ,snippet))))
-                         (-map #'phind--stringify-entry)
-                         (apply #'concat))))
-        (funcall callback entries nil)))))
-
-(defun phind-shell ()
-  "Start a phind shell that you can query."
+;;;###autoload
+(defun phind-search (query)
   (interactive)
-  (shell-maker-start phind--config))
+  (let* ((search-box (webdriver-find-element phind--session
+                       (make-instance 'webdriver-by
+                         :strategy "tag name"
+                         :selector "textarea")))
+          (search-button (webdriver-find-element phind--session
+                           (make-instance 'webdriver-by
+                             :strategy "css selector"
+                             :selector "button[type='submit']"))))
+    (webdriver-element-clear phind--session search-box)
+    (webdriver-element-send-keys phind--session search-box query)
+    (webdriver-element-click phind--session search-button)))
+
+(phind--restart)
+(phind-search "Python sum odds")
 
 (provide 'phind)
-;;; phind.el ends here
