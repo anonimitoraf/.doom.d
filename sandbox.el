@@ -22,6 +22,9 @@
   (run-at-time 0 nil #'++ov-cider-inspector))
 (add-hook 'cider-inspector-mode-hook #'++ov-cider-inspector-with-delay)
 
+(map! :map cider-inspector-mode-map
+  :nv "d" #'cider-inspector-def-current-val)
+
 (map! :map doom-leader-map
   "g t" #'git-timemachine
   "g T" #'git-timemachine-switch-branch)
