@@ -11,13 +11,16 @@
                  " ")))
     (shell-command-to-string curl)))
 
-(defvar ++chatgpt--config
+(defvar ++chatgpt--config)
+(setq ++chatgpt--config
   (make-shell-maker-config
     :name "ChatGPT"
     :execute-command
     (lambda (question _history callback _error-callback)
-      (let* ((result (++chatgpt--request question)))
-        (funcall callback result nil)))))
+      (make-thread
+        (lambda ()
+          (let* ((result (++chatgpt--request question)))
+            (funcall callback result nil)))))))
 
 (defun ++chatgpt-ask ()
   (interactive)
