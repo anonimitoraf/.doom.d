@@ -305,3 +305,8 @@
 
 (package! chatgpt-shell
   :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("*.el")))
+
+(package! webdriver
+  :recipe (:host gitlab :repo "maurooaranda/emacs-webdriver"))
+
+(package! inspector)
