@@ -297,7 +297,7 @@ Auto-detect edraw files
 (define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
 #+end_src
 
-Configure particular commands to register a jump (i.e. my most used navigation commands)
+Configure particular commands to register a jump (i.e. primarily my most used navigation commands)
 #+begin_src elisp :results none
 (evil-add-command-properties #'projectile-find-file :jump t)
 (evil-add-command-properties #'find-file :jump t)
@@ -305,6 +305,7 @@ Configure particular commands to register a jump (i.e. my most used navigation c
 (evil-add-command-properties #'doom/find-file-in-private-config :jump t)
 (evil-add-command-properties #'+default/search-buffer :jump t)
 (evil-add-command-properties #'+default/search-project :jump t)
+(evil-add-command-properties #'evil-undo :jump t)
 #+end_src
 
 Disable the annoying auto-comment on newline.
