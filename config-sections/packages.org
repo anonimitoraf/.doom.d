@@ -1048,7 +1048,9 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
   (add-hook! '(prog-mode-hook)
     (corfu-prescient-mode -1))
   (add-hook! '(text-mode-hook
-               clojure-mode-hook)
+               clojure-mode-hook
+               typescript-mode-hook
+               typescript-tsx-mode-hook)
     (corfu-prescient-mode +1)))
 #+end_src
 * =projectile=

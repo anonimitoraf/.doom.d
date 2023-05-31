@@ -909,7 +909,9 @@ otherwise, nil."
   (add-hook! '(prog-mode-hook)
     (corfu-prescient-mode -1))
   (add-hook! '(text-mode-hook
-               clojure-mode-hook)
+               clojure-mode-hook
+               typescript-mode-hook
+               typescript-tsx-mode-hook)
     (corfu-prescient-mode +1)))
 
 (defun ++set-projectile-cache-duration ()
