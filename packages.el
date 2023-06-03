@@ -310,3 +310,5 @@
   :recipe (:host gitlab :repo "maurooaranda/emacs-webdriver"))
 
 (package! inspector)
+
+(package! coterm)

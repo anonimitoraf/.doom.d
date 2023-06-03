@@ -280,6 +280,11 @@ otherwise, nil."
   (map! :map doom-leader-map
         "y" #'consult-yank-from-kill-ring))
 
+(use-package! coterm
+  :config
+  (coterm-mode t)
+  (coterm-auto-char-mode t))
+
 (map! :map global-map
   "C-S-k" #'drag-stuff-up
   "C-S-j" #'drag-stuff-down)

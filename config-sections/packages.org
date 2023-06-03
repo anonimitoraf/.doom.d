@@ -249,6 +249,14 @@ Make it easy to close =*cider-error*= buffer
   (map! :map doom-leader-map
         "y" #'consult-yank-from-kill-ring))
 #+end_src
+* =coterm=
+#+begin_src elisp :results none
+(use-package! coterm
+  :config
+  (coterm-mode t)
+  (coterm-auto-char-mode t))
+#+end_src
+
 * =drag-stuff=
 #+begin_src elisp :results none
 (map! :map global-map
