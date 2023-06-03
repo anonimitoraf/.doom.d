@@ -2275,8 +2275,9 @@ If popup is focused, kill it."
       :box (:line-width (6 . 2) :color "grey5"))
     `(comint-highlight-prompt :foreground ,(doom-color 'yellow))
     `(highlight :background "#5a1111")
-    `(doom-modeline-highlight :background ,(doom-color 'blue)
-      :foreground "black"))
+    `(doom-modeline-highlight :background ,(doom-color 'blue) :foreground "black")
+    `(vertico-group-title :foreground ,(doom-color 'red))
+    `(vertico-group-separator :foreground ,(doom-color 'red) :strike-through t))
   ;; GUI
   (if (display-graphic-p)
       (custom-set-faces!
