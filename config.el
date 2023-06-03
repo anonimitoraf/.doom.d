@@ -489,6 +489,22 @@ otherwise, nil."
 (setq ispell-dictionary "en"
       ispell-personal-dictionary (concat ++sync-folder-path "/spell/personal-dictionary.pws"))
 
+(use-package magit-popup
+  :ensure t ; make sure it is installed
+  :demand t ; make sure it is loaded
+  )
+
+(use-package! jest
+  :hook ((js2-mode . jest-minor-mode)
+         (typescript-mode . jest-minor-mode)
+         (typescript-tsx-mode . jest-minor-mode)))
+
+(defun ++show-ansi-color (string)
+  (ansi-color-apply string))
+(add-to-list #'comint-preoutput-filter-functions #'++show-ansi-color)
+
+(add-hook 'jest-mode-hook #'coterm-char-mode)
+
 (use-package! lsp-mode
   :config
   (setq lsp-completion-enable t

@@ -546,6 +546,31 @@ Fix the ispell dictionary.
 (setq ispell-dictionary "en"
       ispell-personal-dictionary (concat ++sync-folder-path "/spell/personal-dictionary.pws"))
 #+end_src
+* =jest=
+Legacy dep
+#+begin_src elisp :results none
+(use-package magit-popup
+  :ensure t ; make sure it is installed
+  :demand t ; make sure it is loaded
+  )
+#+end_src
+
+#+begin_src elisp :results none
+(use-package! jest
+  :hook ((js2-mode . jest-minor-mode)
+         (typescript-mode . jest-minor-mode)
+         (typescript-tsx-mode . jest-minor-mode)))
+#+end_src
+
+Make jest buffer colorized and allow inputs (e.g. restarting a --watch'ed jest session)
+#+begin_src elisp :results none
+(defun ++show-ansi-color (string)
+  (ansi-color-apply string))
+(add-to-list #'comint-preoutput-filter-functions #'++show-ansi-color)
+
+(add-hook 'jest-mode-hook #'coterm-char-mode)
+#+end_src
+
 * =lsp=
 #+begin_src elisp :results none
 (use-package! lsp-mode

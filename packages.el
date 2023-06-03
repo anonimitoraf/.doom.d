@@ -288,6 +288,7 @@
 
 (package! magit-filenotify)
 
+(package! magit-popup)
 (package! emacs-jest
   :recipe (:host github :repo "Emiller88/emacs-jest"))
 
