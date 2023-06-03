@@ -84,6 +84,8 @@ There are two ways to load a theme. Both assume the theme is installed and avail
     `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'red))
     `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'cyan))
     `(lsp-headerline-breadcrumb-separator-face :foreground "black")
+    ;; This is the face for the currently selected LSP signature param
+    `(eldoc-highlight-function-argument :foreground ,(doom-color 'yellow))
     `(markdown-code-face :background "grey5"
       :box (:line-width (6 . 2) :color "grey5"))
     `(comint-highlight-prompt :foreground ,(doom-color 'yellow))
