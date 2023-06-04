@@ -1017,8 +1017,8 @@ otherwise, nil."
     (setq font-lock-function (lambda (_) nil))
     (require 'xterm-color)
     (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)
-    ;; TODO This doesn't work. How do I enable modeline?
-    (doom-modeline-mode 1))
+    ;; Enable modeline
+    (run-at-time 0 nil (lambda () (doom-modeline-mode t))))
   (add-hook 'shell-mode-hook #'++shell-setup)
   (remove-hook 'shell-mode-hook #'hide-mode-line-mode)
   ;; Keybinds
@@ -1477,34 +1477,38 @@ Optionally executes CALLBACK afterwards"
 
 (setq warning-minimum-level :error)
 
+(defvar ++shell-dir nil)
+
 (defun ++shell/toggle
     (&optional command)
   "Toggle a persistent terminal popup window.\n\nIf popup is visible but unselected, selected it.\nIf popup is focused, kill it."
   (interactive)
   (let*
-    ((workspace-name (if (and (boundp 'persp-mode) persp-mode)
-                     (safe-persp-name (get-current-persp))
-                   "main"))
-      (buf-name (format "*doom:shell-popup:%s*" (or (projectile-project-name) workspace-name)))
-     (buffer (get-buffer-create buf-name))
-     (dir default-directory))
+      ((workspace-name (if (and (boundp 'persp-mode) persp-mode)
+                           (safe-persp-name (get-current-persp))
+                         "main"))
+       (buf-name (format "*doom:shell-popup:%s*" (or (projectile-project-name) workspace-name)))
+       (buffer (get-buffer-create buf-name))
+       (dir default-directory))
     (let*
         ((win (and t (get-buffer-window buffer))))
       (if win
-        (let (confirm-kill-processes)
-          (set-process-query-on-exit-flag (get-buffer-process buffer) nil)
-          (delete-window win))
+          (let (confirm-kill-processes)
+            (set-process-query-on-exit-flag (get-buffer-process buffer) nil)
+            (delete-window win))
         (progn
           (save-current-buffer
             (set-buffer buffer)
             (if (not (eq major-mode 'shell-mode))
-              (shell buffer)
+                (shell buffer)
               (cd dir)
               (run-mode-hooks 'shell-mode-hook)))
           (pop-to-buffer buffer)
-          (shell-cd dir)
-          (let ((cmd (concat "cd " (shell-quote-argument dir) "\n")))
-    (comint-send-string nil cmd)))))
+          (unless (equal dir ++shell-dir)
+            ;; (shell-cd dir)
+            (let ((cmd (concat "cd " (shell-quote-argument dir) "\n")))
+              (comint-send-string nil cmd))
+            (setq ++shell-dir dir)))))
     (+shell--send-input buffer command)))
 
 (map! :map doom-leader-map
