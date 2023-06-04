@@ -89,6 +89,10 @@ output as a string."
 (map! :map doom-leader-map
       "f g" #'find-file-other-window)
 
+(map! :map global-map
+      "C--" #'doom/decrease-font-size
+      "C-=" #'doom/increase-font-size)
+
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
 (custom-set-faces!

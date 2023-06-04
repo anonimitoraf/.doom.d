@@ -19,3 +19,9 @@
 (map! :map doom-leader-map
       "f g" #'find-file-other-window)
 #+end_src
+* Resize all buffers with =C--=
+#+begin_src elisp :results none
+(map! :map global-map
+      "C--" #'doom/decrease-font-size
+      "C-=" #'doom/increase-font-size)
+#+end_src
