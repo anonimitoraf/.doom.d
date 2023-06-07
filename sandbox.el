@@ -48,9 +48,25 @@
 (map! :map doom-leader-map
   "x" #'++open-or-close-project-scratch-buffer)
 
-(map! :map org-mode-map
-  "C-k" #'+org/insert-item-above
-  "C-j" #'+org/insert-item-below)
+(defun ++org/insert-item-above-and-indent ()
+  (interactive)
+  (+org/insert-item-above 1)
+  (evil-shift-right
+    (line-beginning-position)
+    (line-end-position)))
+
+(defun ++org/insert-item-below-and-indent ()
+  (interactive)
+  (+org/insert-item-below 1)
+  (evil-shift-right
+    (line-beginning-position)
+    (line-end-position)))
+
+(map! :map evil-org-mode-map
+  :nvi "C-k" #'+org/insert-item-above
+  :nvi "C-j" #'+org/insert-item-below
+  :nvi "C-S-k" #'++org/insert-item-above-and-indent
+  :nvi "C-S-j" #'++org/insert-item-below-and-indent)
 
 (auto-dim-other-buffers-mode -1)
 
