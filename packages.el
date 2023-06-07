@@ -204,6 +204,7 @@
 
 (package! clippo
   :recipe (:host github :repo "anonimitoraf/emacs-clippo"))
+(unpin! clippo)
 
 (package! hackernews
   :recipe (:host github :repo "clarete/hackernews.el"))
