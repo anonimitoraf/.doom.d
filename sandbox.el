@@ -88,3 +88,11 @@ window open while opening the files in it."
    (if (let (window (get-buffer-window (current-buffer)))
          (set-window-dedicated-p window (not (window-dedicated-p window))))
        "pinned buffer" "un-pinned buffer")))
+
+(defun ++fix-flux-core-import ()
+  "Converts imports like ../../../core (no matter how deep) into @joinflux/core"
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\\(\\.\\./\\)+core/src" nil t)
+      (replace-match "@joinflux/core"))))
