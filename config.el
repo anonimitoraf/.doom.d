@@ -93,6 +93,13 @@ output as a string."
       "C--" #'doom/decrease-font-size
       "C-=" #'doom/increase-font-size)
 
+(use-package! saveplace
+  :init
+  (setq save-place-forget-unreadable-files nil
+        save-place-file (concat ++sync-folder-path "/save-place"))
+  :config
+  (save-place-mode t))
+
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
 (custom-set-faces!

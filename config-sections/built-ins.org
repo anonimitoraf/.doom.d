@@ -25,3 +25,12 @@
       "C--" #'doom/decrease-font-size
       "C-=" #'doom/increase-font-size)
 #+end_src
+* Save my last cursor position in my buffers
+#+begin_src elisp :results none
+(use-package! saveplace
+  :init
+  (setq save-place-forget-unreadable-files nil
+        save-place-file (concat ++sync-folder-path "/save-place"))
+  :config
+  (save-place-mode t))
+#+end_src
