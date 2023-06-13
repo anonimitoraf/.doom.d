@@ -2372,6 +2372,8 @@ If popup is focused, kill it."
     (cond ((member width-x-height
                    '((3440 1440))) 18)
           ((member width-x-height
+                   '((2560 1440))) 17)
+          ((member width-x-height
                    '((1920 1080))) 14)
           ;; My Flux mac
           ((member width-x-height
