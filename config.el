@@ -118,7 +118,11 @@ output as a string."
 
 (use-package apheleia
   :config
-  (apheleia-global-mode t))
+  (apheleia-global-mode t)
+  (cl-pushnew '(eslint_d . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" filepath))
+              apheleia-formatters :test #'equal)
+  (setf (alist-get 'typescript-mode apheleia-mode-alist)
+        '(prettier-typescript eslint_d)))
 
 (use-package! auto-dim-other-buffers
   :init
