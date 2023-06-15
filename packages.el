@@ -314,3 +314,5 @@
 (package! inspector)
 
 (package! coterm)
+
+(package! buffer-name-relative)

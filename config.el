@@ -164,6 +164,12 @@ output as a string."
 
 (setq avy-keys (number-sequence ?a ?z))
 
+(use-package buffer-name-relative
+  :init
+  (setq buffer-name-relative-abbrev-limit 100)
+  :config
+  (buffer-name-relative-mode t))
+
 (setq bookmark-default-file (concat ++sync-folder-path "/bookmarks"))
 
 (setq bookmark-save-flag 1)
@@ -658,7 +664,7 @@ otherwise, nil."
 ;;   (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 
 (after! doom-modeline
-  (setq doom-modeline-buffer-file-name-style 'auto
+  (setq doom-modeline-buffer-file-name-style 'buffer-name
         doom-modeline-height 0
         doom-modeline-major-mode-icon t
         doom-modeline-major-mode-color-icon t

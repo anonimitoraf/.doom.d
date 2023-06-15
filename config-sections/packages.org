@@ -73,6 +73,15 @@ Searching should be done using 2 chars almost all the time hence we use a very s
 (setq avy-keys (number-sequence ?a ?z))
 #+end_src
 
+* =buffer-name-relative=
+#+begin_src elisp :results none
+(use-package buffer-name-relative
+  :init
+  (setq buffer-name-relative-abbrev-limit 100)
+  :config
+  (buffer-name-relative-mode t))
+#+end_src
+
 * =built-ins=
 ** bookmarks
 I want to sync bookmarks across my devices.
@@ -718,7 +727,7 @@ TODO Convert the `define-key` statements to use `map!`
 * =modeline=
 #+begin_src elisp
 (after! doom-modeline
-  (setq doom-modeline-buffer-file-name-style 'auto
+  (setq doom-modeline-buffer-file-name-style 'buffer-name
         doom-modeline-height 0
         doom-modeline-major-mode-icon t
         doom-modeline-major-mode-color-icon t
