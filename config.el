@@ -72,13 +72,22 @@ output as a string."
 (defun ++js-root-dir ()
   (locate-dominating-file (or buffer-file-name default-directory) "package.json"))
 
-(defun ++js-eslint-config-path ()
-  (locate-dominating-file (or buffer-file-name default-directory) ".eslintrc.js"))
-
 (defun ++js-prettier-path ()
   (let ((local (expand-file-name (concat (++js-root-dir) "node_modules/.bin/prettier")))
          (global (executable-find "prettier")))
     (if (file-exists-p local) local global)))
+
+(defun ++js-eslint-config-path ()
+  (locate-dominating-file (or buffer-file-name default-directory) ".eslintrc.js"))
+
+(defun ++is-buffer-js? ()
+  (-contains? '(typescript-tsx-mode
+                typescript-mode
+                typescript-ts-mode
+                web-mode
+                js-mode
+                js2-mode)
+              major-mode))
 
 (defvar ++sync-folder-path "~/Dropbox/emacs")
 
@@ -122,7 +131,18 @@ output as a string."
 (use-package apheleia
   :config
   (apheleia-global-mode t)
-  )
+
+  ;; Run eslint afterwards (if buffer is JS-ish and if there's an eslintrc.js)
+  (defun ++eslint-fix-file ()
+    (interactive)
+    (shell-command (concat (executable-find "eslint_d") " --fix " (buffer-file-name))))
+  (defun ++eslint-fix-file-and-revert ()
+    (interactive)
+    (when (and (++is-buffer-js?)
+               (++js-eslint-config-path))
+      (++eslint-fix-file)
+      (revert-buffer t t)))
+  (add-hook 'apheleia-post-format-hook #'++eslint-fix-file-and-revert))
 
 (use-package! auto-dim-other-buffers
   :init
