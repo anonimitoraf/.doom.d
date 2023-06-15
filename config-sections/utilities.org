@@ -95,3 +95,21 @@ Get prettier path from current buffer
          (global (executable-find "prettier")))
     (if (file-exists-p local) local global)))
 #+end_src
+
+Get eslint dir path from current buffer
+#+begin_src elisp :results none
+(defun ++js-eslint-config-path ()
+  (locate-dominating-file (or buffer-file-name default-directory) ".eslintrc.js"))
+#+end_src
+
+Check if major mode is JS-ish
+#+begin_src elisp :results none
+(defun ++is-buffer-js? ()
+  (-contains? '(typescript-tsx-mode
+                typescript-mode
+                typescript-ts-mode
+                web-mode
+                js-mode
+                js2-mode)
+              major-mode))
+#+end_src

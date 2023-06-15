@@ -72,6 +72,9 @@ output as a string."
 (defun ++js-root-dir ()
   (locate-dominating-file (or buffer-file-name default-directory) "package.json"))
 
+(defun ++js-eslint-config-path ()
+  (locate-dominating-file (or buffer-file-name default-directory) ".eslintrc.js"))
+
 (defun ++js-prettier-path ()
   (let ((local (expand-file-name (concat (++js-root-dir) "node_modules/.bin/prettier")))
          (global (executable-find "prettier")))
@@ -119,10 +122,7 @@ output as a string."
 (use-package apheleia
   :config
   (apheleia-global-mode t)
-  (cl-pushnew '(eslint_d . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" filepath))
-              apheleia-formatters :test #'equal)
-  (setf (alist-get 'typescript-mode apheleia-mode-alist)
-        '(prettier-typescript eslint_d)))
+  )
 
 (use-package! auto-dim-other-buffers
   :init

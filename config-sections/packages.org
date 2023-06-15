@@ -30,10 +30,18 @@ They're too big (by default) for my taste
 (use-package apheleia
   :config
   (apheleia-global-mode t)
-  (cl-pushnew '(eslint_d . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" filepath))
-              apheleia-formatters :test #'equal)
-  (setf (alist-get 'typescript-mode apheleia-mode-alist)
-        '(prettier-typescript eslint_d)))
+
+  ;; Run eslint afterwards (if buffer is JS-ish and if there's an eslintrc.js)
+  (defun ++eslint-fix-file ()
+    (interactive)
+    (shell-command (concat (executable-find "eslint_d") " --fix " (buffer-file-name))))
+  (defun ++eslint-fix-file-and-revert ()
+    (interactive)
+    (when (and (++is-buffer-js?)
+               (++js-eslint-config-path))
+      (++eslint-fix-file)
+      (revert-buffer t t)))
+  (add-hook 'apheleia-post-format-hook #'++eslint-fix-file-and-revert))
 #+end_src
 * =auto-dim-other-buffers=
 #+begin_src elisp :results none
