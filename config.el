@@ -112,6 +112,9 @@ output as a string."
   :config
   (save-place-mode t))
 
+(setq comint-scroll-to-bottom-on-output t
+      comint-scroll-to-bottom-on-input t)
+
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
 (custom-set-faces!
@@ -1550,10 +1553,13 @@ Optionally executes CALLBACK afterwards"
             (let ((cmd (concat "cd " (shell-quote-argument dir) "\n")))
               (comint-send-string nil cmd))
             (setq ++shell-dir dir)))))
+    (goto-char (point-max))
     (+shell--send-input buffer command)))
 
+(add-hook 'shell-mode-hook #'evil-insert-state)
+
 (map! :map doom-leader-map
-  "o t" #'++shell/toggle)
+      "o t" #'++shell/toggle)
 
 (defun ++close-buffers (filename &optional _trash)
   (-each (buffer-list) (lambda (b)

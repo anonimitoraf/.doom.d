@@ -132,10 +132,13 @@ Usually, I don't even know how to resolve them, so they're just annoying, really
             (let ((cmd (concat "cd " (shell-quote-argument dir) "\n")))
               (comint-send-string nil cmd))
             (setq ++shell-dir dir)))))
+    (goto-char (point-max))
     (+shell--send-input buffer command)))
 
+(add-hook 'shell-mode-hook #'evil-insert-state)
+
 (map! :map doom-leader-map
-  "o t" #'++shell/toggle)
+      "o t" #'++shell/toggle)
 #+end_src
 
 * Auto-close buffers when deleting a file

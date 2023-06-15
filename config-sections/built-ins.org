@@ -34,3 +34,8 @@
   :config
   (save-place-mode t))
 #+end_src
+* Comint auto-move cursor to bottom
+#+begin_src elisp :results none
+(setq comint-scroll-to-bottom-on-output t
+      comint-scroll-to-bottom-on-input t)
+#+end_src

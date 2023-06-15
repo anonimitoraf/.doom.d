@@ -104,3 +104,6 @@ window open while opening the files in it."
    (if (let (window (get-buffer-window (current-buffer)))
          (set-window-dedicated-p window (not (window-dedicated-p window))))
        "pinned buffer" "un-pinned buffer")))
+
+(setq comint-scroll-to-bottom-on-output t
+      comint-scroll-to-bottom-on-input t)
