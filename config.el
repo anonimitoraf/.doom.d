@@ -1322,7 +1322,7 @@ Optionally executes CALLBACK afterwards"
   (add-to-list 'apheleia-mode-alist '(clojurescript-mode . zprint))
   (add-to-list 'apheleia-mode-alist '(clojurec-mode . zprint)))
 
-(--each '(defjob defn*)
+(--each '(defjob defn* !/defn*)
   (progn
     (put-clojure-indent it :defn)
     (put it 'clojure-doc-string-elt 2)))

@@ -24,7 +24,7 @@ Formatting
 
 Custom macro/function highlighting/indentations
 #+begin_src elisp
-(--each '(defjob defn*)
+(--each '(defjob defn* !/defn*)
   (progn
     (put-clojure-indent it :defn)
     (put it 'clojure-doc-string-elt 2)))
