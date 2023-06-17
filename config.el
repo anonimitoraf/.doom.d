@@ -105,13 +105,6 @@ output as a string."
       "C--" #'doom/decrease-font-size
       "C-=" #'doom/increase-font-size)
 
-(use-package! saveplace
-  :init
-  (setq save-place-forget-unreadable-files nil
-        save-place-file (concat ++sync-folder-path "/save-place"))
-  :config
-  (save-place-mode t))
-
 (setq comint-scroll-to-bottom-on-output t
       comint-scroll-to-bottom-on-input t)
 
@@ -1969,6 +1962,12 @@ message listing the hooks."
   (display-line-numbers-mode -1))
 
 (load (concat doom-private-dir "sandbox.el") t)
+
+(defun ++bookmark-pdf ()
+  (make-thread (lambda ()
+                 (let ((inhibit-message t))
+                   (bookmark-set (buffer-file-name))))))
+(add-hook 'pdf-view-after-change-page-hook #'++bookmark-pdf)
 
 (use-package! shell
   :config

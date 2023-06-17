@@ -674,3 +674,12 @@ Demo-recording
 #+begin_src elisp :results none
 (load (concat doom-private-dir "sandbox.el") t)
 #+end_src
+
+* Auto-bookmark PDF
+#+begin_src elisp :results none
+(defun ++bookmark-pdf ()
+  (make-thread (lambda ()
+                 (let ((inhibit-message t))
+                   (bookmark-set (buffer-file-name))))))
+(add-hook 'pdf-view-after-change-page-hook #'++bookmark-pdf)
+#+end_src
