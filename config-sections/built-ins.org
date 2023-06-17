@@ -21,9 +21,11 @@
 #+end_src
 * Resize all buffers with =C--=
 #+begin_src elisp :results none
+(setq doom-font-increment 1)
+
 (map! :map global-map
-      "C--" #'doom/decrease-font-size
-      "C-=" #'doom/increase-font-size)
+  :nvi "C--" #'doom/decrease-font-size
+  :nvi "C-=" #'doom/increase-font-size)
 #+end_src
 * Comint auto-move cursor to bottom
 #+begin_src elisp :results none

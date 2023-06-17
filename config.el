@@ -101,9 +101,11 @@ output as a string."
 (map! :map doom-leader-map
       "f g" #'find-file-other-window)
 
+(setq doom-font-increment 1)
+
 (map! :map global-map
-      "C--" #'doom/decrease-font-size
-      "C-=" #'doom/increase-font-size)
+  :nvi "C--" #'doom/decrease-font-size
+  :nvi "C-=" #'doom/increase-font-size)
 
 (setq comint-scroll-to-bottom-on-output t
       comint-scroll-to-bottom-on-input t)
