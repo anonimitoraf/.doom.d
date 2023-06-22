@@ -12,15 +12,12 @@
 (defun ++ov-cider-inspector ()
   (ov-clear)
   (let ((case-fold-search nil))
-    (setq ++ov-cider-inspector-keywords (ov-regexp "public\\|private\\|protected\\|final\\|native\\|static")
+    (setq ++ov-cider-inspector-keywords (ov-regexp "^public\\|private\\|protected\\|final\\|native\\|static$")
      ++ov-cider-inspector-method-names (ov-regexp "\\([a-zA-Z0-9.$]\\)+(")
       ++ov-cider-inspector-method-param-lists (ov-regexp "(\\([][<>a-zA-Z0-9.$,]*\\))?")))
   (ov-set ++ov-cider-inspector-keywords 'face `(:foreground ,(doom-color 'magenta)))
   (ov-set ++ov-cider-inspector-method-names 'face `(:foreground ,(doom-color 'red)))
   (ov-set ++ov-cider-inspector-method-param-lists 'face `(:foreground "white")))
-(defun ++ov-cider-inspector-with-delay ()
-  (run-at-time 0 nil #'++ov-cider-inspector))
-(add-hook 'cider-inspector-mode-hook #'++ov-cider-inspector-with-delay)
 
 (map! :map cider-inspector-mode-map
   :nv "d" #'cider-inspector-def-current-val)
