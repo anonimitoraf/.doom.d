@@ -1276,7 +1276,7 @@ Optionally executes CALLBACK afterwards"
   :config
   (setq undohist-ignored-files '(".git/COMMIT_EDITMSG"))
   (map! :map global-map
-        :nv "U" #'vundo))
+        :nvi "C-S-u" #'vundo))
 
 (which-key-mode +1)
 
