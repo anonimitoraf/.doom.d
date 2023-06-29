@@ -591,6 +591,14 @@ Make jest buffer colorized and allow inputs (e.g. restarting a --watch'ed jest s
 
 (add-hook 'jest-mode-hook #'coterm-char-mode)
 #+end_src
+* =jinx=
+#+begin_src elisp :results none
+(use-package! jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :config
+  (map! :map evil-normal-state-map
+    "z g" #'jinx-correct))
+#+end_src
 
 * =lsp=
 #+begin_src elisp :results none

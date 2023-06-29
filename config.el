@@ -544,6 +544,12 @@ otherwise, nil."
 
 (add-hook 'jest-mode-hook #'coterm-char-mode)
 
+(use-package! jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :config
+  (map! :map evil-normal-state-map
+    "z g" #'jinx-correct))
+
 (use-package! lsp-mode
   :config
   (setq lsp-completion-enable t

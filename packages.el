@@ -316,3 +316,5 @@
 (package! coterm)
 
 (package! buffer-name-relative)
+
+(package! jinx)
