@@ -2320,6 +2320,7 @@ If popup is focused, kill it."
     `(vertico-posframe-border :background ,(doom-color 'blue))
     `(minibuffer-prompt :foreground ,(doom-color 'blue))
     `(lsp-ui-doc-background :background "black")
+    `(lsp-flycheck-info-deprecated-face :strike-through t :underline nil)
     `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'red))
     `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'cyan))
     `(lsp-headerline-breadcrumb-separator-face :foreground "black")
