@@ -789,7 +789,9 @@ otherwise, nil."
 (advice-add 'org-todo           :after (++advice-lambda #'org-save-all-org-buffers))
 
 (use-package! org-download
-  :config (setq org-download-method 'attach))
+  :config
+  (setq org-download-method 'directory)
+  (setq-default org-download-image-dir "./.org-download"))
 
 (add-hook 'dired-mode-hook 'org-download-enable)
 

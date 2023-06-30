@@ -873,10 +873,13 @@ Save all org buffers automatically after particular commands
 (advice-add 'org-todo           :after (++advice-lambda #'org-save-all-org-buffers))
 #+end_src
 Allow pasting images into org-mode
-#+begin_src elisp
+#+begin_src elisp :results none
 (use-package! org-download
-  :config (setq org-download-method 'attach))
+  :config
+  (setq org-download-method 'directory)
+  (setq-default org-download-image-dir "./.org-download"))
 #+end_src
+
 Allow drag-and-drop-ing to `dired`
 #+begin_src elisp
 (add-hook 'dired-mode-hook 'org-download-enable)
