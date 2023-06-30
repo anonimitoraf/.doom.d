@@ -112,10 +112,10 @@ output as a string."
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
-(custom-set-faces!
-  '(aw-leading-char-face
-    :foreground "white" :background "red"
-    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+  (custom-set-faces!
+    '(aw-leading-char-face
+      :foreground "white" :background "red"
+      :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
 (require 'alert)
 (setq alert-default-style (if IS-MAC
@@ -547,6 +547,12 @@ otherwise, nil."
 (use-package! jinx
   :hook (emacs-startup . global-jinx-mode)
   :config
+  (add-to-list 'jinx-include-faces '(typescript-mode
+                                     tree-sitter-hl-face:comment
+                                     tree-sitter-hl-face:string))
+  (add-to-list 'jinx-include-faces '(typescript-tsx-mode
+                                     web-mode-javascript-comment-face
+                                     web-mode-javascript-string-face))
   (map! :map evil-normal-state-map
     "z g" #'jinx-correct))
 
@@ -1248,7 +1254,8 @@ Optionally executes CALLBACK afterwards"
     ;; Use the grid display for files and a buffer
     ;; for the consult-grep commands.
     (setq vertico-multiform-categories
-          '((consult-grep buffer)))))
+          '((consult-grep buffer)
+            (jinx grid (vertico-grid-annotate . 20))))))
 
 (use-package! vertico-posframe
   :config
