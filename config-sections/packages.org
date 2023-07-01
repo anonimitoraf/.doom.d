@@ -273,10 +273,11 @@ Make it easy to close =*cider-error*= buffer
 #+end_src
 * =consult-dir=
 #+begin_src elisp :results none
-(use-package! consult-dir
-  :config
-  (map! :map global-map
-    :nvi "C-t" #'consult-dir))
+(after! vertico
+ (use-package! consult-dir
+   :config
+   (map! :map global-map
+         :nvi "C-t" #'consult-dir)))
 #+end_src
 
 * =coterm=
