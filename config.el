@@ -320,6 +320,11 @@ otherwise, nil."
   (map! :map doom-leader-map
         "y" #'consult-yank-from-kill-ring))
 
+(use-package! consult-dir
+  :config
+  (map! :map global-map
+    :nvi "C-t" #'consult-dir))
+
 (use-package! coterm
   :config
   (coterm-mode t)

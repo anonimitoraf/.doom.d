@@ -318,3 +318,5 @@
 (package! buffer-name-relative)
 
 (package! jinx)
+
+(package! consult-dir)
