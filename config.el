@@ -551,6 +551,8 @@ otherwise, nil."
 (add-hook 'jest-mode-hook #'coterm-char-mode)
 
 (use-package! jinx
+  :init
+  (setq jinx-languages "en_US en_AU")
   :hook (emacs-startup . global-jinx-mode)
   :config
   (add-to-list 'jinx-include-faces '(typescript-mode

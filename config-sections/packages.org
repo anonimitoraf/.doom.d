@@ -603,6 +603,8 @@ Make jest buffer colorized and allow inputs (e.g. restarting a --watch'ed jest s
 * =jinx=
 #+begin_src elisp :results none
 (use-package! jinx
+  :init
+  (setq jinx-languages "en_US en_AU")
   :hook (emacs-startup . global-jinx-mode)
   :config
   (add-to-list 'jinx-include-faces '(typescript-mode
