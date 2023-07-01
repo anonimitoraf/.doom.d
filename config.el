@@ -112,10 +112,10 @@ output as a string."
 
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
-  (custom-set-faces!
-    '(aw-leading-char-face
-      :foreground "white" :background "red"
-      :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+(custom-set-faces!
+  '(aw-leading-char-face
+    :foreground "white" :background "red"
+    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
 
 (require 'alert)
 (setq alert-default-style (if IS-MAC
@@ -755,6 +755,7 @@ otherwise, nil."
         org-agenda-skip-deadline-if-done t
         org-agenda-window-setup 'other-window
         org-ellipsis " ▾"
+        org-indent-indentation-per-level 1
         org-export-with-section-numbers nil
         org-hide-emphasis-markers t
         org-src-tab-acts-natively t
@@ -770,7 +771,7 @@ otherwise, nil."
         org-superstar-cycle-headline-bullets 1
         org-superstar-special-todo-items 'hide
         org-superstar-item-bullet-alist '("-")
-        org-tags-column -120
+        org-tags-column -80
         org-image-actual-width nil
         ;; Don't log the time a task was rescheduled or redeadlined.
         org-log-redeadline nil

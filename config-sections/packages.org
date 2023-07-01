@@ -835,6 +835,7 @@ TODO What to do with org-table wrapping?
         org-agenda-skip-deadline-if-done t
         org-agenda-window-setup 'other-window
         org-ellipsis " ▾"
+        org-indent-indentation-per-level 1
         org-export-with-section-numbers nil
         org-hide-emphasis-markers t
         org-src-tab-acts-natively t
@@ -850,7 +851,7 @@ TODO What to do with org-table wrapping?
         org-superstar-cycle-headline-bullets 1
         org-superstar-special-todo-items 'hide
         org-superstar-item-bullet-alist '("-")
-        org-tags-column -120
+        org-tags-column -80
         org-image-actual-width nil
         ;; Don't log the time a task was rescheduled or redeadlined.
         org-log-redeadline nil
