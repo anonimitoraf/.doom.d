@@ -164,7 +164,8 @@ output as a string."
 
 (use-package buffer-name-relative
   :init
-  (setq buffer-name-relative-abbrev-limit 100)
+  (setq buffer-name-relative-abbrev-limit 100
+        buffer-name-relative-prefix "")
   :config
   (buffer-name-relative-mode t))
 
