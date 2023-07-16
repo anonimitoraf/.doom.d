@@ -104,3 +104,6 @@ window open while opening the files in it."
 
 (setq comint-scroll-to-bottom-on-output t
       comint-scroll-to-bottom-on-input t)
+
+(map! :map doom-leader-map
+  "!" #'consult-flycheck)
