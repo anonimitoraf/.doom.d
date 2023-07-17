@@ -126,6 +126,14 @@ output as a string."
 (use-package! all-the-icons
   :config (setq all-the-icons-scale-factor 0.90))
 
+(use-package annotate
+  :init
+  (setq annotate-file (concat ++sync-folder-path "/annotations")
+        annotate-database-confirm-deletion nil)
+  :config
+  (add-hook 'prog-mode-hook (lambda () (annotate-mode t)))
+  (add-hook 'text-mode-hook (lambda () (annotate-mode t))))
+
 (use-package apheleia
   :config
   (apheleia-global-mode t)

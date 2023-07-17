@@ -25,6 +25,16 @@ They're too big (by default) for my taste
 (use-package! all-the-icons
   :config (setq all-the-icons-scale-factor 0.90))
 #+end_src
+* =annotate=
+#+begin_src elisp :results none
+(use-package annotate
+  :init
+  (setq annotate-file (concat ++sync-folder-path "/annotations")
+        annotate-database-confirm-deletion nil)
+  :config
+  (add-hook 'prog-mode-hook (lambda () (annotate-mode t)))
+  (add-hook 'text-mode-hook (lambda () (annotate-mode t))))
+#+end_src
 * =apheleia=
 #+begin_src elisp :results none
 (use-package apheleia

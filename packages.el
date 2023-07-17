@@ -320,3 +320,5 @@
 (package! jinx)
 
 (package! consult-dir)
+
+(package! annotate)
