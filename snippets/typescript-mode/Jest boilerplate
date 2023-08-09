@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: Flux jest boilerplate
+# key: flux jest
+# --
+import { $1 } from "."
+import { mockRequest, mockResponse } from "../../../helpers/jest/express"
+
+describe('$2', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('$3', async () => {
+    const res = await $1(
+      mockRequest(),
+      mockResponse()
+    )
+    $0
+  })
+})
