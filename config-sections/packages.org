@@ -105,11 +105,20 @@ Save bookmarks immediately (rather than just when Emacs is killed).
 (setq bookmark-save-flag 1)
 #+end_src
 ** replace
-#+begin_src elisp
+#+begin_src elisp :results none
+(defun ++query-replace (arg)
+  (interactive "p")
+  (save-excursion
+    (anzu-query-replace arg)))
 (map! :leader
-      :desc "Find-replace" "r" #'anzu-query-replace)
+      :desc "Find-replace" "r" #'++query-replace)
+
+(defun ++query-replace-regexp (arg)
+  (interactive "p")
+  (save-excursion
+    (anzu-query-replace-regexp arg)))
 (map! :leader
-      :desc "Find-replace (regexp)" "R" #'anzu-query-replace-regexp)
+      :desc "Find-replace (regexp)" "R" #'++query-replace-regexp)
 #+end_src
 * =chatgpt=
 #+begin_src elisp :results none

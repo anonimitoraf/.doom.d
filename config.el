@@ -181,10 +181,19 @@ output as a string."
 
 (setq bookmark-save-flag 1)
 
+(defun ++query-replace (arg)
+  (interactive "p")
+  (save-excursion
+    (anzu-query-replace arg)))
 (map! :leader
-      :desc "Find-replace" "r" #'anzu-query-replace)
+      :desc "Find-replace" "r" #'++query-replace)
+
+(defun ++query-replace-regexp (arg)
+  (interactive "p")
+  (save-excursion
+    (anzu-query-replace-regexp arg)))
 (map! :leader
-      :desc "Find-replace (regexp)" "R" #'anzu-query-replace-regexp)
+      :desc "Find-replace (regexp)" "R" #'++query-replace-regexp)
 
 (use-package! chatgpt
   :defer t
