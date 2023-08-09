@@ -2416,8 +2416,9 @@ If popup is focused, kill it."
   (let ((default-font-size 16))
     (cond ((member width-x-height
                    '((3440 1440))) 18)
+          ;; Home flat screen
           ((member width-x-height
-                   '((2560 1440))) 17)
+                   '((2560 1440))) 16)
           ((member width-x-height
                    '((1920 1080))) 14)
           ;; My Flux mac
