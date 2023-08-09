@@ -225,6 +225,7 @@ output as a string."
         cider-dynamic-indentation nil
         cider-font-lock-dynamically nil
         cider-font-lock-reader-conditionals nil
+        cider-save-file-on-load t
         nrepl-force-ssh-for-remote-hosts t)
   (map! :map (clojure-mode-map clojurescript-mode-map clojurec-mode-map)
         :nv "SPC m p p" #'cider-pprint-eval-last-sexp-to-comment
