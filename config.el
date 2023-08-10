@@ -2059,7 +2059,9 @@ If popup is focused, kill it."
     (interactive)
     (call-interactively 'corfu-quit)
     (evil-normal-state +1))
-  (setq corfu-cycle t
+  (setq corfu-min-width 25
+        corfu-count 15
+        corfu-cycle t
         corfu-auto t
         corfu-auto-prefix 1
         corfu-auto-delay 0.01
@@ -2071,9 +2073,9 @@ If popup is focused, kill it."
         corfu-on-exact-match nil
         corfu-echo-documentation nil
         corfu-scroll-margin 10
-        corfu-popupinfo-delay 0.5
+        corfu-popupinfo-delay 0.1
         corfu-popupinfo-max-height 20
-        corfu-popupinfo-max-width 80)
+        corfu-popupinfo-max-width 100)
   (map! :map global-map
         :nvi "C-SPC" #'completion-at-point)
   (map! :map corfu-map
