@@ -50,7 +50,7 @@ They're too big (by default) for my taste
     (when (and (++is-buffer-js?)
                (++js-eslint-config-path))
       (++eslint-fix-file)
-      (revert-buffer t t)))
+      (revert-buffer t t t)))
   (add-hook 'apheleia-post-format-hook #'++eslint-fix-file-and-revert))
 #+end_src
 * =auto-dim-other-buffers=

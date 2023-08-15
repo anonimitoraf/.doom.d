@@ -147,7 +147,7 @@ output as a string."
     (when (and (++is-buffer-js?)
                (++js-eslint-config-path))
       (++eslint-fix-file)
-      (revert-buffer t t)))
+      (revert-buffer t t t)))
   (add-hook 'apheleia-post-format-hook #'++eslint-fix-file-and-revert))
 
 (use-package! auto-dim-other-buffers
@@ -2290,6 +2290,15 @@ If popup is focused, kill it."
   (map! :map detached-shell-mode-map
          :nv "SPC d i" #'detached-shell-send-input
          :nv "SPC d a" #'detached-attach-session))
+
+(setq tree-sitter-major-mode-language-alist
+      '((typescript-tsx-mode . tsx)
+        (typescript-ts-mode . typescript)))
+
+(add-hook! '(typescript-ts-mode)
+           #'tree-sitter-mode)
+
+(add-hook 'typescript-ts-mode-hook #'lsp)
 
 (defvar ++vscode-search-occ-bg "#470000")
 (defvar ++vscode-search-occ-fg "#cccccc")

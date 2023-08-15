@@ -250,3 +250,19 @@ Borrowed https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html
          :nv "SPC d i" #'detached-shell-send-input
          :nv "SPC d a" #'detached-attach-session))
 #+end_src
+* =tree-sitter=
+Set up languages
+#+begin_src elisp :results none
+(setq tree-sitter-major-mode-language-alist
+      '((typescript-tsx-mode . tsx)
+        (typescript-ts-mode . typescript)))
+#+end_src
+Auto-enable for particular modes
+#+begin_src elisp :results none
+(add-hook! '(typescript-ts-mode)
+           #'tree-sitter-mode)
+#+end_src
+Enable LSP
+#+begin_src elisp :results none
+(add-hook 'typescript-ts-mode-hook #'lsp)
+#+end_src
