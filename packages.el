@@ -322,3 +322,8 @@
 (package! consult-dir)
 
 (package! annotate)
+
+(package! combobulate)
+
+(package! cider-storm
+  :recipe (:host github :repo "jpmonettas/cider-storm" :files ("*.el")))

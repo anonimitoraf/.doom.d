@@ -2291,14 +2291,45 @@ If popup is focused, kill it."
          :nv "SPC d i" #'detached-shell-send-input
          :nv "SPC d a" #'detached-attach-session))
 
+(setq treesit-language-source-alist
+   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (cmake "https://github.com/uyha/tree-sitter-cmake")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+     (go "https://github.com/tree-sitter/tree-sitter-go")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (make "https://github.com/alemuller/tree-sitter-make")
+     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (toml "https://github.com/tree-sitter/tree-sitter-toml")
+     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+     (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
 (setq tree-sitter-major-mode-language-alist
-      '((typescript-tsx-mode . tsx)
+      '((tsx-ts-mode . tsx)
         (typescript-ts-mode . typescript)))
 
-(add-hook! '(typescript-ts-mode)
+(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+
+(add-hook! '(typescript-ts-mode-hook
+             tsx-ts-mode-hook)
            #'tree-sitter-mode)
 
-(add-hook 'typescript-ts-mode-hook #'lsp)
+(add-hook! '(typescript-ts-mode-hook
+             tsx-ts-mode-hook)
+           #'lsp)
+
+(use-package! combobulate)
+
+(use-package cider-storm
+  :config
+  (add-hook 'cider-storm-debugging-mode-hook
+            (lambda () (read-only-mode t)))
+  (advice-add #'cider-storm--debug-mode-quit :after
+              (lambda () (read-only-mode -1))))
 
 (defvar ++vscode-search-occ-bg "#470000")
 (defvar ++vscode-search-occ-fg "#cccccc")
