@@ -43,3 +43,4 @@ If popup is focused, kill it."
       (insert input)
       (comint-send-input no-newline))))
 #+end_src
+

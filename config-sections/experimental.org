@@ -299,6 +299,7 @@ Enable LSP
 #+end_src
 
 * =cider-storm=
+So I don't accidentally edit the buffer, make it read-only while debugging
 #+begin_src elisp :results none
 (use-package cider-storm
   :config
@@ -306,4 +307,9 @@ Enable LSP
             (lambda () (read-only-mode t)))
   (advice-add #'cider-storm--debug-mode-quit :after
               (lambda () (read-only-mode -1))))
+#+end_src
+Make the overlay stand out
+#+begin_src elisp :results none
+(custom-set-faces!
+  `(cider-debug-code-overlay-face :background ,++dark-red))
 #+end_src

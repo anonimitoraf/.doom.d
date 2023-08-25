@@ -110,6 +110,198 @@ output as a string."
 (setq comint-scroll-to-bottom-on-output t
       comint-scroll-to-bottom-on-input t)
 
+(defvar ++vscode-search-occ-bg "#470000")
+(defvar ++vscode-search-occ-fg "#cccccc")
+(defvar ++dark-red "#5a1111")
+
+(setq doom-theme 'doom-one)
+
+(use-package doom-themes
+  :config
+  ;; Use the colorful treemacs theme
+  (setq doom-themes-treemacs-theme "doom-colors"
+        doom-themes-enable-bold nil    ; if nil, bold is universally disabled
+        doom-themes-enable-italic nil)
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config)
+
+  ;; Custom style tweaks
+  ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
+  ;; for the doom-colors
+  (custom-set-faces!
+    `(popup-tip-face :inherit popup-face
+      :foreground ,(doom-color 'yellow)
+      :box t)
+    `(swiper-background-match-face-2 :background ,++vscode-search-occ-bg
+      :foreground ,++vscode-search-occ-fg)
+    `(swiper-match-face-2 :background ,++vscode-search-occ-bg
+      :foreground ,++vscode-search-occ-fg)
+    `(swiper-line-face :background "DodgerBlue4"
+      :foreground ,++vscode-search-occ-fg)
+    ;; TODO Move the LSP faces out of here?
+    `(lsp-ui-peek-peek :background "#0a0014")
+    `(lsp-ui-peek-selection :background ,++vscode-search-occ-bg
+      :foreground ,++vscode-search-occ-fg)
+    `(lsp-ui-peek-list :background "grey5"
+      :height 1.0
+      :width condensed)
+    `(lsp-ui-peek-header :background "#2a0e46"
+      :foreground "white"
+      :height 1.0
+      :width condensed)
+    `(lsp-ui-peek-filename :foreground ,(doom-color 'yellow)
+      :height 1.0
+      :width condensed
+      :box (:line-width (1 . 10)
+            :color "grey5"))
+    `(lsp-ui-peek-line-number :foreground "grey5")
+    `(lsp-ui-peek-highlight :background ,++vscode-search-occ-bg
+      :foreground "white"
+      :heght 1.0
+      :box nil
+      :inherit nil)
+    '(show-paren-match :foreground nil
+      :background "#333"
+      :weight normal)
+    `(ac-completion-face :foreground ,(doom-color 'yellow))
+    `(ac-selection-face :foreground "black"
+      :background ,(doom-color 'magenta))
+    '(hl-line :background "grey8")
+    `(header-line :background "black" :height 1.0 :box (:line-width 1 :color "grey50"))
+    `(popup-tip-face :foreground ,(doom-color 'yellow))
+    ;; Ivy
+    `(ivy-minibuffer-match-face-1 :foreground "white")
+    ;; Tree-sitter
+    '(tree-sitter-hl-face:punctuation :background nil)
+    '(tree-sitter-hl-face:property :slant normal)
+    `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
+    `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
+    `(corfu-border :background "white")
+    `(corfu-default :background "black")
+    `(corfu-current :background "grey15")
+    `(orderless-match-face-0 :inherit corfu-default :foreground "#7bb6e2")
+    `(orderless-match-face-1 :inherit corfu-default :foreground "#c195d7")
+    `(orderless-match-face-2 :inherit corfu-default :foreground "#d8bf9c")
+    `(orderless-match-face-3 :inherit corfu-default :foreground "#a5bf8f")
+    `(vertico-posframe-border :background ,(doom-color 'blue))
+    `(minibuffer-prompt :foreground ,(doom-color 'blue))
+    `(lsp-ui-doc-background :background "black")
+    `(lsp-flycheck-info-deprecated-face :strike-through t :underline nil)
+    `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'red))
+    `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'cyan))
+    `(lsp-headerline-breadcrumb-separator-face :foreground "black")
+    ;; This is the face for the currently selected LSP signature param
+    `(eldoc-highlight-function-argument :foreground ,(doom-color 'yellow))
+    `(markdown-code-face :background "grey5"
+      :box (:line-width (6 . 2) :color "grey5"))
+    `(comint-highlight-prompt :foreground ,(doom-color 'yellow))
+    `(highlight :background "#5a1111")
+    `(doom-modeline-highlight :background ,(doom-color 'blue) :foreground "black")
+    `(vertico-group-title :foreground ,(doom-color 'red))
+    `(vertico-group-separator :foreground ,(doom-color 'red) :strike-through t))
+  ;; GUI
+  (if (display-graphic-p)
+      (custom-set-faces!
+        `(default :background "black")
+        `(fill-column-indicator :foreground ,(doom-color 'base1))
+        `(window-divider :foreground ,(doom-color 'magenta))
+        '(flycheck-posframe-face
+          :background "grey5"
+          :foreground "white"
+          :height 0.9
+          :box (:line-width 1 :color "white"))
+        `(flycheck-posframe-error-face
+          :foreground ,(doom-color 'red)
+          :box (:line-width 1 :color ,(doom-color 'red)))
+        `(flycheck-posframe-warning-face
+          :foreground ,(doom-color 'yellow)
+          :box (:line-width 1 :color ,(doom-color 'yellow)))
+        `(flycheck-posframe-info-face
+          :foreground ,(doom-color 'green)
+          :box (:line-width 1 :color ,(doom-color 'green))))
+    ;; TERM
+    (custom-set-faces!
+      `(default :background "black")
+      ;; Same as window-divider's
+      `(header-line :background "#191b20")
+      `(lsp-face-highlight-read :background "#34536c" :foreground "#dfdfdf")
+      `(lsp-face-highlight-write :inherit lsp-face-highlight-read)
+      `(lsp-face-highlight-textual :inherit lsp-face-highlight-read)
+      `(flycheck-error :foreground ,(doom-color 'red) :underline t)
+      `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
+
+(setq window-divider-default-right-width 1
+      window-divider-default-bottom-width 0)
+
+(defvar ++font-size nil)
+(defun ++screen-pixels->font-size (width-x-height)
+  "Given WIDTH_X_HEIGHT, returns the adjusted font size"
+  (let ((default-font-size 16))
+    (cond ((member width-x-height
+                   '((3440 1440))) 18)
+          ;; Home flat screen
+          ((member width-x-height
+                   '((2560 1440))) 16)
+          ((member width-x-height
+                   '((1920 1080))) 14)
+          ;; My Flux mac
+          ((member width-x-height
+                    '((1440 900))) 16)
+          (t (progn
+               (message (concat "Unhandled screen resolution " (prin1-to-string width-x-height) ". "
+                                "Defaulting to font size " (prin1-to-string default-font-size)))
+               default-font-size)))))
+
+;; Stolen from https://github.com/hlissner/doom-emacs/issues/1500
+(defun ++get-frame-list (&optional frame)
+  "Return a list consisting of FRAME and all of FRAME's child frames."
+  (let ((frame (or frame (selected-frame))))
+    (cons (selected-frame)
+          (cl-loop for fr in (frame-list)
+                   if (eq (frame-parameter fr 'parent-frame) frame)
+                   collect fr))))
+
+(defun ++configure-font-size ()
+  (let ((new-font-size (++screen-pixels->font-size
+                        (cddr (frame-monitor-attribute 'geometry)))))
+    (unless (equal new-font-size ++font-size)
+      (setq doom-font (font-spec :family "Fantasque Sans Mono" :size new-font-size))
+      (set-frame-font doom-font t (++get-frame-list)))
+    (setq ++font-size new-font-size)))
+
+(when (display-graphic-p)
+ (run-at-time 0 nil (lambda () (++configure-font-size)))
+ (setq ++adjust-font-timer (run-with-idle-timer 1 1 #'++configure-font-size)))
+
+(after! doom-modeline
+  (custom-set-faces!
+    '(mode-line :background "#23102C" :height 0.9 :width condensed :box (:line-width 1 :color "grey40"))
+    '(mode-line-inactive :height 0.9 :width condensed)
+    '(mode-line-emphasis :inherit mode-line)
+    '(doom-modeline-buffer-file :weight normal)))
+
+(setq +doom-dashboard-functions '(doom-dashboard-widget-banner))
+
+(setq display-time-default-load-average nil
+      display-time-24hr-format t)
+
+(setq show-paren-style 'expression)
+
+(setq global-hl-line-modes nil)
+(defun ++disable-hl-line ()
+  (hl-line-mode -1))
+(add-hook 'prog-mode-hook #'++disable-hl-line)
+(add-hook 'text-mode-hook #'++disable-hl-line)
+
+(setq display-line-numbers-type nil)
+
+(setq-default frame-title-format '("Emacs"))
+
+(use-package! kind-icon
+  :init
+  (setq kind-icon-blend-background nil
+        kind-icon-extra-space t))
+
 (map! :map doom-leader-map "w SPC" #'ace-select-window)
 
 (custom-set-faces!
@@ -2015,45 +2207,6 @@ message listing the hooks."
                    (bookmark-set (buffer-file-name))))))
 (add-hook 'pdf-view-after-change-page-hook #'++bookmark-pdf)
 
-(use-package! shell
-  :config
-  (defun +shell/toggle (&optional command)
-    "Toggle a persistent terminal popup window.
-
-If popup is visible but unselected, selected it.
-If popup is focused, kill it."
-    (interactive)
-    (let ((buffer
-           (get-buffer-create
-            (format "*doom:shell-popup:%s*"
-                    (if (bound-and-true-p persp-mode)
-                        (safe-persp-name (get-current-persp))
-                      "main"))))
-          (dir default-directory))
-      (if-let (win (get-buffer-window buffer))
-          (let (confirm-kill-processes)
-            (set-process-query-on-exit-flag (get-buffer-process buffer) nil)
-            (delete-window win))
-        (with-current-buffer buffer
-          (if (not (eq major-mode 'shell-mode))
-              (shell buffer)
-            (cd dir)
-            (run-mode-hooks 'shell-mode-hook)))
-        (pop-to-buffer buffer))
-      (+shell--send-input buffer command))))
-
-(defun +shell--send-input (buffer input &optional no-newline)
-  (when input
-    (with-current-buffer buffer
-      (unless (number-or-marker-p (cdr comint-last-prompt))
-        (message "Waiting for shell to start up...")
-        (while (not (number-or-marker-p (cdr comint-last-prompt)))
-          (sleep-for 0.1)))
-      (goto-char (cdr comint-last-prompt))
-      (delete-region (cdr comint-last-prompt) (point-max))
-      (insert input)
-      (comint-send-input no-newline))))
-
 (use-package corfu
   :config
   (defun ++corfu-quit ()
@@ -2331,193 +2484,44 @@ If popup is focused, kill it."
   (advice-add #'cider-storm--debug-mode-quit :after
               (lambda () (read-only-mode -1))))
 
-(defvar ++vscode-search-occ-bg "#470000")
-(defvar ++vscode-search-occ-fg "#cccccc")
+(custom-set-faces!
+  `(cider-debug-code-overlay-face :background ,++dark-red))
 
-(setq doom-theme 'doom-one)
-
-(use-package doom-themes
+(use-package! shell
   :config
-  ;; Use the colorful treemacs theme
-  (setq doom-themes-treemacs-theme "doom-colors"
-        doom-themes-enable-bold nil    ; if nil, bold is universally disabled
-        doom-themes-enable-italic nil)
-  (doom-themes-treemacs-config)
-  (doom-themes-org-config)
+  (defun +shell/toggle (&optional command)
+    "Toggle a persistent terminal popup window.
 
-  ;; Custom style tweaks
-  ;; See https://github.com/hlissner/emacs-doom-themes/blob/master/themes/doom-one-theme.el#L32
-  ;; for the doom-colors
-  (custom-set-faces!
-    `(popup-tip-face :inherit popup-face
-      :foreground ,(doom-color 'yellow)
-      :box t)
-    `(swiper-background-match-face-2 :background ,++vscode-search-occ-bg
-      :foreground ,++vscode-search-occ-fg)
-    `(swiper-match-face-2 :background ,++vscode-search-occ-bg
-      :foreground ,++vscode-search-occ-fg)
-    `(swiper-line-face :background "DodgerBlue4"
-      :foreground ,++vscode-search-occ-fg)
-    ;; TODO Move the LSP faces out of here?
-    `(lsp-ui-peek-peek :background "#0a0014")
-    `(lsp-ui-peek-selection :background ,++vscode-search-occ-bg
-      :foreground ,++vscode-search-occ-fg)
-    `(lsp-ui-peek-list :background "grey5"
-      :height 1.0
-      :width condensed)
-    `(lsp-ui-peek-header :background "#2a0e46"
-      :foreground "white"
-      :height 1.0
-      :width condensed)
-    `(lsp-ui-peek-filename :foreground ,(doom-color 'yellow)
-      :height 1.0
-      :width condensed
-      :box (:line-width (1 . 10)
-            :color "grey5"))
-    `(lsp-ui-peek-line-number :foreground "grey5")
-    `(lsp-ui-peek-highlight :background ,++vscode-search-occ-bg
-      :foreground "white"
-      :heght 1.0
-      :box nil
-      :inherit nil)
-    '(show-paren-match :foreground nil
-      :background "#333"
-      :weight normal)
-    `(ac-completion-face :foreground ,(doom-color 'yellow))
-    `(ac-selection-face :foreground "black"
-      :background ,(doom-color 'magenta))
-    '(hl-line :background "grey8")
-    `(header-line :background "black" :height 1.0 :box (:line-width 1 :color "grey50"))
-    `(popup-tip-face :foreground ,(doom-color 'yellow))
-    ;; Ivy
-    `(ivy-minibuffer-match-face-1 :foreground "white")
-    ;; Tree-sitter
-    '(tree-sitter-hl-face:punctuation :background nil)
-    '(tree-sitter-hl-face:property :slant normal)
-    `(tree-sitter-hl-face:string.special :weight normal :foreground ,(doom-color 'red))
-    `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'yellow))
-    `(corfu-border :background "white")
-    `(corfu-default :background "black")
-    `(corfu-current :background "grey15")
-    `(orderless-match-face-0 :inherit corfu-default :foreground "#7bb6e2")
-    `(orderless-match-face-1 :inherit corfu-default :foreground "#c195d7")
-    `(orderless-match-face-2 :inherit corfu-default :foreground "#d8bf9c")
-    `(orderless-match-face-3 :inherit corfu-default :foreground "#a5bf8f")
-    `(vertico-posframe-border :background ,(doom-color 'blue))
-    `(minibuffer-prompt :foreground ,(doom-color 'blue))
-    `(lsp-ui-doc-background :background "black")
-    `(lsp-flycheck-info-deprecated-face :strike-through t :underline nil)
-    `(lsp-headerline-breadcrumb-path-face :foreground ,(doom-color 'red))
-    `(lsp-headerline-breadcrumb-symbols-face :foreground ,(doom-color 'cyan))
-    `(lsp-headerline-breadcrumb-separator-face :foreground "black")
-    ;; This is the face for the currently selected LSP signature param
-    `(eldoc-highlight-function-argument :foreground ,(doom-color 'yellow))
-    `(markdown-code-face :background "grey5"
-      :box (:line-width (6 . 2) :color "grey5"))
-    `(comint-highlight-prompt :foreground ,(doom-color 'yellow))
-    `(highlight :background "#5a1111")
-    `(doom-modeline-highlight :background ,(doom-color 'blue) :foreground "black")
-    `(vertico-group-title :foreground ,(doom-color 'red))
-    `(vertico-group-separator :foreground ,(doom-color 'red) :strike-through t))
-  ;; GUI
-  (if (display-graphic-p)
-      (custom-set-faces!
-        `(default :background "black")
-        `(fill-column-indicator :foreground ,(doom-color 'base1))
-        `(window-divider :foreground ,(doom-color 'magenta))
-        '(flycheck-posframe-face
-          :background "grey5"
-          :foreground "white"
-          :height 0.9
-          :box (:line-width 1 :color "white"))
-        `(flycheck-posframe-error-face
-          :foreground ,(doom-color 'red)
-          :box (:line-width 1 :color ,(doom-color 'red)))
-        `(flycheck-posframe-warning-face
-          :foreground ,(doom-color 'yellow)
-          :box (:line-width 1 :color ,(doom-color 'yellow)))
-        `(flycheck-posframe-info-face
-          :foreground ,(doom-color 'green)
-          :box (:line-width 1 :color ,(doom-color 'green))))
-    ;; TERM
-    (custom-set-faces!
-      `(default :background "black")
-      ;; Same as window-divider's
-      `(header-line :background "#191b20")
-      `(lsp-face-highlight-read :background "#34536c" :foreground "#dfdfdf")
-      `(lsp-face-highlight-write :inherit lsp-face-highlight-read)
-      `(lsp-face-highlight-textual :inherit lsp-face-highlight-read)
-      `(flycheck-error :foreground ,(doom-color 'red) :underline t)
-      `(flycheck-warning :foreground ,(doom-color 'yellow) :underline t))))
+If popup is visible but unselected, selected it.
+If popup is focused, kill it."
+    (interactive)
+    (let ((buffer
+           (get-buffer-create
+            (format "*doom:shell-popup:%s*"
+                    (if (bound-and-true-p persp-mode)
+                        (safe-persp-name (get-current-persp))
+                      "main"))))
+          (dir default-directory))
+      (if-let (win (get-buffer-window buffer))
+          (let (confirm-kill-processes)
+            (set-process-query-on-exit-flag (get-buffer-process buffer) nil)
+            (delete-window win))
+        (with-current-buffer buffer
+          (if (not (eq major-mode 'shell-mode))
+              (shell buffer)
+            (cd dir)
+            (run-mode-hooks 'shell-mode-hook)))
+        (pop-to-buffer buffer))
+      (+shell--send-input buffer command))))
 
-(setq window-divider-default-right-width 1
-      window-divider-default-bottom-width 0)
-
-(defvar ++font-size nil)
-(defun ++screen-pixels->font-size (width-x-height)
-  "Given WIDTH_X_HEIGHT, returns the adjusted font size"
-  (let ((default-font-size 16))
-    (cond ((member width-x-height
-                   '((3440 1440))) 18)
-          ;; Home flat screen
-          ((member width-x-height
-                   '((2560 1440))) 16)
-          ((member width-x-height
-                   '((1920 1080))) 14)
-          ;; My Flux mac
-          ((member width-x-height
-                    '((1440 900))) 16)
-          (t (progn
-               (message (concat "Unhandled screen resolution " (prin1-to-string width-x-height) ". "
-                                "Defaulting to font size " (prin1-to-string default-font-size)))
-               default-font-size)))))
-
-;; Stolen from https://github.com/hlissner/doom-emacs/issues/1500
-(defun ++get-frame-list (&optional frame)
-  "Return a list consisting of FRAME and all of FRAME's child frames."
-  (let ((frame (or frame (selected-frame))))
-    (cons (selected-frame)
-          (cl-loop for fr in (frame-list)
-                   if (eq (frame-parameter fr 'parent-frame) frame)
-                   collect fr))))
-
-(defun ++configure-font-size ()
-  (let ((new-font-size (++screen-pixels->font-size
-                        (cddr (frame-monitor-attribute 'geometry)))))
-    (unless (equal new-font-size ++font-size)
-      (setq doom-font (font-spec :family "Fantasque Sans Mono" :size new-font-size))
-      (set-frame-font doom-font t (++get-frame-list)))
-    (setq ++font-size new-font-size)))
-
-(when (display-graphic-p)
- (run-at-time 0 nil (lambda () (++configure-font-size)))
- (setq ++adjust-font-timer (run-with-idle-timer 1 1 #'++configure-font-size)))
-
-(after! doom-modeline
-  (custom-set-faces!
-    '(mode-line :background "#23102C" :height 0.9 :width condensed :box (:line-width 1 :color "grey40"))
-    '(mode-line-inactive :height 0.9 :width condensed)
-    '(mode-line-emphasis :inherit mode-line)
-    '(doom-modeline-buffer-file :weight normal)))
-
-(setq +doom-dashboard-functions '(doom-dashboard-widget-banner))
-
-(setq display-time-default-load-average nil
-      display-time-24hr-format t)
-
-(setq show-paren-style 'expression)
-
-(setq global-hl-line-modes nil)
-(defun ++disable-hl-line ()
-  (hl-line-mode -1))
-(add-hook 'prog-mode-hook #'++disable-hl-line)
-(add-hook 'text-mode-hook #'++disable-hl-line)
-
-(setq display-line-numbers-type nil)
-
-(setq-default frame-title-format '("Emacs"))
-
-(use-package! kind-icon
-  :init
-  (setq kind-icon-blend-background nil
-        kind-icon-extra-space t))
+(defun +shell--send-input (buffer input &optional no-newline)
+  (when input
+    (with-current-buffer buffer
+      (unless (number-or-marker-p (cdr comint-last-prompt))
+        (message "Waiting for shell to start up...")
+        (while (not (number-or-marker-p (cdr comint-last-prompt)))
+          (sleep-for 0.1)))
+      (goto-char (cdr comint-last-prompt))
+      (delete-region (cdr comint-last-prompt) (point-max))
+      (insert input)
+      (comint-send-input no-newline))))
