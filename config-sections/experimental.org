@@ -277,7 +277,9 @@ Set up languages
 
 Evaluate to install grammars
 #+begin_src elisp :tangle no
-(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+(++comment
+ (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+)
 #+end_src
 
 

@@ -2465,7 +2465,9 @@ message listing the hooks."
       '((tsx-ts-mode . tsx)
         (typescript-ts-mode . typescript)))
 
-(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+(++comment
+ (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+)
 
 (add-hook! '(typescript-ts-mode-hook
              tsx-ts-mode-hook)
