@@ -629,6 +629,12 @@ Make jest buffer colorized and allow inputs (e.g. restarting a --watch'ed jest s
   (setq jinx-languages "en_US en_AU")
   :hook (emacs-startup . global-jinx-mode)
   :config
+  (add-to-list 'jinx-include-faces '(typescript-ts-mode
+                                     tree-sitter-hl-face:comment
+                                     tree-sitter-hl-face:string))
+  (add-to-list 'jinx-include-faces '(tsx-ts-mode
+                                     tree-sitter-hl-face:comment
+                                     tree-sitter-hl-face:string))
   (add-to-list 'jinx-include-faces '(typescript-mode
                                      tree-sitter-hl-face:comment
                                      tree-sitter-hl-face:string))
