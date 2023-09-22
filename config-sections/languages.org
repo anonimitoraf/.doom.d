@@ -120,6 +120,17 @@ Company is a bit useless inside the erlang-shell
 (map! :map erlang-mode-map
       "C-c C-k" #'++erlang-compile)
 #+end_src
+
+For some reason, autocomplete documentation for the =string= module freezes input
+#+begin_src elisp :results none
+(add-hook 'erlang-mode-hook (lambda () (corfu-popupinfo-mode -1)))
+#+end_src
+
+Set electric commands (note that I've removed =gt= since it annoyingly inserts a newline)
+#+begin_src elisp :results none
+(setq erlang-electric-commands '(erlang-electric-comma erlang-electric-semicolon))
+#+end_src
+
 * Type/Javascript
 #+begin_src elisp
 (use-package! gherkin-mode

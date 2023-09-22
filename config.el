@@ -1635,6 +1635,10 @@ Optionally executes CALLBACK afterwards"
 (map! :map erlang-mode-map
       "C-c C-k" #'++erlang-compile)
 
+(add-hook 'erlang-mode-hook (lambda () (corfu-popupinfo-mode -1)))
+
+(setq erlang-electric-commands '(erlang-electric-comma erlang-electric-semicolon))
+
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
