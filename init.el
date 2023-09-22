@@ -216,11 +216,12 @@
           (insert (with-current-buffer "*Org ORG Export*" (buffer-string))))
         (org-babel-tangle-file tmp)))))
 
-;; Temporary hack to get Emacs to know where libgccjit-related libs are
+;; Temporary hack to get Emacs to know where libgccjit-related libs (and other stuff) are
 (if IS-MAC
   (setenv "LIBRARY_PATH"
 	  (string-join
 	    '("/opt/homebrew/opt/gcc/lib/gcc/13"
 	       "/opt/homebrew/opt/libgccjit/lib/gcc/13"
-	       "/opt/homebrew/opt/gcc/lib/gcc/13/gcc/aarch64-apple-darwin22/13")
+	       "/opt/homebrew/opt/gcc/lib/gcc/13/gcc/aarch64-apple-darwin22/13"
+         "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib")
 	    ":")))
