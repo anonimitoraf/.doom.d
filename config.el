@@ -265,7 +265,7 @@ output as a string."
   (let ((new-font-size (++screen-pixels->font-size
                         (cddr (frame-monitor-attribute 'geometry)))))
     (unless (equal new-font-size ++font-size)
-      (setq doom-font (font-spec :family "Fantasque Sans Mono" :size new-font-size))
+      (setq doom-font (font-spec :family "FantasqueSansM Nerd Font" :size new-font-size))
       (set-frame-font doom-font t (++get-frame-list)))
     (setq ++font-size new-font-size)))
 
