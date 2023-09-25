@@ -1574,13 +1574,7 @@ Optionally executes CALLBACK afterwards"
                            1 font-lock-comment-face)))
 
 (set-popup-rules!
-  '(("^\\*cider-repl"
-     :quit nil
-     :side right
-     :size 0.33
-     :select t
-     :modeline t)
-    ("^\\*\\(?:cider-doc\\)"
+  '(("^\\*\\(?:cider-doc\\)"
      :side bottom
      :size 0.2)))
 
