@@ -1325,7 +1325,9 @@ otherwise, nil."
                clojurec-mode-hook
                emacs-lisp-mode-hook
                inferior-emacs-lisp-mode-hook
-               org-mode-hook)
+               org-mode-hook
+               tsx-ts-mode
+               typescript-ts-mode)
     (symex-mode +1)
     (symex-initialize)
     (map! :map doom-leader-map "k" (cmd! (when symex-mode (symex-mode-interface))))
@@ -1337,10 +1339,10 @@ otherwise, nil."
                                 (set-face-attribute 'mode-line nil :background "#23102C")
                                 (symex-exit-mode)))
   "Symex mode"
-  ("C-j" symex-emit-backward "emit backward")
   ("C-h" symex-capture-backward "capture backward")
-  ("C-l" symex-capture-forward "capture forward")
-  ("C-k" symex-emit-forward "emit forward"))
+  ("C-j" symex-emit-backward "emit backward")
+  ("C-k" symex-emit-forward "emit forward")
+  ("C-l" symex-capture-forward "capture forward"))
 
 (advice-add 'symex-mode-interface :after (lambda (&rest args)
                                            (symex-hide-menu)
