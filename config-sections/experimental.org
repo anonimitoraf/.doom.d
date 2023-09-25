@@ -295,11 +295,6 @@ Enable LSP
              tsx-ts-mode-hook)
            #'lsp)
 #+end_src
-* =combobulate=
-#+begin_src elisp :results none
-(use-package! combobulate)
-#+end_src
-
 * =cider-storm=
 So I don't accidentally edit the buffer, make it read-only while debugging
 #+begin_src elisp :results none

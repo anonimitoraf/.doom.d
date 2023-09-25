@@ -2487,8 +2487,6 @@ message listing the hooks."
              tsx-ts-mode-hook)
            #'lsp)
 
-(use-package! combobulate)
-
 (use-package cider-storm
   :config
   (add-hook 'cider-storm-debugging-mode-hook
