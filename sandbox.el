@@ -107,3 +107,5 @@ window open while opening the files in it."
 
 (map! :map doom-leader-map
   "!" #'consult-flycheck)
+
+(use-package! focus)
