@@ -1183,15 +1183,6 @@ otherwise, nil."
   :config
   (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 
-(defun ++org-remark-notes-file-name ()
-  (concat ++sync-folder-path "/org-remark/" (projectile-project-name) "/org-remark.org"))
-
-(use-package! org-remark
-  :init
-  (setq org-remark-notes-file-name #'++org-remark-notes-file-name)
-  :config
-  (org-remark-mode +1))
-
 (use-package! org-ros)
 
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
@@ -1536,8 +1527,7 @@ Optionally executes CALLBACK afterwards"
 
 (use-package! yasnippet
   :config
-  (setq yas-snippet-dirs
-    '("~/.doom.d/snippets"))
+  (setq yas-snippet-dirs (list (concat doom-private-dir "snippets")))
   (yas-global-mode +1))
 
 (advice-add 'yas-insert-snippet :after (lambda (&rest _)

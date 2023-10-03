@@ -1123,17 +1123,6 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
   :config
   (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 #+end_src
-* =org-remark=
-#+begin_src elisp :results none
-(defun ++org-remark-notes-file-name ()
-  (concat ++sync-folder-path "/org-remark/" (projectile-project-name) "/org-remark.org"))
-
-(use-package! org-remark
-  :init
-  (setq org-remark-notes-file-name #'++org-remark-notes-file-name)
-  :config
-  (org-remark-mode +1))
-#+end_src
 * =org-ros=
 #+begin_src elisp :results none
 (use-package! org-ros)
@@ -1551,8 +1540,7 @@ Make trailing spaces and tabs visible
 #+begin_src elisp :results none
 (use-package! yasnippet
   :config
-  (setq yas-snippet-dirs
-    '("~/.doom.d/snippets"))
+  (setq yas-snippet-dirs (list (concat doom-private-dir "snippets")))
   (yas-global-mode +1))
 #+end_src
 Auto-change mode to insert state after inserting a snippet
