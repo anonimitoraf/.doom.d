@@ -1,7 +1,7 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Rafael Nicdao
 #+EMAIL: nicdaoraf@gmail.com
-#+PROPERTY: header-args :tangle "~/.doom.d/config.el"
+#+PROPERTY: header-args :tangle (concat doom-private-dir "config.el")
 #+OPTIONS: toc:nil num:nil
 #+INCLUDE: "config-sections/preamble.org"
 #+INCLUDE: "config-sections/utilities.org"
