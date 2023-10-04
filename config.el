@@ -318,14 +318,6 @@ output as a string."
 (use-package! all-the-icons
   :config (setq all-the-icons-scale-factor 0.90))
 
-(use-package annotate
-  :init
-  (setq annotate-file (concat ++sync-folder-path "/annotations")
-        annotate-database-confirm-deletion nil)
-  :config
-  (add-hook 'prog-mode-hook (lambda () (annotate-mode t)))
-  (add-hook 'text-mode-hook (lambda () (annotate-mode t))))
-
 (use-package apheleia
   :config
   (apheleia-global-mode t)
@@ -341,22 +333,6 @@ output as a string."
       (++eslint-fix-file)
       (revert-buffer t t t)))
   (add-hook 'apheleia-post-format-hook #'++eslint-fix-file-and-revert))
-
-(use-package! auto-dim-other-buffers
-  :init
-  (defun ++adob-never-dim (buffer)
-    ;; For some reason, some vertico bufferes still get dimmed
-    ;; so we manually exclude them
-    (-some (lambda (buffer-name-pattern)
-             (string-match buffer-name-pattern (buffer-name buffer)))
-           '("\\*Minibuf-[0-9]+\\*")))
-  (setq auto-dim-other-buffers-dim-on-switch-to-minibuffer nil
-        auto-dim-other-buffers-never-dim-buffer-functions '(++adob-never-dim))
-  :config
-  (auto-dim-other-buffers-mode +1)
-  (custom-set-faces!
-    '(auto-dim-other-buffers-face :background "grey5")
-    '(auto-dim-other-buffers-hide-face :background "grey5")))
 
 (setq avy-timeout-seconds 0.1)
 
@@ -1297,16 +1273,6 @@ otherwise, nil."
         :nvi "C-j" #'comint-next-input
         :nvi "C-l" #'comint-clear-buffer))
 
-(use-package! sidecar-locals
-  :init
-  (setq sidecar-locals-dir-name ".emacs"
-        ;; Add to this as necessary
-        sidecar-locals-paths-allow (-map (lambda (dir) (expand-file-name dir))
-                                         '("~/personal/lc/"
-                                           "~/personal/supa-sales/")))
-  :config
-  (sidecar-locals-mode))
-
 (use-package! symex
   :config
   (add-hook! '(clojure-mode-hook
@@ -1336,16 +1302,6 @@ otherwise, nil."
 (advice-add 'symex-mode-interface :after (lambda (&rest args)
                                            (symex-hide-menu)
                                            (set-face-attribute 'mode-line nil :background "#5a1111")))
-
-(use-package! speed-dial
-  :config
-  (speed-dial-mode +1)
-  (speed-dial-apply '(("C-c 1" . "~/Dropbox/work/audience-republic/misc.el")
-                      ("C-c 2" . "~/Dropbox/life/todos.org")
-                      ("C-c 3" . "~/Dropbox/blog/content-org")
-                      ("C-c 4" . "~/Dropbox/work/audience-republic/contracting.org")
-                      ("C-c 5" . "~/work/misc.org")
-                      ("C-c 6" . "~/work/misc-2.org"))))
 
 (use-package! speed-type
   :config
@@ -2426,17 +2382,6 @@ message listing the hooks."
     '("#" "My Magit Cmds" th/magit-aux-commands))
 
   (define-key magit-status-mode-map (kbd "#") #'th/magit-aux-commands))
-
-(use-package! detached
-  :init (detached-init)
-  :bind (;; Replace built in completion of sessions with `consult'
-         ([remap detached-open-session] . detached-consult-session))
-  :config
-  (setq detached-show-output-on-attach t
-        detached-terminal-data-command system-type)
-  (map! :map detached-shell-mode-map
-         :nv "SPC d i" #'detached-shell-send-input
-         :nv "SPC d a" #'detached-attach-session))
 
 (setq treesit-language-source-alist
    '((bash "https://github.com/tree-sitter/tree-sitter-bash")

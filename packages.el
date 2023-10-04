@@ -96,9 +96,6 @@
 
 (unpin! lsp-mode)
 
-;; (package! idle-highlight-mode
-;;   :recipe (:host github :repo "nonsequitur/idle-highlight-mode"))
-
 (package! alert)
 
 ;; (package! ejc-sql)
@@ -106,31 +103,10 @@
 (package! keychain-environment
   :recipe (:host github :repo "tarsius/keychain-environment"))
 
-;; (package! logview)
 (package! itail)
-
-;; (package! chrome
-;;   :recipe (:host github :repo "anticomputer/chrome.el"))
 
 (package! i3wm-config-mode
   :recipe (:host github :repo "Alexander-Miller/i3wm-Config-Mode"))
-
-;; (package! nyan-mode
-;;   :recipe (:host github :repo "anonimitoraf/nyan-mode"))
-
-;; (package! clomacs)
-
-;; (package! vue-mode)
-
-;; (package! screenshot
-;;   :recipe (:host github :repo "tecosaur/screenshot"))
-
-;; (package! slime)
-
-;; (package! projectile-git-autofetch)
-
-;; (package! try
-;;   :recipe (:host github :repo "larstvei/Try"))
 
 (package! symex
   :recipe (:host github :repo "countvajhula/symex.el"))
@@ -146,16 +122,7 @@
 (package! thread-dump
   :recipe (:host github :repo "anonimitoraf/thread-dump.el"))
 
-(package! speed-dial
-  :recipe (:host github :repo "anonimitoraf/speed-dial.el"))
-
-;; (package! company-quickhelp
-;;   :recipe (:host github :repo "anonimitoraf/company-quickhelp"))
-
 (package! xclip)
-
-;; (package! icons-in-terminal
-;;   :recipe (:host github :repo "seagle0128/icons-in-terminal.el"))
 
 (package! tree-sitter)
 (package! tree-sitter-langs)
@@ -163,9 +130,6 @@
 (package! speed-type)
 
 (package! tide :disable t)
-
-;; (package! origami
-;;   :recipe (:host github :repo "elp-revive/origami.el"))
 
 (package! google-translate)
 
@@ -199,17 +163,12 @@
 
 (package! emacs-async)
 
-(package! svg-tag-mode
-  :recipe (:host github :repo "rougier/svg-tag-mode"))
-
 (package! clippo
   :recipe (:host github :repo "anonimitoraf/emacs-clippo"))
 (unpin! clippo)
 
 (package! hackernews
   :recipe (:host github :repo "clarete/hackernews.el"))
-
-;; (package! prettier)
 
 (package! evil-matchit)
 
@@ -234,31 +193,19 @@
   :recipe (:host github :repo "raxod502/apheleia"))
 (unpin! apheleia)
 
-(package! detached)
-
 (package! xterm-color)
 
 (package! org-excalidraw
   :recipe (:host github :repo "wdavew/org-excalidraw"))
-
-(package! persist)
-(package! promise)
-(package! async-await)
-
 (package! exercism
   :recipe (:host github :repo "anonimitoraf/exercism.el"))
 (unpin! exercism)
 
 (package! vundo)
 
-(package! sidecar-locals)
-
 (package! el-easydraw
   :recipe (:host github :repo "misohena/el-easydraw"
            :files ("*.el")))
-
-(package! auto-dim-other-buffers
-  :recipe (:host github :repo "mina86/auto-dim-other-buffers.el"))
 
 (package! undohist)
 
@@ -269,11 +216,8 @@
   :recipe (:host github :repo "radian-software/prescient.el"
            :files ("*.el")))
 
-(unpin! magit)
-(unpin! forge)
-
-(package! chatgpt
-  :recipe (:host github :repo "joshcho/ChatGPT.el" :files ("dist" "*.el")))
+;; (unpin! magit)
+;; (unpin! forge)
 
 (package! olivetti
   :recipe (:host github :repo "rnkn/olivetti"))
@@ -283,8 +227,6 @@
 
 (package! org-ros
   :recipe (:host github :repo "LionyxML/ros"))
-
-(package! magit-filenotify)
 
 (package! magit-popup)
 (package! emacs-jest
@@ -299,16 +241,11 @@
 
 (package! ov)
 
-(package! copilot
-  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
-
 (package! chatgpt-shell
   :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("*.el")))
 
 (package! webdriver
   :recipe (:host gitlab :repo "maurooaranda/emacs-webdriver"))
-
-(package! inspector)
 
 (package! coterm)
 
@@ -317,8 +254,6 @@
 (package! jinx)
 
 (package! consult-dir)
-
-(package! annotate)
 
 (package! cider-storm
   :recipe (:host github :repo "jpmonettas/cider-storm" :files ("*.el")))

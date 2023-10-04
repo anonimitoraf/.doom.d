@@ -65,8 +65,6 @@
   :nvi "C-S-k" #'++org/insert-item-above-and-indent
   :nvi "C-S-j" #'++org/insert-item-below-and-indent)
 
-(auto-dim-other-buffers-mode -1)
-
 (map! :map vertico-map
   "C-h" #'++backward-delete-word)
 

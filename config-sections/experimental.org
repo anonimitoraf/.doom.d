@@ -237,19 +237,6 @@ Borrowed https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html
 
   (define-key magit-status-mode-map (kbd "#") #'th/magit-aux-commands))
 #+end_src
-* =detached=
-#+begin_src elisp :results none
-(use-package! detached
-  :init (detached-init)
-  :bind (;; Replace built in completion of sessions with `consult'
-         ([remap detached-open-session] . detached-consult-session))
-  :config
-  (setq detached-show-output-on-attach t
-        detached-terminal-data-command system-type)
-  (map! :map detached-shell-mode-map
-         :nv "SPC d i" #'detached-shell-send-input
-         :nv "SPC d a" #'detached-attach-session))
-#+end_src
 * =tree-sitter=
 Set up languages
 #+begin_src elisp :results none

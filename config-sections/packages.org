@@ -25,16 +25,6 @@ They're too big (by default) for my taste
 (use-package! all-the-icons
   :config (setq all-the-icons-scale-factor 0.90))
 #+end_src
-* =annotate=
-#+begin_src elisp :results none
-(use-package annotate
-  :init
-  (setq annotate-file (concat ++sync-folder-path "/annotations")
-        annotate-database-confirm-deletion nil)
-  :config
-  (add-hook 'prog-mode-hook (lambda () (annotate-mode t)))
-  (add-hook 'text-mode-hook (lambda () (annotate-mode t))))
-#+end_src
 * =apheleia=
 #+begin_src elisp :results none
 (use-package apheleia
@@ -52,24 +42,6 @@ They're too big (by default) for my taste
       (++eslint-fix-file)
       (revert-buffer t t t)))
   (add-hook 'apheleia-post-format-hook #'++eslint-fix-file-and-revert))
-#+end_src
-* =auto-dim-other-buffers=
-#+begin_src elisp :results none
-(use-package! auto-dim-other-buffers
-  :init
-  (defun ++adob-never-dim (buffer)
-    ;; For some reason, some vertico bufferes still get dimmed
-    ;; so we manually exclude them
-    (-some (lambda (buffer-name-pattern)
-             (string-match buffer-name-pattern (buffer-name buffer)))
-           '("\\*Minibuf-[0-9]+\\*")))
-  (setq auto-dim-other-buffers-dim-on-switch-to-minibuffer nil
-        auto-dim-other-buffers-never-dim-buffer-functions '(++adob-never-dim))
-  :config
-  (auto-dim-other-buffers-mode +1)
-  (custom-set-faces!
-    '(auto-dim-other-buffers-face :background "grey5")
-    '(auto-dim-other-buffers-hide-face :background "grey5")))
 #+end_src
 * =avy=
 This package is used for jumping around efficiently within a file. I really ought to use it more.
@@ -1249,19 +1221,6 @@ For remote files, make it a bit longer
         :nvi "C-j" #'comint-next-input
         :nvi "C-l" #'comint-clear-buffer))
 #+end_src
-* =sidecar-locals=
-#+begin_src elisp :results none
-(use-package! sidecar-locals
-  :init
-  (setq sidecar-locals-dir-name ".emacs"
-        ;; Add to this as necessary
-        sidecar-locals-paths-allow (-map (lambda (dir) (expand-file-name dir))
-                                         '("~/personal/lc/"
-                                           "~/personal/supa-sales/")))
-  :config
-  (sidecar-locals-mode))
-#+end_src
-
 * =symex=
 Best structural editing package to date
 #+begin_src elisp
@@ -1297,18 +1256,6 @@ Utilize modeline color to tell me if I'm in symex-mode
 (advice-add 'symex-mode-interface :after (lambda (&rest args)
                                            (symex-hide-menu)
                                            (set-face-attribute 'mode-line nil :background "#5a1111")))
-#+end_src
-* =speed-dial=
-#+begin_src elisp
-(use-package! speed-dial
-  :config
-  (speed-dial-mode +1)
-  (speed-dial-apply '(("C-c 1" . "~/Dropbox/work/audience-republic/misc.el")
-                      ("C-c 2" . "~/Dropbox/life/todos.org")
-                      ("C-c 3" . "~/Dropbox/blog/content-org")
-                      ("C-c 4" . "~/Dropbox/work/audience-republic/contracting.org")
-                      ("C-c 5" . "~/work/misc.org")
-                      ("C-c 6" . "~/work/misc-2.org"))))
 #+end_src
 * =speed-type=
 #+begin_src elisp :results none
