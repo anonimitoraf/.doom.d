@@ -173,11 +173,6 @@ Save bookmarks immediately (rather than just when Emacs is killed).
   (add-hook 'cider-repl-mode-hook (lambda () (symex-mode +1))))
 #+end_src
 
-Free up the minibuffer by not showing CIDER docs there
-#+begin_src elisp
-(advice-add 'cider-eldoc :around #'ignore)
-#+end_src
-
 Patch for being able to connect to multiple nREPL instances by using a random local port each time
 #+begin_src elisp
 ;; (defun nrepl--ssh-tunnel-connect (host port)

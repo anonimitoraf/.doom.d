@@ -435,8 +435,6 @@ output as a string."
   (add-hook 'cider-mode-hook (lambda () (setq-local completion-styles '(cider))))
   (add-hook 'cider-repl-mode-hook (lambda () (symex-mode +1))))
 
-(advice-add 'cider-eldoc :around #'ignore)
-
 ;; (defun nrepl--ssh-tunnel-connect (host port)
 ;;   "Connect to a remote machine identified by HOST and PORT through SSH tunnel."
 ;;   (message "[nREPL] Establishing SSH tunneled connection to %s:%s ..." host port)
