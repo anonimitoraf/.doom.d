@@ -1294,6 +1294,8 @@ otherwise, nil."
                                 (set-face-attribute 'mode-line nil :background "#23102C")
                                 (symex-exit-mode)))
   "Symex mode"
+  ("f" symex-evaluate "eval")
+  ("e" symex-traverse-forward "flow forward")
   ("C-h" symex-capture-backward "capture backward")
   ("C-j" symex-emit-backward "emit backward")
   ("C-k" symex-emit-forward "emit forward")
