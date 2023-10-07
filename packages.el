@@ -257,3 +257,6 @@
 
 (package! cider-storm
   :recipe (:host github :repo "jpmonettas/cider-storm" :files ("*.el")))
+
+(package! ollama
+  :recipe (:host github :repo "zweifisch/ollama"))

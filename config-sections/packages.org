@@ -824,6 +824,12 @@ TODO What to do with org-table wrapping?
 
 #+end_src
 
+* =ollama=
+#+begin_src elisp :results none
+(use-package! ollama
+  :init
+  (setq ollama:model "mistral"))
+#+end_src
 * =org=
 #+begin_src elisp :results none
 (after! org

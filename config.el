@@ -940,6 +940,10 @@ otherwise, nil."
   (add-hook #'org-mode-hook #'olivetti-mode)
   (add-hook #'org-mode-hook (lambda () (vi-tilde-fringe-mode -1))))
 
+(use-package! ollama
+  :init
+  (setq ollama:model "mistral"))
+
 (after! org
   (setq org-directory (concat ++sync-folder-path "/org")
         org-default-notes-file (concat org-directory "/notes/default.org")
