@@ -107,3 +107,12 @@ window open while opening the files in it."
   "!" #'consult-flycheck)
 
 (use-package! focus)
+
+(cider-register-cljs-repl-type 'sci-js "(+ 1 2 3)")
+
+(defun mm/cider-connected-hook ()
+  (when (eq 'sci-js cider-cljs-repl-type)
+    (setq-local cider-show-error-buffer nil)
+    (cider-set-repl-type 'cljs)))
+
+(add-hook 'cider-connected-hook #'mm/cider-connected-hook)
