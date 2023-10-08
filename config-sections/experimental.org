@@ -100,6 +100,14 @@ Scroll-bar appearance
 (setq corfu-bar-width 0.5)
 (custom-set-faces! `(corfu-bar :background ,(doom-color 'magenta)))
 #+end_src
+* =eat=
+#+begin_src elisp :results none
+(use-package! eat
+  :init
+  (setq eat-term-terminfo-directory
+    (expand-file-name ".local/straight/repos/emacs-eat/terminfo" doom-emacs-dir)))
+#+end_src
+
 * =google-translate=
 Japanese kana -> romaji
 #+begin_src emacs-lisp :tangle yes :results none

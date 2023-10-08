@@ -260,3 +260,6 @@
 
 (package! ollama
   :recipe (:host github :repo "zweifisch/ollama"))
+
+(package! eat
+  :recipe (:type git :repo "https://codeberg.org/akib/emacs-eat.git"))

@@ -2256,6 +2256,11 @@ message listing the hooks."
 (setq corfu-bar-width 0.5)
 (custom-set-faces! `(corfu-bar :background ,(doom-color 'magenta)))
 
+(use-package! eat
+  :init
+  (setq eat-term-terminfo-directory
+    (expand-file-name ".local/straight/repos/emacs-eat/terminfo" doom-emacs-dir)))
+
 (defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
 
 (defun ++google-translate-kana->romaji (kana)
