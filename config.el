@@ -2258,8 +2258,8 @@ message listing the hooks."
 
 (use-package! eat
   :init
-  (setq eat-term-terminfo-directory
-    (expand-file-name ".local/straight/repos/emacs-eat/terminfo" doom-emacs-dir)))
+  (setq eat-term-terminfo-directory (expand-file-name ".local/straight/repos/emacs-eat/terminfo" doom-emacs-dir)
+        eat-term-shell-integration-directory (expand-file-name ".local/straight/repos/emacs-eat/integration" doom-emacs-dir)))
 
 (defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
 
