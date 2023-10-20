@@ -263,3 +263,5 @@
 
 (package! eat
   :recipe (:type git :repo "https://codeberg.org/akib/emacs-eat.git"))
+
+(package! synosaurus)
