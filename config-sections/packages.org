@@ -855,8 +855,8 @@ TODO What to do with org-table wrapping?
         org-src-preserve-indentation nil
         org-startup-folded 'content
         org-cycle-separator-lines 2
-        org-todo-keywords '((sequence "TODO(t)" "ONGOING(o)" "ON HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")
-                            (sequence "[ ](T)" "[-](O)" "[?](H)" "|" "[X](D)"))
+        org-todo-keywords '((sequence "TODO(t)" "ONGOING(o)" "TESTING(s)" "|" "DONE(d)" "CANCELLED(c)")
+                            (sequence "[ ](T)" "[-](O)" "[?](S)" "|" "[X](D)"))
         org-log-done 'time
         org-hide-leading-stars t
         org-superstar-headline-bullets-list '("•")
