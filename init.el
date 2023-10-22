@@ -143,7 +143,7 @@
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        (go +lsp)                ; the hipster dialect
        ;; (graphql +lsp)      ; Give queries a REST
-       ;;(gdscript +lsp)
+       (gdscript +lsp)
        (haskell +lsp +ghcide)  ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;

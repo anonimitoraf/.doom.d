@@ -765,19 +765,12 @@ otherwise, nil."
                web-mode-hook
                js-mode-hook
                js2-mode-hook)
-             ;; Use `tide' for completions and formatting instead since LSP is too laggy
-             (setq-local lsp-completion-enable t
-                         lsp-completion-show-detail nil
-                         lsp-typescript-format-enable nil)
-             ;; (when (-contains? '(typescript-tsx-mode
-             ;;                     typescript-mode
-             ;;                     web-mode
-             ;;                     js-mode
-             ;;                     js2-mode)
-             ;;                   major-mode)
-             ;;   (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf
-             ;;                                                     (list #'company-tide))))
-             )
+    (setq-local lsp-completion-show-detail nil
+                lsp-typescript-format-enable nil))
+  (add-hook! '(gdscript-mode-hook)
+    ;; The GDScript lang server seems to struggle with
+    ;; checking syntax, at the expense of hindering completions
+    (setq-local lsp-idle-delay 1.0))
   (set-popup-rules!
     '(("*lsp-help*"
        :quit t
@@ -810,9 +803,9 @@ otherwise, nil."
         lsp-auto-touch-files nil
         lsp-completion-sort-initial-results nil
         xref-prompt-for-identifier '(not xref-find-references
-                                        xref-find-definitions
-                                        xref-find-definitions-other-window
-                                        xref-find-definitions-other-frame))
+                                     xref-find-definitions
+                                     xref-find-definitions-other-window
+                                     xref-find-definitions-other-frame))
   (map! :map evil-normal-state-map
         "g t" #'lsp-find-type-definition
         "g D" #'lsp-find-implementation
