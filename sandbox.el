@@ -67,11 +67,13 @@
     (line-beginning-position)
     (line-end-position)))
 
-(map! :map evil-org-mode-map
-  :nvi "C-k" #'+org/insert-item-above
-  :nvi "C-j" #'+org/insert-item-below
-  :nvi "C-S-k" #'++org/insert-item-above-and-indent
-  :nvi "C-S-j" #'++org/insert-item-below-and-indent)
+(use-package! evil-org
+  :config
+  (map! :map evil-org-mode-map
+    :nvi "C-k" #'+org/insert-item-above
+    :nvi "C-j" #'+org/insert-item-below
+    :nvi "C-S-k" #'++org/insert-item-above-and-indent
+    :nvi "C-S-j" #'++org/insert-item-below-and-indent))
 
 (map! :map vertico-map
   "C-h" #'++backward-delete-word)
