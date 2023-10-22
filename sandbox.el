@@ -19,6 +19,14 @@
   (ov-set ++ov-cider-inspector-method-names 'face `(:foreground ,(doom-color 'red)))
   (ov-set ++ov-cider-inspector-method-param-lists 'face `(:foreground "white")))
 
+(defun ++cider-inspector-highlight ()
+  (interactive)
+  (++ov-cider-inspector))
+
+(defun ++cider-inspector-unhighlight ()
+  (interactive)
+  (ov-clear))
+
 (map! :map cider-inspector-mode-map
   :nv "d" #'cider-inspector-def-current-val)
 
