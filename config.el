@@ -2425,6 +2425,10 @@ message listing the hooks."
              tsx-ts-mode-hook)
            #'lsp)
 
+(use-package tsx-ts-helper-mode
+  :commands (tsx-ts-helper-mode)
+  :hook (tsx-ts-mode . tsx-ts-helper-mode))
+
 (use-package cider-storm
   :config
   (add-hook 'cider-storm-debugging-mode-hook

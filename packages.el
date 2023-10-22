@@ -264,4 +264,7 @@
 (package! eat
   :recipe (:type git :repo "https://codeberg.org/akib/emacs-eat.git"))
 
+(package! tsx-ts-helper-mode
+  :recipe (:type git :repo "https://codeberg.org/ckruse/tsx-ts-helper-mode.git"))
+
 (package! synosaurus)
