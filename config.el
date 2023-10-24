@@ -485,6 +485,15 @@ otherwise, nil."
       :size 0.5
       :select nil)))
 
+(defun string-long-p (max-length)
+  (lambda (s) (> (string-width s) max-length)))
+
+(use-package! clean-kill-ring
+  :init
+  (setq clean-kill-ring-filters (list 'string-blank-p (string-long-p 300)))
+  :config
+  (clean-kill-ring-mode t))
+
 (use-package! clipetty
   :config
   (unless (display-graphic-p)
