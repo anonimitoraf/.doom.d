@@ -1632,6 +1632,16 @@ Optionally executes CALLBACK afterwards"
     :multi-root t
     :server-id 'prolog-ls)))
 
+(use-package gdscript-mode
+  :config
+  (setq gdscript-tab-width 2
+        gdscript-use-tab-indents nil
+        gdscript-gdformat-save-and-format t)
+  (add-hook 'after-save-hook
+            (lambda ()
+              (when (equal 'gdscript-mode major-mode)
+                (gdscript-format-buffer)))))
+
 (defvar ++lookup/google-history nil)
 (defun ++lookup/google ()
   (interactive)
