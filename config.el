@@ -1032,6 +1032,10 @@ otherwise, nil."
 
 (add-hook 'org-mode-hook (lambda () (corfu-mode -1)))
 
+(use-package evil-org
+  :config
+  (define-key evil-org-mode-map (kbd "<insert-state> C-h") '++backward-delete-word))
+
 (after! org
   (setq org-capture-templates
     '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")
