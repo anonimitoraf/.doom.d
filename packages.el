@@ -270,6 +270,3 @@
   :recipe (:type git :repo "https://codeberg.org/ckruse/tsx-ts-helper-mode.git"))
 
 (package! synosaurus)
-
-(package! clean-kill-ring
-  :recipe (:host github :repo "NicholasBHubbard/clean-kill-ring.el"))
