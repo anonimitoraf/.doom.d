@@ -495,15 +495,13 @@ otherwise, nil."
 (use-package! consult
   :config
   (consult-customize
-    consult-ripgrep consult-git-grep consult-grep
-    consult-bookmark consult-xref
-    consult--source-bookmark
-    +default/search-project
-    +default/search-cwd
-    +default/search-other-cwd
-    :preview-key '(:debounce 0.2 any))
-  (map! :map doom-leader-map
-        "y" #'consult-yank-from-kill-ring))
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-xref
+   consult--source-bookmark
+   +default/search-project
+   +default/search-cwd
+   +default/search-other-cwd
+   :preview-key '(:debounce 0.2 any)))
 
 (after! vertico
  (use-package! consult-dir
@@ -1678,9 +1676,19 @@ Optionally executes CALLBACK afterwards"
                                (ov-clear)
                                (++highlight-timestamps))))
 
-(defun ++unpropertize-kill-ring (&rest args)
-  (setq kill-ring (mapcar 'substring-no-properties kill-ring)))
-(advice-add #'consult-yank-from-kill-ring :before #'++unpropertize-kill-ring)
+(defun ++optimize-kill-ring ()
+  (setq kill-ring (mapcar (lambda (str)
+                            (-> str
+                                (substring-no-properties)
+                                (truncate-string-to-width 2048)))
+                          kill-ring)))
+
+(defun ++yank-from-kill-ring ()
+  (interactive)
+  (++optimize-kill-ring)
+  (call-interactively #'yank-from-kill-ring))
+
+(map! :map doom-leader-map "y" #'++yank-from-kill-ring)
 
 (defun ++org-src-block-at-point ()
   (interactive)

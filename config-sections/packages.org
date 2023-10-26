@@ -248,15 +248,13 @@ Make it easy to close =*cider-error*= buffer
 (use-package! consult
   :config
   (consult-customize
-    consult-ripgrep consult-git-grep consult-grep
-    consult-bookmark consult-xref
-    consult--source-bookmark
-    +default/search-project
-    +default/search-cwd
-    +default/search-other-cwd
-    :preview-key '(:debounce 0.2 any))
-  (map! :map doom-leader-map
-        "y" #'consult-yank-from-kill-ring))
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-xref
+   consult--source-bookmark
+   +default/search-project
+   +default/search-cwd
+   +default/search-other-cwd
+   :preview-key '(:debounce 0.2 any)))
 #+end_src
 * =consult-dir=
 #+begin_src elisp :results none

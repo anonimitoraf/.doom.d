@@ -51,9 +51,19 @@ Whenever I work with ISO timestamps like: ="2022-03-04T06:50.000Z"=, I can't ins
 
 * Optimize kill-ring by un-highlighting
 #+begin_src elisp :results none
-(defun ++unpropertize-kill-ring (&rest args)
-  (setq kill-ring (mapcar 'substring-no-properties kill-ring)))
-(advice-add #'consult-yank-from-kill-ring :before #'++unpropertize-kill-ring)
+(defun ++optimize-kill-ring ()
+  (setq kill-ring (mapcar (lambda (str)
+                            (-> str
+                                (substring-no-properties)
+                                (truncate-string-to-width 2048)))
+                          kill-ring)))
+
+(defun ++yank-from-kill-ring ()
+  (interactive)
+  (++optimize-kill-ring)
+  (call-interactively #'yank-from-kill-ring))
+
+(map! :map doom-leader-map "y" #'++yank-from-kill-ring)
 #+end_src
 * Copy org src block
 #+begin_src elisp :results none
