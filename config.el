@@ -1549,6 +1549,47 @@ Optionally executes CALLBACK afterwards"
    "*jet error buffer*"
    t))
 
+(require 'ov)
+(defvar ++clojure-comment-block-overlays '())
+
+(defun ++find-all-clojure-comment-blocks ()
+  (save-excursion
+    (goto-char (point-min))
+    (let (bounds)
+      (while (re-search-forward "^(comment" nil t)
+        ;; Point is at the "t"
+        (backward-sexp 1)
+        ;; Point is at the "("
+        (backward-char 1)
+        (push (bounds-of-thing-at-point 'sexp) bounds)
+        (forward-sexp))
+      bounds)))
+
+(defun ++grey-out-bounds (bounds)
+  "Changes the specified bounds' text to grey. Returns the created overlay."
+  (let* ((start (car bounds))
+         (end (cdr bounds))
+         (ov (make-overlay start end)))
+    (overlay-put ov 'face 'font-lock-comment-face)
+    (overlay-put ov 'start start)
+    (overlay-put ov 'end end)
+    ov))
+
+(defun ++grey-out-clojure-comment-blocks ()
+  (interactive)
+  (when (derived-mode-p 'clojure-mode)
+    ;; Start fresh
+    (ov-reset ++clojure-comment-block-overlays)
+    (let ((all-bounds (++find-all-clojure-comment-blocks)))
+      (dolist (bounds all-bounds)
+        (push (++grey-out-bounds bounds) ++clojure-comment-block-overlays)))
+    (dolist (ov ++clojure-comment-block-overlays)
+      (when (and (>= (point) (overlay-get ov 'start))
+                 (<= (point) (overlay-get ov 'end)))
+        (delete-overlay ov)))))
+
+(add-hook 'post-command-hook #'++grey-out-clojure-comment-blocks)
+
 (defun ++erlang-compile ()
   (interactive)
   (erlang-compile)
