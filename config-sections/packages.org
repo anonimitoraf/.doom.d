@@ -1376,7 +1376,9 @@ Cleanup, just in case
   :config
   (map! :map vertico-map
         "C-l" #'vertico-exit
-        "C-;" #'vertico-insert)
+        "C-;" #'vertico-insert
+        :nvi "C-d" #'vertico-scroll-up
+        :nvi "C-u" #'vertico-scroll-down)
   (when (display-graphic-p) ; Yabai on Mac sometimes hides posframes
     (require 'vertico-posframe)
     (vertico-multiform-mode)
