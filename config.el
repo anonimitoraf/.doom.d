@@ -387,6 +387,9 @@ output as a string."
   (defun ++cider-pprint-eval-last-sexp-to-repl ()
     (interactive)
     (cider-pprint-eval-last-sexp-to-repl t))
+  (defun ++cider-paste-last-eval-result ()
+    (interactive)
+    (insert-register cider-eval-register))
   (setq cider-repl-pop-to-buffer-on-connect nil
         cider-dynamic-indentation nil
         cider-font-lock-dynamically nil
@@ -396,7 +399,8 @@ output as a string."
         nrepl-force-ssh-for-remote-hosts t)
   (map! :map (clojure-mode-map clojurescript-mode-map clojurec-mode-map)
         :nv "SPC m p p" #'cider-pprint-eval-last-sexp-to-comment
-        :nv "SPC m p P" #'++cider-pprint-eval-last-sexp-to-repl)
+        :nv "SPC m p P" #'++cider-pprint-eval-last-sexp-to-repl
+        :nv "SPC m e y" #'++cider-paste-last-eval-result)
   (map! :map cider-repl-mode-map
         :nvi "C-k" #'cider-repl-previous-input
         :nvi "C-j" #'cider-repl-next-input)
