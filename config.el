@@ -2537,3 +2537,18 @@ If popup is focused, kill it."
       (delete-region (cdr comint-last-prompt) (point-max))
       (insert input)
       (comint-send-input no-newline))))
+
+(defun ++filter-vertico-exits ()
+  (setq vertico-repeat-history
+        (seq-filter (lambda (session)
+                      (not (equal (car session) 'vertico-exit)))
+                    vertico-repeat-history)))
+(advice-add #'vertico-repeat-select :before #'++filter-vertico-exits)
+
+(defun ++vertico-repeat-last ()
+  (interactive)
+  (++filter-vertico-exits)
+  (call-interactively #'vertico-repeat-last))
+
+(map! :map doom-leader-map
+      "'" #'++vertico-repeat-last)
