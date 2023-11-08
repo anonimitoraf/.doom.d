@@ -94,7 +94,6 @@
 (package! benchmark-init
   :recipe (:host github :repo "kekeimiku/benchmark-init-el"))
 
-(unpin! lsp-mode)
 (unpin! clojure-mode)
 (unpin! cider)
 

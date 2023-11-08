@@ -60,3 +60,51 @@ If popup is focused, kill it."
 (map! :map doom-leader-map
       "'" #'++vertico-repeat-last)
 #+end_src
+* =lsp-mode= (Typescript)
+#+begin_src elisp :results none
+(lsp-register-client
+ (make-lsp-client :new-connection (lsp-stdio-connection (lambda ()
+                                                          `(,(lsp-package-path 'typescript-language-server)
+                                                            ,@lsp-clients-typescript-server-args)))
+                  :activation-fn 'lsp-typescript-javascript-tsx-jsx-activate-p
+                  :priority -2
+                  :completion-in-comments? t
+                  :initialization-options (lambda ()
+                                            (append
+                                             (when lsp-clients-typescript-disable-automatic-typing-acquisition
+                                               (list :disableAutomaticTypingAcquisition lsp-clients-typescript-disable-automatic-typing-acquisition))
+                                             (when lsp-clients-typescript-log-verbosity
+                                               (list :logVerbosity lsp-clients-typescript-log-verbosity))
+                                             (when lsp-clients-typescript-max-ts-server-memory
+                                               (list :maxTsServerMemory lsp-clients-typescript-max-ts-server-memory))
+                                             (when lsp-clients-typescript-npm-location
+                                               (list :npmLocation lsp-clients-typescript-npm-location))
+                                             (when lsp-clients-typescript-plugins
+                                               (list :plugins lsp-clients-typescript-plugins))
+                                             (when lsp-clients-typescript-preferences
+                                               (list :preferences lsp-clients-typescript-preferences))
+                                             (when lsp-clients-typescript-tsserver
+                                               (list :tsserver lsp-clients-typescript-tsserver))))
+                  :initialized-fn (lambda (workspace)
+                                    (with-lsp-workspace workspace
+                                      (lsp--set-configuration
+                                       (ht-merge (lsp-configuration-section "javascript")
+                                                 (lsp-configuration-section "typescript")
+                                                 (lsp-configuration-section "completions")
+                                                 (lsp-configuration-section "diagnostics"))))
+                                    (let ((caps (lsp--workspace-server-capabilities workspace))
+                                          (format-enable (or lsp-javascript-format-enable lsp-typescript-format-enable)))
+                                      (lsp:set-server-capabilities-document-formatting-provider? caps format-enable)
+                                      (lsp:set-server-capabilities-document-range-formatting-provider? caps format-enable)))
+                  :ignore-messages '("readFile .*? requested by TypeScript but content not available")
+                  :server-id 'ts-ls
+                  :request-handlers (ht ("_typescript.rename" #'lsp-javascript--rename))
+                  :download-server-fn (lambda (_client callback error-callback _update?)
+                                        (lsp-package-ensure
+                                         'typescript
+                                         (-partial #'lsp-package-ensure
+                                                   'typescript-language-server
+                                                   callback
+                                                   error-callback)
+                                         error-callback))))
+#+end_src
