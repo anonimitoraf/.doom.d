@@ -269,3 +269,6 @@
   :recipe (:type git :repo "https://codeberg.org/ckruse/tsx-ts-helper-mode.git"))
 
 (package! synosaurus)
+
+(package! codeium
+  :recipe (:host github :repo "Exafunction/codeium.el"))
