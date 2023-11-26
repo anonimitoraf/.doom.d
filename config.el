@@ -1158,6 +1158,11 @@ otherwise, nil."
   :config
   (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 
+(use-package org-tidy
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook #'org-tidy-mode))
+
 (use-package! org-ros)
 
 (setq persp-save-dir (concat ++sync-folder-path "/sessions/"))

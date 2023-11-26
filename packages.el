@@ -272,3 +272,6 @@
 
 (package! codeium
   :recipe (:host github :repo "Exafunction/codeium.el"))
+
+(package! org-tidy
+  :recipe (:host github :repo "jxq0/org-tidy"))

@@ -1097,6 +1097,13 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
   :config
   (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 #+end_src
+* =org-tidy=
+#+begin_src elisp :results none
+(use-package org-tidy
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook #'org-tidy-mode))
+#+end_src
 * =org-ros=
 #+begin_src elisp :results none
 (use-package! org-ros)
