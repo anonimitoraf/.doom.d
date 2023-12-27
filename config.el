@@ -236,7 +236,7 @@ output as a string."
   "Given WIDTH_X_HEIGHT, returns the adjusted font size"
   (let ((default-font-size 16))
     (cond ((member width-x-height
-                   '((3440 1440))) 18)
+                   '((3440 1440))) 20)
           ;; Home flat screen
           ((member width-x-height
                    '((2560 1440))) 16)
