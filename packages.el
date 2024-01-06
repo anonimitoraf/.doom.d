@@ -275,3 +275,5 @@
 
 (package! org-tidy
   :recipe (:host github :repo "jxq0/org-tidy"))
+
+(package! evil-collection :pin "27d32610d528660e4a7e3ee6cc99214ca1f776fa")
