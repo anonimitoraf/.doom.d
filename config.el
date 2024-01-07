@@ -1601,6 +1601,8 @@ Optionally executes CALLBACK afterwards"
 
 (add-hook 'post-command-hook #'++grey-out-clojure-comment-blocks)
 
+(add-to-list 'auto-mode-alist '("\\.bb\\'" . clojurec-mode))
+
 (defun ++erlang-compile ()
   (interactive)
   (erlang-compile)

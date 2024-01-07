@@ -128,6 +128,11 @@ Automatically grey-out comments blocks in the current buffer (unless cursor is i
 (add-hook 'post-command-hook #'++grey-out-clojure-comment-blocks)
 #+end_src
 
+Support for babashka scripts
+#+begin_src elisp :results none
+(add-to-list 'auto-mode-alist '("\\.bb\\'" . clojurec-mode))
+#+end_src
+
 * Erlang
 Function for compiling, generating then visiting TAGS
 #+begin_src elisp
