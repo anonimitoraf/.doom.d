@@ -239,7 +239,7 @@ output as a string."
                    '((3440 1440))) 20)
           ;; Home flat screen
           ((member width-x-height
-                   '((2560 1440))) 16)
+                   '((2560 1440))) 18)
           ((member width-x-height
                    '((1920 1080))) 14)
           ;; My Flux mac
