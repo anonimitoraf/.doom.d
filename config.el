@@ -2286,10 +2286,7 @@ message listing the hooks."
         :nvi "TAB" #'corfu-insert
         :nvi "<tab>" #'corfu-insert
         :nvi "<escape>" #'++corfu-quit
-        :nvi "ESC" #'++corfu-quit
-        :nvi "C-i" #'corfu-popupinfo-toggle
-        :nvi "C-u" #'corfu-popupinfo-scroll-up
-        :nvi "C-d" #'corfu-popupinfo-scroll-down)
+        :nvi "ESC" #'++corfu-quit)
   (global-corfu-mode t)
   (corfu-popupinfo-mode t)
   (corfu-history-mode t)
