@@ -800,7 +800,7 @@ otherwise, nil."
                                         :min-width 120)
         lsp-auto-execute-action nil
         lsp-enable-snippet nil
-        lsp-auto-touch-files nil
+        lsp-auto-touch-files t
         lsp-completion-sort-initial-results nil
         xref-prompt-for-identifier '(not xref-find-references
                                      xref-find-definitions
@@ -810,6 +810,9 @@ otherwise, nil."
         "g t" #'lsp-find-type-definition
         "g D" #'lsp-find-implementation
         "g f" #'xref-find-references)
+
+  (map! :map evil-insert-state-map
+        "C-i" #'lsp-signature-activate)
 
   (map! :map lsp-signature-mode-map
         "C-j" #'lsp-signature-next
