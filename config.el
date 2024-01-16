@@ -812,7 +812,7 @@ otherwise, nil."
         "g f" #'xref-find-references)
 
   (map! :map evil-insert-state-map
-        "C-i" #'lsp-signature-activate)
+        "C-u" #'lsp-signature-activate)
 
   (map! :map lsp-signature-mode-map
         "C-j" #'lsp-signature-next
