@@ -108,6 +108,10 @@ output as a string."
 (setq comint-scroll-to-bottom-on-output t
       comint-scroll-to-bottom-on-input t)
 
+(map! :map comint-mode-map
+      :nvi "C-k" #'comint-previous-input
+      :nvi "C-j" #'comint-next-input)
+
 (defvar ++vscode-search-occ-bg "#470000")
 (defvar ++vscode-search-occ-fg "#cccccc")
 (defvar ++dark-red "#5a1111")
