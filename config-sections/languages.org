@@ -193,7 +193,9 @@ Auto-configure modes
 (use-package! lsp-mode
   :config
   (add-to-list 'lsp-language-id-configuration
-    '(typescript-tsx-mode . "css-modules"))
+               '(typescript-tsx-mode . "css-modules"))
+  (add-to-list 'lsp-language-id-configuration
+               '(tsx-ts-mode . "css-modules"))
   (lsp-register-client
     (make-lsp-client :new-connection (lsp-stdio-connection "cssmodules-language-server")
                      :priority -1
