@@ -110,7 +110,8 @@ output as a string."
 
 (map! :map comint-mode-map
       :nvi "C-k" #'comint-previous-input
-      :nvi "C-j" #'comint-next-input)
+      :nvi "C-j" #'comint-next-input
+      :nvi "C-l" #'comint-send-input)
 
 (defvar ++vscode-search-occ-bg "#470000")
 (defvar ++vscode-search-occ-fg "#cccccc")

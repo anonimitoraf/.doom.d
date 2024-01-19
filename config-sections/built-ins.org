@@ -28,9 +28,10 @@
 (setq comint-scroll-to-bottom-on-output t
       comint-scroll-to-bottom-on-input t)
 #+end_src
-* Comint navigating history
+* Comint navigating history/sending input
 #+begin_src elisp :results none
 (map! :map comint-mode-map
       :nvi "C-k" #'comint-previous-input
-      :nvi "C-j" #'comint-next-input)
+      :nvi "C-j" #'comint-next-input
+      :nvi "C-l" #'comint-send-input)
 #+end_src
