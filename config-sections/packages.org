@@ -734,6 +734,21 @@ TODO Convert the `define-key` statements to use `map!`
         ;; This is just annoying, really
         lsp-ui-sideline-enable nil))
 #+end_src
+* =magit=
+Auto-refresh when I switch to magit
+#+begin_src elisp :results none
+(defun ++magit-refresh (&rest arg)
+  (when (equal major-mode 'magit-status-mode)
+    (message "Refreshing magit-status")
+    (funcall-interactively #'magit-refresh)))
+
+(defun ++magit-status-setup ()
+  (setq-local window-selection-change-functions
+              (cons #'++magit-refresh window-selection-change-functions)))
+
+(add-hook 'magit-status-mode-hook #'++magit-status-setup)
+#+end_src
+
 * =magit-filenotify=
 #+begin_src elisp :results none
 ;; (use-package! magit-filenotify
@@ -1114,7 +1129,8 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
 
 * =persp=
 #+begin_src elisp
-(setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
+(setq persp-save-dir (concat ++sync-folder-path "/sessions/")
+      persp-auto-save-persps-to-their-file nil)
 #+end_src
 * =prescient=
 #+begin_src elisp :results none

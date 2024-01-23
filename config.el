@@ -870,6 +870,17 @@ otherwise, nil."
         ;; This is just annoying, really
         lsp-ui-sideline-enable nil))
 
+(defun ++magit-refresh (&rest arg)
+  (when (equal major-mode 'magit-status-mode)
+    (message "Refreshing magit-status")
+    (funcall-interactively #'magit-refresh)))
+
+(defun ++magit-status-setup ()
+  (setq-local window-selection-change-functions
+              (cons #'++magit-refresh window-selection-change-functions)))
+
+(add-hook 'magit-status-mode-hook #'++magit-status-setup)
+
 ;; (use-package! magit-filenotify
 ;;   :config
 ;;   (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
@@ -1173,7 +1184,8 @@ otherwise, nil."
 
 (use-package! org-ros)
 
-(setq persp-save-dir (concat ++sync-folder-path "/sessions/"))
+(setq persp-save-dir (concat ++sync-folder-path "/sessions/")
+      persp-auto-save-persps-to-their-file nil)
 
 (use-package! prescient
   :init
