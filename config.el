@@ -508,7 +508,9 @@ otherwise, nil."
    +default/search-project
    +default/search-cwd
    +default/search-other-cwd
-   :preview-key '(:debounce 0.2 any)))
+   :preview-key '(:debounce 0.2 any)
+   consult-buffer
+   :preview-key))
 
 (after! vertico
  (use-package! consult-dir
