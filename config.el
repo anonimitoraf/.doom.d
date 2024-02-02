@@ -809,6 +809,7 @@ otherwise, nil."
         lsp-enable-snippet nil
         lsp-auto-touch-files t
         lsp-completion-sort-initial-results nil
+        lsp-references-exclude-definition t
         xref-prompt-for-identifier '(not xref-find-references
                                      xref-find-definitions
                                      xref-find-definitions-other-window
