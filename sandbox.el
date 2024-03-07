@@ -105,3 +105,9 @@ window open while opening the files in it."
     (cider-set-repl-type 'cljs)))
 
 (add-hook 'cider-connected-hook #'mm/cider-connected-hook)
+
+(use-package! apheleia
+  :init
+  (setq apheleia-formatters
+        (a-assoc apheleia-formatters  'prettier-typescript
+                 '("apheleia-npx" "prettier" filepath "--parser=typescript"))))
