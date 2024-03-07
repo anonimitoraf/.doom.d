@@ -109,5 +109,6 @@ window open while opening the files in it."
 (use-package! apheleia
   :init
   (setq apheleia-formatters
-        (a-assoc apheleia-formatters  'prettier-typescript
-                 '("apheleia-npx" "prettier" filepath "--parser=typescript"))))
+        (-> apheleia-formatters
+            (a-assoc 'prettier-typescript '("apheleia-npx" "prettier" filepath "--parser=typescript"))
+            (a-assoc 'prettier-json '("apheleia-npx" "prettier" filepath "--parser=json")))))
