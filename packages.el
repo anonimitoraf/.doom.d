@@ -281,3 +281,5 @@
 (package! lsp-mode :pin "57cd9bf153c5ac4ef49d8833aeac77ffa7ec8ea9")
 
 (package! all-the-icons)
+
+(package! gptel)

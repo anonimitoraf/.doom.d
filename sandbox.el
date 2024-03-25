@@ -112,3 +112,11 @@ window open while opening the files in it."
         (-> apheleia-formatters
             (a-assoc 'prettier-typescript '("apheleia-npx" "prettier" filepath "--parser=typescript"))
             (a-assoc 'prettier-json '("apheleia-npx" "prettier" filepath "--parser=json")))))
+
+(use-package! gptel
+  :config
+  (setq gptel-model "mistral:latest"
+        gptel-backend (gptel-make-ollama "Ollama"
+                        :host "localhost:11434"
+                        :stream t
+                        :models '("mistral:latest" "codellama:latest"))))
