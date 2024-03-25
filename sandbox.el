@@ -117,6 +117,7 @@ window open while opening the files in it."
   :config
   (setq gptel-model "mistral:latest"
         gptel-backend (gptel-make-ollama "Ollama"
-                        :host "localhost:11434"
+                        ;; Resolved via tailscale
+                        :host "desktop:11434"
                         :stream t
                         :models '("mistral:latest" "codellama:latest"))))
