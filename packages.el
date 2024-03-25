@@ -282,4 +282,6 @@
 
 (package! all-the-icons)
 
+(package! ranger :recipe (:host github :repo "anonimitoraf/ranger.el"))
+
 (package! gptel)
