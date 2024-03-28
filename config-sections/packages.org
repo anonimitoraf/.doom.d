@@ -413,6 +413,10 @@ Don't yank replaced lines
 #+begin_src elisp :results none
 (map! :map global-map
       "C-'" #'embark-act)
+(unless (display-graphic-p)
+  ;; C-', C-;, etc don't work in TTY
+  (map! :map global-map
+         "C-]" #'embark-act))
 #+end_src
 
 #+begin_src elisp :results none

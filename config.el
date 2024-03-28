@@ -611,6 +611,10 @@ otherwise, nil."
 
 (map! :map global-map
       "C-'" #'embark-act)
+(unless (display-graphic-p)
+  ;; C-', C-;, etc don't work in TTY
+  (map! :map global-map
+         "C-]" #'embark-act))
 
 (setq embark-quit-after-action nil)
 
