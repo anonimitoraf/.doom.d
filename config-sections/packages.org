@@ -1316,7 +1316,9 @@ Utilize modeline color to tell me if I'm in symex-mode
   (require 'spookfox-tabs)
   (require 'spookfox-js-injection)
   (require 'spookfox-jscl)
-  (spookfox-init))
+  (condition-case nil
+    (spookfox-init)
+    (error nil)))
 #+end_src
 
 Firefox tab switcher via emacsclient

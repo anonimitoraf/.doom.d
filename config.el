@@ -1351,7 +1351,9 @@ otherwise, nil."
   (require 'spookfox-tabs)
   (require 'spookfox-js-injection)
   (require 'spookfox-jscl)
-  (spookfox-init))
+  (condition-case nil
+    (spookfox-init)
+    (error nil)))
 
 (defun ++switch-firefox-tabs (&optional callback)
   "Pops out the spookfox-tab-switcher.
