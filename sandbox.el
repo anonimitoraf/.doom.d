@@ -114,10 +114,29 @@ window open while opening the files in it."
             (a-assoc 'prettier-json '("apheleia-npx" "prettier" filepath "--parser=json")))))
 
 (use-package! gptel
-  :config
-  (setq gptel-model "mistral:latest"
+  :init
+  (setq gptel-model "mixtral"
+        gptel-log-level 'debug
         gptel-backend (gptel-make-ollama "Ollama"
                         ;; Resolved via tailscale
                         :host "desktop:11434"
                         :stream t
-                        :models '("mistral:latest" "codellama:latest"))))
+                        :models '("mistral"
+                                  "mixtral"
+                                  "phind-codellama"
+                                  "codellama"))
+        gptel-use-curl t
+        gptel-stream t)
+
+  (add-hook 'gptel-mode-hook (lambda () (corfu-mode -1)))
+  (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+  (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
+
+  (map! :map doom-leader-map
+        "?" #'gptel)
+  (map! :map gptel-mode-map
+        "C-l" #'gptel-send
+        "C-k" #'gptel-beginning-of-response
+        "C-j" #'gptel-end-of-response
+        "C-c" #'gptel-abort
+        "C-q" #'gptel-menu))
