@@ -127,8 +127,8 @@ window open while opening the files in it."
 (use-package! gptel
   :init
   (setq
-   ;; gptel-model "claude-3-sonnet-20240229"
-   gptel-model "claude-3-opus-20240229"
+   gptel-model "claude-3-sonnet-20240229"
+   ;; gptel-model "claude-3-opus-20240229"
    gptel-backend claude-backend
    gptel-log-level 'debug
    gptel-use-curl t
