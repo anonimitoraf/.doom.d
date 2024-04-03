@@ -113,20 +113,26 @@ window open while opening the files in it."
             (a-assoc 'prettier-typescript '("apheleia-npx" "prettier" filepath "--parser=typescript"))
             (a-assoc 'prettier-json '("apheleia-npx" "prettier" filepath "--parser=json")))))
 
+(defvar ollama-backend (gptel-make-ollama "Ollama"
+                         ;; Resolved via tailscale
+                         :host "desktop:11434"
+                         :stream t
+                         :models '("mistral"
+                                   "mixtral"
+                                   "phind-codellama"
+                                   "codellama")))
+(defvar claude-backend (gptel-make-anthropic "Claude"
+                         :stream t
+                         :key (getenv "CLAUDE_API_KEY")))
 (use-package! gptel
   :init
-  (setq gptel-model "mixtral"
-        gptel-log-level 'debug
-        gptel-backend (gptel-make-ollama "Ollama"
-                        ;; Resolved via tailscale
-                        :host "desktop:11434"
-                        :stream t
-                        :models '("mistral"
-                                  "mixtral"
-                                  "phind-codellama"
-                                  "codellama"))
-        gptel-use-curl t
-        gptel-stream t)
+  (setq
+   ;; gptel-model "claude-3-sonnet-20240229"
+   gptel-model "claude-3-opus-20240229"
+   gptel-backend claude-backend
+   gptel-log-level 'debug
+   gptel-use-curl t
+   gptel-stream t)
 
   (add-hook 'gptel-mode-hook (lambda () (corfu-mode -1)))
   (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
