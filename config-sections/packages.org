@@ -245,7 +245,9 @@ Make it easy to close =*cider-error*= buffer
 #+end_src
 * =clippo=
 #+begin_src emacs-lisp :tangle yes :results none
-(use-package! clippo)
+(use-package! clippo
+  :config
+  (clippo-start-listen))
 #+end_src
 * =consult=
 #+begin_src elisp :results none

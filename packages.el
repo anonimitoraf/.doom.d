@@ -285,3 +285,5 @@
 (package! ranger :recipe (:host github :repo "anonimitoraf/ranger.el"))
 
 (package! gptel :recipe (:host github :repo "karthink/gptel"))
+
+(package! clipmon :recipe (:host github :repo "anonimitoraf/clipmon"))
