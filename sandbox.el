@@ -120,16 +120,17 @@ window open while opening the files in it."
                          :models '("mistral"
                                    "mixtral"
                                    "phind-codellama"
-                                   "codellama")))
+                                   "codellama"
+                                   "llama3")))
 (defvar claude-backend (gptel-make-anthropic "Claude"
                          :stream t
                          :key (getenv "CLAUDE_API_KEY")))
 (use-package! gptel
   :init
   (setq
-   gptel-model "claude-3-sonnet-20240229"
+   gptel-model "llama3"
    ;; gptel-model "claude-3-opus-20240229"
-   gptel-backend claude-backend
+   gptel-backend ollama-backend
    gptel-log-level 'debug
    gptel-use-curl t
    gptel-stream t)
