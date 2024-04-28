@@ -2657,3 +2657,5 @@ If popup is focused, kill it."
                                                    callback
                                                    error-callback)
                                          error-callback))))
+
+(advice-remove 'evil-surround-delete 'evil-embrace-evil-surround-delete)

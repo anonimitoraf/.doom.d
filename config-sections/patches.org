@@ -108,3 +108,8 @@ If popup is focused, kill it."
                                                    error-callback)
                                          error-callback))))
 #+end_src
+* =symex=
+See issue: https://github.com/drym-org/symex.el/issues/132
+#+begin_src elisp :results none
+(advice-remove 'evil-surround-delete 'evil-embrace-evil-surround-delete)
+#+end_src
