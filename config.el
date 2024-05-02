@@ -1857,12 +1857,12 @@ Optionally executes CALLBACK afterwards"
               (cd dir)
               (run-mode-hooks 'shell-mode-hook)))
           (pop-to-buffer buffer)
+          (goto-char (point-max))
           (unless (equal dir ++shell-dir)
             ;; (shell-cd dir)
             (let ((cmd (concat "cd " (shell-quote-argument dir) "\n")))
               (comint-send-string nil cmd))
             (setq ++shell-dir dir)))))
-    (goto-char (point-max))
     (+shell--send-input buffer command)))
 
 (add-hook 'shell-mode-hook #'evil-insert-state)
