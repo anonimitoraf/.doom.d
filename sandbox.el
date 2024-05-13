@@ -147,3 +147,13 @@ window open while opening the files in it."
         "C-j" #'gptel-end-of-response
         "C-c" #'gptel-abort
         "C-q" #'gptel-menu))
+(use-package lsp-mode
+  :init
+  (setq lsp-java-vmargs '("-XX:+UseParallelGC"
+                          "-XX:GCTimeRatio=4"
+                          "-XX:AdaptiveSizePolicyWeight=90"
+                          "-Dsun.zip.disableMemoryMapping=true"
+                          "-Xmx4G"
+                          "-Xms200m"))
+  :config
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\android\\'"))
