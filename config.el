@@ -1066,6 +1066,8 @@ otherwise, nil."
   :config
   (define-key evil-org-mode-map (kbd "<insert-state> C-h") '++backward-delete-word))
 
+(add-hook 'org-mode-hook (lambda () (org-fancy-priorities-mode -1)))
+
 (after! org
   (setq org-capture-templates
     '(("t" "" entry (file "~/Dropbox/org/captures/tasks.org")

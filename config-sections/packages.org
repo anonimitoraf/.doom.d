@@ -974,6 +974,11 @@ Disable completions for org-mode. Not helpful, just distracting
   (define-key evil-org-mode-map (kbd "<insert-state> C-h") '++backward-delete-word))
 #+end_src
 
+=org-fancy-priorities= makes it slower to open =org-mode= files without really giving much value
+#+begin_src elisp :results none
+(add-hook 'org-mode-hook (lambda () (org-fancy-priorities-mode -1)))
+#+end_src
+
 ** =org-capture=
 #+begin_src elisp
 (after! org
