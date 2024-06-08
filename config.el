@@ -919,7 +919,7 @@ otherwise, nil."
                         (doom-modeline--anzu))))
       (or meta "")))
   (doom-modeline-def-modeline 'main
-    '(bar matches buffer-info repl lsp checker)
+    '(bar matches buffer-info repl lsp)
     '(buffer-position selection-info))
   (doom-modeline-def-modeline 'minimal
     '(bar matches buffer-info-simple)
@@ -949,7 +949,7 @@ otherwise, nil."
     '(bar matches buffer-info)
     '(window-number pdf-pages process))
   (doom-modeline-def-modeline 'org-src
-    '(bar matches buffer-info-simple lsp checker)
+    '(bar matches buffer-info-simple lsp)
     '(buffer-position selection-info))
   (doom-modeline-def-modeline 'timemachine
     '(bar matches git-timemachine)
