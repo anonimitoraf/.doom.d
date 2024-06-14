@@ -1320,8 +1320,8 @@ otherwise, nil."
                emacs-lisp-mode-hook
                inferior-emacs-lisp-mode-hook
                org-mode-hook
-               tsx-ts-mode
-               typescript-ts-mode)
+               typescript-tsx-mode-hook
+               typescript-mode-hook)
     (symex-mode +1)
     (symex-initialize)
     (map! :map doom-leader-map "k" (cmd! (when symex-mode (symex-mode-interface))))
