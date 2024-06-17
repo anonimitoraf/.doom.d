@@ -499,9 +499,9 @@ otherwise, nil."
   (unless (display-graphic-p)
     (global-clipetty-mode +1)))
 
-(use-package! clippo
-  :config
-  (clippo-start-listen))
+;; (use-package! clippo
+;;   :config
+;;   (clippo-start-listen))
 
 (use-package! consult
   :config
