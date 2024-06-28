@@ -35,3 +35,7 @@
       :nvi "C-j" #'comint-next-input
       :nvi "C-l" #'comint-send-input)
 #+end_src
+* Set fill-column indicator to 120
+#+begin_src elisp :results none
+(setq fill-column 120)
+#+end_src
