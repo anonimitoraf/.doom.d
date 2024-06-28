@@ -113,7 +113,7 @@ output as a string."
       :nvi "C-j" #'comint-next-input
       :nvi "C-l" #'comint-send-input)
 
-(setq fill-column 120)
+(add-hook 'prog-mode-hook (lambda () (setq fill-column 120)))
 
 (defvar ++vscode-search-occ-bg "#470000")
 (defvar ++vscode-search-occ-fg "#cccccc")

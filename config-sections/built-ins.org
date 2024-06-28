@@ -37,5 +37,5 @@
 #+end_src
 * Set fill-column indicator to 120
 #+begin_src elisp :results none
-(setq fill-column 120)
+(add-hook 'prog-mode-hook (lambda () (setq fill-column 120)))
 #+end_src
