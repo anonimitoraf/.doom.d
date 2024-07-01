@@ -158,11 +158,16 @@ window open while opening the files in it."
   :config
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\android\\'"))
 
+(defvar ++run-bq/history nil)
 (defun ++run-bq ()
   "Runs the current file as a BigQuery query. Currently only supports the local emulator."
   (interactive)
-  (let* ((params (completing-read-multiple "Parameters (e.g. key::value): " nil))
+  (let* ((crm-separator "|")
+         (params (completing-read-multiple
+                  "Parameters (e.g. key::value): "
+                  ++run-bq/history))
+         (_ (add-to-list '++run-bq/history (string-join params crm-separator)))
          (cmd (format "bq --api http://0.0.0.0:9050 query --project_id=demo-flux %s < %s"
-                      (string-join (cl-map 'list (lambda (param) (format "--parameter=%s" param)) params) " ")
+                      (string-join (cl-map 'list (lambda (param) (format "\'--parameter=%s\'" param)) params) " ")
                       (buffer-file-name))))
     (++async-shell-command cmd (lambda (result) (message result)))))

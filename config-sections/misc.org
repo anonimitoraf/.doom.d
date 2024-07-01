@@ -568,7 +568,8 @@ Copy dir path of curr buffer
 (add-hook 'savehist-mode-hook (lambda ()
                                 (-each '(++consult--search-recent-dir-tracked
                                           ++consult--search-recent-dir-history
-                                          ++lookup/google-history)
+                                          ++lookup/google-history
+                                          ++run-bq/history)
                                   (lambda (v) (add-to-list 'savehist-additional-variables v)))))
 #+end_src
 

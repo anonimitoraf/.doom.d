@@ -2173,7 +2173,8 @@ message listing the hooks."
 (add-hook 'savehist-mode-hook (lambda ()
                                 (-each '(++consult--search-recent-dir-tracked
                                           ++consult--search-recent-dir-history
-                                          ++lookup/google-history)
+                                          ++lookup/google-history
+                                          ++run-bq/history)
                                   (lambda (v) (add-to-list 'savehist-additional-variables v)))))
 
 (advice-add #'doom-save-session :around #'++silence-messages)
