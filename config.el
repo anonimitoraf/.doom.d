@@ -203,7 +203,8 @@ output as a string."
     `(highlight :background "#5a1111")
     `(doom-modeline-highlight :background ,(doom-color 'blue) :foreground "black")
     `(vertico-group-title :foreground ,(doom-color 'red))
-    `(vertico-group-separator :foreground ,(doom-color 'red) :strike-through t))
+    `(vertico-group-separator :foreground ,(doom-color 'red) :strike-through t)
+    `(magit-section-highlight :background "grey20"))
   ;; GUI
   (if (display-graphic-p)
       (custom-set-faces!
