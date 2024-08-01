@@ -67,11 +67,11 @@ Whenever I work with ISO timestamps like: ="2022-03-04T06:50.000Z"=, I can't ins
   (ov-set ++ov-date 'face `(:foreground ,(doom-color 'cyan)))
   (ov-set ++ov-time 'face `(:foreground ,(doom-color 'red))))
 
-(use-package! ov
-  :config
-  (add-hook 'after-save-hook (lambda ()
-                               (ov-clear)
-                               (++highlight-timestamps))))
+;; (use-package! ov
+;;   :config
+;;   (add-hook 'after-save-hook (lambda ()
+;;                                (ov-clear)
+;;                                (++highlight-timestamps))))
 #+end_src
 
 * Optimize kill-ring by un-highlighting

@@ -1783,11 +1783,11 @@ Optionally executes CALLBACK afterwards"
   (ov-set ++ov-date 'face `(:foreground ,(doom-color 'cyan)))
   (ov-set ++ov-time 'face `(:foreground ,(doom-color 'red))))
 
-(use-package! ov
-  :config
-  (add-hook 'after-save-hook (lambda ()
-                               (ov-clear)
-                               (++highlight-timestamps))))
+;; (use-package! ov
+;;   :config
+;;   (add-hook 'after-save-hook (lambda ()
+;;                                (ov-clear)
+;;                                (++highlight-timestamps))))
 
 (defun ++optimize-kill-ring ()
   (setq kill-ring (mapcar (lambda (str)
