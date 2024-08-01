@@ -1671,9 +1671,8 @@ Optionally executes CALLBACK afterwards"
 (use-package! gherkin-mode
   :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
-(define-derived-mode typescript-tsx-mode web-mode "TypeScript/TSX")
-
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 
 (use-package! lsp-mode
   :config

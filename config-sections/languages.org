@@ -182,10 +182,9 @@ Set electric commands (note that I've removed =gt= since it annoyingly inserts a
 #+end_src
 
 Auto-configure modes
-#+begin_src elisp
-(define-derived-mode typescript-tsx-mode web-mode "TypeScript/TSX")
-
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-tsx-mode))
+#+begin_src elisp :results none
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 #+end_src
 * CSS family
 
