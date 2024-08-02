@@ -720,3 +720,12 @@ Demo-recording
                    (bookmark-set (buffer-file-name))))))
 (add-hook 'pdf-view-after-change-page-hook #'++bookmark-pdf)
 #+end_src
+* Prime org-mode parser by opening an org-mode file at startup
+#+begin_src elisp :results none
+(defun ++prime-org-mode-parser ()
+  (make-thread (lambda ()
+                 (let ((buf (find-file (concat doom-user-dir "config-sections/packages.org"))))
+                   (kill-buffer buf)))))
+(add-hook 'emacs-startup-hook #'++prime-org-mode-parser)
+#+end_src
+

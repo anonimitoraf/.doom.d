@@ -2303,6 +2303,12 @@ message listing the hooks."
                    (bookmark-set (buffer-file-name))))))
 (add-hook 'pdf-view-after-change-page-hook #'++bookmark-pdf)
 
+(defun ++prime-org-mode-parser ()
+  (make-thread (lambda ()
+                 (let ((buf (find-file (concat doom-user-dir "config-sections/packages.org"))))
+                   (kill-buffer buf)))))
+(add-hook 'emacs-startup-hook #'++prime-org-mode-parser)
+
 (use-package corfu
   :config
   (defun ++corfu-quit ()
