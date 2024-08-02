@@ -291,7 +291,11 @@ Enable LSP
 #+begin_src elisp :results none
 (use-package tsx-ts-helper-mode
   :commands (tsx-ts-helper-mode)
-  :hook (tsx-ts-mode . tsx-ts-helper-mode))
+  :hook (tsx-ts-mode . tsx-ts-helper-mode)
+  :config
+  (map! :map tsx-ts-mode-map
+        :nv "SPC m r" #'tsx-ts-helper-mode-rename-tag
+        :nv "SPC m d" #'tsx-ts-helper-mode-delete-all))
 #+end_src
 * =cider-storm=
 So I don't accidentally edit the buffer, make it read-only while debugging

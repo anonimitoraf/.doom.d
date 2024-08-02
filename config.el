@@ -2566,7 +2566,11 @@ message listing the hooks."
 
 (use-package tsx-ts-helper-mode
   :commands (tsx-ts-helper-mode)
-  :hook (tsx-ts-mode . tsx-ts-helper-mode))
+  :hook (tsx-ts-mode . tsx-ts-helper-mode)
+  :config
+  (map! :map tsx-ts-mode-map
+        :nv "SPC m r" #'tsx-ts-helper-mode-rename-tag
+        :nv "SPC m d" #'tsx-ts-helper-mode-delete-all))
 
 (use-package cider-storm
   :config
