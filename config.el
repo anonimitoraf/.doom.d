@@ -1674,6 +1674,18 @@ Optionally executes CALLBACK afterwards"
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 
+(after! lsp-mode
+  (lsp-make-interactive-code-action remove-unused-ts "source.removeUnused.ts"))
+
+(defun ++ts-organize-imports ()
+  (when (or (equal major-mode 'typescript-mode)
+            (equal major-mode 'typescript-ts-mode)
+            (equal major-mode 'tsx-ts-mode)))
+  (lsp-remove-unused-ts)
+  (lsp-organize-imports))
+
+(add-hook 'before-save-hook #'++ts-organize-imports)
+
 (use-package! lsp-mode
   :config
   (add-to-list 'lsp-language-id-configuration
