@@ -170,4 +170,4 @@ window open while opening the files in it."
          (cmd (format "bq --api http://0.0.0.0:9050 query --project_id=demo-flux %s < %s"
                       (string-join (cl-map 'list (lambda (param) (format "\'--parameter=%s\'" param)) params) " ")
                       (buffer-file-name))))
-    (++async-shell-command cmd (lambda (result) (message result)))))
+    (++async-shell-command cmd (lambda (result) (message "Query result:\n%s" result)))))
