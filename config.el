@@ -568,6 +568,10 @@ otherwise, nil."
 (evil-add-command-properties #'+default/search-buffer :jump t)
 (evil-add-command-properties #'+default/search-project :jump t)
 (evil-add-command-properties #'evil-undo :jump t)
+(evil-add-command-properties #'evilem-motion-next-line :jump t)
+(evil-add-command-properties #'evilem-motion-previous-line :jump t)
+(evil-add-command-properties #'evilem-motion-backward-word-begin :jump t)
+(evil-add-command-properties #'evilem-motion-previous-line :jump t)
 
 (setq +evil-want-o/O-to-continue-comments nil)
 

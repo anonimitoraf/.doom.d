@@ -338,6 +338,10 @@ Configure particular commands to register a jump (i.e. primarily my most used na
 (evil-add-command-properties #'+default/search-buffer :jump t)
 (evil-add-command-properties #'+default/search-project :jump t)
 (evil-add-command-properties #'evil-undo :jump t)
+(evil-add-command-properties #'evilem-motion-next-line :jump t)
+(evil-add-command-properties #'evilem-motion-previous-line :jump t)
+(evil-add-command-properties #'evilem-motion-backward-word-begin :jump t)
+(evil-add-command-properties #'evilem-motion-previous-line :jump t)
 #+end_src
 
 Disable the annoying auto-comment on newline.
