@@ -276,7 +276,7 @@
 (package! org-tidy
   :recipe (:host github :repo "jxq0/org-tidy"))
 
-(package! evil-collection :pin "27d32610d528660e4a7e3ee6cc99214ca1f776fa")
+(package! evil-collection)
 
 (package! lsp-mode :pin "57cd9bf153c5ac4ef49d8833aeac77ffa7ec8ea9")
 
