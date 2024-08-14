@@ -41,7 +41,6 @@
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
        ;; fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       hydra
        ;; indent-guides     ; highlighted indent columns
        ;; (ligatures +extra)
        modeline          ; snazzy, Atom-inspired modeline, plus API
@@ -103,7 +102,6 @@
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
-       gist              ; interacting with github gists
        (lookup +docsets
                +dictionary
                +offline)              ; navigate your code and its documentation
@@ -114,7 +112,6 @@
        ;;pass              ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
-       rgb               ; creating color strings
        (terraform +lsp)         ; infrastructure as code
        tmux              ; an API for interacting with tmux
        ;;upload            ; map local to remote projects via ssh/ftp
@@ -145,7 +142,7 @@
        (go +lsp)                ; the hipster dialect
        ;; (graphql +lsp)      ; Give queries a REST
        (gdscript +lsp)
-       (haskell +lsp +ghcide)  ; a language that's lazier than I am
+       ;;(haskell +lsp +ghcide)  ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;
        (java +lsp)                ; the poster child for carpal tunnel syndrome
@@ -153,7 +150,7 @@
        (json +lsp)
        ;;julia             ; a better, faster MATLAB
        (kotlin +lsp)            ; a better, slicker Java(Script)
-       (latex +lsp)             ; writing papers in Emacs has never been so fun
+       ;;(latex +lsp)             ; writing papers in Emacs has never been so fun
        ;;lean
        ;;factor
        ;;ledger            ; an accounting system in Emacs
