@@ -95,8 +95,6 @@ output as a string."
 (map! :map global-map
   :nvi "C-." #'repeat)
 
-(advice-add #'kill-current-buffer :override #'kill-this-buffer)
-
 (map! :map doom-leader-map
       "f g" #'find-file-other-window)
 
