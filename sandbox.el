@@ -128,9 +128,10 @@ window open while opening the files in it."
 (use-package! gptel
   :init
   (setq
-   gptel-model "llama3"
-   ;; gptel-model "claude-3-opus-20240229"
-   gptel-backend ollama-backend
+   ;; gptel-backend ollama-backend
+   ;; gptel-model "llama3"
+   gptel-backend claude-backend
+   gptel-model "claude-3-5-sonnet-20240620"
    gptel-log-level 'debug
    gptel-use-curl t
    gptel-stream t)
