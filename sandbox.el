@@ -172,3 +172,5 @@ window open while opening the files in it."
                       (string-join (cl-map 'list (lambda (param) (format "\'--parameter=%s\'" param)) params) " ")
                       (buffer-file-name))))
     (++async-shell-command cmd (lambda (result) (message "Query result:\n%s" result)))))
+
+(setq-hook! 'sql-mode-hook tab-width 2)
