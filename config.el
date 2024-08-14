@@ -2,6 +2,7 @@
 
 (require 'dash)
 (require 'cl-lib)
+(require 'a)
 
 (setq user-full-name "Rafael Nicdao"
       user-mail-address "nicdaoraf@gmail.com")
