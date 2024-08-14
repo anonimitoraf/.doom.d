@@ -79,7 +79,7 @@ Or alternatively
 
 
 * Useful general variables
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (defvar ++window-id (shell-command-to-string "xdotool getwindowfocus getactivewindow | tr -d '\n'"))
 #+end_src
 * Javascript

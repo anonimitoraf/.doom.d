@@ -287,7 +287,7 @@ Mark particular local variables as safe
 #+end_src
 
 I don't need the mouse-hover help functions, having it enabled makes Emacs lag for me
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (setq show-help-function nil)
 #+end_src
 * Enabling only particular formatters
@@ -517,7 +517,7 @@ Perpetual quest to make scrolling feel alright (if not supported)
       recentf-max-saved-items 400)
 #+end_src
 * Who needs a shell when I have Emacs?
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (map! :map doom-leader-map "s x" #'async-shell-command)
 (set-popup-rules!
     '(("*Async Shell Command*"

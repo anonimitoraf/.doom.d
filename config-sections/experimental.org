@@ -107,7 +107,7 @@ Scroll-bar appearance
 
 * =google-translate=
 Japanese kana -> romaji
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
 
 (defun ++google-translate-kana->romaji (kana)

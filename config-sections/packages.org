@@ -244,7 +244,7 @@ Make it easy to close =*cider-error*= buffer
     (global-clipetty-mode +1)))
 #+end_src
 * =clippo=
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 ;; (use-package! clippo
 ;;   :config
 ;;   (clippo-start-listen))
@@ -384,7 +384,7 @@ Don't yank replaced lines
 #+end_src
 
 ** =evil-easymotion=
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (use-package! evil-easymotion
   :config
   (unbind-key "s" evil-normal-state-map)
@@ -397,7 +397,7 @@ Don't yank replaced lines
     `(avy-lead-face-0 :foreground ,(doom-color 'yellow) :background nil)))
 #+end_src
 ** =evil-matchit=
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (use-package! evil-matchit
   :config
   (global-evil-matchit-mode +1))
@@ -436,7 +436,7 @@ Don't yank replaced lines
   (map! :map global-map :nv "SPC o e" #'exercism))
 #+end_src
 * =exec-path-from-shell=
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (use-package! exec-path-from-shell
   :config
   (exec-path-from-shell-copy-env "SSH_AGENT_PID")
@@ -550,7 +550,7 @@ Improve posframe appearance
 (use-package! google-translate-smooth-ui)
 #+end_src
 * =hackernews=
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (use-package! hackernews)
 #+end_src
 * =keychain-environment=
@@ -910,7 +910,7 @@ Refresh org-agenda after rescheduling a task
   (org-agenda-refresh))
 #+end_src
 Save all org buffers automatically after particular commands
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (advice-add 'org-deadline       :after (++advice-lambda #'org-save-all-org-buffers))
 (advice-add 'org-schedule       :after (++advice-lambda #'org-save-all-org-buffers))
 (advice-add 'org-store-log-note :after (++advice-lambda #'org-save-all-org-buffers))
@@ -1060,7 +1060,7 @@ TODO Find out why emacs-lisp is set to nil
 #+end_src
 
 * =org-alert=
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (use-package! org-alert
   :config
   (setq org-alert-interval 300)
@@ -1068,7 +1068,7 @@ TODO Find out why emacs-lisp is set to nil
 #+end_src
 
 Define a new alert style that focuses Emacs when a notification is middle-clicked
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (defun ++dunst+i3-notify (info)
   (async-start
     `(lambda ()
@@ -1109,7 +1109,7 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
 (after! org (org-excalidraw-initialize))
 #+end_src
 * =org-habit=
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (use-package! org-habit
   :config
   (add-to-list 'org-modules 'org-habit)
@@ -1119,7 +1119,7 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
         org-habit-following-days 7))
 #+end_src
 * =org-roam=
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (use-package! org-roam
   :config
   (defvar ++org-roam-dir "~/Dropbox/emacs/org-roam")
@@ -1128,7 +1128,7 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
   (org-roam-db-autosync-mode))
 #+end_src
 * =org-sticky-header=
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (use-package! org-sticky-header
   :config
   (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
@@ -1466,7 +1466,7 @@ Cleanup, just in case
 #+end_src
 
 posframe setup
-#+begin_src emacs-lisp :tangle yes :results none
+#+begin_src emacs-lisp :results none
 (use-package! vertico-posframe
   :config
   ;; Top center with a bit of space at the top to align with header-line
