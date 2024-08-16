@@ -1683,9 +1683,9 @@ Optionally executes CALLBACK afterwards"
 (defun ++ts-organize-imports ()
   (when (or (equal major-mode 'typescript-mode)
             (equal major-mode 'typescript-ts-mode)
-            (equal major-mode 'tsx-ts-mode)))
-  (lsp-remove-unused-ts)
-  (lsp-organize-imports))
+            (equal major-mode 'tsx-ts-mode))
+    (lsp-remove-unused-ts)
+    (lsp-organize-imports)))
 
 (add-hook 'before-save-hook #'++ts-organize-imports)
 
