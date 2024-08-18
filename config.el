@@ -1237,6 +1237,10 @@ otherwise, nil."
   :config
   (add-hook 'find-file-hook #'++set-projectile-cache-duration))
 
+;; At the time of writing, the doom-emacs value for this variable was:
+;; "-L -tl -H -0 -E .git -tf --strip-cwd-prefix -c never --ignore-file .project"
+(setq projectile-git-fd-args "-L -tl -H -0 -E .git -tf --strip-cwd-prefix -c never")
+
 (use-package! pulsar
   :config
   (setq pulsar-pulse-functions

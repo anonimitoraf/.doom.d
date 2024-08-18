@@ -1187,6 +1187,14 @@ For remote files, make it a bit longer
   :config
   (add-hook 'find-file-hook #'++set-projectile-cache-duration))
 #+end_src
+
+Fix "[fd error]: Malformed pattern in custom ignore file. .project: No such file or directory (os error 2)."
+#+begin_src elisp
+;; At the time of writing, the doom-emacs value for this variable was:
+;; "-L -tl -H -0 -E .git -tf --strip-cwd-prefix -c never --ignore-file .project"
+(setq projectile-git-fd-args "-L -tl -H -0 -E .git -tf --strip-cwd-prefix -c never")
+#+end_src
+
 * =pulsar=
 #+begin_src elisp :results none
 (use-package! pulsar
