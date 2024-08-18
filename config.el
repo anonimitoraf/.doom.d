@@ -114,6 +114,9 @@ output as a string."
 
 (add-hook 'prog-mode-hook (lambda () (setq fill-column 120)))
 
+(map! :map doom-leader-map
+      "b d" #'bury-buffer)
+
 (defvar ++vscode-search-occ-bg "#470000")
 (defvar ++vscode-search-occ-fg "#cccccc")
 (defvar ++dark-red "#5a1111")
@@ -1943,6 +1946,7 @@ Optionally executes CALLBACK afterwards"
 
 (advice-add #'kill-this-buffer :before #'++remove-current-buffer-from-jump-list)
 (advice-add #'kill-current-buffer :before #'++remove-current-buffer-from-jump-list)
+(advice-add #'bury-buffer :before #'++remove-current-buffer-from-jump-list)
 
 (setq garbage-collection-messages nil)
 (defmacro k-time (&rest body)

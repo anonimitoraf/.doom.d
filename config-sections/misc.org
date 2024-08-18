@@ -208,7 +208,7 @@ Usually, I don't even know how to resolve them, so they're just annoying, really
 
 (map! :map doom-leader-map "s r" #'++consult--search-recent-dir)
 #+end_src
-* Remove jumps from jump-list on buffer kill
+* Remove jumps from jump-list on buffer kill/bury
 #+begin_src elisp :results none
 (defun ++remove-from-jump-list (file-name)
   (interactive)
@@ -234,6 +234,7 @@ Usually, I don't even know how to resolve them, so they're just annoying, really
 
 (advice-add #'kill-this-buffer :before #'++remove-current-buffer-from-jump-list)
 (advice-add #'kill-current-buffer :before #'++remove-current-buffer-from-jump-list)
+(advice-add #'bury-buffer :before #'++remove-current-buffer-from-jump-list)
 #+end_src
 * Performance
 #+begin_src elisp

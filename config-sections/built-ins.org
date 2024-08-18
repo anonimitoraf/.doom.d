@@ -35,3 +35,8 @@
 #+begin_src elisp :results none
 (add-hook 'prog-mode-hook (lambda () (setq fill-column 120)))
 #+end_src
+* Bindings
+#+begin_src elisp :results none
+(map! :map doom-leader-map
+      "b d" #'bury-buffer)
+#+end_src
