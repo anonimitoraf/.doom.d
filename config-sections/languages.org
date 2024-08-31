@@ -176,11 +176,6 @@ Set electric commands (note that I've removed =gt= since it annoyingly inserts a
 #+end_src
 
 * Type/Javascript
-#+begin_src elisp
-(use-package! gherkin-mode
-  :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
-#+end_src
-
 Auto-configure modes
 #+begin_src elisp :results none
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))

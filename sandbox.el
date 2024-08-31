@@ -95,8 +95,6 @@ window open while opening the files in it."
 (map! :map doom-leader-map
       "!" #'consult-flycheck)
 
-(use-package! focus)
-
 (cider-register-cljs-repl-type 'sci-js "(+ 1 2 3)")
 
 (defun mm/cider-connected-hook ()

@@ -504,10 +504,6 @@ otherwise, nil."
   (unless (display-graphic-p)
     (global-clipetty-mode +1)))
 
-;; (use-package! clippo
-;;   :config
-;;   (clippo-start-listen))
-
 (use-package! consult
   :config
   (consult-customize
@@ -538,23 +534,6 @@ otherwise, nil."
 
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\.?" . dotenv-mode)))
-
-(use-package! dwim-shell-command
-  :config
-  (require 'dwim-shell-commands))
-
-(with-eval-after-load 'org
-  (require 'edraw-org)
-  (edraw-org-setup-default))
-
-(defun ++edraw-new ()
-  (interactive)
-  (let ((filepath (concat ++sync-folder-path "/edraw/" (file-name-nondirectory buffer-file-name) "_" (org-id-uuid) ".edraw.svg"))
-        (link-desc (read-string "Link description: " )))
-    (insert (format "[[edraw:file=%s][%s]]" filepath link-desc))))
-
-(autoload 'edraw-mode "edraw-mode")
-(add-to-list 'auto-mode-alist '("\\.edraw\\.svg$" . edraw-mode))
 
 (define-key evil-insert-state-map (kbd "C-j") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
@@ -610,17 +589,6 @@ otherwise, nil."
 (use-package! evil-matchit
   :config
   (global-evil-matchit-mode +1))
-
-(use-package! elfeed
-  :config
-  (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org"))
-        elfeed-db-directory "~/Dropbox/emacs/elfeed")
-  (add-hook 'elfeed-search-mode-hook (lambda ()
-                                       (elfeed-update)
-                                       (setq-local browse-url-browser-function 'eww-browse-url))))
-
-(after! elfeed
-  (setq elfeed-search-filter "@5-year-ago +unread"))
 
 (map! :map global-map
       "C-'" #'embark-act)
@@ -718,47 +686,14 @@ otherwise, nil."
       flycheck-posframe-error-prefix " "
       flycheck-posframe-prefix " ")
 
-(use-package! google-translate
-  :config
-  (map! :leader :desc "Google translate" "s a" #'google-translate-smooth-translate)
-  (setq google-translate-translation-directions-alist
-        '(("en" . "ja") ("ja" . "en")))
-  ;; Workaround: see https://github.com/atykhonov/google-translate/issues/137
-  (defun google-translate--search-tkk ()
-    "Search TKK."
-    (list 430675 2721866130)))
-(use-package! google-translate-smooth-ui)
-
-(use-package! hackernews)
-
 (require 'keychain-environment)
 (keychain-refresh-environment)
-
-(require 'i3wm-config-mode)
 
 (setq ielm-noisy nil
       ielm-prompt "λ> ")
 
-(require 'itail)
-
 (setq ispell-dictionary "en"
       ispell-personal-dictionary (concat ++sync-folder-path "/spell/personal-dictionary.pws"))
-
-(use-package magit-popup
-  :ensure t ; make sure it is installed
-  :demand t ; make sure it is loaded
-  )
-
-(use-package! jest
-  :hook ((js2-mode . jest-minor-mode)
-         (typescript-mode . jest-minor-mode)
-         (typescript-tsx-mode . jest-minor-mode)))
-
-(defun ++show-ansi-color (string)
-  (ansi-color-apply string))
-(add-to-list #'comint-preoutput-filter-functions #'++show-ansi-color)
-
-(add-hook 'jest-mode-hook #'coterm-char-mode)
 
 (use-package! jinx
   :init
@@ -969,12 +904,7 @@ otherwise, nil."
   (setq olivetti-body-width 0.5
         olivetti-minimum-body-width 120
         olivetti-style t)
-  (add-hook #'org-mode-hook #'olivetti-mode)
-  (add-hook #'org-mode-hook (lambda () (vi-tilde-fringe-mode -1))))
-
-(use-package! ollama
-  :init
-  (setq ollama:model "mistral"))
+  (add-hook #'org-mode-hook #'olivetti-mode))
 
 (after! org
   (setq org-directory (concat ++sync-folder-path "/org")
@@ -1134,10 +1064,6 @@ otherwise, nil."
     `(org-block-end-line :foreground ,(doom-color 'grey) :overline nil :underline t)
     `(org-code :foreground ,(doom-color 'teal))))
 
-(use-package! org-sticky-header
-  :config
-  (org-sticky-header-mode +1))
-
 (use-package! org-alert
   :config
   (setq org-alert-interval 300)
@@ -1194,10 +1120,6 @@ otherwise, nil."
   (make-directory ++org-roam-dir 'parents)
   (setq org-roam-directory ++org-roam-dir)
   (org-roam-db-autosync-mode))
-
-(use-package! org-sticky-header
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 
 (use-package org-tidy
   :ensure t
@@ -1355,76 +1277,6 @@ otherwise, nil."
                                            (symex-hide-menu)
                                            (set-face-attribute 'mode-line nil :background "#5a1111")))
 
-(use-package! speed-type
-  :config
-  (setq speed-type-default-lang 'English))
-
-(use-package! spookfox
-  :init
-  (setq spookfox-enabled-apps '(spookfox-org-tabs
-                                spookfox-tabs
-                                spookfox-js-injection
-                                spookfox-jscl))
-  :config
-  (require 'spookfox-org-tabs)
-  (require 'spookfox-tabs)
-  (require 'spookfox-js-injection)
-  (require 'spookfox-jscl)
-  (condition-case nil
-    (spookfox-init)
-    (error nil)))
-
-(defun ++switch-firefox-tabs (&optional callback)
-  "Pops out the spookfox-tab-switcher.
-Optionally executes CALLBACK afterwards"
-  (condition-case nil
-      (let ((new-frame (make-frame '((name . "firefox-tab-switcher")
-                                     (minibuffer . only)
-                                     (width . 0.5)
-                                     (undecorated . nil)))))
-        (select-frame new-frame)
-        (raise-frame new-frame)
-        (spookfox-switch-tab)
-        (delete-frame))
-    ;; Cancelled
-    (quit (delete-frame))))
-
-(defun ++cleanup-firefox-tab-switchers ()
-  (let ((frames (--filter (equal (frame-parameter it 'name)
-                            "firefox-tab-switcher")
-                  (frame-list))))
-    (message "Deleting firefox-tab-switcher frames: %s" frames)
-    (--each frames (delete-frame it))))
-
-(use-package! sticky-shell
-  :config
-  (sticky-shell-global-mode t))
-
-(use-package! thread-dump)
-
-;; (defun setup-tide-mode ()
-;;   (require 'company)
-;;   (tide-setup)
-;;   (eldoc-mode -1)
-;;   (tide-hl-identifier-mode -1)
-;;   (setq tide-completion-detailed nil
-;;         tide-completion-ignore-case t
-;;         tide-save-buffer-after-code-edit nil)
-;;   (setq-local completion-at-point-functions
-;;     (mapcar #'cape-company-to-capf
-;;       (list #'company-tide)))
-;;   (advice-add #'tide-eldoc-function :around #'ignore))
-
-;; (use-package! tide
-;;   :config
-;;   (advice-remove 'tide-setup 'eldoc-mode)
-;;   (add-hook! '(typescript-tsx-mode-hook
-;;                typescript-mode-hook
-;;                web-mode-hook
-;;                js-mode-hook
-;;                js2-mode-hook)
-;;              #'setup-tide-mode))
-
 (use-package! tree-sitter)
 (use-package! tree-sitter-langs)
 
@@ -1508,15 +1360,6 @@ Optionally executes CALLBACK afterwards"
 (map! :map doom-leader-map
       "\"" #'vertico-repeat-select)
 
-(setq vi-tilde-fringe-bitmap-array [#b00000000
-                                    #b00000000
-                                    #b00000000
-                                    #b11111111
-                                    #b11111111
-                                    #b00000000
-                                    #b00000000
-                                    #b00000000])
-
 (use-package! vundo
   :config
   (setq undohist-ignored-files '(".git/COMMIT_EDITMSG"))
@@ -1532,8 +1375,6 @@ Optionally executes CALLBACK afterwards"
         whitespace-display-mappings '((tab-mark 9 [124 9] [92 9])))
   (custom-set-faces
    '(whitespace-tab ((t (:foreground "#636363"))))))
-
-(map! :map doom-leader-map "z" #'+zen/toggle-fullscreen)
 
 (use-package! yasnippet
   :config
@@ -1677,9 +1518,6 @@ Optionally executes CALLBACK afterwards"
 (add-hook 'erlang-mode-hook (lambda () (corfu-popupinfo-mode -1)))
 
 (setq erlang-electric-commands '(erlang-electric-comma erlang-electric-semicolon))
-
-(use-package! gherkin-mode
-  :config (add-to-list 'auto-mode-alist '("\\.feature\\'" . gherkin-mode)))
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
@@ -2411,36 +2249,6 @@ message listing the hooks."
 
 (setq corfu-bar-width 0.5)
 (custom-set-faces! `(corfu-bar :background ,(doom-color 'magenta)))
-
-(use-package! eat
-  :init
-  (setq eat-term-terminfo-directory (expand-file-name ".local/straight/repos/emacs-eat/terminfo" doom-emacs-dir)
-        eat-term-shell-integration-directory (expand-file-name ".local/straight/repos/emacs-eat/integration" doom-emacs-dir)))
-
-(defvar ++google-translate-kana->romaji-buffer "*Google Translate kana->romaji*")
-
-(defun ++google-translate-kana->romaji (kana)
-  (replace-regexp-in-string "\r?\n" ""
-    (shell-command-to-string
-     (format "echo \"%s\" | iconv -f utf8 -t eucjp | kakasi -i euc -w | kakasi -i euc -Ha -Ka -Ja -Ea -ka" kana))))
-
-(defun ++google-translate-curr-region-kana->romaji ()
-  (when (equal (buffer-name) "*Google Translate*")
-    (if (region-active-p)
-      (posframe-show ++google-translate-kana->romaji-buffer
-        :string (++google-translate-kana->romaji (buffer-substring-no-properties
-                                                   (region-beginning)
-                                                   (+ (region-end) 1)))
-        :position (point)
-        :border-color (doom-color 'yellow)
-        :border-width 1
-        :foreground-color (doom-color 'yellow))
-      (posframe-hide ++google-translate-kana->romaji-buffer))))
-
-(defun ++google-translate-setup-hook ()
-  (add-hook 'post-command-hook #'++google-translate-curr-region-kana->romaji))
-
-(++google-translate-setup-hook)
 
 (use-package! magit
   :config

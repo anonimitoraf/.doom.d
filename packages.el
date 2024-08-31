@@ -46,93 +46,31 @@
 ;; our package manager can't deal with; see raxod502/straight.el#279)
                                         ;(package! builtin-package :recipe (:branch "develop"))
 
-;; live preview of markdown files
-;; (package! livedown
-;;   :recipe (:host github :repo "shime/emacs-livedown"))
-
-;; (package! ripgrep)
-;; (package! ag)
-
-;; (package! explain-pause-mode
-;;   :recipe (:host github :repo "lastquestion/explain-pause-mode"))
-
-;; (package! elcord
-;;   :recipe (:host github :repo "Mstrodl/elcord"))
-
-(package! company)
-
-(package! gherkin-mode
-  :recipe (:host github :repo "candera/gherkin-mode"))
-
-;; (package! emacs-anywhere
-;;   :recipe (:host github :repo "zachcurry/emacs-anywhere"))
+;; --- Disabled packages ---
+;; I want everything to have jet black bg
+(package! solaire-mode :disable t)
+(package! tide :disable t)
+(package! evil-snipe :disable t)
+(package! writegood-mode :disable t)
+;; ---
 
 ;; Allow pasting stuff into org-mode
 (package! org-download
   :recipe (:host github :repo "abo-abo/org-download"))
 
-;; I want everything to have jet black bg
-(package! solaire-mode :disable t)
-
-;; (package! kubernetes-el
-;;   :recipe (:host github :repo "chrisbarrett/kubernetes-el"))
-
-;; (unpin! org)
-
-;; (package! org-mime
-;;   :recipe (:host github :repo "org-mime/org-mime"))
-
-;; (package! erefactor
-;;   :recipe (:host github :repo "mhayashi1120/Emacs-erefactor"))
-
-;; (package! clojure-rand-ref
-;;   :recipe (:host github :repo "anonimitoraf/clojure-rand-ref.el"))
-
 (package! dotenv-mode
   :recipe (:host github :repo "preetpalS/emacs-dotenv-mode"))
 
-(package! benchmark-init
-  :recipe (:host github :repo "kekeimiku/benchmark-init-el"))
-
-(unpin! clojure-mode)
-(unpin! cider)
-
 (package! alert)
-
-;; (package! ejc-sql)
 
 (package! keychain-environment
   :recipe (:host github :repo "tarsius/keychain-environment"))
 
-(package! itail)
-
-(package! i3wm-config-mode
-  :recipe (:host github :repo "Alexander-Miller/i3wm-Config-Mode"))
-
 (package! symex
   :recipe (:host github :repo "countvajhula/symex.el"))
 
-(package! gitconfig-mode
-  :recipe (:host github :repo "magit/git-modes"
-	   :files ("gitconfig-mode.el")))
-
-(package! gitignore-mode
-  :recipe (:host github :repo "magit/git-modes"
-	   :files ("gitignore-mode.el")))
-
-(package! thread-dump
-  :recipe (:host github :repo "anonimitoraf/thread-dump.el"))
-
-(package! xclip)
-
 (package! tree-sitter)
 (package! tree-sitter-langs)
-
-(package! speed-type)
-
-(package! tide :disable t)
-
-(package! google-translate)
 
 (package! vertico-posframe)
 
@@ -155,37 +93,14 @@
 (package! cape)
 (package! kind-icon)
 
-(package! org-modern
-  :recipe (:host github :repo "minad/org-modern"))
-
-(package! focus)
-
 (package! org-alert)
 
-(package! emacs-async)
-
-(package! clippo
-  :recipe (:host github :repo "anonimitoraf/emacs-clippo"))
-(unpin! clippo)
-
-(package! hackernews
-  :recipe (:host github :repo "clarete/hackernews.el"))
-
 (package! evil-matchit)
-
-(package! keycast
-  :recipe (:host github :repo "tarsius/keycast"))
-
-(package! org-sticky-header)
-
-(package! evil-snipe :disable t)
 
 (package! topspace
   :recipe (:host github :repo "trevorpogue/topspace"))
 
 (package! yasnippet)
-
-(package! writegood-mode :disable t)
 
 (package!  pulsar
   :recipe (:host gitlab :repo "protesilaos/pulsar"))
@@ -204,49 +119,21 @@
 
 (package! vundo)
 
-(package! el-easydraw
-  :recipe (:host github :repo "misohena/el-easydraw"
-           :files ("*.el")))
-
 (package! undohist)
-
-(package! dwim-shell-command
-  :recipe (:host github :repo "xenodium/dwim-shell-command"))
 
 (package! prescient
   :recipe (:host github :repo "radian-software/prescient.el"
            :files ("*.el")))
 
-;; (unpin! magit)
-;; (unpin! forge)
-
 (package! olivetti
   :recipe (:host github :repo "rnkn/olivetti"))
-
-(package! sticky-shell
-  :recipe (:host github :repo "andyjda/sticky-shell"))
 
 (package! org-ros
   :recipe (:host github :repo "LionyxML/ros"))
 
 (package! magit-popup)
-(package! emacs-jest
-  :recipe (:host github :repo "Emiller88/emacs-jest"))
-
-(package! spookfox
-  :recipe (:host github
-           :repo "bitspook/spookfox"
-           :files ("lisp/*.el" "lisp/apps/*.el")))
-
-(package! ejc-sql)
 
 (package! ov)
-
-(package! chatgpt-shell
-  :recipe (:host github :repo "xenodium/chatgpt-shell" :files ("*.el")))
-
-(package! webdriver
-  :recipe (:host gitlab :repo "maurooaranda/emacs-webdriver"))
 
 (package! coterm)
 
@@ -259,19 +146,10 @@
 (package! cider-storm
   :recipe (:host github :repo "jpmonettas/cider-storm" :files ("*.el")))
 
-(package! ollama
-  :recipe (:host github :repo "zweifisch/ollama"))
-
-(package! eat
-  :recipe (:type git :repo "https://codeberg.org/akib/emacs-eat.git"))
-
 (package! tsx-ts-helper-mode
   :recipe (:type git :repo "https://codeberg.org/ckruse/tsx-ts-helper-mode.git"))
 
 (package! synosaurus)
-
-(package! codeium
-  :recipe (:host github :repo "Exafunction/codeium.el"))
 
 (package! org-tidy
   :recipe (:host github :repo "jxq0/org-tidy"))
@@ -285,5 +163,3 @@
 (package! ranger :recipe (:host github :repo "anonimitoraf/ranger.el"))
 
 (package! gptel :recipe (:host github :repo "karthink/gptel"))
-
-(package! clipmon :recipe (:host github :repo "anonimitoraf/clipmon"))

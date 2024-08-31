@@ -243,12 +243,6 @@ Make it easy to close =*cider-error*= buffer
   (unless (display-graphic-p)
     (global-clipetty-mode +1)))
 #+end_src
-* =clippo=
-#+begin_src emacs-lisp :results none
-;; (use-package! clippo
-;;   :config
-;;   (clippo-start-listen))
-#+end_src
 * =consult=
 #+begin_src elisp :results none
 (use-package! consult
@@ -291,33 +285,6 @@ Make it easy to close =*cider-error*= buffer
 #+begin_src elisp
 (use-package! dotenv-mode
   :config (add-to-list 'auto-mode-alist '("\\.env\\.?" . dotenv-mode)))
-#+end_src
-* =dwim-shell-command=
-#+begin_src elisp :results none
-(use-package! dwim-shell-command
-  :config
-  (require 'dwim-shell-commands))
-#+end_src
-* =edraw=
-#+begin_src elisp :results none
-(with-eval-after-load 'org
-  (require 'edraw-org)
-  (edraw-org-setup-default))
-#+end_src
-
-Create an edraw link within sync'd dir so all my machines have the drawn image
-#+begin_src elisp :results none
-(defun ++edraw-new ()
-  (interactive)
-  (let ((filepath (concat ++sync-folder-path "/edraw/" (file-name-nondirectory buffer-file-name) "_" (org-id-uuid) ".edraw.svg"))
-        (link-desc (read-string "Link description: " )))
-    (insert (format "[[edraw:file=%s][%s]]" filepath link-desc))))
-#+end_src
-
-Auto-detect edraw files
-#+begin_src elisp :results none
-(autoload 'edraw-mode "edraw-mode")
-(add-to-list 'auto-mode-alist '("\\.edraw\\.svg$" . edraw-mode))
 #+end_src
 * =evil=
 #+begin_src elisp
@@ -401,19 +368,6 @@ Don't yank replaced lines
 (use-package! evil-matchit
   :config
   (global-evil-matchit-mode +1))
-#+end_src
-* =elfeed=
-#+begin_src elisp :results none
-(use-package! elfeed
-  :config
-  (setq rmh-elfeed-org-files (list (concat doom-private-dir "elfeed.org"))
-        elfeed-db-directory "~/Dropbox/emacs/elfeed")
-  (add-hook 'elfeed-search-mode-hook (lambda ()
-                                       (elfeed-update)
-                                       (setq-local browse-url-browser-function 'eww-browse-url))))
-
-(after! elfeed
-  (setq elfeed-search-filter "@5-year-ago +unread"))
 #+end_src
 * =embark=
 #+begin_src elisp :results none
@@ -536,31 +490,10 @@ Improve posframe appearance
       flycheck-posframe-prefix " ")
 #+end_src
 
-* =google-translate=
-#+begin_src elisp
-(use-package! google-translate
-  :config
-  (map! :leader :desc "Google translate" "s a" #'google-translate-smooth-translate)
-  (setq google-translate-translation-directions-alist
-        '(("en" . "ja") ("ja" . "en")))
-  ;; Workaround: see https://github.com/atykhonov/google-translate/issues/137
-  (defun google-translate--search-tkk ()
-    "Search TKK."
-    (list 430675 2721866130)))
-(use-package! google-translate-smooth-ui)
-#+end_src
-* =hackernews=
-#+begin_src emacs-lisp :results none
-(use-package! hackernews)
-#+end_src
 * =keychain-environment=
 #+begin_src elisp
 (require 'keychain-environment)
 (keychain-refresh-environment)
-#+end_src
-* =i3wm-config-mode=
-#+begin_src elisp
-(require 'i3wm-config-mode)
 #+end_src
 * =ielm=
 Set a cool prompt and make it non-noisy (What does this even mean?)
@@ -568,39 +501,11 @@ Set a cool prompt and make it non-noisy (What does this even mean?)
 (setq ielm-noisy nil
       ielm-prompt "λ> ")
 #+end_src
-* =itail=
-#+begin_src elisp
-(require 'itail)
-#+end_src
 * =ispell=
 Fix the ispell dictionary.
 #+begin_src elisp :results none
 (setq ispell-dictionary "en"
       ispell-personal-dictionary (concat ++sync-folder-path "/spell/personal-dictionary.pws"))
-#+end_src
-* =jest=
-Legacy dep
-#+begin_src elisp :results none
-(use-package magit-popup
-  :ensure t ; make sure it is installed
-  :demand t ; make sure it is loaded
-  )
-#+end_src
-
-#+begin_src elisp :results none
-(use-package! jest
-  :hook ((js2-mode . jest-minor-mode)
-         (typescript-mode . jest-minor-mode)
-         (typescript-tsx-mode . jest-minor-mode)))
-#+end_src
-
-Make jest buffer colorized and allow inputs (e.g. restarting a --watch'ed jest session)
-#+begin_src elisp :results none
-(defun ++show-ansi-color (string)
-  (ansi-color-apply string))
-(add-to-list #'comint-preoutput-filter-functions #'++show-ansi-color)
-
-(add-hook 'jest-mode-hook #'coterm-char-mode)
 #+end_src
 * =jinx=
 #+begin_src elisp :results none
@@ -844,16 +749,7 @@ TODO What to do with org-table wrapping?
   (setq olivetti-body-width 0.5
         olivetti-minimum-body-width 120
         olivetti-style t)
-  (add-hook #'org-mode-hook #'olivetti-mode)
-  (add-hook #'org-mode-hook (lambda () (vi-tilde-fringe-mode -1))))
-
-#+end_src
-
-* =ollama=
-#+begin_src elisp :results none
-(use-package! ollama
-  :init
-  (setq ollama:model "mistral"))
+  (add-hook #'org-mode-hook #'olivetti-mode))
 #+end_src
 * =org=
 #+begin_src elisp :results none
@@ -1052,13 +948,6 @@ TODO Find out why emacs-lisp is set to nil
     `(org-block-end-line :foreground ,(doom-color 'grey) :overline nil :underline t)
     `(org-code :foreground ,(doom-color 'teal))))
 #+END_SRC
-** =org-sticky-header=
-#+begin_src elisp :results none
-(use-package! org-sticky-header
-  :config
-  (org-sticky-header-mode +1))
-#+end_src
-
 * =org-alert=
 #+begin_src emacs-lisp :results none
 (use-package! org-alert
@@ -1126,12 +1015,6 @@ Define a new alert style that focuses Emacs when a notification is middle-clicke
   (make-directory ++org-roam-dir 'parents)
   (setq org-roam-directory ++org-roam-dir)
   (org-roam-db-autosync-mode))
-#+end_src
-* =org-sticky-header=
-#+begin_src emacs-lisp :results none
-(use-package! org-sticky-header
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-sticky-header-mode +1))))
 #+end_src
 * =org-tidy=
 #+begin_src elisp :results none
@@ -1316,94 +1199,6 @@ Utilize modeline color to tell me if I'm in symex-mode
                                            (symex-hide-menu)
                                            (set-face-attribute 'mode-line nil :background "#5a1111")))
 #+end_src
-* =speed-type=
-#+begin_src elisp :results none
-(use-package! speed-type
-  :config
-  (setq speed-type-default-lang 'English))
-#+end_src
-* =spookfox=
-#+begin_src elisp :results none
-(use-package! spookfox
-  :init
-  (setq spookfox-enabled-apps '(spookfox-org-tabs
-                                spookfox-tabs
-                                spookfox-js-injection
-                                spookfox-jscl))
-  :config
-  (require 'spookfox-org-tabs)
-  (require 'spookfox-tabs)
-  (require 'spookfox-js-injection)
-  (require 'spookfox-jscl)
-  (condition-case nil
-    (spookfox-init)
-    (error nil)))
-#+end_src
-
-Firefox tab switcher via emacsclient
-#+begin_src elisp :results none
-(defun ++switch-firefox-tabs (&optional callback)
-  "Pops out the spookfox-tab-switcher.
-Optionally executes CALLBACK afterwards"
-  (condition-case nil
-      (let ((new-frame (make-frame '((name . "firefox-tab-switcher")
-                                     (minibuffer . only)
-                                     (width . 0.5)
-                                     (undecorated . nil)))))
-        (select-frame new-frame)
-        (raise-frame new-frame)
-        (spookfox-switch-tab)
-        (delete-frame))
-    ;; Cancelled
-    (quit (delete-frame))))
-#+end_src
-
-Cleanup, just in case
-#+begin_src elisp :results none
-(defun ++cleanup-firefox-tab-switchers ()
-  (let ((frames (--filter (equal (frame-parameter it 'name)
-                            "firefox-tab-switcher")
-                  (frame-list))))
-    (message "Deleting firefox-tab-switcher frames: %s" frames)
-    (--each frames (delete-frame it))))
-#+end_src
-
-* =sticky-shell=
-#+begin_src elisp :results none
-(use-package! sticky-shell
-  :config
-  (sticky-shell-global-mode t))
-#+end_src
-
-* =thread-dump=
-#+begin_src elisp
-(use-package! thread-dump)
-#+end_src
-* =tide=
-#+begin_src elisp :results none
-;; (defun setup-tide-mode ()
-;;   (require 'company)
-;;   (tide-setup)
-;;   (eldoc-mode -1)
-;;   (tide-hl-identifier-mode -1)
-;;   (setq tide-completion-detailed nil
-;;         tide-completion-ignore-case t
-;;         tide-save-buffer-after-code-edit nil)
-;;   (setq-local completion-at-point-functions
-;;     (mapcar #'cape-company-to-capf
-;;       (list #'company-tide)))
-;;   (advice-add #'tide-eldoc-function :around #'ignore))
-
-;; (use-package! tide
-;;   :config
-;;   (advice-remove 'tide-setup 'eldoc-mode)
-;;   (add-hook! '(typescript-tsx-mode-hook
-;;                typescript-mode-hook
-;;                web-mode-hook
-;;                js-mode-hook
-;;                js2-mode-hook)
-;;              #'setup-tide-mode))
-#+end_src
 * =tree-sitter=
 #+begin_src elisp :results none
 (use-package! tree-sitter)
@@ -1503,17 +1298,6 @@ Repeat a previous vertico command
       "\"" #'vertico-repeat-select)
 #+end_src
 
-* =vi-tilde-fringe=
-#+begin_src elisp :results none
-(setq vi-tilde-fringe-bitmap-array [#b00000000
-                                    #b00000000
-                                    #b00000000
-                                    #b11111111
-                                    #b11111111
-                                    #b00000000
-                                    #b00000000
-                                    #b00000000])
-#+end_src
 * =vundo=
 #+begin_src elisp :results none
 (use-package! vundo
@@ -1536,10 +1320,6 @@ Make trailing spaces and tabs visible
         whitespace-display-mappings '((tab-mark 9 [124 9] [92 9])))
   (custom-set-faces
    '(whitespace-tab ((t (:foreground "#636363"))))))
-#+end_src
-* =writeroom-mode=
-#+begin_src elisp
-(map! :map doom-leader-map "z" #'+zen/toggle-fullscreen)
 #+end_src
 * =yasnippet=
 #+begin_src elisp :results none
