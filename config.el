@@ -695,25 +695,25 @@ otherwise, nil."
 (setq ispell-dictionary "en"
       ispell-personal-dictionary (concat ++sync-folder-path "/spell/personal-dictionary.pws"))
 
-(use-package! jinx
-  :init
-  (setq jinx-languages "en_US en_AU")
-  :hook (emacs-startup . global-jinx-mode)
-  :config
-  (add-to-list 'jinx-include-faces '(typescript-ts-mode
-                                     tree-sitter-hl-face:comment
-                                     tree-sitter-hl-face:string))
-  (add-to-list 'jinx-include-faces '(tsx-ts-mode
-                                     tree-sitter-hl-face:comment
-                                     tree-sitter-hl-face:string))
-  (add-to-list 'jinx-include-faces '(typescript-mode
-                                     tree-sitter-hl-face:comment
-                                     tree-sitter-hl-face:string))
-  (add-to-list 'jinx-include-faces '(typescript-tsx-mode
-                                     web-mode-javascript-comment-face
-                                     web-mode-javascript-string-face))
-  (map! :map evil-normal-state-map
-    "z g" #'jinx-correct))
+;; (use-package! jinx
+;;   :init
+;;   (setq jinx-languages "en_US en_AU")
+;;   :hook (emacs-startup . global-jinx-mode)
+;;   :config
+;;   (add-to-list 'jinx-include-faces '(typescript-ts-mode
+;;                                      tree-sitter-hl-face:comment
+;;                                      tree-sitter-hl-face:string))
+;;   (add-to-list 'jinx-include-faces '(tsx-ts-mode
+;;                                      tree-sitter-hl-face:comment
+;;                                      tree-sitter-hl-face:string))
+;;   (add-to-list 'jinx-include-faces '(typescript-mode
+;;                                      tree-sitter-hl-face:comment
+;;                                      tree-sitter-hl-face:string))
+;;   (add-to-list 'jinx-include-faces '(typescript-tsx-mode
+;;                                      web-mode-javascript-comment-face
+;;                                      web-mode-javascript-string-face))
+;;   (map! :map evil-normal-state-map
+;;     "z g" #'jinx-correct))
 
 (use-package! lsp-mode
   :config
