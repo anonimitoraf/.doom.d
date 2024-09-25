@@ -257,6 +257,9 @@ output as a string."
                     '((1440 900))) 16)
           ((member width-x-height
                     '((1680 1050))) 16)
+          ;; Thinkpad x270
+          ((member width-x-height
+                    '((1366 768))) 16)
           (t (progn
                (message (concat "Unhandled screen resolution " (prin1-to-string width-x-height) ". "
                                 "Defaulting to font size " (prin1-to-string default-font-size)))
